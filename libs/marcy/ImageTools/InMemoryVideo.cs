@@ -1,5 +1,3 @@
 namespace CandyKingdom.Marcy.ImageTools;
 
-public sealed class InMemoryVideo : InMemoryFile<VideoMeta>
-{
-}
+public sealed class InMemoryVideo : InMemoryFile<VideoMeta> { }

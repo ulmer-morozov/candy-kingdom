@@ -12,10 +12,10 @@ public sealed record LocalizedString : LocalizedObject<string>
   public string Ru => GetString(RuCode);
 
   public LocalizedString(ImmutableDictionary2<string, string> localizations)
-      : base(localizations) { }
+    : base(localizations) { }
 
   public LocalizedString(IDictionary<string, string>? localizations = null)
-      : base(localizations) { }
+    : base(localizations) { }
 
   public string GetString(string Code) => Get(Code, string.Empty);
 
@@ -24,16 +24,16 @@ public sealed record LocalizedString : LocalizedObject<string>
   public static LocalizedString Empty { get; } = new LocalizedString();
 
   public static LocalizedString From(string en, string ru) =>
-      new(new Dictionary<string, string>() { [EnCode] = en, [RuCode] = ru });
+    new(new Dictionary<string, string>() { [EnCode] = en, [RuCode] = ru });
 
   public static LocalizedString FromEn(string en) =>
-      new(new Dictionary<string, string>() { [EnCode] = en });
+    new(new Dictionary<string, string>() { [EnCode] = en });
 
   public static LocalizedString Combine(
-      LocalizedString ls1,
-      LocalizedString ls2,
-      char delimiter,
-      bool trim
+    LocalizedString ls1,
+    LocalizedString ls2,
+    char delimiter,
+    bool trim
   )
   {
     var combinedLocalizations = new Dictionary<string, string>();
@@ -52,15 +52,11 @@ public sealed record LocalizedString : LocalizedObject<string>
     return new LocalizedString(combinedLocalizations);
   }
 
-  public static LocalizedString Combine(
-      char delimiter,
-      bool trim,
-      params LocalizedString[] strings
-  )
+  public static LocalizedString Combine(char delimiter, bool trim, params LocalizedString[] strings)
   {
     return strings.Aggregate(
-        Empty,
-        (total, next) => Combine(total, next, delimiter: delimiter, trim: trim)
+      Empty,
+      (total, next) => Combine(total, next, delimiter: delimiter, trim: trim)
     );
   }
 
@@ -73,8 +69,8 @@ public sealed record LocalizedString : LocalizedObject<string>
       return s1;
 
     var result = trim
-        ? $"{s1.TrimEnd(delimiter)}{delimiter}{s2.TrimStart(delimiter)}"
-        : $"{s1}{delimiter}{s2}";
+      ? $"{s1.TrimEnd(delimiter)}{delimiter}{s2.TrimStart(delimiter)}"
+      : $"{s1}{delimiter}{s2}";
 
     return result;
   }
