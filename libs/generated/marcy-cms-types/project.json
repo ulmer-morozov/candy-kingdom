@@ -1,0 +1,31 @@
+{
+  "name": "generated-marcy-cms-types",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/generated/marcy-cms-types/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/generated/marcy-cms-types",
+        "main": "libs/generated/marcy-cms-types/src/index.ts",
+        "tsConfig": "libs/generated/marcy-cms-types/tsconfig.lib.json",
+        "assets": ["libs/generated/marcy-cms-types/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/generated/marcy-cms-types/jest.config.ts"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["marcy-cms-swagger"]
+}
