@@ -1,14 +1,16 @@
 {
-  "name": "bonnie-cms-e2e",
+  "name": "bonnie-cms-sample-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/bonnie-cms-e2e/src",
+  "sourceRoot": "apps/bonnie-cms-sample-e2e/src",
   "targets": {
     "e2e": {
       "executor": "@nx/playwright:playwright",
-      "outputs": ["{workspaceRoot}/dist/.playwright/apps/bonnie-cms-e2e"],
+      "outputs": [
+        "{workspaceRoot}/dist/.playwright/apps/bonnie-cms-sample-e2e"
+      ],
       "options": {
-        "config": "apps/bonnie-cms-e2e/playwright.config.ts"
+        "config": "apps/bonnie-cms-sample-e2e/playwright.config.ts"
       }
     },
     "lint": {
@@ -16,5 +18,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "implicitDependencies": ["bonnie-cms"]
+  "implicitDependencies": ["bonnie-cms-sample"]
 }

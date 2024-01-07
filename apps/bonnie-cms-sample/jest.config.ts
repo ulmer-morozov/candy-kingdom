@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'bonnie-cms',
+  displayName: 'bonnie-cms-sample',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/bonnie-cms',
+  coverageDirectory: '../../coverage/apps/bonnie-cms-sample',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

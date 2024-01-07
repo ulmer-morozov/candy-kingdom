@@ -3,15 +3,15 @@ import { AuthService } from '../service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-standalone: true,
+  standalone: true,
   imports: [CommonModule],
   selector: 'candy-kingdom-home',
-  templateUrl: './admin-home.component.html'
+  templateUrl: './admin-home.component.html',
 })
 export class AdminHomeComponent implements OnInit {
   public isSignedIn: boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.onStateChanged().forEach((state: boolean) => {
@@ -21,5 +21,4 @@ export class AdminHomeComponent implements OnInit {
       this.isSignedIn = signedIn;
     });
   }
-
 }

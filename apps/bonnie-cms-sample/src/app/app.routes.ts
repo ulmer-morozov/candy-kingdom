@@ -5,22 +5,20 @@ export const APP_Routes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => import('./face.component')
+    loadComponent: () => import('./face.component'),
   },
   {
     path: 'signin',
-    loadComponent: () => import('./signin.component')
+    loadComponent: () => import('./signin.component'),
   },
   {
     path: 'register',
-    loadComponent: () => import('./register.component')
+    loadComponent: () => import('./register.component'),
   },
   {
     path: 'admin',
     loadComponent: () => import('./admin.component'),
-    loadChildren: () => import('./AdminRoutes').then(x => x.ADMIN_ROUTES),
+    loadChildren: () => import('./AdminRoutes').then((x) => x.ADMIN_ROUTES),
     canActivateChild: mapToCanActivate([AuthGuard]),
-  }
+  },
 ];
-
-

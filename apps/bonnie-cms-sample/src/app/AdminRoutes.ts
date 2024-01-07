@@ -6,10 +6,10 @@ export const ADMIN_ROUTES: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    component: AdminHomeComponent
+    component: AdminHomeComponent,
   },
   {
     path: 'forecast',
-    component: ForecastComponent
+    component: ForecastComponent,
   },
 ];

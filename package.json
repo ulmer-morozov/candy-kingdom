@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "nx g @nx-dotnet/core:restore",
-    "cms:dev": "nx serve bonnie-cms --proxyConfig=\"apps/bonnie-cms/proxy.conf.json\""
+    "cms:dev": "nx serve bonnie-cms-sample --proxyConfig=\"apps/bonnie-cms-sample/proxy.conf.json\""
   },
   "private": true,
   "dependencies": {

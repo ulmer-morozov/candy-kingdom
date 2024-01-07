@@ -1,5 +1,8 @@
-<div *ngIf="!signedIn else signedInAlready">
-  <div>Please Sign In to continue. New user? <a routerLink="/register">Register now</a>.</div>
+<div *ngIf="!signedIn; else signedInAlready">
+  <div>
+    Please Sign In to continue. New user?
+    <a routerLink="/register">Register now</a>.
+  </div>
   <form [formGroup]="loginForm" (submit)="signIn($event)">
     <div>
       <label for="name">Email*</label>
@@ -7,7 +10,13 @@
     </div>
     <div>
       <label for="password">Password*</label>
-      <input class="col form-field" type="password" name="password" formControlName="password" autocomplete="on" />
+      <input
+        class="col form-field"
+        type="password"
+        name="password"
+        formControlName="password"
+        autocomplete="on"
+      />
     </div>
     <div *ngIf="authFailed">
       <label style="color: red">Invalid credentials</label>
@@ -20,7 +29,5 @@
 
 <ng-template #signedInAlready>
   <h4>Sign In</h4>
-  <div>
-    You are already signed in!
-  </div>
+  <div>You are already signed in!</div>
 </ng-template>

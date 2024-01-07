@@ -18,9 +18,9 @@ export const appConfig: ApplicationConfig = {
         return new AuthInterceptor(router);
       },
       multi: true,
-      deps: [Router]
+      deps: [Router],
     },
     AuthGuard,
-    AuthService
-  ]
+    AuthService,
+  ],
 };

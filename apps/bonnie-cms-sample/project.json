@@ -1,26 +1,26 @@
 {
-  "name": "bonnie-cms",
+  "name": "bonnie-cms-sample",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "candy-kingdom",
-  "sourceRoot": "apps/bonnie-cms/src",
+  "sourceRoot": "apps/bonnie-cms-sample/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/bonnie-cms/browser",
-        "index": "apps/bonnie-cms/src/index.html",
-        "main": "apps/bonnie-cms/src/main.ts",
+        "outputPath": "dist/apps/bonnie-cms-sample/browser",
+        "index": "apps/bonnie-cms-sample/src/index.html",
+        "main": "apps/bonnie-cms-sample/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/bonnie-cms/tsconfig.app.json",
+        "tsConfig": "apps/bonnie-cms-sample/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/bonnie-cms/src/favicon.ico",
-          "apps/bonnie-cms/src/assets"
+          "apps/bonnie-cms-sample/src/favicon.ico",
+          "apps/bonnie-cms-sample/src/assets"
         ],
-        "styles": ["apps/bonnie-cms/src/styles.scss"],
+        "styles": ["apps/bonnie-cms-sample/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -54,10 +54,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "bonnie-cms:build:production"
+          "buildTarget": "bonnie-cms-sample:build:production"
         },
         "development": {
-          "buildTarget": "bonnie-cms:build:development"
+          "buildTarget": "bonnie-cms-sample:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -65,7 +65,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "bonnie-cms:build"
+        "buildTarget": "bonnie-cms-sample:build"
       }
     },
     "lint": {
@@ -76,16 +76,16 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/bonnie-cms/jest.config.ts"
+        "jestConfig": "apps/bonnie-cms-sample/jest.config.ts"
       }
     },
     "server": {
       "dependsOn": ["build"],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
-        "outputPath": "dist/apps/bonnie-cms/server",
-        "main": "apps/bonnie-cms/server.ts",
-        "tsConfig": "apps/bonnie-cms/tsconfig.server.json",
+        "outputPath": "dist/apps/bonnie-cms-sample/server",
+        "main": "apps/bonnie-cms-sample/server.ts",
+        "tsConfig": "apps/bonnie-cms-sample/tsconfig.server.json",
         "inlineStyleLanguage": "scss"
       },
       "configurations": {
@@ -106,12 +106,12 @@
       "executor": "@angular-devkit/build-angular:ssr-dev-server",
       "configurations": {
         "development": {
-          "browserTarget": "bonnie-cms:build:development",
-          "serverTarget": "bonnie-cms:server:development"
+          "browserTarget": "bonnie-cms-sample:build:development",
+          "serverTarget": "bonnie-cms-sample:server:development"
         },
         "production": {
-          "browserTarget": "bonnie-cms:build:production",
-          "serverTarget": "bonnie-cms:server:production"
+          "browserTarget": "bonnie-cms-sample:build:production",
+          "serverTarget": "bonnie-cms-sample:server:production"
         }
       },
       "defaultConfiguration": "development"
@@ -123,12 +123,12 @@
       },
       "configurations": {
         "development": {
-          "browserTarget": "bonnie-cms:build:development",
-          "serverTarget": "bonnie-cms:server:development"
+          "browserTarget": "bonnie-cms-sample:build:development",
+          "serverTarget": "bonnie-cms-sample:server:development"
         },
         "production": {
-          "browserTarget": "bonnie-cms:build:production",
-          "serverTarget": "bonnie-cms:server:production"
+          "browserTarget": "bonnie-cms-sample:build:production",
+          "serverTarget": "bonnie-cms-sample:server:production"
         }
       },
       "defaultConfiguration": "production"
