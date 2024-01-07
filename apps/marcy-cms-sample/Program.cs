@@ -1,10 +1,13 @@
-﻿using CandyKingdom.MarcyCms.Sample;
+﻿using Autofac.Extensions.DependencyInjection;
+using CandyKingdom.MarcyCms.Sample;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddIdentityCookies()
@@ -19,7 +22,7 @@ builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
 builder.Services.AddAuthorizationBuilder();
 
 builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseInMemoryDatabase("AppDb"));
+    options => options.UseSqlite("marcy-cms-sample.db"));
 
 builder.Services.AddIdentityCore<MyUser>()
     .AddEntityFrameworkStores<AppDbContext>()
