@@ -1,8 +1,10 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using CandyKingdom.MarcyCms.Sample;
+using CandyKingdom.MarcyCms.Sample.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,11 +23,17 @@ builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
     });
 builder.Services.AddAuthorizationBuilder();
 
-builder.Services.AddDbContext<AppDbContext>(
+builder.Services.AddResponseCompression(options =>
+         {
+             options.EnableForHttps = true;
+             options.Providers.Add<BrotliCompressionProvider>();
+         });
+
+builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(
     options => options.UseSqlite("marcy-cms-sample.db"));
 
-builder.Services.AddIdentityCore<MyUser>()
-    .AddEntityFrameworkStores<AppDbContext>()
+builder.Services.AddIdentityCore<ApplicationUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddApiEndpoints();
 
 // Add services to the container.
@@ -35,7 +43,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.MapCustomIdentityApi<MyUser>();
+app.MapCustomIdentityApi<ApplicationUser>();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
