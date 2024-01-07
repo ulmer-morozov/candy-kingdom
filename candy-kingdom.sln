@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{15189E22-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyKingdom.MarcyGen", "apps\marcy-gen\CandyKingdom.MarcyGen.csproj", "{74FE5885-4A58-4AF1-BA6D-CCCAE2690963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyKingdom.MarcyCms", "apps\marcy-cms-sample\CandyKingdom.MarcyCms.csproj", "{885A46ED-E24E-4ACB-83BF-B6A3479C070C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyKingdom.MarcyCms.Sample", "apps\marcy-cms-sample\CandyKingdom.MarcyCms.Sample.csproj", "{885A46ED-E24E-4ACB-83BF-B6A3479C070C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{CDB157DB-670D-496F-BF77-A99B371D4E6C}"
 EndProject

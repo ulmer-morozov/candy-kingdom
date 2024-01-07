@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\marcy-cms\CandyKingdom.MarcyCms.csproj" />
+    <ProjectReference Include="..\marcy-cms\CandyKingdom.MarcyCms.Sample.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <RootNamespace>CandyKingdom.MarcyCms</RootNamespace>
+    <RootNamespace>CandyKingdom.MarcyCms.Sample</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
