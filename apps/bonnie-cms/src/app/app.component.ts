@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [
+    RouterModule
+  ],
   selector: 'candy-kingdom-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  template: '<nav><a routerLink="/">Face</a><a routerLink="/admin">Admin</a></nav><router-outlet></router-outlet>'
 })
 export class AppComponent {
   title = 'bonnie-cms';

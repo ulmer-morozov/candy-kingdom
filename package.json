@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prepare": "nx g @nx-dotnet/core:restore"
+    "prepare": "nx g @nx-dotnet/core:restore",
+    "cms:dev": "nx serve bonnie-cms --proxyConfig=\"apps/bonnie-cms/proxy.conf.json\""
   },
   "private": true,
   "dependencies": {
