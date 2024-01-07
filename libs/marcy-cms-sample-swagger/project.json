@@ -1,15 +1,15 @@
 {
-  "name": "marcy-cms-swagger",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "marcy-cms-sample-swagger",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "targets": {
     "build": {
       "executor": "nx:noop",
-      "outputs": ["libs/generated/marcy-cms-swagger"]
+      "outputs": ["libs/marcy-cms-sample-swagger"]
     },
     "codegen": {
       "executor": "@nx-dotnet/core:openapi-codegen",
       "options": {
-        "openapiJsonPath": "libs/generated/marcy-cms-swagger/swagger.json",
+        "openapiJsonPath": "libs/marcy-cms-sample-swagger/swagger.json",
         "outputProject": "generated-marcy-cms-types"
       },
       "dependsOn": ["^swagger"]
