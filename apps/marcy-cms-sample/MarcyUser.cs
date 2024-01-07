@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace CandyKingdom.MarcyCms;
+namespace CandyKingdom.MarcyCms.Sample;
 
 public class MyUser : IdentityUser { }

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace ArVrLab.Core.Contracts;
+namespace CandyKingdom.Marcy;
 
 public sealed record ResultOrError<T> : ResultOrError
 {

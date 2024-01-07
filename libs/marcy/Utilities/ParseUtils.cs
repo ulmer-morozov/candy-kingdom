@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
+namespace CandyKingdom.Marcy.Utilities;
+
 public static partial class ParseUtils
 {
     public static bool IsValidHtmlColor(string inputColor)

@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "prepare": "nx g @nx-dotnet/core:restore",
-    "cms:dev": "nx serve bonnie-cms-sample --proxyConfig=\"apps/bonnie-cms-sample/proxy.conf.json\"",
+    "bonnie:cms:dev": "nx serve bonnie-cms-sample --proxyConfig=\"apps/bonnie-cms-sample/proxy.conf.json\"",
+    "cms:dev": "nx run-many --parallel --target=serve --projects=\"marcy-cms,bonnie-cms\" --proxyConfig=\"apps/bonnie-cms-sample/proxy.conf.json\"",
     "dotnet:format": "dotnet format candy-kingdom.sln"
   },
   "private": true,
