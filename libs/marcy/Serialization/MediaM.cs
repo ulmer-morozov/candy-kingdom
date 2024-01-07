@@ -1,4 +1,4 @@
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
 namespace CandyKingdom.Marcy.Serialization;
@@ -7,15 +7,15 @@ namespace CandyKingdom.Marcy.Serialization;
 [JsonDerivedType(typeof(VideoM))]
 public record MediaM
 {
-  public ImmutableList<MediaSourceM> Sources { get; init; } = ImmutableList<MediaSourceM>.Empty;
+    public ImmutableList<MediaSourceM> Sources { get; init; } = ImmutableList<MediaSourceM>.Empty;
 
-  public MediaM() { }
+    public MediaM() { }
 
-  public MediaM(IEnumerable<MediaSourceM> sources)
-  {
-    Sources = sources as ImmutableList<MediaSourceM> ?? sources.ToImmutableList();
-  }
+    public MediaM(IEnumerable<MediaSourceM> sources)
+    {
+        Sources = sources as ImmutableList<MediaSourceM> ?? sources.ToImmutableList();
+    }
 
-  public MediaM(params MediaSourceM[] sources)
-    : this(sources as IEnumerable<MediaSourceM>) { }
+    public MediaM(params MediaSourceM[] sources)
+      : this(sources as IEnumerable<MediaSourceM>) { }
 }

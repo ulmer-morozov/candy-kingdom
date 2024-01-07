@@ -1,6 +1,6 @@
-namespace CandyKingdom.Marcy.ImageTools;
+﻿namespace CandyKingdom.Marcy.ImageTools;
 
 public sealed class InMemoryImage : InMemoryFile<ImageMeta>
 {
-  public string PreviewBase64 { get; init; } = "";
+    public string PreviewBase64 { get; init; } = "";
 }

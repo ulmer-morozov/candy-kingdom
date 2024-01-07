@@ -1,3 +1,3 @@
-namespace CandyKingdom.Marcy;
+﻿namespace CandyKingdom.Marcy;
 
 public sealed record ImageMeta : PixMeta { }

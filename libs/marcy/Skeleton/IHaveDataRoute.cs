@@ -1,6 +1,6 @@
-namespace CandyKingdom.Marcy.Skeleton;
+﻿namespace CandyKingdom.Marcy.Skeleton;
 
 public interface IHaveDataRoute
 {
-  public string DataRoute { get; }
+    public string DataRoute { get; }
 }

@@ -1,4 +1,4 @@
-using CandyKingdom.MarcyCms;
+﻿using CandyKingdom.MarcyCms;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +50,7 @@ if (app.Environment.IsDevelopment())
 // an empty object {} but doesn't allow cross-site due to CORS.
 app.MapPost("/api/logout", async (
     SignInManager<MyUser> signInManager,
-    [FromBody]object empty) =>
+    [FromBody] object empty) =>
 {
     if (empty is not null)
     {

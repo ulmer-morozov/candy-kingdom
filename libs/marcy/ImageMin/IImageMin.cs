@@ -1,10 +1,10 @@
-namespace CandyKingdom.Marcy.ImageMin;
+﻿namespace CandyKingdom.Marcy.ImageMin;
 
 public interface IImageMin
 {
-  public Task<MemoryStream> Minify(
-    MemoryStream sourceStream,
-    string format,
-    CancellationToken cancellationToken = default
-  );
+    public Task<MemoryStream> Minify(
+      MemoryStream sourceStream,
+      string format,
+      CancellationToken cancellationToken = default
+    );
 }

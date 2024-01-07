@@ -1,21 +1,21 @@
-using CandyKingdom.Marcy.Immutables;
+﻿using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
 
 public sealed record Video : PixMedia
 {
-  private const string VIDEO_MEDIA_TYPE = "video";
+    private const string VIDEO_MEDIA_TYPE = "video";
 
-  public override ImmutableList2<VideoSource> Sources { get; }
+    public override ImmutableList2<VideoSource> Sources { get; }
 
-  public override string Type { get; } = VIDEO_MEDIA_TYPE;
+    public override string Type { get; } = VIDEO_MEDIA_TYPE;
 
-  private Video(ImmutableList2<VideoSource> sources)
-    : base(sources)
-  {
-    Sources = sources;
-  }
+    private Video(ImmutableList2<VideoSource> sources)
+      : base(sources)
+    {
+        Sources = sources;
+    }
 
-  public Video(IEnumerable<VideoSource> sources)
-    : this(sources as ImmutableList2<VideoSource> ?? sources.ToImmutableList2()) { }
+    public Video(IEnumerable<VideoSource> sources)
+      : this(sources as ImmutableList2<VideoSource> ?? sources.ToImmutableList2()) { }
 }

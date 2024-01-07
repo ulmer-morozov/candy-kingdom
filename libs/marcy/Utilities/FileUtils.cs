@@ -1,30 +1,29 @@
-namespace CandyKingdom.Marcy.Utilities
+﻿namespace CandyKingdom.Marcy.Utilities;
+
+public static class FileUtils
 {
-  public static class FileUtils
-  {
     public static DirectoryInfo CreateTempDir()
     {
-      var outDir = new DirectoryInfo(
-        Path.Combine(GetTempPath(), Guid.NewGuid().ToString().Replace('-', '_'))
-      );
+        var outDir = new DirectoryInfo(
+          Path.Combine(GetTempPath(), Guid.NewGuid().ToString().Replace('-', '_'))
+        );
 
-      outDir.Create();
+        outDir.Create();
 
-      return outDir;
+        return outDir;
     }
 
     public static string CreateTempFilePath(string prefix, string extension)
     {
-      var uniqueFileName = $"{prefix}_{Guid.NewGuid()}{extension}";
-      var filePath = Path.Combine(GetTempPath(), uniqueFileName);
+        var uniqueFileName = $"{prefix}_{Guid.NewGuid()}{extension}";
+        var filePath = Path.Combine(GetTempPath(), uniqueFileName);
 
-      return filePath;
+        return filePath;
     }
 
     private static string GetTempPath()
     {
-      return "";
-      // return Path.GetTempPath();
+        return "";
+        // return Path.GetTempPath();
     }
-  }
 }

@@ -1,41 +1,41 @@
-namespace CandyKingdom.Marcy;
+﻿namespace CandyKingdom.Marcy;
 
 public sealed class DefferedStreamClone : IDisposable, IAsyncDisposable
 {
-  private readonly Func<Stream> _sourceStreamFactory;
-  private MemoryStream? msStream;
+    private readonly Func<Stream> _sourceStreamFactory;
+    private MemoryStream? msStream;
 
-  public DefferedStreamClone(Func<Stream> sourceStreamFactory)
-  {
-    _sourceStreamFactory = sourceStreamFactory;
-  }
-
-  public MemoryStream Value
-  {
-    get
+    public DefferedStreamClone(Func<Stream> sourceStreamFactory)
     {
-      if (msStream != null)
-        return msStream;
-
-      msStream = new MemoryStream();
-
-      using var srcStream = _sourceStreamFactory();
-
-      srcStream.CopyTo(msStream);
-      msStream.Seek(0, SeekOrigin.Begin);
-
-      return msStream;
+        _sourceStreamFactory = sourceStreamFactory;
     }
-  }
 
-  public void Dispose()
-  {
-    msStream?.Dispose();
-  }
+    public MemoryStream Value
+    {
+        get
+        {
+            if (msStream != null)
+                return msStream;
 
-  public async ValueTask DisposeAsync()
-  {
-    if (msStream != null)
-      await msStream.DisposeAsync();
-  }
+            msStream = new MemoryStream();
+
+            using var srcStream = _sourceStreamFactory();
+
+            srcStream.CopyTo(msStream);
+            msStream.Seek(0, SeekOrigin.Begin);
+
+            return msStream;
+        }
+    }
+
+    public void Dispose()
+    {
+        msStream?.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (msStream != null)
+            await msStream.DisposeAsync();
+    }
 }

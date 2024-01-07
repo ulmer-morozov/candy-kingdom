@@ -1,11 +1,11 @@
-namespace CandyKingdom.Marcy.Storage;
+﻿namespace CandyKingdom.Marcy.Storage;
 
 public interface IFileStorage
 {
-  Task<StoredFile> Store(
-    Stream stream,
-    string name,
-    string mimeType,
-    CancellationToken cancellationToken = default
-  );
+    Task<StoredFile> Store(
+      Stream stream,
+      string name,
+      string mimeType,
+      CancellationToken cancellationToken = default
+    );
 }

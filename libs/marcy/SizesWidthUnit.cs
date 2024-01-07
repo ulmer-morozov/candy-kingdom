@@ -1,8 +1,8 @@
-namespace CandyKingdom.Marcy;
+﻿namespace CandyKingdom.Marcy;
 
 public enum SizesWidthUnit
 {
-  Px = 0,
-  Em = 1,
-  Vw = 2
+    Px = 0,
+    Em = 1,
+    Vw = 2
 }

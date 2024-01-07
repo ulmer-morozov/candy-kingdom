@@ -1,4 +1,4 @@
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CandyKingdom.Marcy.ImageTools;
@@ -9,184 +9,184 @@ namespace CandyKingdom.Marcy.Serialization;
 
 public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
 {
-  public const string VideoSrcPrefix = "videosrc";
+    public const string VideoSrcPrefix = "videosrc";
 
-  private readonly IVideoManager _videoManager;
-  private readonly IFileStorage _fileStorage;
-  private readonly ImmutableList<VideoSetup> _setups;
-  private readonly DirectoryInfo _cacheDir;
+    private readonly IVideoManager _videoManager;
+    private readonly IFileStorage _fileStorage;
+    private readonly ImmutableList<VideoSetup> _setups;
+    private readonly DirectoryInfo _cacheDir;
 
-  public DirectoryInfo CacheDir => _cacheDir;
-  private readonly VideoConvertParameters _videoConvertParameters;
+    public DirectoryInfo CacheDir => _cacheDir;
+    private readonly VideoConvertParameters _videoConvertParameters;
 
-  public VideoResizeConverter(
-    IVideoManager videoManager,
-    ImmutableList<VideoSetup> setups,
-    DirectoryInfo cacheDir,
-    IFileStorage fileStorage,
-    VideoConvertParameters videoConvertParameters
-  )
-  {
-    _videoManager = videoManager;
-    _setups = setups;
-    _cacheDir = cacheDir;
-    _fileStorage = fileStorage;
-    _videoConvertParameters = videoConvertParameters;
-  }
-
-  public override VideoM Read(
-    ref Utf8JsonReader reader,
-    Type typeToConvert,
-    JsonSerializerOptions options
-  )
-  {
-    throw new NotImplementedException("Cannot read");
-  }
-
-  public override void Write(Utf8JsonWriter writer, VideoM value, JsonSerializerOptions options)
-  {
-    WriteAsync(writer, value, options).Wait();
-  }
-
-  private async Task WriteAsync(
-    Utf8JsonWriter writer,
-    VideoM value,
-    JsonSerializerOptions options,
-    CancellationToken cancellationToken = default
-  )
-  {
-    var sources = new List<VideoSource>();
-
-    foreach (var sourceM in value.Sources)
+    public VideoResizeConverter(
+      IVideoManager videoManager,
+      ImmutableList<VideoSetup> setups,
+      DirectoryInfo cacheDir,
+      IFileStorage fileStorage,
+      VideoConvertParameters videoConvertParameters
+    )
     {
-      var videoFile = new FileInfo(sourceM.Path);
+        _videoManager = videoManager;
+        _setups = setups;
+        _cacheDir = cacheDir;
+        _fileStorage = fileStorage;
+        _videoConvertParameters = videoConvertParameters;
+    }
 
-      if (!videoFile.Exists)
-        throw new Exception($"Image file not found: {videoFile.FullName}");
+    public override VideoM Read(
+      ref Utf8JsonReader reader,
+      Type typeToConvert,
+      JsonSerializerOptions options
+    )
+    {
+        throw new NotImplementedException("Cannot read");
+    }
 
-      using var videoStream = new DefferedStreamClone(
-        () => new FileStream(videoFile.FullName, FileMode.Open)
-      );
+    public override void Write(Utf8JsonWriter writer, VideoM value, JsonSerializerOptions options)
+    {
+        WriteAsync(writer, value, options).Wait();
+    }
 
-      var fileCacheInfo = await this.GetOrCreateFileCacheInfo(
-        videoFile,
-        videoStream,
-        cancellationToken
-      );
+    private async Task WriteAsync(
+      Utf8JsonWriter writer,
+      VideoM value,
+      JsonSerializerOptions options,
+      CancellationToken cancellationToken = default
+    )
+    {
+        var sources = new List<VideoSource>();
 
-      Dictionary<VideoSetup, FileSrc<VideoMeta>> srcDict = new();
-
-      foreach (var setup in _setups)
-      {
-        var srcKeys = GetVideoSrcKeys(fileCacheInfo, setup);
-
-        var cachedFileSrc = await this.ReadFromCache<FileSrc<VideoMeta>>(
-          VideoSrcPrefix,
-          srcKeys,
-          cancellationToken
-        );
-
-        if (cachedFileSrc == null)
-          continue;
-
-        srcDict[setup] = cachedFileSrc;
-      }
-
-      var notCachedSetups = _setups.Except(srcDict.Keys).ToImmutableList();
-
-      if (notCachedSetups.Any())
-      {
-        var fileSrcDict = await ConvertAndStore(
-          fileCacheInfo,
-          videoStream.Value,
-          notCachedSetups,
-          cancellationToken
-        );
-
-        foreach (var pair in fileSrcDict)
+        foreach (var sourceM in value.Sources)
         {
-          srcDict[pair.Key] = pair.Value;
+            var videoFile = new FileInfo(sourceM.Path);
+
+            if (!videoFile.Exists)
+                throw new Exception($"Image file not found: {videoFile.FullName}");
+
+            using var videoStream = new DefferedStreamClone(
+              () => new FileStream(videoFile.FullName, FileMode.Open)
+            );
+
+            var fileCacheInfo = await this.GetOrCreateFileCacheInfo(
+              videoFile,
+              videoStream,
+              cancellationToken
+            );
+
+            Dictionary<VideoSetup, FileSrc<VideoMeta>> srcDict = new();
+
+            foreach (var setup in _setups)
+            {
+                var srcKeys = GetVideoSrcKeys(fileCacheInfo, setup);
+
+                var cachedFileSrc = await this.ReadFromCache<FileSrc<VideoMeta>>(
+                  VideoSrcPrefix,
+                  srcKeys,
+                  cancellationToken
+                );
+
+                if (cachedFileSrc == null)
+                    continue;
+
+                srcDict[setup] = cachedFileSrc;
+            }
+
+            var notCachedSetups = _setups.Except(srcDict.Keys).ToImmutableList();
+
+            if (notCachedSetups.Any())
+            {
+                var fileSrcDict = await ConvertAndStore(
+                  fileCacheInfo,
+                  videoStream.Value,
+                  notCachedSetups,
+                  cancellationToken
+                );
+
+                foreach (var pair in fileSrcDict)
+                {
+                    srcDict[pair.Key] = pair.Value;
+                }
+            }
+
+            var orderedSrcs = srcDict
+              .Values.OrderByDescending(x => x.Meta.Width)
+              .ThenByDescending(x => x.MimeType.Contains("web")); // webm first
+
+            var videoSource = new VideoSource(orderedSrcs) { MediaQuery = sourceM.MediaQuery ?? "" };
+
+            sources.Add(videoSource);
         }
-      }
 
-      var orderedSrcs = srcDict
-        .Values.OrderByDescending(x => x.Meta.Width)
-        .ThenByDescending(x => x.MimeType.Contains("web")); // webm first
+        var newVideo = new Video(sources);
 
-      var videoSource = new VideoSource(orderedSrcs) { MediaQuery = sourceM.MediaQuery ?? "" };
-
-      sources.Add(videoSource);
+        var valueConverter = (JsonConverter<Video>)options.GetConverter(typeof(Video));
+        valueConverter.Write(writer, newVideo, options);
     }
 
-    var newVideo = new Video(sources);
-
-    var valueConverter = (JsonConverter<Video>)options.GetConverter(typeof(Video));
-    valueConverter.Write(writer, newVideo, options);
-  }
-
-  private async Task<ImmutableDictionary<VideoSetup, FileSrc<VideoMeta>>> ConvertAndStore(
-    FileCacheInfo fileCacheInfo,
-    MemoryStream value,
-    ImmutableList<VideoSetup> setups,
-    CancellationToken cancellationToken
-  )
-  {
-    var dict = new Dictionary<VideoSetup, FileSrc<VideoMeta>>();
-
-    async Task OnVideo(VideoSetup setup, TempVideoFile videoFile)
+    private async Task<ImmutableDictionary<VideoSetup, FileSrc<VideoMeta>>> ConvertAndStore(
+      FileCacheInfo fileCacheInfo,
+      MemoryStream value,
+      ImmutableList<VideoSetup> setups,
+      CancellationToken cancellationToken
+    )
     {
-      StoredFile storedFile;
+        var dict = new Dictionary<VideoSetup, FileSrc<VideoMeta>>();
 
-      using (
-        var fileStream = new FileStream(videoFile.File.FullName, FileMode.Open, FileAccess.Read)
-      )
-      {
-        var hash = await fileStream.CalcMd5AsBase62Async(cancellationToken);
+        async Task OnVideo(VideoSetup setup, TempVideoFile videoFile)
+        {
+            StoredFile storedFile;
 
-        var fileName =
-          $"{videoFile.Meta.Width}x{videoFile.Meta.Height}_{hash}{videoFile.Format.Extension}";
+            using (
+              var fileStream = new FileStream(videoFile.File.FullName, FileMode.Open, FileAccess.Read)
+            )
+            {
+                var hash = await fileStream.CalcMd5AsBase62Async(cancellationToken);
 
-        Console.WriteLine($"On video store: {fileName}");
+                var fileName =
+                  $"{videoFile.Meta.Width}x{videoFile.Meta.Height}_{hash}{videoFile.Format.Extension}";
 
-        fileStream.Seek(0, SeekOrigin.Begin);
+                Console.WriteLine($"On video store: {fileName}");
 
-        storedFile = await _fileStorage.Store(
-          stream: fileStream,
-          name: fileName,
-          mimeType: videoFile.Format.MimeType,
-          cancellationToken
-        );
-      }
+                fileStream.Seek(0, SeekOrigin.Begin);
 
-      Console.WriteLine($"On video stored: {storedFile.Url}");
+                storedFile = await _fileStorage.Store(
+                  stream: fileStream,
+                  name: fileName,
+                  mimeType: videoFile.Format.MimeType,
+                  cancellationToken
+                );
+            }
 
-      var fileSrc = new FileSrc<VideoMeta>
-      {
-        Url = storedFile.Url,
-        Meta = videoFile.Meta,
-        MimeType = videoFile.Format.MimeType
-      };
+            Console.WriteLine($"On video stored: {storedFile.Url}");
 
-      dict[setup] = fileSrc;
+            var fileSrc = new FileSrc<VideoMeta>
+            {
+                Url = storedFile.Url,
+                Meta = videoFile.Meta,
+                MimeType = videoFile.Format.MimeType
+            };
 
-      var srcKeys = GetVideoSrcKeys(fileCacheInfo, setup);
+            dict[setup] = fileSrc;
 
-      await this.StoreInCache(VideoSrcPrefix, srcKeys, fileSrc, cancellationToken);
+            var srcKeys = GetVideoSrcKeys(fileCacheInfo, setup);
 
-      videoFile.Dispose();
+            await this.StoreInCache(VideoSrcPrefix, srcKeys, fileSrc, cancellationToken);
+
+            videoFile.Dispose();
+        }
+
+        await _videoManager.Convert(value, setups, _videoConvertParameters, OnVideo, cancellationToken);
+
+        return dict.ToImmutableDictionary();
     }
 
-    await _videoManager.Convert(value, setups, _videoConvertParameters, OnVideo, cancellationToken);
-
-    return dict.ToImmutableDictionary();
-  }
-
-  private ImmutableList<string> GetVideoSrcKeys(FileCacheInfo fileCache, VideoSetup setup)
-  {
-    var srcKeys = ImmutableList.Create(
-      fileCache.Hash,
-      $"{setup}{_videoConvertParameters}".CalcMd5AsBase62()
-    );
-    return srcKeys;
-  }
+    private ImmutableList<string> GetVideoSrcKeys(FileCacheInfo fileCache, VideoSetup setup)
+    {
+        var srcKeys = ImmutableList.Create(
+          fileCache.Hash,
+          $"{setup}{_videoConvertParameters}".CalcMd5AsBase62()
+        );
+        return srcKeys;
+    }
 }
