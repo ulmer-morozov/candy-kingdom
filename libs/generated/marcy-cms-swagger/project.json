@@ -15,5 +15,5 @@
       "dependsOn": ["^swagger"]
     }
   },
-  "implicitDependencies": ["marcy-cms"]
+  "implicitDependencies": ["marcy-cms-sample"]
 }
