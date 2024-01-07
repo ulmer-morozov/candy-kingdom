@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>CandyKingdom.Marcy</RootNamespace>
+    <RootNamespace>CandyKingdom.MarcyCms</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,10 +12,5 @@
     <WarningsAsErrors>;NU1605;CS8625;CS8618;</WarningsAsErrors>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NetVips" Version="2.2.0" />
-    <PackageReference Include="NetVips.Native" Version="8.13.2" />
-    <PackageReference Include="xFFmpeg.NET" Version="7.1.3" />
-  </ItemGroup>
 
 </Project>
