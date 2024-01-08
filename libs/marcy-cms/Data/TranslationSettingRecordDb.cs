@@ -1,6 +1,6 @@
 ﻿using CandyKingdom.Marcy;
 
-namespace CandyKingdom.MarcyCms.Sample.Data;
+namespace CandyKingdom.MarcyCms.Data;
 
 public sealed class TranslationSettingRecordDb : SettingRecordDb<TranslationSettingRecordDb>
 {

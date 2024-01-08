@@ -82,7 +82,7 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
               cancellationToken
             );
 
-            Dictionary<ImageSetup, FileSrc<ImageMeta>> imageSrcDict = new();
+            Dictionary<ImageSetup, FileSrc<ImageMeta>> imageSrcDict = [];
 
             foreach (var setup in _setups)
             {

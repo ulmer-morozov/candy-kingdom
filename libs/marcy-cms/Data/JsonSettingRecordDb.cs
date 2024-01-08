@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace CandyKingdom.MarcyCms.Sample.Data;
+namespace CandyKingdom.MarcyCms.Data;
 
 public sealed class JsonSettingRecordDb : SettingRecordDb<JsonSettingRecordDb>
 {

@@ -74,7 +74,7 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
               cancellationToken
             );
 
-            Dictionary<VideoSetup, FileSrc<VideoMeta>> srcDict = new();
+            Dictionary<VideoSetup, FileSrc<VideoMeta>> srcDict = [];
 
             foreach (var setup in _setups)
             {

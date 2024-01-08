@@ -1,5 +1,6 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using CandyKingdom.MarcyCms.Sample;
+using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Sample.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -36,6 +37,13 @@ builder.Services.AddIdentityCore<ApplicationUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddApiEndpoints();
 
+
+// services.AddSingleton<IFileStorage, LocalFileStorage>();
+// services.AddSingleton<IEmailSender, FakeEmailSender>();
+
+// services.AddSingleton<IPageManager, PageManager>();
+// services.AddSingleton<ISettingsManager, SettingsManager>();
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -43,9 +51,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseResponseCompression();
+
+
 app.MapCustomIdentityApi<ApplicationUser>();
-app.UseDefaultFiles();
-app.UseStaticFiles();
+// app.UseDefaultFiles();
+// app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -60,7 +71,7 @@ if (app.Environment.IsDevelopment())
 // form can't post anything useful so the body is null, the JSON call can pass
 // an empty object {} but doesn't allow cross-site due to CORS.
 app.MapPost("/api/logout", async (
-    SignInManager<MyUser> signInManager,
+    SignInManager<ApplicationUser> signInManager,
     [FromBody] object empty) =>
 {
     if (empty is not null)

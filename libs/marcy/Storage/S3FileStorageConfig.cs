@@ -1,11 +1,11 @@
 ﻿namespace CandyKingdom.Marcy.Storage;
 
-public sealed class S3FileStorageConfig : ConfigurationBase
+public sealed record S3FileStorageConfig : ConfigurationBase
 {
-    public required string Host { get; set; }
-    public required string BucketName { get; set; }
-    public required string ObjectStorageKeyId { get; set; }
-    public required string ObjectStorageKey { get; set; }
+    public required string Host { get; init; }
+    public required string BucketName { get; init; }
+    public required string ObjectStorageKeyId { get; init; }
+    public required string ObjectStorageKey { get; init; }
 
     public override void Verify()
     {

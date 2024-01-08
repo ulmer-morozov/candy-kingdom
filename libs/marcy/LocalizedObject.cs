@@ -1,11 +1,12 @@
-﻿using CandyKingdom.Marcy.Immutables;
+﻿using System.Text.Json.Serialization;
+using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
 
 public record LocalizedObject<T>
 {
-    protected const string RuCode = "ru";
-    protected const string EnCode = "en";
+    [JsonIgnore]
+    public const string EnCode = "en";
 
     public ImmutableDictionary2<string, T> Localizations { get; init; }
 

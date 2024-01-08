@@ -8,9 +8,6 @@ public sealed record LocalizedString : LocalizedObject<string>
     [JsonIgnore]
     public string En => GetString(EnCode);
 
-    [JsonIgnore]
-    public string Ru => GetString(RuCode);
-
     public LocalizedString(ImmutableDictionary2<string, string> localizations)
       : base(localizations) { }
 
@@ -23,11 +20,6 @@ public sealed record LocalizedString : LocalizedObject<string>
 
     public static LocalizedString Empty { get; } = new LocalizedString();
 
-    public static LocalizedString From(string en, string ru) =>
-      new(new Dictionary<string, string>() { [EnCode] = en, [RuCode] = ru });
-
-    public static LocalizedString FromEn(string en) =>
-      new(new Dictionary<string, string>() { [EnCode] = en });
 
     public static LocalizedString Combine(
       LocalizedString ls1,
@@ -73,6 +65,11 @@ public sealed record LocalizedString : LocalizedObject<string>
           : $"{s1}{delimiter}{s2}";
 
         return result;
+    }
+
+    public static implicit operator LocalizedString(PortfolioDataBuilder.Bones.WebLink v)
+    {
+        throw new NotImplementedException();
     }
 
     #endregion

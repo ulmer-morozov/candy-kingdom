@@ -48,7 +48,7 @@ public sealed class JsonConverterForImmutableList2Factory : JsonConverterFactory
 
             reader.Read();
 
-            List<T> elements = new();
+            List<T> elements = [];
 
             while (reader.TokenType != JsonTokenType.EndArray)
             {
