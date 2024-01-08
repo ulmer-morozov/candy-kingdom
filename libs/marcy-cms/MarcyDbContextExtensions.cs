@@ -7,13 +7,6 @@ public static class MarcyDbContextExtensions
 {
     public static void SetupForMarcyCms(this ModelBuilder builder)
     {
-        builder
-            .Entity<SettingRecordDb>()
-            .HasDiscriminator(x => x.RecordType)
-            .HasValue<TextSettingRecordDb>(SettingRecordType.Text)
-            .HasValue<TranslationSettingRecordDb>(SettingRecordType.Translation)
-            .HasValue<JsonSettingRecordDb>(SettingRecordType.Json);
-
         // builder
         //     .Entity<PageDb>()
         //     .Property(x => x.ColorTheme)

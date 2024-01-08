@@ -8,7 +8,7 @@ namespace CandyKingdom.MarcyCms.Sample.Content;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IMarcyCmsDbContext
 {
     public DbSet<SettingGroupDb> SettingGroups => Set<SettingGroupDb>();
-    public DbSet<SettingRecordDb> SettingRecords => Set<SettingRecordDb>();
+    public DbSet<SettingDb> SettingRecords => Set<SettingDb>();
 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

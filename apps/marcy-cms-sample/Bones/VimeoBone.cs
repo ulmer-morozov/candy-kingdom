@@ -4,6 +4,7 @@ namespace CandyKingdom.MarcyCms.Sample.Bones;
 
 public sealed record VimeoBone : Bone
 {
+    public const string TYPE = "vimeo";
     public required int VimeoId { get; init; }
     public required float Ratio { get; init; }
     public bool Autoplay { get; init; }
@@ -11,5 +12,5 @@ public sealed record VimeoBone : Bone
     public bool Loop { get; init; }
 
     public VimeoBone()
-        : base("vimeo") { }
+        : base(TYPE) { }
 }

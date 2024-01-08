@@ -18,7 +18,7 @@ public sealed class JsonConverterForLocalizedString : JsonConverter<LocalizedStr
 
         if (localizedObject == null)
         {
-            throw new JsonException();
+            throw new JsonException("Localized object cannot be null");
         }
 
         return new LocalizedString(localizedObject.Localizations);
