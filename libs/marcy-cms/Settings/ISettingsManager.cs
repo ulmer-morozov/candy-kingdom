@@ -1,8 +1,7 @@
 ﻿using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
-using CandyKingdom.MarcyCms.Settings;
 
-namespace CandyKingdom.MarcyCms.Sample.Core;
+namespace CandyKingdom.MarcyCms.Settings;
 
 public interface ISettingsManager
 {

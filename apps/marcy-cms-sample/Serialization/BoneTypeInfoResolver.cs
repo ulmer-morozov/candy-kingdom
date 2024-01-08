@@ -2,8 +2,9 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using CandyKingdom.Marcy.Skeleton;
+using CandyKingdom.MarcyCms.Sample.Bones;
 
-namespace CandyKingdom.MarcyCms.Sample.Bones;
+namespace CandyKingdom.MarcyCms.Sample.Serialization;
 
 public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
 {

@@ -1,10 +1,10 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
-using CandyKingdom.MarcyCms.Data;
+using CandyKingdom.MarcyCms.Sample.Bones;
 using CandyKingdom.MarcyCms.Settings;
 
-namespace CandyKingdom.MarcyCms.Sample.Bones;
+namespace CandyKingdom.MarcyCms.Sample.Serialization;
 
 public sealed class SettingDataTypeInfoResolver : DefaultJsonTypeInfoResolver
 {

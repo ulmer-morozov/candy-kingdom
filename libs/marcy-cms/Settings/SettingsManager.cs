@@ -1,9 +1,8 @@
 ﻿using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
-using CandyKingdom.MarcyCms.Settings;
 using Microsoft.EntityFrameworkCore;
 
-namespace CandyKingdom.MarcyCms.Sample.Core;
+namespace CandyKingdom.MarcyCms.Settings;
 
 public sealed class SettingsManager<TDbContext> : ISettingsManager
 where TDbContext : DbContext, IMarcyCmsDbContext

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using CandyKingdom.MarcyCms.Settings;
 
 namespace CandyKingdom.MarcyCms.Data;
 
