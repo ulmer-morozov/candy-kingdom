@@ -4,7 +4,7 @@ namespace CandyKingdom.Marcy;
 
 public sealed record Video : PixMedia
 {
-    private const string VIDEO_MEDIA_TYPE = "video";
+    private const string VIDEO_MEDIA_TYPE = "video"; // todo: rename
 
     public override ImmutableList2<VideoSource> Sources { get; }
 

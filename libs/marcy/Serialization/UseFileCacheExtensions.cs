@@ -73,14 +73,14 @@ public static class UseFileCacheExtensions
       CancellationToken cancellationToken = default
     )
     {
-        const string InfoPrefix = "info";
+        const string infoPrefix = "info";
 
         var fileId = $"{file.FullName}|{file.Length}|{file.LastWriteTimeUtc}".CalcMd5AsBase62();
 
         var keys = ImmutableList.Create(fileId);
 
         var fileCacheInfo = await instance.ReadFromCache<FileCacheInfo>(
-          InfoPrefix,
+          infoPrefix,
           keys,
           cancellationToken
         );
@@ -94,7 +94,7 @@ public static class UseFileCacheExtensions
 
         var info = new FileCacheInfo { Hash = imageHash };
 
-        await instance.StoreInCache(InfoPrefix, keys, info, cancellationToken);
+        await instance.StoreInCache(infoPrefix, keys, info, cancellationToken);
 
         return info;
     }

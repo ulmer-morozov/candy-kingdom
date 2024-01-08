@@ -14,7 +14,7 @@ public sealed record LocalizedString : LocalizedObject<string>
     public LocalizedString(IDictionary<string, string>? localizations = null)
       : base(localizations) { }
 
-    public string GetString(string Code) => Get(Code, string.Empty);
+    public string GetString(string code) => Get(code, string.Empty);
 
     #region Static Helpers
 

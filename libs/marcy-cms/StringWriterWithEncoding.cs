@@ -3,10 +3,10 @@ namespace CandyKingdom.MarcyCms;
 
 public sealed class StringWriterWithEncoding(Encoding encoding) : StringWriter
 {
-    private readonly Encoding encoding = encoding;
+    private readonly Encoding _encoding = encoding;
 
     public override Encoding Encoding
     {
-        get { return encoding; }
+        get { return _encoding; }
     }
 }

@@ -4,7 +4,7 @@ namespace CandyKingdom.Marcy;
 
 public sealed record Image : PixMedia
 {
-    private const string IMAGE_MEDIA_TYPE = "image";
+    private const string IMAGE_MEDIA_TYPE = "image"; // todo: rename
 
     public override ImmutableList2<ImageSource> Sources { get; }
 

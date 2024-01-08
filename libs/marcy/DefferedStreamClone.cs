@@ -3,7 +3,7 @@
 public sealed class DefferedStreamClone : IDisposable, IAsyncDisposable
 {
     private readonly Func<Stream> _sourceStreamFactory;
-    private MemoryStream? msStream;
+    private MemoryStream? _msStream;
 
     public DefferedStreamClone(Func<Stream> sourceStreamFactory)
     {
@@ -14,28 +14,28 @@ public sealed class DefferedStreamClone : IDisposable, IAsyncDisposable
     {
         get
         {
-            if (msStream != null)
-                return msStream;
+            if (_msStream != null)
+                return _msStream;
 
-            msStream = new MemoryStream();
+            _msStream = new MemoryStream();
 
             using var srcStream = _sourceStreamFactory();
 
-            srcStream.CopyTo(msStream);
-            msStream.Seek(0, SeekOrigin.Begin);
+            srcStream.CopyTo(_msStream);
+            _msStream.Seek(0, SeekOrigin.Begin);
 
-            return msStream;
+            return _msStream;
         }
     }
 
     public void Dispose()
     {
-        msStream?.Dispose();
+        _msStream?.Dispose();
     }
 
     public async ValueTask DisposeAsync()
     {
-        if (msStream != null)
-            await msStream.DisposeAsync();
+        if (_msStream != null)
+            await _msStream.DisposeAsync();
     }
 }

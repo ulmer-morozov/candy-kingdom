@@ -6,7 +6,7 @@ namespace CandyKingdom.Marcy.Storage;
 
 public sealed class S3FileStorage : IFileStorage
 {
-    private readonly AmazonS3Client s3Client;
+    private readonly AmazonS3Client _s3Client;
     private readonly string _bucketName;
     private readonly string _host;
 
@@ -27,12 +27,12 @@ public sealed class S3FileStorage : IFileStorage
             ServiceURL = config.Host,
         };
 
-        s3Client = new AmazonS3Client(credentials, conf);
+        _s3Client = new AmazonS3Client(credentials, conf);
     }
 
     public async Task<StoredFile> Store(Stream stream, string name, string mimeType, CancellationToken cancellationToken = default)
     {
-        var fileTransferUtility = new TransferUtility(s3Client);
+        var fileTransferUtility = new TransferUtility(_s3Client);
 
         var fileKey = $"{name}";
 
