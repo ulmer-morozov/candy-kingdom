@@ -1,5 +1,4 @@
 using CandyKingdom.Marcy;
-using CandyKingdom.MarcyCms.Data;
 
 namespace CandyKingdom.MarcyCms.Settings;
 

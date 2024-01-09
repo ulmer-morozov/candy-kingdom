@@ -20,7 +20,6 @@ public sealed record LocalizedString : LocalizedObject<string>
 
     public static LocalizedString Empty { get; } = new LocalizedString();
 
-
     public static LocalizedString Combine(
       LocalizedString ls1,
       LocalizedString ls2,
@@ -65,11 +64,6 @@ public sealed record LocalizedString : LocalizedObject<string>
           : $"{s1}{delimiter}{s2}";
 
         return result;
-    }
-
-    public static implicit operator LocalizedString(PortfolioDataBuilder.Bones.WebLink v)
-    {
-        throw new NotImplementedException();
     }
 
     #endregion

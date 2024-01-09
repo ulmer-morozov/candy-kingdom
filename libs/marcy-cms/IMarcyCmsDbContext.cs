@@ -5,7 +5,7 @@ namespace CandyKingdom.MarcyCms;
 
 public interface IMarcyCmsDbContext
 {
-    // public DbSet<PageDb> Pages { get; }
+    public DbSet<PageDb> Pages { get; }
     public DbSet<SettingGroupDb> SettingGroups { get; }
     public DbSet<SettingDb> SettingRecords { get; }
 }

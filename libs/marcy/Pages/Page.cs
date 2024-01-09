@@ -3,12 +3,19 @@ using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.Marcy.Pages;
 
-public sealed record Page : IHaveSkeleton
+public sealed record Page<T>
+    where T : PageData, new()
 {
-    public required string Route { get; init; }
-    public required LocalizedString Title { get; init; }
-    public required ImmutableList2<Bone> Bones { get; init; }
-    public required ImmutableList2<Page> Children { get; init; }
+    public required T Data { get; init; }
+}
+
+public record Page : IHaveSkeleton
+{
+    public string Route { get; init; } = "";
+    public LocalizedString Title { get; init; } = new();
+    public OpenGraphData OG { get; init; } = new();
+    public ImmutableList2<Bone> Bones { get; init; } = ImmutableList2<Bone>.Empty;
+    public ImmutableList2<Page> Children { get; init; } = ImmutableList2<Page>.Empty;
 
     public Page Clean(bool removeBones = false, bool removeChildren = false)
     {
