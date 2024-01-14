@@ -1,8 +1,8 @@
 ﻿using CandyKingdom.Marcy.Pages;
 
 namespace CandyKingdom.MarcyCms.Data;
- 
-public sealed class SettingDb : JsonDataOwner<PageData>
+
+public sealed class SettingDb : JsonDataOwnerDb<PageData>
 {
     public Guid Id { get; private set; }
     public string Title { get; private set; }

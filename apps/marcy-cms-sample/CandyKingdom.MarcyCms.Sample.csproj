@@ -6,12 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <RootNamespace>CandyKingdom.MarcyCms.Sample</RootNamespace>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors>;NU1605;CS8625;CS8618;</WarningsAsErrors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\marcy-cms\CandyKingdom.MarcyCms.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
@@ -21,10 +27,6 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\libs\marcy-cms\CandyKingdom.MarcyCms.csproj" />
   </ItemGroup>
 
 </Project>

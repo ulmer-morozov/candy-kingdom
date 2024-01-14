@@ -5,30 +5,52 @@ using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.MarcyCms.Data;
 
-public sealed class PageDb : JsonDataOwner<PageData>
+public sealed class PageDb : JsonDataOwnerDb<PageData>
 {
-    public Guid Id { get; private set; }
+    public string Url { get; private set; }
+    public string Route { get; private set; }
+    public int Order { get; private set; }
+    public PublishStatus PublishStatus { get; private set; }
     public LocalizedString Title { get; private set; }
-    public OpenGraphData OG { get; init; }
+    public OpenGraphData OpenGraph { get; private set; }
     public ImmutableList2<Bone> Bones { get; private set; }
 
     public PageDb? Parent { get; private set; }
+    public ICollection<PageDb> Childern { get; private set; }
 
-    public PageDb(Guid id, LocalizedString title, OpenGraphData og, IEnumerable<Bone> bones)
+    public PageDb(string url, string route, int order, PublishStatus publishStatus, LocalizedString title, OpenGraphData openGraph, IEnumerable<Bone> bones, PageDb? parent = null, IEnumerable<PageDb>? children = null)
     {
-        Id = id;
+        Url = url;
         Title = title;
-        OG = og;
+        Order = order;
+        OpenGraph = openGraph;
+        Route = route;
+        PublishStatus = publishStatus;
 
         Bones = bones as ImmutableList2<Bone>
                             ?? bones?.ToImmutableList2()
                             ?? ImmutableList2<Bone>.Empty;
+
+        Parent = parent;
+        Childern = children?.ToList() ?? [];
     }
 
     private PageDb()
     {
+        Url = null!;
         Title = null!;
-        OG = null!;
+        Route = null!;
+        OpenGraph = null!;
         Bones = null!;
+        Childern = null!;
+    }
+
+    public void Copy(Page page)
+    {
+        Order = page.Order;
+        PublishStatus = page.PublishStatus;
+        Title = page.Title;
+        OpenGraph = page.OpenGraph;
+        Bones = page.Bones;
     }
 }

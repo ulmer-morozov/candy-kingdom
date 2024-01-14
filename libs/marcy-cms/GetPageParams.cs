@@ -1,4 +1,6 @@
-namespace CandyKingdom.MarcyCms.Sample.Core;
+using CandyKingdom.Marcy.Pages;
+
+namespace CandyKingdom.MarcyCms;
 
 public sealed record GetPageParams
 {

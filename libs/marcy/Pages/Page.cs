@@ -11,9 +11,12 @@ public sealed record Page<T>
 
 public record Page : IHaveSkeleton
 {
+    public string Url { get; init; } = "";
     public string Route { get; init; } = "";
+    public int Order { get; init; }
+    public PublishStatus PublishStatus { get; init; }
     public LocalizedString Title { get; init; } = new();
-    public OpenGraphData OG { get; init; } = new();
+    public OpenGraphData OpenGraph { get; init; } = new();
     public ImmutableList2<Bone> Bones { get; init; } = ImmutableList2<Bone>.Empty;
     public ImmutableList2<Page> Children { get; init; } = ImmutableList2<Page>.Empty;
 

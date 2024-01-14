@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using CandyKingdom.Marcy.Immutables;
+using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Content;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,40 +17,24 @@ public sealed class SiteMapController : Controller
     }
 
     [HttpGet("/sitemap.xml")]
-    public async Task<IActionResult> SitemapXml()
+    public async Task<IActionResult> SitemapXml(CancellationToken cancellationToken = default)
     {
-        var urlBases = new List<string>()
+        List<string> urlBases = [];
+
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
-            $"",
-            $"/about",
-            $"/projects",
-        };
+            var pageUrls = await context.Pages
+                .Where(x => x.PublishStatus == PublishStatus.Published)
+                .Select(x => x.Url)
+                .ToListAsync(cancellationToken);
 
-        using (var context = _contextFactory.CreateDbContext())
-        {
-            // var projects = await context.Projects
-            //     .Where(x => x.Page.PublishStatus == PublishStatus.Published)
-            //     .Select(x => new { x.Page.RouteName, })
-            //     .ToListAsync();
-
-            // var projectCategories = await context.ProjectCategories
-            //     .Select(x => new { x.RouteName, })
-            //     .ToListAsync();
-
-            // projects.ForEach(x =>
-            //     urlBases.Add($"/projects/{x.RouteName}")
-            // );
-
-            // projectCategories.ForEach(x =>
-            //  urlBases.Add($"/areas/{x.RouteName}")
-            // );
+            urlBases.AddRange(pageUrls);
         }
 
         var host = Request.Scheme + "://" + Request.Host;
 
         var mainLanguage = "en";
         var altLanguages = new string[] { "ru" };
-
 
         var items = urlBases
         .Select

@@ -19,7 +19,7 @@ where TDbContext : DbContext, IMarcyCmsDbContext
         throw new NotImplementedException();
     }
 
-    public Task<ResultOrError<ImmutableList2<SettingGroup>>> GetGroupsAsync(IEnumerable<Guid>? ids, CancellationToken cancellationToken = default)
+    public Task<ResultOrError<ImmutableList2<SettingGroup>>> GetGroupsAsync(IEnumerable<Guid>? ids = null, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

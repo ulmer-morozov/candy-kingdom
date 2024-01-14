@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.MarcyCms;
+﻿namespace CandyKingdom.Marcy.Pages;
 
 public enum PublishStatus
 {

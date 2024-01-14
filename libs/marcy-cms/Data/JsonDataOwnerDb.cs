@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace CandyKingdom.MarcyCms.Data;
 
-public abstract class JsonDataOwner<TData>
+public abstract class JsonDataOwnerDb<TData>
 {
     public string DataJson { get; protected set; } = "";
 
