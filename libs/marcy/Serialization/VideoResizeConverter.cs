@@ -112,6 +112,7 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
                 var fileSrcDict = await _videoUploader.ConvertAndStore(
                   videoStream.Value,
                   notCachedSetups,
+                  _videoConvertParameters,
                   SetCache,
                   cancellationToken
                 );
