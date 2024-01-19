@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Storage;
+namespace CandyKingdom.Marcy.Storage;
 
 public sealed class LocalFileStorage : IFileStorage
 {
@@ -13,20 +13,22 @@ public sealed class LocalFileStorage : IFileStorage
 
     public async Task<StoredFile> Store(
       Stream stream,
-      string filename,
+      string name,
       string mimeType,
       CancellationToken cancellationToken = default
     )
     {
         if (!Directory.Exists(_outputDir))
+        {
             Directory.CreateDirectory(_outputDir);
+        }
 
-        var filePath = Path.Combine(_outputDir, filename);
+        var filePath = Path.Combine(_outputDir, name);
 
         await using var fileStream = File.Create(filePath);
         await stream.CopyToAsync(fileStream, cancellationToken);
 
-        var file = new StoredFile { Url = $"{_urlPrefix}{filename}" };
+        var file = new StoredFile { Url = $"{_urlPrefix}{name}" };
         return file;
     }
 }

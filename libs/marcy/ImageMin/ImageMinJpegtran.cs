@@ -1,5 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Utilities;
 
@@ -18,25 +19,25 @@ public sealed class ImageMinJpegtran : ImageMinBinVendor<ImageMinJpegtranOptions
           executableNames:
           [
         new OsDependendName("jpegtran", OSPlatform.OSX, x64: true),
-        new OsDependendName("jpegtran", OSPlatform.Linux, x64: true),
-        new OsDependendName("jpegtran.exe", OSPlatform.Windows, x64: true),
+              new OsDependendName("jpegtran", OSPlatform.Linux, x64: true),
+              new OsDependendName("jpegtran.exe", OSPlatform.Windows, x64: true),
           ],
           sources:
           [
         new OsDependendSource($"{BaseUrl}macos/jpegtran", "jpegtran", OSPlatform.OSX, x64: true),
-        new OsDependendSource(
+              new OsDependendSource(
           $"{BaseUrl}linux/x64/jpegtran",
           "jpegtran",
           OSPlatform.Linux,
           x64: true
         ),
-        new OsDependendSource(
+              new OsDependendSource(
           $"{BaseUrl}win/x64/jpegtran.exe",
           "jpegtran.exe",
           OSPlatform.Windows,
           x64: true
         ),
-        new OsDependendSource(
+              new OsDependendSource(
           $"{BaseUrl}win/x64/libjpeg-62.dll",
           "libjpeg-62.dll",
           OSPlatform.Windows,
@@ -58,10 +59,12 @@ public sealed class ImageMinJpegtran : ImageMinBinVendor<ImageMinJpegtranOptions
         var args = new List<string> { "-outfile", $"\"{output}\"" };
 
         if (options.Progressive)
+        {
             args.Add("-progressive");
+        }
 
         args.Add(input);
 
-        return args.ToImmutableList();
+        return [.. args];
     }
 }

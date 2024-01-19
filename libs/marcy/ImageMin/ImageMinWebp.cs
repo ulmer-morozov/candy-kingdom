@@ -1,5 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Utilities;
 
@@ -18,14 +19,14 @@ public sealed class ImageMinWebp : ImageMinBinVendor<ImageMinWebpOptions>
           executableNames:
           [
           new OsDependendName("cwebp.exe", OSPlatform.Windows, x64: true),
-          new OsDependendName("cwebp", OSPlatform.OSX, x64: true),
-          new OsDependendName("cwebp", OSPlatform.Linux, x64: true)
+              new OsDependendName("cwebp", OSPlatform.OSX, x64: true),
+              new OsDependendName("cwebp", OSPlatform.Linux, x64: true)
           ],
           sources:
           [
           new OsDependendSource($"{BaseUrl}osx/cwebp", "cwebp", OSPlatform.OSX, x64: true),
-          new OsDependendSource($"{BaseUrl}linux/x64/cwebp", "cwebp", OSPlatform.Linux, x64: true),
-          new OsDependendSource(
+              new OsDependendSource($"{BaseUrl}linux/x64/cwebp", "cwebp", OSPlatform.Linux, x64: true),
+              new OsDependendSource(
             $"{BaseUrl}win/x64/cwebp.exe",
             "cwebp.exe",
             OSPlatform.Windows,
@@ -53,10 +54,12 @@ public sealed class ImageMinWebp : ImageMinBinVendor<ImageMinWebpOptions>
         }
 
         if (options.Quiet)
+        {
             args.Add("-quiet");
+        }
 
         args.Add(input);
 
-        return args.ToImmutableList();
+        return [.. args];
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
+
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Utilities;
 
@@ -22,14 +23,14 @@ public abstract class ImageMinBinVendor<T> : ImageMinVendor
       : base(name)
     {
         _defaultOptions = defaultOptions ?? throw new ArgumentNullException(nameof(defaultOptions));
-        _validFormats = validFormats?.ToImmutableList() ?? ImmutableList<ImageFormat>.Empty;
+        _validFormats = validFormats?.ToImmutableList() ?? [];
         _executable = executable;
     }
 
     public override bool CanBeApplyed(string format)
     {
         var canBeApplyed = _validFormats.Any(
-          x => string.Equals(x.Extension, format, StringComparison.InvariantCultureIgnoreCase)
+          x => string.Equals(x.Extension, format, StringComparison.OrdinalIgnoreCase)
         );
         return canBeApplyed;
     }
@@ -45,22 +46,23 @@ public abstract class ImageMinBinVendor<T> : ImageMinVendor
         output = Path.GetFullPath(output);
 
         if (!File.Exists(input))
+        {
             throw new Exception($"Невозможно минифицировать. Файл не найден: {input}");
+        }
 
         var args = GetArgs(input, output, options);
 
         await _executable.Run(args, cancellationToken);
 
         if (!File.Exists(output))
+        {
             throw new Exception($"Файл не минифицирован: {output}");
+        }
     }
 
     public override Task Minify(
       string input,
       string output,
       CancellationToken cancellationToken = default
-    )
-    {
-        return Minify(input, output, _defaultOptions, cancellationToken);
-    }
+    ) => Minify(input, output, _defaultOptions, cancellationToken);
 }

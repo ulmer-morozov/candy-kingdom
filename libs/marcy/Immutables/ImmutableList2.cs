@@ -1,21 +1,20 @@
-﻿// By ryanholden8
+// By ryanholden8
 // https://stackoverflow.com/questions/63813872/record-types-with-collection-properties-collections-with-value-semantics
 
 using System.Collections;
 using System.Collections.Immutable;
-
-namespace CandyKingdom.Marcy.Immutables;
-
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
 
+namespace CandyKingdom.Marcy.Immutables;
 [JsonConverter(typeof(JsonConverterForImmutableList2Factory))]
 public sealed class ImmutableList2<T> : IEquatable<ImmutableList2<T>>, IEnumerable, IEnumerable<T>
 {
     private readonly ImmutableList<T> _list;
 
-    public ImmutableList2(ImmutableList<T> list) => _list = list;
+    public ImmutableList2(ImmutableList<T> list)
+    {
+        _list = list;
+    }
 
     #region ImmutableList Implementation
 
@@ -68,7 +67,7 @@ public sealed class ImmutableList2<T> : IEquatable<ImmutableList2<T>>, IEnumerab
 
     public bool IsEmpty => _list.IsEmpty;
 
-    public static ImmutableList2<T> Empty = new(ImmutableList<T>.Empty);
+    public static ImmutableList2<T> Empty = new([]);
 
     #endregion
 
@@ -96,7 +95,7 @@ public sealed class ImmutableList2<T> : IEquatable<ImmutableList2<T>>, IEnumerab
     {
         unchecked
         {
-            return _list.Aggregate(19, (h, i) => h * 19 + i!.GetHashCode());
+            return _list.Aggregate(19, (h, i) => (h * 19) + i!.GetHashCode());
         }
     }
 

@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Skeleton;
+namespace CandyKingdom.Marcy.Skeleton;
 
 public interface IHaveDataRouteWithData<T> : IHaveDataRoute
   where T : class

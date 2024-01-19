@@ -1,5 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Text.Json;
+
 using CandyKingdom.Marcy.ImageTools;
 
 namespace CandyKingdom.Marcy.Serialization;

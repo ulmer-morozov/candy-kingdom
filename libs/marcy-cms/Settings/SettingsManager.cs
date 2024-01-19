@@ -1,5 +1,6 @@
-﻿using CandyKingdom.Marcy;
+using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace CandyKingdom.MarcyCms.Settings;
@@ -14,18 +15,9 @@ where TDbContext : DbContext, IMarcyCmsDbContext
         _contextFactory = contextFactory;
     }
 
-    public Task<ResultOrError> UpdateAsync(IEnumerable<Setting> settings, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<ResultOrError> UpdateAsync(IEnumerable<Setting> settings, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public Task<ResultOrError<ImmutableList2<SettingGroup>>> GetGroupsAsync(IEnumerable<Guid>? ids = null, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<ResultOrError<ImmutableList2<SettingGroup>>> GetGroupsAsync(IEnumerable<Guid>? ids = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public Task<ResultOrError> StoreAsync(SettingGroup group, bool deep = false, bool @override = true, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<ResultOrError> StoreAsync(SettingGroup group, bool deep = false, bool @override = true, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

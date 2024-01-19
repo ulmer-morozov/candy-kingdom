@@ -1,8 +1,10 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Drawing;
+
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.MarcyCms.Sample.Core;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,10 +28,14 @@ public class AdminUploadVideoController : Controller
     public async Task<ActionResult<FileSrc<ImageMeta>>> UploadRawVideo([FromForm] IFormFile file, CancellationToken cancellationToken = default)
     {
         if (file == null)
+        {
             return BadRequest("Field \"file\": cannot be empty");
+        }
 
         if (file.Length <= 0)
+        {
             return BadRequest("Field \"file\": stream cannot have zero length");
+        }
 
         var videoStream = file.OpenReadStream();
 
@@ -49,10 +55,14 @@ public class AdminUploadVideoController : Controller
     public async Task<ActionResult<FileSrc<ImageMeta>>> UploadSingleVideo([FromForm] IFormFile file, [FromForm] int width = 0, [FromForm] int height = 0, string format = "", CancellationToken cancellationToken = default)
     {
         if (file == null)
+        {
             return BadRequest("Field \"file\": cannot be empty");
+        }
 
         if (file.Length <= 0)
+        {
             return BadRequest("Field \"file\": stream cannot have zero length");
+        }
 
         var videoStream = file.OpenReadStream();
 
@@ -78,10 +88,14 @@ public class AdminUploadVideoController : Controller
     public async Task<ActionResult<IEnumerable<FileSrc<VideoMeta>>>> UploadVideo([FromForm] IFormFile file, bool removeAudio = false, CancellationToken cancellationToken = default)
     {
         if (file == null)
+        {
             return BadRequest("Field \"file\": cannot be empty");
+        }
 
         if (file.Length <= 0)
+        {
             return BadRequest("Field \"file\": stream cannot have zero length");
+        }
 
         var videoStream = file.OpenReadStream();
 
@@ -122,7 +136,7 @@ public class AdminUploadVideoController : Controller
             .SelectMany(
                 f =>
                     widths.Select(
-                        w => new VideoSetup { Format = f, Size = new System.Drawing.Size(w, 0) }
+                        w => new VideoSetup { Format = f, Size = new Size(w, 0) }
                     )
             )
             .ToImmutableList();

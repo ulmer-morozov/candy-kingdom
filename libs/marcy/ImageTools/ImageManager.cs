@@ -1,4 +1,5 @@
-﻿using CandyKingdom.Marcy.Utilities;
+using CandyKingdom.Marcy.Utilities;
+
 using NetVips;
 
 namespace CandyKingdom.Marcy.ImageTools;
@@ -8,14 +9,18 @@ public sealed class ImageManager : IImageManager
     public bool HasTransparency(Stream imageStream)
     {
         if (imageStream.CanSeek)
+        {
             imageStream.Seek(0, SeekOrigin.Begin);
+        }
 
         using var image = NetVips.Image.NewFromStream(imageStream, access: Enums.Access.Random);
 
         var hasAlphaChannel = image.BandExists(3);
 
         if (!hasAlphaChannel)
+        {
             return false;
+        }
 
         var bands = image.Bandsplit();
         var alphaBand = bands[3];
@@ -26,6 +31,7 @@ public sealed class ImageManager : IImageManager
         using var resizedAlphaBand = alphaBand.Resize(scale);
 
         for (var j = 0; j < resizedAlphaBand.Height; j++)
+        {
             for (var i = 0; i < resizedAlphaBand.Width; i++)
             {
                 var pixel = resizedAlphaBand.Getpoint(i, j);
@@ -33,8 +39,11 @@ public sealed class ImageManager : IImageManager
                 var a = pixel[0];
 
                 if (a < 255)
+                {
                     return true;
+                }
             }
+        }
 
         return false;
     }

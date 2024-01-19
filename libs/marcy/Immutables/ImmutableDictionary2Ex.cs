@@ -1,4 +1,4 @@
-﻿// By ryanholden8
+// By ryanholden8
 // https://stackoverflow.com/questions/63813872/record-types-with-collection-properties-collections-with-value-semantics
 
 using System.Collections.Immutable;

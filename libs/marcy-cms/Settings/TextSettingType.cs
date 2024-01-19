@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.MarcyCms.Settings;
+namespace CandyKingdom.MarcyCms.Settings;
 
 public enum TextSettingType
 {

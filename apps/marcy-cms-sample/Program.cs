@@ -1,7 +1,9 @@
-﻿using Autofac.Extensions.DependencyInjection;
+using Autofac.Extensions.DependencyInjection;
+
 using CandyKingdom.MarcyCms.Sample;
 using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Sample.Data;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -107,7 +109,7 @@ app.Run();
 
 namespace CandyKingdom.MarcyCms.Sample
 {
-    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    internal sealed record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
     {
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }

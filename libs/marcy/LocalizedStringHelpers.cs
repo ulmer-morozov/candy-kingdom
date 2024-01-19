@@ -1,4 +1,4 @@
-﻿using System.Text.Encodings.Web;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 
@@ -24,13 +24,7 @@ public static class LocalizedStringHelpers
         return options;
     }
 
-    public static string ToJson(this LocalizedString ls, JsonSerializerOptions? options = null)
-    {
-        return JsonSerializer.Serialize(ls, options ?? DefaultSerializerOptions);
-    }
+    public static string ToJson(this LocalizedString ls, JsonSerializerOptions? options = null) => JsonSerializer.Serialize(ls, options ?? DefaultSerializerOptions);
 
-    public static LocalizedString FromJson(string lsJson, JsonSerializerOptions? options = null)
-    {
-        return JsonSerializer.Deserialize<LocalizedString>(lsJson, options ?? DefaultSerializerOptions) ?? LocalizedString.Empty;
-    }
+    public static LocalizedString FromJson(string lsJson, JsonSerializerOptions? options = null) => JsonSerializer.Deserialize<LocalizedString>(lsJson, options ?? DefaultSerializerOptions) ?? LocalizedString.Empty;
 }

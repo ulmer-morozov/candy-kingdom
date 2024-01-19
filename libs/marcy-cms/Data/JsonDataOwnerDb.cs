@@ -10,8 +10,9 @@ public abstract class JsonDataOwnerDb<TData>
         where T : TData, new()
     {
         if (string.IsNullOrWhiteSpace(DataJson))
+        {
             return new T();
-
+        }
 
         options ??= SerializerOptions;
         var obj = JsonSerializer.Deserialize<T>(DataJson, options);

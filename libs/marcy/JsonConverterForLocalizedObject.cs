@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -45,10 +45,7 @@ public sealed class JsonConverterForLocalizedObjectFactory : JsonConverterFactor
             Utf8JsonWriter writer,
             LocalizedObject<T> value,
             JsonSerializerOptions options
-        )
-        {
-            JsonSerializer.Serialize(writer, value.Localizations, options);
-        }
+        ) => JsonSerializer.Serialize(writer, value.Localizations, options);
     }
 }
 

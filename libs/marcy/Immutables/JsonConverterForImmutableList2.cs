@@ -1,14 +1,12 @@
-﻿// By ryanholden8
+// By ryanholden8
 // https://stackoverflow.com/questions/63813872/record-types-with-collection-properties-collections-with-value-semantics
 
-namespace CandyKingdom.Marcy.Immutables;
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+namespace CandyKingdom.Marcy.Immutables;
 public sealed class JsonConverterForImmutableList2Factory : JsonConverterFactory
 {
     public override bool CanConvert(Type typeToConvert) =>
@@ -33,7 +31,7 @@ public sealed class JsonConverterForImmutableList2Factory : JsonConverterFactory
         return converter;
     }
 
-    private class JsonConverterForImmutableList2<T> : JsonConverter<ImmutableList2<T>>
+    private sealed class JsonConverterForImmutableList2<T> : JsonConverter<ImmutableList2<T>>
     {
         public override ImmutableList2<T> Read(
           ref Utf8JsonReader reader,
@@ -69,9 +67,6 @@ public sealed class JsonConverterForImmutableList2Factory : JsonConverterFactory
           Utf8JsonWriter writer,
           ImmutableList2<T> value,
           JsonSerializerOptions options
-        )
-        {
-            JsonSerializer.Serialize(writer, value.AsEnumerable(), options);
-        }
+        ) => JsonSerializer.Serialize(writer, value.AsEnumerable(), options);
     }
 }

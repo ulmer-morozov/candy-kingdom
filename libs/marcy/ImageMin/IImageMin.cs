@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.ImageMin;
+namespace CandyKingdom.Marcy.ImageMin;
 
 public interface IImageMin
 {

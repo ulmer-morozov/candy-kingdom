@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.ImageMin;
+namespace CandyKingdom.Marcy.ImageMin;
 
 public sealed class ImageMinGuetzliOptions
 {
@@ -8,7 +8,9 @@ public sealed class ImageMinGuetzliOptions
     public ImageMinGuetzliOptions(uint quality = 0, uint memoryLimit = 0)
     {
         if (quality > 100)
+        {
             throw new ArgumentException("Качество не может быть больше 100", nameof(quality));
+        }
 
         Quality = quality;
         MemoryLimit = memoryLimit;

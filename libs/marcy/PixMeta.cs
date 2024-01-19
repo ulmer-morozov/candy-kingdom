@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy;
+namespace CandyKingdom.Marcy;
 
 public record PixMeta : FileMeta
 {

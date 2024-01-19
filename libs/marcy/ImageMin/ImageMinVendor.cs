@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.ImageMin;
+namespace CandyKingdom.Marcy.ImageMin;
 
 public abstract class ImageMinVendor
 {
@@ -30,12 +30,14 @@ public abstract class ImageMinVendor
 
         var tempFilePath = Path.Combine(tempDirPath, tempFileName);
 
-        await Minify(input, tempFilePath);
+        await Minify(input, tempFilePath, cancellationToken);
 
         var ms = new MemoryStream();
 
         await using (var file = new FileStream(tempFilePath, FileMode.Open, FileAccess.Read))
+        {
             await file.CopyToAsync(ms, cancellationToken);
+        }
 
         File.Delete(tempFilePath);
         return ms;

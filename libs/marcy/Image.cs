@@ -1,4 +1,4 @@
-﻿using CandyKingdom.Marcy.Immutables;
+using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
 

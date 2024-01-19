@@ -1,4 +1,4 @@
-﻿using CandyKingdom.Marcy.Immutables;
+using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.Marcy.Pages;

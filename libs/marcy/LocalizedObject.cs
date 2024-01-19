@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
+
 using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
@@ -32,13 +33,12 @@ public record LocalizedObject<T>
     public T Get(string lang, T defaultValue)
     {
         if (!Localizations.ContainsKey(lang))
+        {
             return defaultValue;
+        }
 
         return Localizations[lang];
     }
 
-    public bool IsEmpty()
-    {
-        return !Localizations.Any();
-    }
+    public bool IsEmpty() => Localizations.IsEmpty;
 }

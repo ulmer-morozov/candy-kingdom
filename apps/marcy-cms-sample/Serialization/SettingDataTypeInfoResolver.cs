@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+
 using CandyKingdom.MarcyCms.Sample.Bones;
 using CandyKingdom.MarcyCms.Settings;
 
@@ -10,9 +11,9 @@ public sealed class SettingDataTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
-        JsonTypeInfo jsonTypeInfo = base.GetTypeInfo(type, options);
+        var jsonTypeInfo = base.GetTypeInfo(type, options);
 
-        Type baseBoneType = typeof(SettingData);
+        var baseBoneType = typeof(SettingData);
 
         if (jsonTypeInfo.Type == baseBoneType)
         {

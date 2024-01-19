@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Storage;
+namespace CandyKingdom.Marcy.Storage;
 
 public sealed record S3FileStorageConfig : ConfigurationBase
 {

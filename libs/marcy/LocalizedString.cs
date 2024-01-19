@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
+
 using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
@@ -43,21 +44,22 @@ public sealed record LocalizedString : LocalizedObject<string>
         return new LocalizedString(combinedLocalizations);
     }
 
-    public static LocalizedString Combine(char delimiter, bool trim, params LocalizedString[] strings)
-    {
-        return strings.Aggregate(
+    public static LocalizedString Combine(char delimiter, bool trim, params LocalizedString[] strings) => strings.Aggregate(
           Empty,
           (total, next) => Combine(total, next, delimiter: delimiter, trim: trim)
         );
-    }
 
     private static string Combine(string s1, string s2, char delimiter, bool trim)
     {
         if (string.IsNullOrEmpty(s1))
+        {
             return s2;
+        }
 
         if (string.IsNullOrEmpty(s2))
+        {
             return s1;
+        }
 
         var result = trim
           ? $"{s1.TrimEnd(delimiter)}{delimiter}{s2.TrimStart(delimiter)}"

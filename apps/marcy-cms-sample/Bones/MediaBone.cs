@@ -1,4 +1,4 @@
-﻿using CandyKingdom.Marcy;
+using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.MarcyCms.Sample.Bones;

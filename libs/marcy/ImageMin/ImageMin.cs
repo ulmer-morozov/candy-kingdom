@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
 namespace CandyKingdom.Marcy.ImageMin;
 
@@ -11,7 +11,7 @@ public sealed class ImageMin : IImageMin
 
     public ImageMin(IEnumerable<ImageMinVendor> vendors)
     {
-        _vendors = vendors?.ToImmutableList() ?? ImmutableList<ImageMinVendor>.Empty;
+        _vendors = vendors?.ToImmutableList() ?? [];
     }
 
     public async Task<MemoryStream> Minify(
@@ -34,7 +34,9 @@ public sealed class ImageMin : IImageMin
         foreach (var vendor in _vendors)
         {
             if (!vendor.CanBeApplyed(format))
+            {
                 continue;
+            }
 
             var minifiedImageStream = await vendor.Minify(tempFilePath, cancellationToken);
 
@@ -77,7 +79,9 @@ public sealed class ImageMin : IImageMin
         var tempFilePath = Path.Combine(tempDirPath, tempFileName);
 
         await using (var fileStream = new FileStream(tempFilePath, FileMode.CreateNew))
+        {
             await sourceStream.CopyToAsync(fileStream, cancellationToken);
+        }
 
         sourceStream.Seek(0, SeekOrigin.Begin);
         return tempFilePath;

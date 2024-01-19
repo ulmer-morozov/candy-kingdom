@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
+
 using CandyKingdom.Marcy.Utilities;
+
 using FFmpeg.NET;
 using FFmpeg.NET.Enums;
 
@@ -7,7 +9,7 @@ namespace CandyKingdom.Marcy.ImageTools;
 
 public sealed class VideoManager : IVideoManager
 {
-    private readonly string? _ffmpegPath = null;
+    private readonly string? _ffmpegPath;
 
     public async Task<TempVideoFile> AnalyseMp4(
       Stream sourceStream,
@@ -49,15 +51,9 @@ public sealed class VideoManager : IVideoManager
 
         var ffmpeg = new Engine(_ffmpegPath);
 
-        ffmpeg.Progress += (_, ev) =>
-        {
-            Console.WriteLine($"{ev.ProcessedDuration} of {ev.TotalDuration}");
-        };
+        ffmpeg.Progress += (_, ev) => Console.WriteLine($"{ev.ProcessedDuration} of {ev.TotalDuration}");
 
-        ffmpeg.Error += (_, ev) =>
-        {
-            throw new Exception($"{ev.Exception}\n\n{ev.Input}\n\n{ev.Output}");
-        };
+        ffmpeg.Error += (_, ev) => throw new Exception($"{ev.Exception}\n\n{ev.Input}\n\n{ev.Output}");
 
         foreach (var setup in setups)
         {
@@ -93,10 +89,14 @@ public sealed class VideoManager : IVideoManager
             }
 
             if (finalWidth % 2 != 0)
+            {
                 finalWidth--;
+            }
 
             if (finalHeight % 2 != 0)
+            {
                 finalHeight--;
+            }
 
             if (needCrop)
             {
@@ -150,10 +150,14 @@ public sealed class VideoManager : IVideoManager
     private static VideoFormat GetVideoFormat(string format)
     {
         if (format.StartsWith("h264"))
+        {
             return VideoFormat.Mp4;
+        }
 
         if (format.StartsWith("vp8") || format.StartsWith("vp9"))
+        {
             return VideoFormat.WebM;
+        }
 
         throw new NotImplementedException($"Unknown format {format}");
     }

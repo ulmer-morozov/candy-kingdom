@@ -1,8 +1,10 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Drawing;
+
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.MarcyCms.Sample.Core;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,10 +28,14 @@ public sealed class AdminUploadImageController : Controller
     public async Task<ActionResult<FileSrc<ImageMeta>>> UploadRawImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
     {
         if (file == null)
+        {
             return BadRequest("Field \"file\": cannot be empty");
+        }
 
         if (file.Length <= 0)
+        {
             return BadRequest("Field \"file\": stream cannot have zero length");
+        }
 
         using var imageMemoryStream = new MemoryStream();
 
@@ -61,10 +67,14 @@ public sealed class AdminUploadImageController : Controller
     public async Task<ActionResult<FileSrc<ImageMeta>>> UploadSingleImage([FromForm] IFormFile file, [FromForm] int width = 0, [FromForm] int height = 0, string format = "", CancellationToken cancellationToken = default)
     {
         if (file == null)
+        {
             return BadRequest("Field \"file\": cannot be empty");
+        }
 
         if (file.Length <= 0)
+        {
             return BadRequest("Field \"file\": stream cannot have zero length");
+        }
 
         using var imageMemoryStream = new MemoryStream();
 
@@ -98,10 +108,14 @@ public sealed class AdminUploadImageController : Controller
     public async Task<ActionResult<IEnumerable<FileSrc<ImageMeta>>>> UploadImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
     {
         if (file == null)
+        {
             return BadRequest("Field \"file\": cannot be empty");
+        }
 
         if (file.Length <= 0)
+        {
             return BadRequest("Field \"file\": stream cannot have zero length");
+        }
 
         using var imageMemoryStream = new MemoryStream();
 
@@ -147,7 +161,7 @@ public sealed class AdminUploadImageController : Controller
             .SelectMany(
                 f =>
                     widths.Select(
-                        w => new ImageSetup { Format = f, Size = new System.Drawing.Size(w, 0) }
+                        w => new ImageSetup { Format = f, Size = new Size(w, 0) }
                     )
             )
             .ToImmutableList();

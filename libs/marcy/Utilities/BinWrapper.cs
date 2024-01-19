@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -25,31 +25,34 @@ public sealed class BinWrapper
         Sources =
           sources as ImmutableList<OsDependendSource>
           ?? sources?.ToImmutableList()
-          ?? ImmutableList<OsDependendSource>.Empty;
+          ?? [];
 
         ExecutableNames =
           executableNames as ImmutableList<OsDependendName>
           ?? executableNames?.ToImmutableList()
-          ?? ImmutableList<OsDependendName>.Empty;
+          ?? [];
 
         if (Sources.IsEmpty)
+        {
             throw new ArgumentException("Не может быть пустым", nameof(sources));
+        }
 
         if (ExecutableNames.IsEmpty)
+        {
             throw new ArgumentException("Не может быть пустым", nameof(executableNames));
+        }
     }
 
-    public Task Run(IEnumerable<string> args, CancellationToken cancellationToken = default)
-    {
-        return Run(cancellationToken, args.ToArray());
-    }
+    public Task Run(IEnumerable<string> args, CancellationToken cancellationToken = default) => Run(cancellationToken, args.ToArray());
 
     public async Task Run(CancellationToken cancellationToken = default, params string[] args)
     {
         var executableFile = GetExecutable();
 
         if (!executableFile.Exists)
+        {
             await DownloadExecutable();
+        }
 
         var argumentString = string.Join(" ", args);
 
@@ -69,10 +72,7 @@ public sealed class BinWrapper
         await process.WaitForExitAsync(cancellationToken);
     }
 
-    public Task DownloadExecutable()
-    {
-        return DownloadExecutable(CurrentPlatform, Is64Bit);
-    }
+    public Task DownloadExecutable() => DownloadExecutable(CurrentPlatform, Is64Bit);
 
     public async Task DownloadExecutable(OSPlatform platform, bool x64)
     {
@@ -80,12 +80,16 @@ public sealed class BinWrapper
 
         // создадим директорию
         if (executableFile.Directory != null && !executableFile.Directory.Exists)
+        {
             executableFile.Directory.Create();
+        }
 
         var relatedSources = GetSources(platform, x64);
 
         foreach (var relatedSource in relatedSources)
+        {
             await Download(relatedSource);
+        }
     }
 
     private async Task Download(OsDependendSource source)
@@ -103,10 +107,7 @@ public sealed class BinWrapper
         Chmod(755, filePath);
     }
 
-    public FileInfo GetExecutable()
-    {
-        return GetExecutable(CurrentPlatform, Is64Bit);
-    }
+    public FileInfo GetExecutable() => GetExecutable(CurrentPlatform, Is64Bit);
 
     public FileInfo GetExecutable(OSPlatform platform, bool x64)
     {
@@ -123,13 +124,19 @@ public sealed class BinWrapper
         get
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
                 return OSPlatform.Windows;
+            }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
                 return OSPlatform.OSX;
+            }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
                 return OSPlatform.Linux;
+            }
 
             // if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
             //     return OSPlatform.FreeBSD;
@@ -144,8 +151,10 @@ public sealed class BinWrapper
           .Where(x => x.Platform == platform && x.x64 == x64)
           .ToImmutableList();
 
-        if (!validSources.Any())
+        if (validSources.IsEmpty)
+        {
             throw new Exception($"Для платформы {platform} x64={x64} Не найдено {nameof(Sources)}");
+        }
 
         return validSources;
     }
@@ -156,15 +165,19 @@ public sealed class BinWrapper
           .Where(x => x.Platform == platform && x.x64 == x64)
           .ToImmutableList();
 
-        if (!validNames.Any())
+        if (validNames.IsEmpty)
+        {
             throw new Exception(
               $"Для платформы {platform} x64={x64} Не найдено {nameof(ExecutableNames)}"
             );
+        }
 
         if (validNames.Count > 1)
+        {
             throw new Exception(
               $"Для платформы {platform} x64={x64} Найдено несколько {nameof(ExecutableNames)}: {string.Join(", ", ExecutableNames.Select(x => x.Name))}"
             );
+        }
 
         var osDependendName = validNames.Single();
         return osDependendName.Name;
@@ -173,7 +186,9 @@ public sealed class BinWrapper
     private static void Chmod(uint flag, string file)
     {
         if (CurrentPlatform == OSPlatform.Windows)
+        {
             return;
+        }
 
         Exec($"chmod {flag} \"{file}\"");
     }

@@ -1,6 +1,7 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+
 using CandyKingdom.Marcy.Utilities;
 
 namespace CandyKingdom.Marcy.Serialization;
@@ -28,13 +29,12 @@ public static class UseFileCacheExtensions
         var filePath = Path.Combine(instance.CacheDir.FullName, fileName);
 
         if (!File.Exists(filePath))
+        {
             return default;
+        }
 
         var jsonData = await File.ReadAllTextAsync(filePath, cancellationToken);
-        var data = JsonSerializer.Deserialize<T>(jsonData);
-
-        if (data == null)
-            throw new Exception($"Cannot deserialize {nameof(T)} from {filePath}");
+        var data = JsonSerializer.Deserialize<T>(jsonData) ?? throw new Exception($"Cannot deserialize {nameof(T)} from {filePath}");
 
         return data;
     }
@@ -86,7 +86,9 @@ public static class UseFileCacheExtensions
         );
 
         if (fileCacheInfo != null)
+        {
             return fileCacheInfo;
+        }
 
         var imageHash = await streamClone.Value.CalcMd5AsBase62Async(cancellationToken);
 

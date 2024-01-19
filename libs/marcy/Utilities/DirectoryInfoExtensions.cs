@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Utilities;
+namespace CandyKingdom.Marcy.Utilities;
 
 public static class DirectoryInfoExtensions
 {

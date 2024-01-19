@@ -1,15 +1,11 @@
-﻿// By ryanholden8
+// By ryanholden8
 // https://stackoverflow.com/questions/63813872/record-types-with-collection-properties-collections-with-value-semantics
 
 using System.Collections;
 using System.Collections.Immutable;
-
-namespace CandyKingdom.Marcy.Immutables;
-
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
 
+namespace CandyKingdom.Marcy.Immutables;
 [JsonConverter(typeof(JsonConverterForImmutableDictionary2Factory))]
 public sealed class ImmutableDictionary2<TKey, TValue>
   : IEquatable<ImmutableDictionary2<TKey, TValue>>,
@@ -20,8 +16,10 @@ public sealed class ImmutableDictionary2<TKey, TValue>
 {
     private readonly ImmutableDictionary<TKey, TValue> _dictionary;
 
-    public ImmutableDictionary2(ImmutableDictionary<TKey, TValue> dictionary) =>
-      _dictionary = dictionary;
+    public ImmutableDictionary2(ImmutableDictionary<TKey, TValue> dictionary)
+    {
+        _dictionary = dictionary;
+    }
 
     #region ImmutableArray Implementation
 
@@ -95,7 +93,7 @@ public sealed class ImmutableDictionary2<TKey, TValue>
         {
             return _dictionary.Aggregate(
               19,
-              (h, i) => h * 19 + i.Key.GetHashCode() + (i.Value?.GetHashCode() ?? 0)
+              (h, i) => (h * 19) + i.Key.GetHashCode() + (i.Value?.GetHashCode() ?? 0)
             );
         }
     }

@@ -1,4 +1,5 @@
 using CandyKingdom.Marcy;
+
 using Microsoft.Extensions.Logging;
 
 namespace CandyKingdom.MarcyCms;

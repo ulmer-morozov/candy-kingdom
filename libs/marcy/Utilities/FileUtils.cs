@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Utilities;
+namespace CandyKingdom.Marcy.Utilities;
 
 public static class FileUtils
 {
@@ -21,9 +21,5 @@ public static class FileUtils
         return filePath;
     }
 
-    private static string GetTempPath()
-    {
-        return "";
-        // return Path.GetTempPath();
-    }
+    private static string GetTempPath() => "";// return Path.GetTempPath();
 }

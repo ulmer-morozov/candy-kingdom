@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.ImageTools;
+namespace CandyKingdom.Marcy.ImageTools;
 
 public sealed record ImageFormat : FileFormat
 {

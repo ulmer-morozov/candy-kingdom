@@ -1,4 +1,4 @@
-﻿// By ryanholden8
+// By ryanholden8
 // https://stackoverflow.com/questions/63813872/record-types-with-collection-properties-collections-with-value-semantics
 
 using System.Collections.Immutable;
@@ -50,10 +50,7 @@ public sealed class JsonConverterForImmutableDictionary2Factory : JsonConverterF
 
             // reader.Read();
 
-            var newDict = JsonSerializer.Deserialize<Dictionary<TKey, TValue>>(ref reader, options);
-
-            if (newDict == null)
-                throw new JsonException("Cannot read dict");
+            var newDict = JsonSerializer.Deserialize<Dictionary<TKey, TValue>>(ref reader, options) ?? throw new JsonException("Cannot read dict");
 
             return newDict.ToImmutableDictionary2();
         }

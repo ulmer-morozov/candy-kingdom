@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace CandyKingdom.Marcy.Utilities;
@@ -25,12 +25,16 @@ public static class StreamExtensions
         using var algorythm = MD5.Create();
 
         if (stream is MemoryStream)
+        {
             stream.Seek(0, SeekOrigin.Begin);
+        }
 
         var hashValue = await algorythm.ComputeHashAsync(stream, cancellationToken);
 
         if (stream is MemoryStream)
+        {
             stream.Seek(0, SeekOrigin.Begin);
+        }
 
         var base62 = Base62Encoding.ToString(hashValue);
         return base62;

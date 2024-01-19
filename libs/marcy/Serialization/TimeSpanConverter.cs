@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace CandyKingdom.Marcy.Serialization;
@@ -11,13 +11,7 @@ public sealed class TimeSpanConverter : JsonConverter<TimeSpan>
       ref Utf8JsonReader reader,
       Type typeToConvert,
       JsonSerializerOptions options
-    )
-    {
-        throw new NotImplementedException();
-    }
+    ) => throw new NotImplementedException();
 
-    public override void Write(Utf8JsonWriter writer, TimeSpan value, JsonSerializerOptions options)
-    {
-        writer.WriteNumberValue(value.TotalMilliseconds);
-    }
+    public override void Write(Utf8JsonWriter writer, TimeSpan value, JsonSerializerOptions options) => writer.WriteNumberValue(value.TotalMilliseconds);
 }

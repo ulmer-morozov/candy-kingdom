@@ -1,6 +1,7 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
 using CandyKingdom.Marcy.ImageMin;
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Storage;
@@ -48,15 +49,9 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
       ref Utf8JsonReader reader,
       Type typeToConvert,
       JsonSerializerOptions options
-    )
-    {
-        throw new NotImplementedException("Cannot read");
-    }
+    ) => throw new NotImplementedException("Cannot read");
 
-    public override void Write(Utf8JsonWriter writer, ImageM value, JsonSerializerOptions options)
-    {
-        WriteAsync(writer, value, options).Wait();
-    }
+    public override void Write(Utf8JsonWriter writer, ImageM value, JsonSerializerOptions options) => WriteAsync(writer, value, options).Wait();
 
     private async Task WriteAsync(
       Utf8JsonWriter writer,
@@ -72,7 +67,9 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
             var imageFile = new FileInfo(imageSourceM.Path);
 
             if (!imageFile.Exists)
+            {
                 throw new Exception($"Image file not found: {imageFile.FullName}");
+            }
 
             using var imageStream = new DefferedStreamClone(
               () => new FileStream(imageFile.FullName, FileMode.Open)
@@ -97,14 +94,16 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
                 );
 
                 if (cachedFileSrc == null)
+                {
                     continue;
+                }
 
                 imageSrcDict[setup] = cachedFileSrc;
             }
 
             var notCachedSetups = _setups.Except(imageSrcDict.Keys).ToImmutableList();
 
-            if (notCachedSetups.Any())
+            if (!notCachedSetups.IsEmpty)
             {
                 var fileSrcDict = await _imageUploader.ConvertAndStore(
                   imageStream.Value,

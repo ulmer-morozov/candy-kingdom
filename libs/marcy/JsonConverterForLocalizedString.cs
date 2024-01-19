@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace CandyKingdom.Marcy;
@@ -14,12 +14,7 @@ public sealed class JsonConverterForLocalizedString : JsonConverter<LocalizedStr
         var localizedObjectConcerter =
             (JsonConverter<LocalizedObject<string>>)options.GetConverter(typeof(LocalizedObject<string>));
 
-        var localizedObject = localizedObjectConcerter.Read(ref reader, typeToConvert, options);
-
-        if (localizedObject == null)
-        {
-            throw new JsonException("Localized object cannot be null");
-        }
+        var localizedObject = localizedObjectConcerter.Read(ref reader, typeToConvert, options) ?? throw new JsonException("Localized object cannot be null");
 
         return new LocalizedString(localizedObject.Localizations);
     }

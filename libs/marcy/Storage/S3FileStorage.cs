@@ -1,10 +1,10 @@
-﻿using Amazon.Runtime;
+using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Transfer;
 
 namespace CandyKingdom.Marcy.Storage;
 
-public sealed class S3FileStorage : IFileStorage
+public sealed class S3FileStorage : IFileStorage, IDisposable
 {
     private readonly AmazonS3Client _s3Client;
     private readonly string _bucketName;
@@ -60,4 +60,6 @@ public sealed class S3FileStorage : IFileStorage
 
         return storedFile;
     }
+
+    public void Dispose() => throw new NotImplementedException();
 }

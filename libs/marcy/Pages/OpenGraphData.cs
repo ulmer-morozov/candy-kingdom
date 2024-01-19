@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Pages;
+namespace CandyKingdom.Marcy.Pages;
 
 public sealed record OpenGraphData
 {

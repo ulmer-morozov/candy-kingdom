@@ -1,4 +1,5 @@
-﻿using CandyKingdom.MarcyCms.Data;
+using CandyKingdom.MarcyCms.Data;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace CandyKingdom.MarcyCms;

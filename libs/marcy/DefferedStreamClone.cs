@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy;
+namespace CandyKingdom.Marcy;
 
 public sealed class DefferedStreamClone : IDisposable, IAsyncDisposable
 {
@@ -15,7 +15,9 @@ public sealed class DefferedStreamClone : IDisposable, IAsyncDisposable
         get
         {
             if (_msStream != null)
+            {
                 return _msStream;
+            }
 
             _msStream = new MemoryStream();
 
@@ -28,14 +30,13 @@ public sealed class DefferedStreamClone : IDisposable, IAsyncDisposable
         }
     }
 
-    public void Dispose()
-    {
-        _msStream?.Dispose();
-    }
+    public void Dispose() => _msStream?.Dispose();
 
     public async ValueTask DisposeAsync()
     {
         if (_msStream != null)
+        {
             await _msStream.DisposeAsync();
+        }
     }
 }

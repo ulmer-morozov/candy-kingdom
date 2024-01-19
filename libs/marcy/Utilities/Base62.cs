@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 /*Copyright (c) 2013 Mengye Ren
 https://github.com/renmengye/base62-csharp
@@ -64,7 +64,7 @@ public static class Base62Encoding
             else // Reached the end with some bits left
             {
                 // Padding 0s to make the last bits to 6 bit
-                sb.Append(Base62CodingSpace[read[0] >> 8 - length]);
+                sb.Append(Base62CodingSpace[read[0] >> (8 - length)]);
                 break;
             }
         }
@@ -96,10 +96,14 @@ public static class Base62Encoding
                 // Check if the ending is good
                 var mod = (int)(stream.Position % 8);
                 if (mod == 0)
+                {
                     throw new InvalidDataException("an extra character was found");
+                }
 
-                if (index >> 8 - mod > 0)
+                if (index >> (8 - mod) > 0)
+                {
                     throw new InvalidDataException("invalid ending character was found");
+                }
 
                 stream.Write([(byte)(index << mod)], 0, 8 - mod);
             }

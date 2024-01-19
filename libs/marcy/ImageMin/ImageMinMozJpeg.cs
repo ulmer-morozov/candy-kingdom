@@ -1,5 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Utilities;
 
@@ -18,14 +19,14 @@ public sealed class ImageMinMozJpeg : ImageMinBinVendor<ImageMinMozJpegOptions>
           executableNames:
           [
           new OsDependendName("cjpeg.exe", OSPlatform.Windows, x64: true),
-          new OsDependendName("cjpeg", OSPlatform.OSX, x64: true),
-          new OsDependendName("cjpeg", OSPlatform.Linux, x64: true)
+              new OsDependendName("cjpeg", OSPlatform.OSX, x64: true),
+              new OsDependendName("cjpeg", OSPlatform.Linux, x64: true)
           ],
           sources:
           [
           new OsDependendSource($"{BaseUrl}macos/cjpeg", "cjpeg", OSPlatform.OSX, x64: true),
-          new OsDependendSource($"{BaseUrl}linux/cjpeg", "cjpeg", OSPlatform.Linux, x64: true),
-          new OsDependendSource(
+              new OsDependendSource($"{BaseUrl}linux/cjpeg", "cjpeg", OSPlatform.Linux, x64: true),
+              new OsDependendSource(
             $"{BaseUrl}win/cjpeg.exe",
             "cjpeg.exe",
             OSPlatform.Windows,
@@ -60,6 +61,6 @@ public sealed class ImageMinMozJpeg : ImageMinBinVendor<ImageMinMozJpegOptions>
 
         args.Add(input);
 
-        return args.ToImmutableList();
+        return [.. args];
     }
 }

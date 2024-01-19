@@ -1,5 +1,6 @@
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Core;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +31,9 @@ public class AdminPageController : ControllerBase
         var pageResult = await _pageManager.GetAsync(url, getParams, cancellationToken);
 
         if (!pageResult.IsSuccessful && (CRUDPageErrorCode)pageResult.ErrorCode == CRUDPageErrorCode.NotFound)
+        {
             return NotFound("Page not found");
+        }
 
         if (!pageResult.IsSuccessful)
         {
@@ -48,7 +51,9 @@ public class AdminPageController : ControllerBase
         var pageResult = await _pageManager.StoreAsync(page, cancellationToken);
 
         if (!pageResult.IsSuccessful && (CRUDPageErrorCode)pageResult.ErrorCode == CRUDPageErrorCode.NotFound)
+        {
             return NotFound("Page not found");
+        }
 
         if (!pageResult.IsSuccessful)
         {

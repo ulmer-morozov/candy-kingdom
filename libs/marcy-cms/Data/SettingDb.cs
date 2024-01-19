@@ -1,4 +1,4 @@
-﻿using CandyKingdom.Marcy.Pages;
+using CandyKingdom.Marcy.Pages;
 
 namespace CandyKingdom.MarcyCms.Data;
 

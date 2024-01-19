@@ -1,4 +1,5 @@
-﻿using System.Text;
+using System.Text;
+
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace CandyKingdom.MarcyCms.Sample;

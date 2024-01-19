@@ -1,6 +1,7 @@
-﻿using CandyKingdom.Marcy.Immutables;
+using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Settings;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

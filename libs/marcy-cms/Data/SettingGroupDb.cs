@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.MarcyCms.Data;
+namespace CandyKingdom.MarcyCms.Data;
 
 public sealed class SettingGroupDb
 {

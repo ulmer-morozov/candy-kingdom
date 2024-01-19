@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Utilities;
+namespace CandyKingdom.Marcy.Utilities;
 
 public static class MathUtils
 {
@@ -40,7 +40,7 @@ public static class MathUtils
             needCrop = true;
         }
 
-        float scale =
+        var scale =
           targetWidth != 0
             ? (float)targetWidth / cropWidth
             : targetHeight != 0

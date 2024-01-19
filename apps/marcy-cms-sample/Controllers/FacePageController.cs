@@ -1,4 +1,5 @@
-﻿using CandyKingdom.Marcy.Pages;
+using CandyKingdom.Marcy.Pages;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers;
@@ -30,7 +31,9 @@ public sealed class FacePageController : ControllerBase
          );
 
         if (!pageResult.IsSuccessful && (CRUDPageErrorCode)pageResult.ErrorCode == CRUDPageErrorCode.NotFound)
+        {
             return NotFound("Page not found");
+        }
 
         if (!pageResult.IsSuccessful)
         {

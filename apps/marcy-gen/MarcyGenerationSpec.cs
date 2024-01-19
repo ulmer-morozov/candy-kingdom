@@ -1,5 +1,6 @@
-﻿using CandyKingdom.Marcy;
+using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Skeleton;
+
 using TypeGen.Core.SpecGeneration;
 using TypeGen.Core.TypeAnnotations;
 
@@ -22,8 +23,6 @@ public sealed class MarcyGenerationSpec : GenerationSpec
           .Member("Empty")
           .Ignore()
           .Member(x => nameof(x.En))
-          .Ignore()
-          .Member(x => nameof(x.Ru))
           .Ignore();
 
         AddInterface<Bone>();

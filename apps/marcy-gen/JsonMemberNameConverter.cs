@@ -1,5 +1,6 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Text.Json.Serialization;
+
 using TypeGen.Core.Converters;
 
 namespace CandyKingdom.MarcyGen;

@@ -1,4 +1,4 @@
-﻿using CandyKingdom.Marcy;
+using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Skeleton;
 

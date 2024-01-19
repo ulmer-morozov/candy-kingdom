@@ -1,5 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Utilities;
 
@@ -18,14 +19,14 @@ public sealed class ImageMinGuetzli : ImageMinBinVendor<ImageMinGuetzliOptions>
           executableNames:
           [
           new OsDependendName("guetzli", OSPlatform.OSX, x64: true),
-          new OsDependendName("guetzli", OSPlatform.Linux, x64: true),
-          new OsDependendName("guetzli.exe", OSPlatform.Windows, x64: true)
+              new OsDependendName("guetzli", OSPlatform.Linux, x64: true),
+              new OsDependendName("guetzli.exe", OSPlatform.Windows, x64: true)
           ],
           sources:
           [
           new OsDependendSource($"{BaseUrl}macos/guetzli", "guetzli", OSPlatform.OSX, x64: true),
-          new OsDependendSource($"{BaseUrl}linux/guetzli", "guetzli", OSPlatform.Linux, x64: true),
-          new OsDependendSource(
+              new OsDependendSource($"{BaseUrl}linux/guetzli", "guetzli", OSPlatform.Linux, x64: true),
+              new OsDependendSource(
             $"{BaseUrl}win/guetzli.exe",
             "guetzli.exe",
             OSPlatform.Windows,
@@ -61,6 +62,6 @@ public sealed class ImageMinGuetzli : ImageMinBinVendor<ImageMinGuetzliOptions>
         args.Add($"\"{input}\"");
         args.Add($"\"{output}\"");
 
-        return args.ToImmutableList();
+        return [.. args];
     }
 }

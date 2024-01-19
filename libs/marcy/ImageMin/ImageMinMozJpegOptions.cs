@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.ImageMin;
+namespace CandyKingdom.Marcy.ImageMin;
 
 public sealed class ImageMinMozJpegOptions
 {
@@ -8,7 +8,9 @@ public sealed class ImageMinMozJpegOptions
     public ImageMinMozJpegOptions(uint quality = 0, uint maxMemory = 0)
     {
         if (quality > 100)
+        {
             throw new ArgumentException("Качество не может быть больше 100", nameof(quality));
+        }
 
         Quality = quality;
         MaxMemory = maxMemory;

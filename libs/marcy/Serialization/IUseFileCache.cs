@@ -1,4 +1,4 @@
-﻿namespace CandyKingdom.Marcy.Serialization;
+namespace CandyKingdom.Marcy.Serialization;
 
 public interface IUseFileCache
 {

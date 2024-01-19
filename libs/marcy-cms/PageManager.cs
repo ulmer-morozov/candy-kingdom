@@ -1,7 +1,8 @@
-﻿using CandyKingdom.Marcy;
+using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Data;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace CandyKingdom.MarcyCms.Sample.Core;
@@ -38,14 +39,14 @@ public class PageManager<TDbContext> : IPageManager
             }
 
             pageDb = await pageQuery
-                                   .Where(x => x.Url.Equals(url, StringComparison.InvariantCultureIgnoreCase))
+                                   .Where(x => x.Url.Equals(url, StringComparison.OrdinalIgnoreCase))
                                    .SingleOrDefaultAsync(cancellationToken);
         }
 
         if (pageDb == null)
+        {
             return ResultOrError.Fail<Page>($"Page with Url {url} not found.", (int)CRUDPageErrorCode.NotFound);
-
-
+        }
 
         var dto = ToDto(pageDb);
 
@@ -59,7 +60,9 @@ public class PageManager<TDbContext> : IPageManager
         var pageDb = await context.Pages.SingleOrDefaultAsync(x => x.Url == page.Url, cancellationToken);
 
         if (pageDb == null)
+        {
             return ResultOrError.Fail($"Page with Url = {page.Url} not found.", (int)CRUDPageErrorCode.NotFound);
+        }
 
         pageDb.Copy(page);
 

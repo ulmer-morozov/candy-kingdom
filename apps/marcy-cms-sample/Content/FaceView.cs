@@ -1,5 +1,6 @@
-﻿using CandyKingdom.Marcy.Pages;
+using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Bones;
+
 using static CandyKingdom.Marcy.LocalizedStringHelpers;
 
 namespace CandyKingdom.MarcyCms.Sample.Content;

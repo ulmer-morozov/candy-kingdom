@@ -1,4 +1,4 @@
-﻿using CandyKingdom.Marcy.Utilities;
+using CandyKingdom.Marcy.Utilities;
 
 namespace CandyKingdom.Marcy.ImageTools;
 

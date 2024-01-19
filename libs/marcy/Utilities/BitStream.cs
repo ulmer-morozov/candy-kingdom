@@ -1,4 +1,4 @@
-﻿/*Copyright (c) 2013 Mengye Ren
+/*Copyright (c) 2013 Mengye Ren
 https://github.com/renmengye/base62-csharp
 Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -50,10 +50,7 @@ public sealed class BitStream : Stream
 
     public override bool CanWrite => true;
 
-    public override void Flush()
-    {
-        throw new Exception("Этот метод на должен вызываться");
-    }
+    public override void Flush() => throw new Exception("Этот метод на должен вызываться");
 
     /// <summary>
     /// Bit length of the stream
@@ -75,7 +72,7 @@ public sealed class BitStream : Stream
     public override int Read(byte[] buffer, int offset, int count)
     {
         // Temporary position cursor
-        long tempPos = Position;
+        var tempPos = Position;
         tempPos += offset;
 
         // Buffer byte position and in-byte position
@@ -83,19 +80,19 @@ public sealed class BitStream : Stream
           readPosMod = 0;
 
         // Stream byte position and in-byte position
-        long posCount = tempPos >> 3;
-        int posMod = (int)(tempPos - (tempPos >> 3 << 3));
+        var posCount = tempPos >> 3;
+        var posMod = (int)(tempPos - (tempPos >> 3 << 3));
 
         while (tempPos < Position + offset + count && tempPos < Length)
         {
             // Copy the bit from the stream to buffer
-            if ((Source[posCount] & 0x1 << 7 - posMod) != 0)
+            if ((Source[posCount] & (0x1 << (7 - posMod))) != 0)
             {
-                buffer[readPosCount] = (byte)(buffer[readPosCount] | 0x1 << 7 - readPosMod);
+                buffer[readPosCount] = (byte)(buffer[readPosCount] | (0x1 << (7 - readPosMod)));
             }
             else
             {
-                buffer[readPosCount] = (byte)(buffer[readPosCount] & 0xffffffff - (0x1 << 7 - readPosMod));
+                buffer[readPosCount] = (byte)(buffer[readPosCount] & (0xffffffff - (0x1 << (7 - readPosMod))));
             }
 
             // Increment position cursors
@@ -119,7 +116,7 @@ public sealed class BitStream : Stream
                 readPosMod++;
             }
         }
-        int bits = (int)(tempPos - Position - offset);
+        var bits = (int)(tempPos - Position - offset);
         Position = tempPos;
         return bits;
     }
@@ -135,28 +132,28 @@ public sealed class BitStream : Stream
         switch (origin)
         {
             case SeekOrigin.Begin:
-                {
-                    Position = offset;
-                    break;
-                }
+            {
+                Position = offset;
+                break;
+            }
             case SeekOrigin.Current:
-                {
-                    Position += offset;
-                    break;
-                }
+            {
+                Position += offset;
+                break;
+            }
             case SeekOrigin.End:
-                {
-                    Position = Length + offset;
-                    break;
-                }
+            {
+                Position = Length + offset;
+                break;
+            }
+
+            default:
+                break;
         }
         return Position;
     }
 
-    public override void SetLength(long value)
-    {
-        throw new Exception("Этот метод не должен вызываться");
-    }
+    public override void SetLength(long value) => throw new Exception("Этот метод не должен вызываться");
 
     /// <summary>
     /// Write from buffer to the stream
@@ -180,13 +177,13 @@ public sealed class BitStream : Stream
         while (tempPos < Position + count && tempPos < Length)
         {
             // Copy the bit from buffer to the stream
-            if ((buffer[readPosCount] & 0x1 << 7 - readPosMod) != 0)
+            if ((buffer[readPosCount] & (0x1 << (7 - readPosMod))) != 0)
             {
-                Source[posCount] = (byte)(Source[posCount] | 0x1 << 7 - posMod);
+                Source[posCount] = (byte)(Source[posCount] | (0x1 << (7 - posMod)));
             }
             else
             {
-                Source[posCount] = (byte)(Source[posCount] & 0xffffffff - (0x1 << 7 - posMod));
+                Source[posCount] = (byte)(Source[posCount] & (0xffffffff - (0x1 << (7 - posMod))));
             }
 
             // Increment position cursors
