@@ -37,48 +37,6 @@ public sealed class VideoManager : IVideoManager
         return tempFileVideo;
     }
 
-    // public async Task<FileSrc<VideoMeta>> AnalyseAndStoreMp4(
-    //     Stream sourceStream,
-    //     CancellationToken cancellationToken = default
-    // )
-    // {
-    //     using var inMemoryVideo = await AnalyseMp4(sourceStream, cancellationToken);
-
-    //     var hash = await inMemoryVideo.Stream.CalcMd5AsBase62(cancellationToken);
-
-    //     var storageFileName =
-    //         $"v{inMemoryVideo.Meta.Width}x{inMemoryVideo.Meta.Height}_{hash}{inMemoryVideo.Format.Extension}";
-
-    //     inMemoryVideo.Stream.Seek(0, SeekOrigin.Begin);
-
-    //     var storedFile = await _fileStorage.Store(
-    //         inMemoryVideo.Stream,
-    //         storageFileName,
-    //         inMemoryVideo.Format.MimeType,
-    //         cancellationToken
-    //     );
-
-    //     var mediaSource = new FileSrc<VideoMeta>
-    //     {
-    //         Meta = inMemoryVideo.Meta,
-    //         MimeType = inMemoryVideo.Format.MimeType,
-    //         Url = storedFile.Url
-    //     };
-
-    //     return mediaSource;
-    // }
-
-    private static VideoFormat GetVideoFormat(string format)
-    {
-        if (format.StartsWith("h264"))
-            return VideoFormat.Mp4;
-
-        if (format.StartsWith("vp8") || format.StartsWith("vp9"))
-            return VideoFormat.WebM;
-
-        throw new NotImplementedException();
-    }
-
     public async Task Convert(
       Stream sourceStream,
       ICollection<VideoSetup> setups,
@@ -188,6 +146,18 @@ public sealed class VideoManager : IVideoManager
             await action(setup, tempFileVideo);
         }
     }
+
+    private static VideoFormat GetVideoFormat(string format)
+    {
+        if (format.StartsWith("h264"))
+            return VideoFormat.Mp4;
+
+        if (format.StartsWith("vp8") || format.StartsWith("vp9"))
+            return VideoFormat.WebM;
+
+        throw new NotImplementedException($"Unknown format {format}");
+    }
+
 
     private static VideoMeta ToVideoMeta(MetaData metadata)
     {

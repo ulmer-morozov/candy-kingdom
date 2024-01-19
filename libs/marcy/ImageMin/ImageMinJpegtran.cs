@@ -15,14 +15,14 @@ public sealed class ImageMinJpegtran : ImageMinBinVendor<ImageMinJpegtranOptions
       : base(
         name: "jpegtran",
         executable: new BinWrapper(
-          executableNames: new[]
-          {
+          executableNames:
+          [
         new OsDependendName("jpegtran", OSPlatform.OSX, x64: true),
         new OsDependendName("jpegtran", OSPlatform.Linux, x64: true),
         new OsDependendName("jpegtran.exe", OSPlatform.Windows, x64: true),
-          },
-          sources: new[]
-          {
+          ],
+          sources:
+          [
         new OsDependendSource($"{BaseUrl}macos/jpegtran", "jpegtran", OSPlatform.OSX, x64: true),
         new OsDependendSource(
           $"{BaseUrl}linux/x64/jpegtran",
@@ -42,9 +42,9 @@ public sealed class ImageMinJpegtran : ImageMinBinVendor<ImageMinJpegtranOptions
           OSPlatform.Windows,
           x64: true
         ),
-          }
+          ]
         ),
-        validFormats: new[] { ImageFormat.Jpeg, ImageFormat.Png },
+        validFormats: [ImageFormat.Jpeg, ImageFormat.Png],
         defaultOptions: defaultOptions ?? new ImageMinJpegtranOptions()
       )
     { }

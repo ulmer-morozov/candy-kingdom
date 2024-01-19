@@ -10,4 +10,11 @@ public interface IImageUploader
           ImageConvertParameters convertParameters,
           CancellationToken cancellationToken
     );
+
+    public Task<FileSrc<ImageMeta>> ConvertAndStore(
+        MemoryStream imageStream,
+        ImageSetup setup,
+        ImageConvertParameters convertParameters,
+        CancellationToken cancellationToken
+  );
 }

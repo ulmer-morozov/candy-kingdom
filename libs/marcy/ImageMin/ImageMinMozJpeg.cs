@@ -15,14 +15,14 @@ public sealed class ImageMinMozJpeg : ImageMinBinVendor<ImageMinMozJpegOptions>
       : base(
         name: "mozjpeg",
         executable: new BinWrapper(
-          executableNames: new[]
-          {
+          executableNames:
+          [
           new OsDependendName("cjpeg.exe", OSPlatform.Windows, x64: true),
           new OsDependendName("cjpeg", OSPlatform.OSX, x64: true),
           new OsDependendName("cjpeg", OSPlatform.Linux, x64: true)
-          },
-          sources: new[]
-          {
+          ],
+          sources:
+          [
           new OsDependendSource($"{BaseUrl}macos/cjpeg", "cjpeg", OSPlatform.OSX, x64: true),
           new OsDependendSource($"{BaseUrl}linux/cjpeg", "cjpeg", OSPlatform.Linux, x64: true),
           new OsDependendSource(
@@ -31,9 +31,9 @@ public sealed class ImageMinMozJpeg : ImageMinBinVendor<ImageMinMozJpegOptions>
             OSPlatform.Windows,
             x64: true
           ),
-          }
+          ]
         ),
-        validFormats: new[] { ImageFormat.Jpeg, ImageFormat.Png },
+        validFormats: [ImageFormat.Jpeg, ImageFormat.Png],
         defaultOptions: defaultOptions ?? new ImageMinMozJpegOptions()
       )
     { }

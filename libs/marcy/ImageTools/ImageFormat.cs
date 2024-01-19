@@ -10,6 +10,6 @@ public sealed record ImageFormat : FileFormat
       new ImageFormat { Extension = ".jpg", MimeType = "image/jpeg" };
     public static ImageFormat Png { get; } =
       new ImageFormat { Extension = ".png", MimeType = "image/png" };
-    public static ImageFormat Webp { get; } =
+    public static ImageFormat WebP { get; } =
       new ImageFormat { Extension = ".webp", MimeType = "image/webp" };
 }

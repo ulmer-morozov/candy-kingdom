@@ -101,7 +101,7 @@ public static class Base62Encoding
                 if (index >> 8 - mod > 0)
                     throw new InvalidDataException("invalid ending character was found");
 
-                stream.Write(new byte[] { (byte)(index << mod) }, 0, 8 - mod);
+                stream.Write([(byte)(index << mod)], 0, 8 - mod);
             }
             else
             {
@@ -109,13 +109,13 @@ public static class Base62Encoding
                 {
                     // If 60 or 61 then only write 5 bits to the stream, otherwise 6 bits.
                     case 60:
-                        stream.Write(new byte[] { 0xf0 }, 0, 5);
+                        stream.Write([0xf0], 0, 5);
                         break;
                     case 61:
-                        stream.Write(new byte[] { 0xf8 }, 0, 5);
+                        stream.Write([0xf8], 0, 5);
                         break;
                     default:
-                        stream.Write(new[] { (byte)index }, 2, 6);
+                        stream.Write([(byte)index], 2, 6);
                         break;
                 }
             }

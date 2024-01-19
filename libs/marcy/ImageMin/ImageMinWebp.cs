@@ -15,14 +15,14 @@ public sealed class ImageMinWebp : ImageMinBinVendor<ImageMinWebpOptions>
       : base(
         name: "cwebp",
         executable: new BinWrapper(
-          executableNames: new[]
-          {
+          executableNames:
+          [
           new OsDependendName("cwebp.exe", OSPlatform.Windows, x64: true),
           new OsDependendName("cwebp", OSPlatform.OSX, x64: true),
           new OsDependendName("cwebp", OSPlatform.Linux, x64: true)
-          },
-          sources: new[]
-          {
+          ],
+          sources:
+          [
           new OsDependendSource($"{BaseUrl}osx/cwebp", "cwebp", OSPlatform.OSX, x64: true),
           new OsDependendSource($"{BaseUrl}linux/x64/cwebp", "cwebp", OSPlatform.Linux, x64: true),
           new OsDependendSource(
@@ -31,9 +31,9 @@ public sealed class ImageMinWebp : ImageMinBinVendor<ImageMinWebpOptions>
             OSPlatform.Windows,
             x64: true
           ),
-          }
+          ]
         ),
-        validFormats: new[] { ImageFormat.Webp },
+        validFormats: [ImageFormat.WebP],
         defaultOptions: defaultOptions ?? new ImageMinWebpOptions()
       )
     { }

@@ -10,12 +10,12 @@ public class InMemoryFile : IDisposable
     public required FileFormat Format { get; init; }
     public required MemoryStream Stream { get; init; }
 
-    public static Task<InMemoryFile> ReadFromStream(Stream stream, string mimeType, string extenstion)
+    public static Task<InMemoryFile> ReadFromStreamAsync(Stream stream, string mimeType, string extenstion)
     {
-        return ReadFromStream(stream, new FileFormat { MimeType = mimeType, Extension = extenstion });
+        return ReadFromStreamAsync(stream, new FileFormat { MimeType = mimeType, Extension = extenstion });
     }
 
-    public static async Task<InMemoryFile> ReadFromStream(Stream stream, FileFormat format)
+    public static async Task<InMemoryFile> ReadFromStreamAsync(Stream stream, FileFormat format)
     {
         var msStream = new MemoryStream();
 

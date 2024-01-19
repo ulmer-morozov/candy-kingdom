@@ -18,11 +18,11 @@ public sealed class VideoUploader : MediaUploderBase, IVideoUploader
     }
 
     public async Task<ImmutableDictionary<VideoSetup, FileSrc<VideoMeta>>> ConvertAndStore(
-     MemoryStream value,
-     ImmutableList<VideoSetup> setups,
-     VideoConvertParameters convertParameters,
-     Func<VideoSetup, TempVideoFile, FileSrc<VideoMeta>, Task>? action = null,
-     CancellationToken cancellationToken = default
+        Stream stream,
+        ImmutableList<VideoSetup> setups,
+        VideoConvertParameters convertParameters,
+        Func<VideoSetup, TempVideoFile, FileSrc<VideoMeta>, Task>? action = null,
+        CancellationToken cancellationToken = default
    )
     {
         var dict = new Dictionary<VideoSetup, FileSrc<VideoMeta>>();
@@ -71,9 +71,17 @@ public sealed class VideoUploader : MediaUploderBase, IVideoUploader
             videoFile.Dispose();
         }
 
-        await _videoManager.Convert(value, setups, convertParameters, OnVideo, cancellationToken);
+        await _videoManager.Convert(stream, setups, convertParameters, OnVideo, cancellationToken);
 
         return dict.ToImmutableDictionary();
     }
 
+    public async Task<FileSrc<VideoMeta>> ConvertAndStore(Stream stream, VideoSetup setup, VideoConvertParameters convertParameters, Func<VideoSetup, TempVideoFile, FileSrc<VideoMeta>, Task>? action = null, CancellationToken cancellationToken = default)
+    {
+        ImmutableList<VideoSetup> setups = [setup];
+
+        var videoSrcDict = await ConvertAndStore(stream, setups, convertParameters, action, cancellationToken);
+
+        return videoSrcDict[setup];
+    }
 }

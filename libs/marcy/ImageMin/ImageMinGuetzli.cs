@@ -15,14 +15,14 @@ public sealed class ImageMinGuetzli : ImageMinBinVendor<ImageMinGuetzliOptions>
       : base(
         name: "guetzli",
         executable: new BinWrapper(
-          executableNames: new[]
-          {
+          executableNames:
+          [
           new OsDependendName("guetzli", OSPlatform.OSX, x64: true),
           new OsDependendName("guetzli", OSPlatform.Linux, x64: true),
           new OsDependendName("guetzli.exe", OSPlatform.Windows, x64: true)
-          },
-          sources: new[]
-          {
+          ],
+          sources:
+          [
           new OsDependendSource($"{BaseUrl}macos/guetzli", "guetzli", OSPlatform.OSX, x64: true),
           new OsDependendSource($"{BaseUrl}linux/guetzli", "guetzli", OSPlatform.Linux, x64: true),
           new OsDependendSource(
@@ -31,9 +31,9 @@ public sealed class ImageMinGuetzli : ImageMinBinVendor<ImageMinGuetzliOptions>
             OSPlatform.Windows,
             x64: true
           )
-          }
+          ]
         ),
-        validFormats: new[] { ImageFormat.Jpeg, ImageFormat.Png },
+        validFormats: [ImageFormat.Jpeg, ImageFormat.Png],
         defaultOptions: defaultOptions ?? new ImageMinGuetzliOptions()
       )
     { }

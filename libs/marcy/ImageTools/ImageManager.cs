@@ -96,7 +96,7 @@ public sealed class ImageManager : IImageManager
         var resizedStream = new MemoryStream();
 
         // for better quality webp
-        if (format == ImageFormat.Webp)
+        if (format == ImageFormat.WebP)
         {
             targetImage.WebpsaveStream(
               resizedStream,

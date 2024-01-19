@@ -212,4 +212,12 @@ public sealed class ImageUploader : MediaUploderBase, IImageUploader
         return dict.ToImmutableDictionary();
     }
 
+    public async Task<FileSrc<ImageMeta>> ConvertAndStore(MemoryStream imageStream, ImageSetup setup, ImageConvertParameters convertParameters, CancellationToken cancellationToken)
+    {
+        var setups = ImmutableList.Create(setup);
+
+        var images = await ConvertAndStore(imageStream, setups, convertParameters, cancellationToken);
+
+        return images[setup];
+    }
 }
