@@ -9,12 +9,12 @@ public sealed class SettingDb
     public SettingData Data { get; private set; }
     public SettingGroupDb Group { get; private set; }
 
-    public SettingDb(Guid id, string title, SettingGroupDb group, SettingData data)
+    public SettingDb(Guid id, string title, SettingData data, SettingGroupDb group)
     {
         Id = id;
         Title = title;
-        Group = group;
         Data = data;
+        Group = group;
     }
 
     private SettingDb()

@@ -6,7 +6,11 @@ namespace CandyKingdom.Marcy;
 
 public static class LocalizedStringHelpers
 {
-    public static LocalizedString En(string en) => new(new Dictionary<string, string>() { [LocalizedString.EnCode] = en });
+    public static LocalizedString En(string en)
+    {
+        return new(new Dictionary<string, string>() { [LocalizedString.EnCode] = en });
+    }
+
     public static LocalizedString Empty { get; } = LocalizedString.Empty;
 
     public static readonly JsonSerializerOptions DefaultSerializerOptions = NewLocalizedStringJsonOptions();
@@ -24,7 +28,13 @@ public static class LocalizedStringHelpers
         return options;
     }
 
-    public static string ToJson(this LocalizedString ls, JsonSerializerOptions? options = null) => JsonSerializer.Serialize(ls, options ?? DefaultSerializerOptions);
+    public static string ToJson(this LocalizedString ls, JsonSerializerOptions? options = null)
+    {
+        return JsonSerializer.Serialize(ls, options ?? DefaultSerializerOptions);
+    }
 
-    public static LocalizedString FromJson(string lsJson, JsonSerializerOptions? options = null) => JsonSerializer.Deserialize<LocalizedString>(lsJson, options ?? DefaultSerializerOptions) ?? LocalizedString.Empty;
+    public static LocalizedString FromJson(string lsJson, JsonSerializerOptions? options = null)
+    {
+        return JsonSerializer.Deserialize<LocalizedString>(lsJson, options ?? DefaultSerializerOptions) ?? LocalizedString.Empty;
+    }
 }

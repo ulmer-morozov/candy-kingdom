@@ -50,7 +50,7 @@ public sealed class CmsSampleDbContext : IdentityDbContext<ApplicationUser>, IMa
     {
         ImmutableList<JsonConverter> defaultConverters = [
             new JsonStringEnumConverter(),
-            new JsonConverterForLocalizedObject<LocalizedString>(),
+            new JsonConverterForLocalizedObject<string>(),
             new JsonConverterForLocalizedString()
         ];
 

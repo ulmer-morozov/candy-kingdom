@@ -40,9 +40,9 @@ builder.Services.AddResponseCompression
     }
 );
 
-builder.Services.AddPooledDbContextFactory<CmsSampleDbContext>
+builder.Services.AddDbContextFactory<CmsSampleDbContext>
 (
-    options => options.UseSqlite("marcy-cms-sample.db")
+    options => options.UseSqlite("Data Source=marcy-cms-sample.db")
 );
 
 builder.Services
@@ -55,6 +55,8 @@ builder.Services
 
 // services.AddSingleton<IPageManager, PageManager>();
 // services.AddSingleton<ISettingsManager, SettingsManager>();
+
+builder.Services.AddSingleton<InitialDataFiller>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -115,6 +117,10 @@ app.MapGet("/api/weatherforecast", () =>
     .WithName("GetWeatherForecast")
     .WithOpenApi()
     .RequireAuthorization();
+
+var filler = app.Services.GetRequiredService<InitialDataFiller>();
+
+await filler.InitializeIfNecessary();
 
 app.Run();
 
