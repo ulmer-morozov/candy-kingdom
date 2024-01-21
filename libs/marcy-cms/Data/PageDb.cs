@@ -5,7 +5,7 @@ using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.MarcyCms.Data;
 
-public sealed class PageDb : JsonDataOwnerDb<PageData>
+public sealed class PageDb
 {
     public string Url { get; private set; }
     public string Route { get; private set; }
@@ -15,10 +15,12 @@ public sealed class PageDb : JsonDataOwnerDb<PageData>
     public OpenGraphData OpenGraph { get; private set; }
     public ImmutableList2<Bone> Bones { get; private set; }
 
+    public PageData Data { get; private set; }
+
     public PageDb? Parent { get; private set; }
     public ICollection<PageDb> Childern { get; private set; }
 
-    public PageDb(string url, string route, int order, PublishStatus publishStatus, LocalizedString title, OpenGraphData openGraph, IEnumerable<Bone> bones, PageDb? parent = null, IEnumerable<PageDb>? children = null)
+    public PageDb(string url, string route, int order, PublishStatus publishStatus, LocalizedString title, OpenGraphData openGraph, IEnumerable<Bone> bones, PageData? data = null, PageDb? parent = null, IEnumerable<PageDb>? children = null)
     {
         Url = url;
         Title = title;
@@ -26,6 +28,8 @@ public sealed class PageDb : JsonDataOwnerDb<PageData>
         OpenGraph = openGraph;
         Route = route;
         PublishStatus = publishStatus;
+
+        Data = data ?? PageData.Empty;
 
         Bones = bones as ImmutableList2<Bone>
                             ?? bones?.ToImmutableList2()
@@ -40,6 +44,7 @@ public sealed class PageDb : JsonDataOwnerDb<PageData>
         Url = null!;
         Title = null!;
         Route = null!;
+        Data = null!;
         OpenGraph = null!;
         Bones = null!;
         Childern = null!;

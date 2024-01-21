@@ -8,4 +8,6 @@ public record PageData
     {
         Type = type;
     }
+
+    public static PageData Empty { get; } = new PageData("");
 }

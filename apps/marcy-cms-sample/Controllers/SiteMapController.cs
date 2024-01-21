@@ -11,9 +11,9 @@ namespace CandyKingdom.MarcyCms.Sample.Controllers;
 
 public sealed class SiteMapController : Controller
 {
-    private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
+    private readonly IDbContextFactory<CmsSampleDbContext> _contextFactory;
 
-    public SiteMapController(IDbContextFactory<ApplicationDbContext> contextFactory)
+    public SiteMapController(IDbContextFactory<CmsSampleDbContext> contextFactory)
     {
         _contextFactory = contextFactory;
     }

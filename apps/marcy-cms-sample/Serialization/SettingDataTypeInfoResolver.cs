@@ -2,7 +2,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-using CandyKingdom.MarcyCms.Sample.Bones;
 using CandyKingdom.MarcyCms.Settings;
 
 namespace CandyKingdom.MarcyCms.Sample.Serialization;
@@ -13,9 +12,7 @@ public sealed class SettingDataTypeInfoResolver : DefaultJsonTypeInfoResolver
     {
         var jsonTypeInfo = base.GetTypeInfo(type, options);
 
-        var baseBoneType = typeof(SettingData);
-
-        if (jsonTypeInfo.Type == baseBoneType)
+        if (jsonTypeInfo.Type == typeof(SettingData))
         {
             jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
             {
@@ -24,10 +21,8 @@ public sealed class SettingDataTypeInfoResolver : DefaultJsonTypeInfoResolver
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =
                 {
-                    new JsonDerivedType(typeof(TextSettingData),TextSettingData.TYPE),
-                    new JsonDerivedType(typeof(LocalizedTextSettingData),LocalizedTextSettingData.TYPE),
-                    new JsonDerivedType(typeof(VimeoBone)),
-                    new JsonDerivedType(typeof(PageListBone)),
+                    new JsonDerivedType(typeof(TextSettingData), TextSettingData.TYPE),
+                    new JsonDerivedType(typeof(LocalizedTextSettingData), LocalizedTextSettingData.TYPE)
                 }
             };
         }

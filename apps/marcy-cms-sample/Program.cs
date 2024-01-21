@@ -14,31 +14,41 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+builder.Services
+    .AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddIdentityCookies()
-    .ApplicationCookie!.Configure(opt => opt.Events = new CookieAuthenticationEvents()
-    {
-        OnRedirectToLogin = ctx =>
+    .ApplicationCookie!.Configure
+    (
+        opt => opt.Events = new CookieAuthenticationEvents()
         {
-            ctx.Response.StatusCode = 401;
-            return Task.CompletedTask;
+            OnRedirectToLogin = ctx =>
+            {
+                ctx.Response.StatusCode = 401;
+                return Task.CompletedTask;
+            }
         }
-    });
+    );
+
 builder.Services.AddAuthorizationBuilder();
 
-builder.Services.AddResponseCompression(options =>
-         {
-             options.EnableForHttps = true;
-             options.Providers.Add<BrotliCompressionProvider>();
-         });
+builder.Services.AddResponseCompression
+(
+    options =>
+    {
+        options.EnableForHttps = true;
+        options.Providers.Add<BrotliCompressionProvider>();
+    }
+);
 
-builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(
-    options => options.UseSqlite("marcy-cms-sample.db"));
+builder.Services.AddPooledDbContextFactory<CmsSampleDbContext>
+(
+    options => options.UseSqlite("marcy-cms-sample.db")
+);
 
-builder.Services.AddIdentityCore<ApplicationUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+builder.Services
+    .AddIdentityCore<ApplicationUser>()
+    .AddEntityFrameworkStores<CmsSampleDbContext>()
     .AddApiEndpoints();
-
 
 // services.AddSingleton<IFileStorage, LocalFileStorage>();
 // services.AddSingleton<IEmailSender, FakeEmailSender>();
@@ -55,7 +65,6 @@ var app = builder.Build();
 
 app.UseResponseCompression();
 
-
 app.MapCustomIdentityApi<ApplicationUser>();
 // app.UseDefaultFiles();
 // app.UseStaticFiles();
@@ -71,18 +80,19 @@ if (app.Environment.IsDevelopment())
 
 // protection from cross-site request forgery (CSRF/XSRF) attacks with empty body
 // form can't post anything useful so the body is null, the JSON call can pass
-// an empty object {} but doesn't allow cross-site due to CORS.
-app.MapPost("/api/logout", async (
-    SignInManager<ApplicationUser> signInManager,
-    [FromBody] object empty) =>
-{
-    if (empty is not null)
-    {
-        await signInManager.SignOutAsync();
-        return Results.Ok();
-    }
-    return Results.NotFound();
-}).RequireAuthorization();
+// an empty object {} but doesn't allow cross-Psite due to CORS.
+
+app.MapPost("/api/logout", async (SignInManager<ApplicationUser> signInManager, [FromBody] object empty) =>
+        {
+            if (empty is not null)
+            {
+                await signInManager.SignOutAsync();
+                return Results.Ok();
+            }
+            return Results.NotFound();
+        }
+    )
+    .RequireAuthorization();
 
 var summaries = new[]
 {
@@ -90,20 +100,21 @@ var summaries = new[]
 };
 
 app.MapGet("/api/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi()
-.RequireAuthorization();
+        {
+            var forecast = Enumerable.Range(1, 5).Select(index =>
+                new WeatherForecast
+                (
+                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                    Random.Shared.Next(-20, 55),
+                    summaries[Random.Shared.Next(summaries.Length)]
+                ))
+                .ToArray();
+            return forecast;
+        }
+    )
+    .WithName("GetWeatherForecast")
+    .WithOpenApi()
+    .RequireAuthorization();
 
 app.Run();
 

@@ -8,4 +8,6 @@ public record SettingData
     {
         Type = type;
     }
+
+    public static SettingData Empty { get; } = new("");
 }
