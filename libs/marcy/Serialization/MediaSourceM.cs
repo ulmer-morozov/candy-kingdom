@@ -7,6 +7,8 @@ public sealed record MediaSourceM
 
     public MediaSourceM() { }
 
-    public static MediaSourceM New(string path, string? mediaQuery = null) =>
-      new() { Path = path, MediaQuery = mediaQuery };
+    public static MediaSourceM New(string path, string? mediaQuery = null)
+    {
+        return new() { Path = path, MediaQuery = mediaQuery };
+    }
 }

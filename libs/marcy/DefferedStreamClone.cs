@@ -30,7 +30,10 @@ public sealed class DefferedStreamClone : IDisposable, IAsyncDisposable
         }
     }
 
-    public void Dispose() => _msStream?.Dispose();
+    public void Dispose()
+    {
+        _msStream?.Dispose();
+    }
 
     public async ValueTask DisposeAsync()
     {

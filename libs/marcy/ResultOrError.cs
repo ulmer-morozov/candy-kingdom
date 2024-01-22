@@ -29,14 +29,25 @@ public record ResultOrError
         ErrorCode = errorCode;
     }
 
-    public static ResultOrError Success() => new(true);
+    public static ResultOrError Success()
+    {
+        return new(true);
+    }
 
     public static ResultOrError<T> Success<T>(T data)
-      where T : class => new(data);
+      where T : class
+    {
+        return new(data);
+    }
 
-    public static ResultOrError Fail(string message, int errorCode = 0) =>
-      new(false, message, errorCode);
+    public static ResultOrError Fail(string message, int errorCode = 0)
+    {
+        return new(false, message, errorCode);
+    }
 
     public static ResultOrError<T> Fail<T>(string message, int? errorCode = null)
-      where T : class => new(default, message, errorCode ?? 0);
+      where T : class
+    {
+        return new(default, message, errorCode ?? 0);
+    }
 }

@@ -49,9 +49,15 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
       ref Utf8JsonReader reader,
       Type typeToConvert,
       JsonSerializerOptions options
-    ) => throw new NotImplementedException("Cannot read");
+    )
+    {
+        throw new NotImplementedException("Cannot read");
+    }
 
-    public override void Write(Utf8JsonWriter writer, ImageM value, JsonSerializerOptions options) => WriteAsync(writer, value, options).Wait();
+    public override void Write(Utf8JsonWriter writer, ImageM value, JsonSerializerOptions options)
+    {
+        WriteAsync(writer, value, options).Wait();
+    }
 
     private async Task WriteAsync(
       Utf8JsonWriter writer,

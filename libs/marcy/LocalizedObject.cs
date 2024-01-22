@@ -40,5 +40,8 @@ public record LocalizedObject<T>
         return Localizations[lang];
     }
 
-    public bool IsEmpty() => Localizations.IsEmpty;
+    public bool IsEmpty()
+    {
+        return Localizations.IsEmpty;
+    }
 }

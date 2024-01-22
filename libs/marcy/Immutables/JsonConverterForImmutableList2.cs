@@ -9,9 +9,11 @@ using System.Text.Json.Serialization;
 namespace CandyKingdom.Marcy.Immutables;
 public sealed class JsonConverterForImmutableList2Factory : JsonConverterFactory
 {
-    public override bool CanConvert(Type typeToConvert) =>
-      typeToConvert.IsGenericType
+    public override bool CanConvert(Type typeToConvert)
+    {
+        return typeToConvert.IsGenericType
       && typeToConvert.GetGenericTypeDefinition() == typeof(ImmutableList2<>);
+    }
 
     public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
@@ -67,6 +69,9 @@ public sealed class JsonConverterForImmutableList2Factory : JsonConverterFactory
           Utf8JsonWriter writer,
           ImmutableList2<T> value,
           JsonSerializerOptions options
-        ) => JsonSerializer.Serialize(writer, value.AsEnumerable(), options);
+        )
+        {
+            JsonSerializer.Serialize(writer, value.AsEnumerable(), options);
+        }
     }
 }

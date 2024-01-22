@@ -22,48 +22,83 @@ public sealed class ImmutableList2<T> : IEquatable<ImmutableList2<T>>, IEnumerab
 
     public int Count => _list.Count;
 
-    public ImmutableList2<T> Add(T value) => _list.Add(value).WithDeepEquality();
+    public ImmutableList2<T> Add(T value)
+    {
+        return _list.Add(value).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> AddRange(IEnumerable<T> items) =>
-      _list.AddRange(items).WithDeepEquality();
+    public ImmutableList2<T> AddRange(IEnumerable<T> items)
+    {
+        return _list.AddRange(items).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> Clear() => _list.Clear().WithDeepEquality();
+    public ImmutableList2<T> Clear()
+    {
+        return _list.Clear().WithDeepEquality();
+    }
 
-    public ImmutableList<T>.Enumerator GetEnumerator() => _list.GetEnumerator();
+    public ImmutableList<T>.Enumerator GetEnumerator()
+    {
+        return _list.GetEnumerator();
+    }
 
-    public int IndexOf(T item, int index, int count, IEqualityComparer<T> equalityComparer) =>
-      _list.IndexOf(item, index, count, equalityComparer);
+    public int IndexOf(T item, int index, int count, IEqualityComparer<T> equalityComparer)
+    {
+        return _list.IndexOf(item, index, count, equalityComparer);
+    }
 
-    public ImmutableList2<T> Insert(int index, T element) =>
-      _list.Insert(index, element).WithDeepEquality();
+    public ImmutableList2<T> Insert(int index, T element)
+    {
+        return _list.Insert(index, element).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> InsertRange(int index, IEnumerable<T> items) =>
-      _list.InsertRange(index, items).WithDeepEquality();
+    public ImmutableList2<T> InsertRange(int index, IEnumerable<T> items)
+    {
+        return _list.InsertRange(index, items).WithDeepEquality();
+    }
 
-    public int LastIndexOf(T item, int index, int count, IEqualityComparer<T> equalityComparer) =>
-      _list.LastIndexOf(item, index, count, equalityComparer);
+    public int LastIndexOf(T item, int index, int count, IEqualityComparer<T> equalityComparer)
+    {
+        return _list.LastIndexOf(item, index, count, equalityComparer);
+    }
 
-    public ImmutableList2<T> Remove(T value, IEqualityComparer<T> equalityComparer) =>
-      _list.Remove(value, equalityComparer).WithDeepEquality();
+    public ImmutableList2<T> Remove(T value, IEqualityComparer<T> equalityComparer)
+    {
+        return _list.Remove(value, equalityComparer).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> RemoveAll(Predicate<T> match) =>
-      _list.RemoveAll(match).WithDeepEquality();
+    public ImmutableList2<T> RemoveAll(Predicate<T> match)
+    {
+        return _list.RemoveAll(match).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> RemoveAt(int index) => _list.RemoveAt(index).WithDeepEquality();
+    public ImmutableList2<T> RemoveAt(int index)
+    {
+        return _list.RemoveAt(index).WithDeepEquality();
+    }
 
     public ImmutableList2<T> RemoveRange(
       IEnumerable<T> items,
       IEqualityComparer<T> equalityComparer
-    ) => _list.RemoveRange(items, equalityComparer).WithDeepEquality();
+    )
+    {
+        return _list.RemoveRange(items, equalityComparer).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> RemoveRange(int index, int count) =>
-      _list.RemoveRange(index, count).WithDeepEquality();
+    public ImmutableList2<T> RemoveRange(int index, int count)
+    {
+        return _list.RemoveRange(index, count).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> Replace(T oldValue, T newValue, IEqualityComparer<T> equalityComparer) =>
-      _list.Replace(oldValue, newValue, equalityComparer).WithDeepEquality();
+    public ImmutableList2<T> Replace(T oldValue, T newValue, IEqualityComparer<T> equalityComparer)
+    {
+        return _list.Replace(oldValue, newValue, equalityComparer).WithDeepEquality();
+    }
 
-    public ImmutableList2<T> SetItem(int index, T value) =>
-      _list.SetItem(index, value).WithDeepEquality();
+    public ImmutableList2<T> SetItem(int index, T value)
+    {
+        return _list.SetItem(index, value).WithDeepEquality();
+    }
 
     public bool IsEmpty => _list.IsEmpty;
 
@@ -73,17 +108,29 @@ public sealed class ImmutableList2<T> : IEquatable<ImmutableList2<T>>, IEnumerab
 
     #region IEnumerable
 
-    IEnumerator IEnumerable.GetEnumerator() => (_list as IEnumerable).GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return (_list as IEnumerable).GetEnumerator();
+    }
 
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => (_list as IEnumerable<T>).GetEnumerator();
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return (_list as IEnumerable<T>).GetEnumerator();
+    }
 
     #endregion
 
     #region IEquatable
 
-    public bool Equals(ImmutableList2<T> other) => _list.SequenceEqual(other);
+    public bool Equals(ImmutableList2<T> other)
+    {
+        return _list.SequenceEqual(other);
+    }
 
-    public override bool Equals(object obj) => obj is ImmutableList2<T> other && Equals(other);
+    public override bool Equals(object obj)
+    {
+        return obj is ImmutableList2<T> other && Equals(other);
+    }
 
     public static bool operator ==(ImmutableList2<T>? left, ImmutableList2<T>? right) =>
       left is null ? right is null : left.Equals(right);

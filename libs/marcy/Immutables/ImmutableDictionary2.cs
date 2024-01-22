@@ -27,32 +27,54 @@ public sealed class ImmutableDictionary2<TKey, TValue>
 
     public int Count => _dictionary.Count;
 
-    public bool ContainsKey(TKey key) => _dictionary.ContainsKey(key);
+    public bool ContainsKey(TKey key)
+    {
+        return _dictionary.ContainsKey(key);
+    }
 
     public IEnumerable<TKey> Keys => _dictionary.Keys;
 
-    public ImmutableDictionary2<TKey, TValue> Add(TKey key, TValue value) =>
-      _dictionary.Add(key, value).WithDeepEquality();
+    public ImmutableDictionary2<TKey, TValue> Add(TKey key, TValue value)
+    {
+        return _dictionary.Add(key, value).WithDeepEquality();
+    }
 
     public ImmutableDictionary2<TKey, TValue> AddRange(
       IEnumerable<KeyValuePair<TKey, TValue>> pairs
-    ) => _dictionary.AddRange(pairs).WithDeepEquality();
+    )
+    {
+        return _dictionary.AddRange(pairs).WithDeepEquality();
+    }
 
-    public ImmutableDictionary2<TKey, TValue> Clear() => _dictionary.Clear().WithDeepEquality();
+    public ImmutableDictionary2<TKey, TValue> Clear()
+    {
+        return _dictionary.Clear().WithDeepEquality();
+    }
 
-    public ImmutableDictionary<TKey, TValue>.Enumerator GetEnumerator() =>
-      _dictionary.GetEnumerator();
+    public ImmutableDictionary<TKey, TValue>.Enumerator GetEnumerator()
+    {
+        return _dictionary.GetEnumerator();
+    }
 
-    public ImmutableDictionary2<TKey, TValue> Remove(TKey key) =>
-      _dictionary.Remove(key).WithDeepEquality();
+    public ImmutableDictionary2<TKey, TValue> Remove(TKey key)
+    {
+        return _dictionary.Remove(key).WithDeepEquality();
+    }
 
-    public ImmutableDictionary2<TKey, TValue> RemoveRange(IEnumerable<TKey> keys) =>
-      _dictionary.RemoveRange(keys).WithDeepEquality();
+    public ImmutableDictionary2<TKey, TValue> RemoveRange(IEnumerable<TKey> keys)
+    {
+        return _dictionary.RemoveRange(keys).WithDeepEquality();
+    }
 
-    public ImmutableDictionary2<TKey, TValue> SetItem(TKey key, TValue value) =>
-      _dictionary.SetItem(key, value).WithDeepEquality();
+    public ImmutableDictionary2<TKey, TValue> SetItem(TKey key, TValue value)
+    {
+        return _dictionary.SetItem(key, value).WithDeepEquality();
+    }
 
-    public ImmutableDictionary<TKey, TValue> AsImmutableDictionary() => _dictionary;
+    public ImmutableDictionary<TKey, TValue> AsImmutableDictionary()
+    {
+        return _dictionary;
+    }
 
     public bool IsEmpty => _dictionary.IsEmpty;
 
@@ -63,19 +85,29 @@ public sealed class ImmutableDictionary2<TKey, TValue>
 
     #region IEnumerable
 
-    IEnumerator IEnumerable.GetEnumerator() => (_dictionary as IEnumerable).GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return (_dictionary as IEnumerable).GetEnumerator();
+    }
 
-    IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() =>
-      (_dictionary as IEnumerable<KeyValuePair<TKey, TValue>>).GetEnumerator();
+    IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+    {
+        return (_dictionary as IEnumerable<KeyValuePair<TKey, TValue>>).GetEnumerator();
+    }
 
     #endregion
 
     #region IEquatable
 
-    public bool Equals(ImmutableDictionary2<TKey, TValue> other) => _dictionary.SequenceEqual(other);
+    public bool Equals(ImmutableDictionary2<TKey, TValue> other)
+    {
+        return _dictionary.SequenceEqual(other);
+    }
 
-    public override bool Equals(object obj) =>
-      obj is ImmutableDictionary2<TKey, TValue> other && Equals(other);
+    public override bool Equals(object obj)
+    {
+        return obj is ImmutableDictionary2<TKey, TValue> other && Equals(other);
+    }
 
     public static bool operator ==(
       ImmutableDictionary2<TKey, TValue>? left,

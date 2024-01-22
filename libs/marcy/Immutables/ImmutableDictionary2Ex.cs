@@ -10,10 +10,16 @@ public static class ImmutableDictionary2Ex
     public static ImmutableDictionary2<TKey, TValue> WithDeepEquality<TKey, TValue>(
       this ImmutableDictionary<TKey, TValue> dictionary
     )
-      where TKey : notnull => new(dictionary);
+      where TKey : notnull
+    {
+        return new(dictionary);
+    }
 
     public static ImmutableDictionary2<TKey, TValue> ToImmutableDictionary2<TKey, TValue>(
       this IEnumerable<KeyValuePair<TKey, TValue>> list
     )
-      where TKey : notnull => new(list.ToImmutableDictionary());
+      where TKey : notnull
+    {
+        return new(list.ToImmutableDictionary());
+    }
 }

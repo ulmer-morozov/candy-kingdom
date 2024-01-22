@@ -4,9 +4,15 @@ public abstract record ConfigurationBase
 {
     public abstract void Verify();
 
-    protected void ThrowIfEmpty(int value, string message) => ThrowIf(value == 0, message);
+    protected void ThrowIfEmpty(int value, string message)
+    {
+        ThrowIf(value == 0, message);
+    }
 
-    protected void ThrowIfNullOrWhiteSpace(string value, string message) => ThrowIf(string.IsNullOrWhiteSpace(value), message);
+    protected void ThrowIfNullOrWhiteSpace(string value, string message)
+    {
+        ThrowIf(string.IsNullOrWhiteSpace(value), message);
+    }
 
     protected void ThrowIf(bool condition, string message)
     {
@@ -16,7 +22,10 @@ public abstract record ConfigurationBase
         }
     }
 
-    protected static string GetEnvVarOrThrow(string name) => Environment.GetEnvironmentVariable(name) ?? throw new Exception($"Required environment variable {name} is not set");
+    protected static string GetEnvVarOrThrow(string name)
+    {
+        return Environment.GetEnvironmentVariable(name) ?? throw new Exception($"Required environment variable {name} is not set");
+    }
 
     protected static int? GetEnvVarAsInt(string name)
     {
@@ -35,6 +44,8 @@ public abstract record ConfigurationBase
         return timeout;
     }
 
-    protected static int GetEnvVarAsIntOrThrow(string name) => GetEnvVarAsInt(name) ?? throw new Exception($"Required environment variable {name} is not set");
-
+    protected static int GetEnvVarAsIntOrThrow(string name)
+    {
+        return GetEnvVarAsInt(name) ?? throw new Exception($"Required environment variable {name} is not set");
+    }
 }

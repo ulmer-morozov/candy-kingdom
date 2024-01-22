@@ -43,7 +43,10 @@ public sealed class BinWrapper
         }
     }
 
-    public Task Run(IEnumerable<string> args, CancellationToken cancellationToken = default) => Run(cancellationToken, args.ToArray());
+    public Task Run(IEnumerable<string> args, CancellationToken cancellationToken = default)
+    {
+        return Run(cancellationToken, args.ToArray());
+    }
 
     public async Task Run(CancellationToken cancellationToken = default, params string[] args)
     {
@@ -72,7 +75,10 @@ public sealed class BinWrapper
         await process.WaitForExitAsync(cancellationToken);
     }
 
-    public Task DownloadExecutable() => DownloadExecutable(CurrentPlatform, Is64Bit);
+    public Task DownloadExecutable()
+    {
+        return DownloadExecutable(CurrentPlatform, Is64Bit);
+    }
 
     public async Task DownloadExecutable(OSPlatform platform, bool x64)
     {
@@ -107,7 +113,10 @@ public sealed class BinWrapper
         Chmod(755, filePath);
     }
 
-    public FileInfo GetExecutable() => GetExecutable(CurrentPlatform, Is64Bit);
+    public FileInfo GetExecutable()
+    {
+        return GetExecutable(CurrentPlatform, Is64Bit);
+    }
 
     public FileInfo GetExecutable(OSPlatform platform, bool x64)
     {

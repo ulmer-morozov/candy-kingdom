@@ -6,8 +6,13 @@ using System.Collections.Immutable;
 namespace CandyKingdom.Marcy.Immutables;
 public static class ImmutableList2Ex
 {
-    public static ImmutableList2<T> WithDeepEquality<T>(this ImmutableList<T> list) => new(list);
+    public static ImmutableList2<T> WithDeepEquality<T>(this ImmutableList<T> list)
+    {
+        return new(list);
+    }
 
-    public static ImmutableList2<T> ToImmutableList2<T>(this IEnumerable<T> list) =>
-      new(list.ToImmutableList());
+    public static ImmutableList2<T> ToImmutableList2<T>(this IEnumerable<T> list)
+    {
+        return new(list.ToImmutableList());
+    }
 }

@@ -50,7 +50,10 @@ public sealed class BitStream : Stream
 
     public override bool CanWrite => true;
 
-    public override void Flush() => throw new Exception("Этот метод на должен вызываться");
+    public override void Flush()
+    {
+        throw new Exception("Этот метод на должен вызываться");
+    }
 
     /// <summary>
     /// Bit length of the stream
@@ -153,7 +156,10 @@ public sealed class BitStream : Stream
         return Position;
     }
 
-    public override void SetLength(long value) => throw new Exception("Этот метод не должен вызываться");
+    public override void SetLength(long value)
+    {
+        throw new Exception("Этот метод не должен вызываться");
+    }
 
     /// <summary>
     /// Write from buffer to the stream

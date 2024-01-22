@@ -418,10 +418,12 @@ public static class CustomIdentityExtensions
         return new IdentityEndpointsConventionBuilder(routeGroup);
     }
 
-    private static ValidationProblem CreateValidationProblem(string errorCode, string errorDescription) =>
-        TypedResults.ValidationProblem(new Dictionary<string, string[]> {
+    private static ValidationProblem CreateValidationProblem(string errorCode, string errorDescription)
+    {
+        return TypedResults.ValidationProblem(new Dictionary<string, string[]> {
             { errorCode, [errorDescription] }
         });
+    }
 
     private static ValidationProblem CreateValidationProblem(IdentityResult result)
     {
@@ -452,19 +454,29 @@ public static class CustomIdentityExtensions
     }
 
     private static async Task<InfoResponse> CreateInfoResponseAsync<TUser>(TUser user, UserManager<TUser> userManager)
-        where TUser : class => new()
+        where TUser : class
+    {
+        return new()
         {
             Email = await userManager.GetEmailAsync(user) ?? throw new NotSupportedException("Users must have an email."),
             IsEmailConfirmed = await userManager.IsEmailConfirmedAsync(user),
         };
+    }
 
     // Wrap RouteGroupBuilder with a non-public type to avoid a potential future behavioral breaking change.
     private sealed class IdentityEndpointsConventionBuilder(RouteGroupBuilder inner) : IEndpointConventionBuilder
     {
         private IEndpointConventionBuilder InnerAsConventionBuilder => inner;
 
-        public void Add(Action<EndpointBuilder> convention) => InnerAsConventionBuilder.Add(convention);
-        public void Finally(Action<EndpointBuilder> finallyConvention) => InnerAsConventionBuilder.Finally(finallyConvention);
+        public void Add(Action<EndpointBuilder> convention)
+        {
+            InnerAsConventionBuilder.Add(convention);
+        }
+
+        public void Finally(Action<EndpointBuilder> finallyConvention)
+        {
+            InnerAsConventionBuilder.Finally(finallyConvention);
+        }
     }
 
     [AttributeUsage(AttributeTargets.Parameter)]

@@ -15,7 +15,10 @@ public sealed record LocalizedString : LocalizedObject<string>
     public LocalizedString(IDictionary<string, string>? localizations = null)
       : base(localizations) { }
 
-    public string GetString(string code) => Get(code, string.Empty);
+    public string GetString(string code)
+    {
+        return Get(code, string.Empty);
+    }
 
     #region Static Helpers
 
@@ -44,10 +47,13 @@ public sealed record LocalizedString : LocalizedObject<string>
         return new LocalizedString(combinedLocalizations);
     }
 
-    public static LocalizedString Combine(char delimiter, bool trim, params LocalizedString[] strings) => strings.Aggregate(
+    public static LocalizedString Combine(char delimiter, bool trim, params LocalizedString[] strings)
+    {
+        return strings.Aggregate(
           Empty,
           (total, next) => Combine(total, next, delimiter: delimiter, trim: trim)
         );
+    }
 
     private static string Combine(string s1, string s2, char delimiter, bool trim)
     {

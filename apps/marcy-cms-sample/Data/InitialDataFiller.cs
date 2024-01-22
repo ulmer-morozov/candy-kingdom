@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-
 using Autofac;
 
 using CandyKingdom.Marcy.Immutables;
@@ -128,7 +126,9 @@ public sealed class InitialDataFiller
         var anyPageExist = await context.Pages.AnyAsync();
 
         if (anyPageExist)
+        {
             return;
+        }
 
         var page = pageFactory.Create("");
 

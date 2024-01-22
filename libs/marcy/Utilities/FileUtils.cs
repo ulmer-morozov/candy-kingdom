@@ -21,5 +21,8 @@ public static class FileUtils
         return filePath;
     }
 
-    private static string GetTempPath() => "";// return Path.GetTempPath();
+    private static string GetTempPath()
+    {
+        return "";// return Path.GetTempPath();
+    }
 }

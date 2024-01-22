@@ -64,5 +64,8 @@ public abstract class ImageMinBinVendor<T> : ImageMinVendor
       string input,
       string output,
       CancellationToken cancellationToken = default
-    ) => Minify(input, output, _defaultOptions, cancellationToken);
+    )
+    {
+        return Minify(input, output, _defaultOptions, cancellationToken);
+    }
 }

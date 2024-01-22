@@ -61,5 +61,8 @@ public sealed class S3FileStorage : IFileStorage, IDisposable
         return storedFile;
     }
 
-    public void Dispose() => throw new NotImplementedException();
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
 }
