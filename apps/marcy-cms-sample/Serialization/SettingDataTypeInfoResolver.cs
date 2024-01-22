@@ -16,7 +16,7 @@ public sealed class SettingDataTypeInfoResolver : DefaultJsonTypeInfoResolver
         {
             jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
             {
-                TypeDiscriminatorPropertyName = nameof(SettingData.Type),
+                TypeDiscriminatorPropertyName = "$type",
                 IgnoreUnrecognizedTypeDiscriminators = false,
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =

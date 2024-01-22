@@ -54,8 +54,8 @@ public sealed class InitialDataFiller
                             Data = new LocalizedTextSettingData
                             {
                                 Text = En(@"""This is sample
-                                multiline description
-                                of a sample company"""),
+multiline description
+of a sample company"""),
                                 TextType = TextSettingType.MultiLine
                             }
                         }

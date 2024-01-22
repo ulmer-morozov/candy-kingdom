@@ -17,7 +17,7 @@ public sealed class PageDataInfoResolver : DefaultJsonTypeInfoResolver
         {
             jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
             {
-                TypeDiscriminatorPropertyName = nameof(PageData.Type),
+                TypeDiscriminatorPropertyName = "$type",
                 IgnoreUnrecognizedTypeDiscriminators = false,
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =

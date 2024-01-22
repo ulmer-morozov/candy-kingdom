@@ -99,12 +99,12 @@ public sealed class ImmutableDictionary2<TKey, TValue>
 
     #region IEquatable
 
-    public bool Equals(ImmutableDictionary2<TKey, TValue> other)
+    public bool Equals(ImmutableDictionary2<TKey, TValue>? other)
     {
-        return _dictionary.SequenceEqual(other);
+        return other is not null && _dictionary.SequenceEqual(other);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is ImmutableDictionary2<TKey, TValue> other && Equals(other);
     }

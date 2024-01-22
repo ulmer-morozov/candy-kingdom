@@ -29,20 +29,23 @@ public sealed class CmsSampleDbContext : IdentityDbContext<ApplicationUser>, IMa
     {
         base.OnModelCreating(builder);
 
-        var boneSerializationOptions = CreateDefaultOptions();
-        boneSerializationOptions.TypeInfoResolver = new BoneTypeInfoResolver(); // needed for inheritance in serialization
+        var boneSerializerOptions = CreateDefaultOptions();
+        boneSerializerOptions.TypeInfoResolver = new BoneTypeInfoResolver(); // needed for inheritance in serialization
 
-        var settingSerializationOptions = CreateDefaultOptions();
-        settingSerializationOptions.TypeInfoResolver = new SettingDataTypeInfoResolver();
+        var settingSerializerOptions = CreateDefaultOptions();
+        settingSerializerOptions.TypeInfoResolver = new SettingDataTypeInfoResolver();
 
-        var pageDataSerializationOptions = CreateDefaultOptions();
-        pageDataSerializationOptions.TypeInfoResolver = new PageDataInfoResolver();
+        var pageDataSerializerOptions = CreateDefaultOptions();
+        pageDataSerializerOptions.TypeInfoResolver = new PageDataInfoResolver();
+
+        var defaultSerializationOptions = CreateDefaultOptions();
 
         builder.SetupForMarcyCms
         (
-            boneSerializerOptions: boneSerializationOptions,
-            settingSerializerOptions: settingSerializationOptions,
-            pageDataSerializerOptions: pageDataSerializationOptions
+            boneSerializerOptions: boneSerializerOptions,
+            settingSerializerOptions: settingSerializerOptions,
+            pageDataSerializerOptions: pageDataSerializerOptions,
+            defaultSerializerOptions: defaultSerializationOptions
         );
     }
 

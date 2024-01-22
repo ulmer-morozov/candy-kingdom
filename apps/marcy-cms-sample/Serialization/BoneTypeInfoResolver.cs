@@ -17,7 +17,7 @@ public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
         {
             jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
             {
-                TypeDiscriminatorPropertyName = nameof(TextBone.Type),
+                TypeDiscriminatorPropertyName = "$type",
                 IgnoreUnrecognizedTypeDiscriminators = false,
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =

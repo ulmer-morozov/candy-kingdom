@@ -14,9 +14,9 @@ namespace CandyKingdom.MarcyCms;
 
 public static class MarcyDbContextExtensions
 {
-    public static void HasJsonConversion(this PropertyBuilder<LocalizedString> propertyBuilder)
+    public static void HasJsonConversion(this PropertyBuilder<LocalizedString> propertyBuilder, JsonSerializerOptions serializerOptions)
     {
-        propertyBuilder.HasJsonConversion(LocalizedStringHelpers.DefaultSerializerOptions, LocalizedString.Empty);
+        propertyBuilder.HasJsonConversion(serializerOptions, LocalizedString.Empty);
     }
 
     public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions = null)
@@ -28,7 +28,6 @@ public static class MarcyDbContextExtensions
             v => JsonSerializer.Deserialize<T>(v, serializerOptions) ?? new T()
         );
     }
-
 
     public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions, T defaultValue)
     {
@@ -51,7 +50,9 @@ public static class MarcyDbContextExtensions
     public static void SetupForMarcyCms(this ModelBuilder builder,
         JsonSerializerOptions boneSerializerOptions,
         JsonSerializerOptions settingSerializerOptions,
-        JsonSerializerOptions pageDataSerializerOptions
+        JsonSerializerOptions pageDataSerializerOptions,
+        JsonSerializerOptions defaultSerializerOptions
+
     )
     {
         builder
@@ -61,12 +62,12 @@ public static class MarcyDbContextExtensions
         builder
            .Entity<PageDb>()
            .Property(x => x.OpenGraph)
-           .HasJsonConversion();
+           .HasJsonConversion(defaultSerializerOptions);
 
         builder
             .Entity<PageDb>()
             .Property(x => x.Title)
-            .HasJsonConversion();
+            .HasJsonConversion(defaultSerializerOptions);
 
         builder
             .Entity<PageDb>()

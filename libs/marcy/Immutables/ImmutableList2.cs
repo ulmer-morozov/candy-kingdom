@@ -122,12 +122,12 @@ public sealed class ImmutableList2<T> : IEquatable<ImmutableList2<T>>, IEnumerab
 
     #region IEquatable
 
-    public bool Equals(ImmutableList2<T> other)
+    public bool Equals(ImmutableList2<T>? other)
     {
-        return _list.SequenceEqual(other);
+        return other is not null && _list.SequenceEqual(other);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is ImmutableList2<T> other && Equals(other);
     }
