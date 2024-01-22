@@ -1,0 +1,9 @@
+<bon-image *ngIf="src && src.type==='image'"
+           [imgsrc]="src"
+           [objectFit]="objectFit"
+           (isLoaded)="onLoad()"></bon-image>
+
+<bon-video *ngIf="src && src.type==='video'"
+           [vidsrc]="src"
+           [objectFit]="objectFit"
+           (isLoaded)="onLoad()"></bon-video>

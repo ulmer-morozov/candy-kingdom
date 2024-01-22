@@ -1,0 +1,64 @@
+@import '../../variables.scss';
+
+:host {
+  display: block;
+  // border: 2px solid green;
+}
+
+.picture-container {
+  // background-color: red;
+  overflow: hidden;
+
+  &.cover,
+  &.contain,
+  &.knownRatio {
+
+    picture,
+    bon-intersection {
+      width: 100%;
+      height: 100%;
+
+      >img {
+        height: 100%;
+      }
+    }
+  }
+
+  &.cover {
+    height: 100%;
+
+    picture>img {
+      object-fit: cover;
+    }
+  }
+
+  &.contain {
+    height: 100%;
+
+    picture>img {
+      object-fit: contain;
+    }
+  }
+
+  &.knownRatio {
+    position: relative;
+
+    picture {
+      position: absolute;
+
+      >img {
+        object-fit: fill;
+      }
+    }
+  }
+}
+
+picture {
+  display: block;
+  backface-visibility: hidden;
+
+  >img {
+    display: block;
+    width: 100%;
+  }
+}

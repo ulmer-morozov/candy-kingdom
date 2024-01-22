@@ -1,0 +1,52 @@
+@import '../../variables.scss';
+
+:host {
+  display: block;
+  // border: 2px solid green;
+}
+
+.video-container {
+  background-color: black;
+  overflow: hidden;
+
+  &.cover,
+  &.contain,
+  &.knownRatio {
+
+    video,
+    bon-intersection {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &.cover {
+    height: 100%;
+
+    video {
+      object-fit: cover;
+    }
+  }
+
+  &.contain {
+    height: 100%;
+
+    video {
+      object-fit: contain;
+    }
+  }
+
+  &.knownRatio {
+    position: relative;
+
+    video {
+      position: absolute;
+      object-fit: fill;
+    }
+  }
+}
+
+video {
+  display: block;
+  width: 100%;
+}

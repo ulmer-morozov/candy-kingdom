@@ -1,0 +1,33 @@
+<div *ngIf="sources.length > 0"
+     [class.knownRatio]="src.ratio > 0 && objectFit === MarcyObjectFit.Original"
+     [class.cover]="objectFit === MarcyObjectFit.Cover"
+     [class.contain]="objectFit === MarcyObjectFit.Contain"
+     [class.loaded]="($status | async) === MediaStatus.Loaded"
+     class="picture-container">
+
+  <ng-template #pictureTemplate>
+    <picture>
+      <source *ngFor="let source of sources"
+              [srcset]="source.srcSet"
+              [attr.media]="source.media.length > 0 ? source.media : undefined"
+              [attr.type]="source.mime.length > 0 ? source.mime : undefined"
+              [attr.sizes]="source.sizes.length > 0 ? source.sizes : undefined" />
+
+      <img [src]="defaultSrc" (load)="onLoad()" />
+    </picture>
+  </ng-template>
+
+  <noscript *ngIf="device.isSSR">
+    <ng-container *ngTemplateOutlet="pictureTemplate"></ng-container>
+  </noscript>
+
+  <bon-intersection #intersectionZone *ngIf="!device.isSSR" [session]="src" (intersected)="cd.detectChanges()">
+
+    <ng-container *ngIf="intersectionZone.intersectedOnce">
+      <ng-container *ngTemplateOutlet="pictureTemplate"></ng-container>
+    </ng-container>
+
+  </bon-intersection>
+
+  <div *ngIf="src.ratio > 0 && objectFit === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio +'%'"></div>
+</div>

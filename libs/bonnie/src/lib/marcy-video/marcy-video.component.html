@@ -1,0 +1,32 @@
+<div [class.knownRatio]="src.ratio > 0 && objectFit === MarcyObjectFit.Original"
+     [class.cover]="objectFit === MarcyObjectFit.Cover"
+     [class.contain]="objectFit === MarcyObjectFit.Contain"
+     [class.loaded]="($status | async) === MediaStatus.Loaded"
+     class="video-container">
+
+  <ng-container *ngIf="device.isSSR ; then ssrTemplate else browserTemplate"></ng-container>
+
+  <ng-template #videoTemplate>
+    <video #video
+           [src]="source !== undefined ? source.url :'' "
+           (load)="onLoad()"
+           (canplay)="video.muted=true;video.play();"
+           autoplay
+           loop
+           muted> </video>
+  </ng-template>
+
+  <ng-template #ssrTemplate>
+    <noscript *ngIf="device.isSSR">
+      <ng-container *ngTemplateOutlet="videoTemplate"></ng-container>
+    </noscript>
+  </ng-template>
+
+  <ng-template #browserTemplate>
+    <bon-intersection #intersectionZone [session]="src" (intersected)="cd.detectChanges()">
+      <ng-container *ngTemplateOutlet="videoTemplate"></ng-container>
+    </bon-intersection>
+  </ng-template>
+
+  <div *ngIf="src.ratio > 0 && objectFit === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio +'%'"></div>
+</div>
