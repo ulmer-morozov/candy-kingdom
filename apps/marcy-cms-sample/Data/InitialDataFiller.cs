@@ -156,6 +156,7 @@ of a sample company"""),
 
         var pageDb = new PageDb
         (
+            Guid.NewGuid(),
             page.Url,
             page.Route,
             page.Order,

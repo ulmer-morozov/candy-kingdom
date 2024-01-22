@@ -57,7 +57,8 @@ public static class MarcyDbContextExtensions
     {
         builder
               .Entity<PageDb>()
-              .HasKey(x => x.Url);
+              .HasIndex(x => x.Url)
+              .IsUnique();
 
         builder
            .Entity<PageDb>()

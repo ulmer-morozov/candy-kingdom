@@ -22,6 +22,7 @@ public sealed record Page<T> : Page, IPage<T>
 
 public record Page : IHaveSkeleton
 {
+    public Guid Id { get; init; }
     public string Url { get; init; } = "";
     public string Route { get; init; } = "";
     public int Order { get; init; }
@@ -65,8 +66,9 @@ public record Page : IHaveSkeleton
 
     }
 
-    public Page(Page basePage)
+    protected Page(Page basePage)
     {
+        Id = basePage.Id;
         Url = basePage.Url;
         Route = basePage.Route;
         Order = basePage.Order;

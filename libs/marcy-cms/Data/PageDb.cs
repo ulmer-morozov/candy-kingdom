@@ -7,6 +7,7 @@ namespace CandyKingdom.MarcyCms.Data;
 
 public sealed class PageDb
 {
+    public Guid Id { get; private set; }
     public string Url { get; private set; }
     public string Route { get; private set; }
     public int Order { get; private set; }
@@ -20,8 +21,9 @@ public sealed class PageDb
     public PageDb? Parent { get; private set; }
     public ICollection<PageDb> Childern { get; private set; }
 
-    public PageDb(string url, string route, int order, PublishStatus publishStatus, LocalizedString title, OpenGraphData openGraph, IEnumerable<Bone> bones, PageData? data = null, PageDb? parent = null, IEnumerable<PageDb>? children = null)
+    public PageDb(Guid id, string url, string route, int order, PublishStatus publishStatus, LocalizedString title, OpenGraphData openGraph, IEnumerable<Bone> bones, PageData? data = null, PageDb? parent = null, IEnumerable<PageDb>? children = null)
     {
+        Id = id;
         Url = url;
         Title = title;
         Order = order;
