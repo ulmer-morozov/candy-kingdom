@@ -67,7 +67,9 @@ public abstract class PageFactory : SkeletonFactory
         {
             Url = pageUrl,
             Route = Route,
+            PublishStatus = PublishStatus,
             Title = Title,
+            OpenGraph = OpenGraph,
             Bones = Bones.ToImmutableList2(),
             Children = children
         };

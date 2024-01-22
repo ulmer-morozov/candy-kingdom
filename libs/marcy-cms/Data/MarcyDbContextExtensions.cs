@@ -63,7 +63,11 @@ public static class MarcyDbContextExtensions
         builder
            .Entity<PageDb>()
            .Property(x => x.OpenGraph)
-           .HasJsonConversion(defaultSerializerOptions);
+           .HasConversion
+           (
+                v => v == OpenGraphData.Empty ? "" : JsonSerializer.Serialize(v, defaultSerializerOptions),
+                v => string.IsNullOrEmpty(v) ? OpenGraphData.Empty : JsonSerializer.Deserialize<OpenGraphData>(v, defaultSerializerOptions) ?? OpenGraphData.Empty
+           );
 
         builder
             .Entity<PageDb>()

@@ -1,7 +1,9 @@
 using Autofac.Extensions.DependencyInjection;
 
+using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;
 using CandyKingdom.MarcyCms.Sample.Content;
+using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Sample.Data;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -53,7 +55,7 @@ builder.Services
 // services.AddSingleton<IFileStorage, LocalFileStorage>();
 // services.AddSingleton<IEmailSender, FakeEmailSender>();
 
-// services.AddSingleton<IPageManager, PageManager>();
+builder.Services.AddSingleton<IPageManager, PageManager<CmsSampleDbContext>>();
 // services.AddSingleton<ISettingsManager, SettingsManager>();
 
 builder.Services.AddSingleton<InitialDataFiller>();
@@ -63,7 +65,11 @@ builder.Services.AddSingleton<InitialDataFiller>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
+
+app.MapControllers();
 
 app.UseResponseCompression();
 

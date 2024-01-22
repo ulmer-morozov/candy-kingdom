@@ -16,12 +16,12 @@ public sealed class FacePageController : ControllerBase
         _logger = logger;
     }
 
-    [Route("Api/Pages/{pageRouteName}")]
+    [Route("Api/Pages/")]
     [HttpGet]
-    public async Task<ActionResult<Page>> Get(string pageRouteName, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<Page>> Get([FromQuery] string url = "", CancellationToken cancellationToken = default)
     {
         var pageResult = await _pageManager.GetAsync(
-             pageRouteName,
+             url,
              new GetPageParams
              {
                  IncludeChildren = false,

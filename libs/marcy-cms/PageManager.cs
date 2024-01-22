@@ -20,6 +20,7 @@ public class PageManager<TDbContext> : IPageManager
     // For generated pages we could override this method
     public virtual async Task<ResultOrError<Page>> GetAsync(string url, GetPageParams? parameters = null, CancellationToken cancellationToken = default)
     {
+        url = url.ToLowerInvariant();
         parameters ??= new GetPageParams();
 
         PageDb? pageDb;
@@ -39,7 +40,7 @@ public class PageManager<TDbContext> : IPageManager
             }
 
             pageDb = await pageQuery
-                                   .Where(x => x.Url.Equals(url, StringComparison.OrdinalIgnoreCase))
+                                   .Where(x => x.Url == url)
                                    .SingleOrDefaultAsync(cancellationToken);
         }
 
@@ -75,10 +76,12 @@ public class PageManager<TDbContext> : IPageManager
     {
         var children = (pageDb.Childern ?? Array.Empty<PageDb>())
                                             .Select(ToDto)
+                                            .OrderBy(x => x.Order)
                                             .ToImmutableList2();
 
         var page = new Page()
         {
+            Id = pageDb.Id,
             Url = pageDb.Url,
             Route = pageDb.Route,
             Order = pageDb.Order,

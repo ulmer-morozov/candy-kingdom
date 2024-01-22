@@ -14,8 +14,8 @@ import { SkeletonAnchorDirective } from './skeleton/skeleton-anchor.directive';
 import { SkeletonComponent } from './skeleton/skeleton.component';
 import { LocalizationIsNotEmptyPipe, LocalizePipe } from './localization/localize.pipe';
 import { UnknownBoneComponent } from './skeleton/unknown-bone.component';
-import { BoneDirective } from '../public-api';
 import { MarcyMediaComponent } from './marcy-media/marcy-media.component';
+import { BoneDirective } from './skeleton/bone.directive';
 
 const components = [
   MarcyImageComponent,
