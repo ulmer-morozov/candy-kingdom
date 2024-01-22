@@ -8,9 +8,14 @@ namespace CandyKingdom.MarcyCms.Sample.Content;
 
 public sealed class ProjectsPage : PageFactory
 {
-    public const string ROUTE = "projects";
-    public override string Route => ROUTE;
+    public override string Route { get; } = "projects";
     public override LocalizedString Title => En("Projects");
+    public override OpenGraphData OpenGraph { get; } = new OpenGraphData
+    {
+        Title = En("OpenGraph Title of The Projects Page"),
+        Description = En("OpenGraph Description of The Projects Page"),
+        Image = En("")
+    };
 
     public ProjectsPage()
     {
@@ -18,7 +23,7 @@ public sealed class ProjectsPage : PageFactory
             new PageListBone()
             {
                 Title = En("Project-list"),
-                DataRoute = ROUTE
+                DataRoute = Route
             }
         );
     }

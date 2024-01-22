@@ -49,9 +49,10 @@ public static class MarcyDbContextExtensions
     }
 
     public static void SetupForMarcyCms(this ModelBuilder builder,
-    JsonSerializerOptions boneSerializerOptions,
-    JsonSerializerOptions settingSerializerOptions,
-    JsonSerializerOptions pageDataSerializerOptions)
+        JsonSerializerOptions boneSerializerOptions,
+        JsonSerializerOptions settingSerializerOptions,
+        JsonSerializerOptions pageDataSerializerOptions
+    )
     {
         builder
               .Entity<PageDb>()

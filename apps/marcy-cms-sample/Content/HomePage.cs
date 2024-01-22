@@ -8,14 +8,21 @@ namespace CandyKingdom.MarcyCms.Sample.Content;
 
 public sealed class HomePage : PageFactory
 {
-    public const string ROUTE = "";
-
-    public override LocalizedString Title => En("Home page!");
-
-    public override string Route => ROUTE;
+    public override string Route { get; } = "";
+    public override LocalizedString Title { get; } = En("Home page!");
+    public override OpenGraphData OpenGraph { get; } = new OpenGraphData
+    {
+        Title = En("OpenGraph Title of The Home Page"),
+        Description = En("OpenGraph Description of The Home Page"),
+        Image = En("")
+    };
 
     public HomePage()
     {
-        AddBones(new TextBone() { Title = En("Index page"), Text = En("Text on index page."), });
+        AddBones(new TextBone()
+        {
+            Title = En("Index page"),
+            Text = En("Text on index page.")
+        });
     }
 }

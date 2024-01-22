@@ -1,6 +1,9 @@
+using System.Collections.Immutable;
+
 using Autofac;
 
 using CandyKingdom.Marcy.Immutables;
+using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Data;
 using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Settings;
@@ -57,7 +60,20 @@ public sealed class InitialDataFiller
                                 of a sample company"""),
                                 TextType = TextSettingType.MultiLine
                             }
-                        },
+                        }
+                }.ToImmutableList2()
+            }
+        );
+
+        await CreateIfNotExist
+        (
+              context,
+              new SettingGroup
+              {
+                  Id = CmsSampleSettingGroupIds.Contacts,
+                  Title = "Contacts",
+                  Records = new List<Setting>
+                  {
                         new Setting<TextSettingData>
                         {
                             Id = CmsSampleSettingIds.Email,
@@ -68,14 +84,27 @@ public sealed class InitialDataFiller
                                 TextType = TextSettingType.SingleLine
                             }
                         }
-                }.ToImmutableList2()
-            }
+                  }.ToImmutableList2()
+              }
+        );
+
+        await CreateIfNotExist
+        (
+            context,
+            new WebsiteRoot()
+                    .AddChild<HomePage>()
+                    .AddChild<ProjectsPage>(
+                        projects =>
+                            projects
+                                .AddChild<ProjectA>()
+                                .AddChild<ProjectB>()
+                    )
+                    .AddChild<AboutPage>()
         );
 
         await context.SaveChangesAsync();
 
         var ds = context.SettingGroups.Include(x => x.Records).ToList();
-
     }
 
     private static async Task CreateIfNotExist(CmsSampleDbContext context, SettingGroup settingGroup)
@@ -94,6 +123,21 @@ public sealed class InitialDataFiller
         await context.SettingRecords.AddRangeAsync(newRecords);
     }
 
+    private static async Task CreateIfNotExist(CmsSampleDbContext context, PageFactory pageFactory)
+    {
+        var anyPageExist = await context.Pages.AnyAsync();
+
+        if (anyPageExist)
+            return;
+
+        var page = pageFactory.Create("");
+
+        var pageDb = FromDto(page);
+
+        await context.Pages.AddAsync(pageDb);
+
+    }
+
     private static SettingDb FromDto(Setting setting, SettingGroupDb groupDb)
     {
         var settingType = setting.GetType();
@@ -103,6 +147,31 @@ public sealed class InitialDataFiller
             return new SettingDb(setting.Id, setting.Title, typedSetting.Data, groupDb);
         }
 
-        throw new Exception($"Unknown type of setting {settingType}");
+        throw new ArgumentException($"Unknown type of setting {settingType}");
+    }
+
+    private static PageDb FromDto(Page page, PageDb? parent = null)
+    {
+        var pageData = page is IPage<PageData> pageWithData ? pageWithData.Data : PageData.Empty;
+
+        var pageDb = new PageDb
+        (
+            page.Url,
+            page.Route,
+            page.Order,
+            page.PublishStatus,
+            page.Title,
+            page.OpenGraph,
+            page.Bones,
+            pageData,
+            parent: parent
+        );
+
+        page.Children
+            .Select(x => FromDto(x, pageDb))
+            .ToList()
+            .ForEach(pageDb.Childern.Add);
+
+        return pageDb;
     }
 }

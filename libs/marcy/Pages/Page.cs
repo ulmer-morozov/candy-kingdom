@@ -3,10 +3,21 @@ using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.Marcy.Pages;
 
-public sealed record Page<T>
+public sealed record Page<T> : Page, IPage<T>
     where T : PageData, new()
 {
     public required T Data { get; init; }
+
+    public Page()
+    {
+
+    }
+
+    public Page(Page basePage)
+        : base(basePage)
+    {
+
+    }
 }
 
 public record Page : IHaveSkeleton
@@ -47,5 +58,22 @@ public record Page : IHaveSkeleton
         }
 
         return result;
+    }
+
+    public Page()
+    {
+
+    }
+
+    public Page(Page basePage)
+    {
+        Url = basePage.Url;
+        Route = basePage.Route;
+        Order = basePage.Order;
+        PublishStatus = basePage.PublishStatus;
+        Title = basePage.Title;
+        OpenGraph = basePage.OpenGraph;
+        Bones = basePage.Bones;
+        Children = basePage.Children;
     }
 }

@@ -3,18 +3,26 @@ using System.Globalization;
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Bones;
+using CandyKingdom.MarcyCms.Sample.PageTypes;
 
 using static CandyKingdom.Marcy.LocalizedStringHelpers;
 
 namespace CandyKingdom.MarcyCms.Sample.Content;
 
-public sealed class ProjectA : PageFactory
+public sealed class ProjectA : PageFactory<ProjectPageData>
 {
-    public const string ROUTE = "a";
-
+    public override string Route { get; } = "a";
     public override LocalizedString Title { get; } = En("The Project \"A\"");
-
-    public override string Route { get; } = ROUTE;
+    public override OpenGraphData OpenGraph { get; } = new OpenGraphData
+    {
+        Title = En("OpenGraph Title of The Project \"A\""),
+        Description = En("OpenGraph Description of The Project \"A\""),
+        Image = En("")
+    };
+    public override ProjectPageData Data { get; } = new ProjectPageData
+    {
+        SpecialTitle = En("Project A Only Special Title!")
+    };
 
     public ProjectA()
     {

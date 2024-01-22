@@ -2,10 +2,30 @@ using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy.Pages;
 
+public abstract class PageFactory<T> : PageFactory
+    where T : PageData, new()
+{
+    public abstract T Data { get; }
+
+    public override Page Create(string baseUrl)
+    {
+        var page = base.Create(baseUrl);
+
+        var newPage = new Page<T>(page)
+        {
+            Data = Data
+        };
+
+        return newPage;
+    }
+}
+
 public abstract class PageFactory : SkeletonFactory
 {
+    public PublishStatus PublishStatus { get; } = PublishStatus.Published;
     public abstract string Route { get; }
     public abstract LocalizedString Title { get; }
+    public abstract OpenGraphData OpenGraph { get; }
     public List<PageFactory> Children { get; set; } = [];
 
     public PageFactory AddChild<T>(T child)
@@ -28,12 +48,24 @@ public abstract class PageFactory : SkeletonFactory
         return this;
     }
 
-    public Page Create()
+    public virtual Page Create(string baseUrl)
     {
-        var children = Children.Select(x => x.Create()).ToImmutableList2();
+        var pageUrl = baseUrl == "" && Route == WebsiteRoot.RootPrefix
+                ? WebsiteRoot.RootPrefix
+                : $"{baseUrl}{Route}";
+
+        var passedBaseUrl = pageUrl == WebsiteRoot.RootPrefix
+                ? "/"
+                : $"{pageUrl}/";
+
+        var children = Children
+            .Select(x => x.Create(passedBaseUrl))
+            .Select((x, i) => x with { Order = i })
+            .ToImmutableList2();
 
         var page = new Page
         {
+            Url = pageUrl,
             Route = Route,
             Title = Title,
             Bones = Bones.ToImmutableList2(),
