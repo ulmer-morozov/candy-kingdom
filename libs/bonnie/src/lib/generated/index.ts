@@ -31,3 +31,4 @@ export * from './sizes-width-unit';
 export * from './video-meta';
 export * from './video-source';
 export * from './video';
+export * from './view';

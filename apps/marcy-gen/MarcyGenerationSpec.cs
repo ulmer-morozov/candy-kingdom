@@ -88,6 +88,7 @@ public sealed class MarcyGenerationSpec : GenerationSpec
 
         AddInterface(typeof(IHaveSkeleton));
 
+        AddInterface(typeof(View));
         AddInterface(typeof(Page));
         AddInterface(typeof(Page<>));
 

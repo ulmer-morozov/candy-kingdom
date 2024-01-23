@@ -4,6 +4,7 @@ import { MediaBoneComponent } from './bone-components/media-bone/media-bone.comp
 import { PageListBoneComponent } from './bone-components/page-list-bone/page-list-bone.component';
 import { MarcyElementsModule } from '@candy-kingdom/bonnie';
 import { RouterModule } from '@angular/router';
+import { DataService } from './data.service';
 
 const boneComponents = [
   TextBoneComponent,
@@ -16,6 +17,7 @@ const boneComponents = [
     ...boneComponents
   ],
   providers: [
+    DataService
   ],
   imports: [
     MarcyElementsModule,

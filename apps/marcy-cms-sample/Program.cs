@@ -5,6 +5,7 @@ using CandyKingdom.MarcyCms.Sample;
 using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Sample.Data;
+using CandyKingdom.MarcyCms.Sample.Serialization;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -65,7 +66,9 @@ builder.Services.AddSingleton<InitialDataFiller>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(o => CmsJsonSerializationOptions.Configure(o.JsonSerializerOptions));
 
 var app = builder.Build();
 

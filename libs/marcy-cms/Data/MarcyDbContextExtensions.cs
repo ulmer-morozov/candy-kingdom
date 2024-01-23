@@ -47,13 +47,7 @@ public static class MarcyDbContextExtensions
         );
     }
 
-    public static void SetupForMarcyCms(this ModelBuilder builder,
-        JsonSerializerOptions boneSerializerOptions,
-        JsonSerializerOptions settingSerializerOptions,
-        JsonSerializerOptions pageDataSerializerOptions,
-        JsonSerializerOptions defaultSerializerOptions
-
-    )
+    public static void SetupForMarcyCms(this ModelBuilder builder, JsonSerializerOptions serializerOptions)
     {
         builder
               .Entity<PageDb>()
@@ -65,33 +59,33 @@ public static class MarcyDbContextExtensions
            .Property(x => x.OpenGraph)
            .HasConversion
            (
-                v => v == OpenGraphData.Empty ? "" : JsonSerializer.Serialize(v, defaultSerializerOptions),
-                v => string.IsNullOrEmpty(v) ? OpenGraphData.Empty : JsonSerializer.Deserialize<OpenGraphData>(v, defaultSerializerOptions) ?? OpenGraphData.Empty
+                v => v == OpenGraphData.Empty ? "" : JsonSerializer.Serialize(v, serializerOptions),
+                v => string.IsNullOrEmpty(v) ? OpenGraphData.Empty : JsonSerializer.Deserialize<OpenGraphData>(v, serializerOptions) ?? OpenGraphData.Empty
            );
 
         builder
             .Entity<PageDb>()
             .Property(x => x.Title)
-            .HasJsonConversion(defaultSerializerOptions);
+            .HasJsonConversion(serializerOptions);
 
         builder
             .Entity<PageDb>()
             .Property(x => x.Bones)
-            .HasJsonConversion(boneSerializerOptions, ImmutableList2<Bone>.Empty);
+            .HasJsonConversion(serializerOptions, ImmutableList2<Bone>.Empty);
 
         builder
             .Entity<PageDb>()
             .Property(x => x.Data)
             .HasConversion
             (
-                v => v == PageData.Empty ? "" : JsonSerializer.Serialize(v, pageDataSerializerOptions),
-                v => string.IsNullOrEmpty(v) ? PageData.Empty : JsonSerializer.Deserialize<PageData>(v, pageDataSerializerOptions) ?? PageData.Empty
+                v => v == PageData.Empty ? "" : JsonSerializer.Serialize(v, serializerOptions),
+                v => string.IsNullOrEmpty(v) ? PageData.Empty : JsonSerializer.Deserialize<PageData>(v, serializerOptions) ?? PageData.Empty
             );
 
         builder
             .Entity<SettingDb>()
             .Property(x => x.Data)
-            .HasJsonConversion(settingSerializerOptions, SettingData.Empty);
+            .HasJsonConversion(serializerOptions, SettingData.Empty);
 
         builder
             .Entity<SettingGroupDb>()
