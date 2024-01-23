@@ -24,6 +24,12 @@
       "options": {
         "jestConfig": "libs/generated/marcy-cms-types/jest.config.ts"
       }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
     }
   },
   "tags": [],

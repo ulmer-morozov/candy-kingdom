@@ -33,6 +33,12 @@
     },
     "lint": {
       "executor": "@nx-dotnet/core:format"
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
     }
   },
   "tags": []

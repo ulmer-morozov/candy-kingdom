@@ -13,6 +13,12 @@
         "outputProject": "generated-marcy-cms-types"
       },
       "dependsOn": ["^swagger"]
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
     }
   },
   "implicitDependencies": ["marcy-cms-sample"]

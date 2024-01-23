@@ -43,6 +43,12 @@
         "output": "libs/generated/marcy-cms-swagger/swagger.json"
       },
       "dependsOn": ["build"]
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
     }
   },
   "tags": []
