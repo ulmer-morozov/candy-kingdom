@@ -14,7 +14,7 @@ export class SkeletonComponent implements OnInit {
   @ViewChild(SkeletonAnchorDirective, { static: true })
   public skeletonAnchor!: SkeletonAnchorDirective;
 
-  @Input()
+  @Input({ required: true })
   public map?: Map<string, Type<IBoneComponent>>;
 
   private readonly _bones: Bone[] = [];

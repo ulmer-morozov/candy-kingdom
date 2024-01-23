@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "candy-kingdom",
+            "prefix": "app",
             "style": "kebab-case"
           }
         ]

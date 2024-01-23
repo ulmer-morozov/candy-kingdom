@@ -1,0 +1,40 @@
+@use '../../../variables.scss'as v;
+
+:host {
+  display: block;
+}
+
+:host.mobile-display {
+  @include v.windowGrid;
+
+  .title {
+    grid-row: 1;
+    grid-column: 1/span 12;
+  }
+
+  .media {
+    grid-row: 2;
+    grid-column: 3/span 3;
+
+    >mrc-media {
+      margin-top: v.pxToVw(10);
+      margin-left: v.pxToVw(12);
+      margin-right: v.pxToVw(12);
+      margin-bottom: v.pxToVw(12);
+
+      border-radius: v.pxToVw(10);
+      overflow: hidden;
+    }
+  }
+
+  .text {
+    @include v.smallText;
+
+    grid-row: 2;
+    grid-column: 7/span 4;
+
+    color: v.$windowSmallTextColor;
+
+    margin: auto;
+  }
+}

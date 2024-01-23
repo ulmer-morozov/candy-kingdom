@@ -23,7 +23,6 @@ export * from './open-graph-data';
 export * from './page-base';
 export * from './page-data';
 export * from './page';
-export * from './PageBase';
 export * from './pix-media';
 export * from './pix-meta';
 export * from './publish-status';

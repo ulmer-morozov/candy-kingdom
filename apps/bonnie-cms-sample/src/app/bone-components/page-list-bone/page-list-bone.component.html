@@ -1,0 +1,22 @@
+<ng-container *ngIf="bd.bone.style===PageListBoneStyle.MainNav; else defaultMenu">
+
+    <nav>
+        <div [innerHTML]="bd.bone.title | localize"></div>
+
+        <ul>
+            <li *ngFor="let link of bd.bone.data">
+                <a [routerLink]="link.route">{{link.title | localize}}</a>
+            </li>
+        </ul>
+    </nav>
+
+</ng-container>
+
+<ng-template #defaultMenu>
+    <h6 [innerHTML]="bd.bone.title | localize"></h6>
+    <ul>
+        <li *ngFor="let link of bd.bone.data">
+            <a [routerLink]="link.route">{{link.title | localize}}</a>
+        </li>
+    </ul>
+</ng-template>

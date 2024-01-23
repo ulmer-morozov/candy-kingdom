@@ -1,0 +1,6 @@
+<div *ngIf="bd.bone.title | localizationIsNotEmpty" class="title" [innerHTML]="bd.bone.title | localize"></div>
+<div *ngIf="bd.bone.text | localizationIsNotEmpty" class="text" [innerHTML]="bd.bone.text | localize"></div>
+
+<div class="media">
+  <bon-media [src]="bd.bone.media"></bon-media>
+</div>

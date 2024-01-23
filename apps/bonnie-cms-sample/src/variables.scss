@@ -1,0 +1,52 @@
+@use 'sass:math';
+
+$accentColor: #f8e9f4;
+$accentActiveColor: #fac1e9;
+$accentBgColor: #353D2F;
+
+$windowSmallTextColor: #1E1E1E;
+
+@function pxToVw($value) {
+    @return 1.26*math.div($value, 1920) * 100vw;
+}
+
+@mixin accentFont() {
+    font-family: 'Inter', sans-serif;
+}
+
+@mixin regularFont() {
+    font-family: 'Inter', sans-serif;
+    line-height: 125%;
+}
+
+@mixin menuFont {
+    @include regularFont;
+}
+
+@mixin smallText {
+    @include regularFont;
+    font-size: pxToVw(15);
+}
+
+@mixin text {
+    @include regularFont;
+    font-size: pxToVw(20);
+}
+
+@mixin windowTitle() {
+    @include regularFont;
+    font-weight: 200;
+    line-height: 120%;
+    font-size: pxToVw(60);
+}
+
+@mixin smallLink {
+    @include smallText;
+
+    color: $windowSmallTextColor;
+    text-decoration: underline;
+
+    &:hover{
+        color: lighten($windowSmallTextColor, 15%);
+    }
+}

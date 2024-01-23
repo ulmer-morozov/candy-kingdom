@@ -1,0 +1,15 @@
+@use '../../../variables.scss'as v;
+
+:host {
+  white-space: pre-line;
+}
+
+h2,
+.text {
+  grid-column: 3/span 8;
+}
+
+.text {
+  @include v.text;
+  color: v.$windowSmallTextColor;
+}
