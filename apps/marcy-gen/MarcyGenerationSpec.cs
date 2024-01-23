@@ -1,23 +1,58 @@
+using System.Collections.Immutable;
+
 using CandyKingdom.Marcy;
+using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 
+using TypeGen.Core.Converters;
 using TypeGen.Core.SpecGeneration;
 using TypeGen.Core.TypeAnnotations;
 
 namespace CandyKingdom.MarcyGen;
+
+
+public class TypeNameConverter : ITypeNameConverter
+{
+    // These needed for successfull generation of generic classes that have same name as base class
+    public static readonly ImmutableList<Type> SpecialTypes = [typeof(Page)];
+
+    public string Convert(string name, Type type)
+    {
+        if (SpecialTypes.Contains(type))
+        {
+            return $"{name}Base";
+        }
+
+        return name;
+    }
+}
+
+public class FileNameConverter : ITypeNameConverter
+{
+    public string Convert(string name, Type type)
+    {
+        if (TypeNameConverter.SpecialTypes.Contains(type))
+        {
+            return $"{name}-base";
+        }
+
+        return name;
+    }
+}
 
 public sealed class MarcyGenerationSpec : GenerationSpec
 {
     public override void OnBeforeGeneration(OnBeforeGenerationArgs args)
     {
         args.GeneratorOptions.PropertyNameConverters.Add(new JsonMemberNameConverter());
+        args.GeneratorOptions.TypeNameConverters.Add(new TypeNameConverter());
+        args.GeneratorOptions.FileNameConverters.Add(new FileNameConverter());
 
         AddBarrel("", BarrelScope.Files);
 
         AddInterface(typeof(LocalizedObject<>))
-          .Member("Localizations")
-          .MemberName("[locale: string]")
-          .Type("T");
+          .Member("Localizations").MemberName("[locale: string]").Type("T")
+          .Member("EnCode").Ignore();
 
         AddInterface<LocalizedString>()
           .Member("Empty")
@@ -48,5 +83,18 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddEnum<SizesWidthUnit>().StringInitializers();
 
         AddInterface(typeof(IHaveDataRouteWithData<>));
+
+        AddEnum<PublishStatus>();
+
+        AddInterface(typeof(IHaveSkeleton));
+
+        AddInterface(typeof(Page));
+        AddInterface(typeof(Page<>));
+
+        AddInterface<PageData>()
+            .Member(nameof(PageData.Empty)).Ignore();
+
+        AddInterface<OpenGraphData>();
+
     }
 }
