@@ -1,21 +1,26 @@
+using System.Text.Json.Serialization;
+
 using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
 
 public sealed record Video : PixMedia
 {
-    private const string VIDEO_MEDIA_TYPE = "video"; // todo: rename
+    public const string MediaType = "video";
 
     public override ImmutableList2<VideoSource> Sources { get; }
 
-    public override string Type { get; } = VIDEO_MEDIA_TYPE;
+    public override string Type { get; } = MediaType;
 
-    private Video(ImmutableList2<VideoSource> sources)
-      : base(sources)
+    [JsonConstructor]
+    public Video(ImmutableList2<VideoSource> sources)
     {
         Sources = sources;
     }
 
     public Video(IEnumerable<VideoSource> sources)
-      : this(sources as ImmutableList2<VideoSource> ?? sources.ToImmutableList2()) { }
+        : this(sources as ImmutableList2<VideoSource> ?? sources.ToImmutableList2())
+    {
+
+    }
 }

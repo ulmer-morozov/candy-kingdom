@@ -6,8 +6,9 @@ public record MediaSource<TMeta> : MediaSourceBase
   where TMeta : FileMeta
 {
     public override ImmutableList2<FileSrc<TMeta>> SrcSet { get; }
+    public string MediaQuery { get; init; } = "";
 
-    private MediaSource(ImmutableList2<FileSrc<TMeta>> srcSet)
+    protected MediaSource(ImmutableList2<FileSrc<TMeta>> srcSet)
       : base(srcSet)
     {
         SrcSet = srcSet;

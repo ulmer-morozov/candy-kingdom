@@ -10,6 +10,5 @@ import { MediaSourceBase } from "./media-source-base";
 import { SizesItem } from "./sizes-item";
 
 export interface ImageSource extends MediaSource<ImageMeta> {
-    mediaQuery: string;
     sizes: SizesItem[];
 }

@@ -1,19 +1,25 @@
-using System.Collections.Immutable;
+using System.Text.Json.Serialization;
+
+using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
 
 public sealed record ImageSource : MediaSource<ImageMeta>
 {
-    public string MediaQuery { get; init; } = "";
+    public ImmutableList2<SizesItem> Sizes { get; init; } = ImmutableList2<SizesItem>.Empty;
 
-    public ImmutableList<SizesItem> Sizes { get; init; } = [];
+    [JsonConstructor]
+    public ImageSource(ImmutableList2<FileSrc<ImageMeta>> srcSet)
+        : base(srcSet)
+    {
+    }
 
     public ImageSource(IEnumerable<FileSrc<ImageMeta>> srcSet, IEnumerable<SizesItem>? sizes = null)
-      : base(srcSet)
+       : this
+        (
+            srcSet as ImmutableList2<FileSrc<ImageMeta>> ?? srcSet.ToImmutableList2()
+        )
     {
-        Sizes =
-          sizes as ImmutableList<SizesItem>
-          ?? sizes?.ToImmutableList()
-          ?? [];
+        Sizes = sizes as ImmutableList2<SizesItem> ?? sizes?.ToImmutableList2() ?? ImmutableList2<SizesItem>.Empty;
     }
 }

@@ -6,6 +6,7 @@ using System.Text.Json.Serialization.Metadata;
 using System.Text.Unicode;
 
 using CandyKingdom.Marcy;
+using CandyKingdom.Marcy.Serialization;
 
 namespace CandyKingdom.MarcyCms.Sample.Serialization;
 
@@ -21,7 +22,8 @@ public static class CmsJsonSerializationOptions
     (
         new BoneTypeInfoResolver(),
         new SettingDataTypeInfoResolver(),
-        new PageDataInfoResolver()
+        new PageDataInfoResolver(),
+        MarcyJsonContext.Default
     );
 
     public static JsonSerializerOptions New()

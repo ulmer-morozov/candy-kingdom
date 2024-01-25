@@ -1,13 +1,13 @@
+using System.Text.Json.Serialization;
+
 namespace CandyKingdom.Marcy;
 
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$$type")]
+[JsonDerivedType(typeof(Video), Video.MediaType)]
+[JsonDerivedType(typeof(Image), Image.MediaType)]
 public abstract record PixMedia
 {
-    public virtual IEnumerable<MediaSourceBase> Sources { get; }
+    public abstract IEnumerable<MediaSourceBase> Sources { get; }
 
     public abstract string Type { get; }
-
-    protected PixMedia(IEnumerable<MediaSourceBase> sources)
-    {
-        Sources = sources;
-    }
 }

@@ -8,6 +8,6 @@ import { IEquatable } from "./i-equatable";
 import { Bone } from "./bone";
 
 export interface View {
-    id: string;
+    code: string;
     bones: Bone[];
 }

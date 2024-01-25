@@ -63,8 +63,14 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface<Bone>();
 
         AddInterface<PixMedia>().Member(x => nameof(x.Type)).Type("'image' | 'video'");
-        AddInterface<Image>().Member(x => nameof(x.Type)).Type("'image'");
-        AddInterface<Video>().Member(x => nameof(x.Type)).Type("'video'");
+
+        AddInterface<Image>()
+            .Member(x => nameof(x.Type)).Type("'image'")
+            .Member(x => nameof(x.MediaType)).Ignore();
+
+        AddInterface<Video>()
+            .Member(x => nameof(x.Type)).Type("'video'")
+            .Member(x => nameof(x.MediaType)).Ignore();
 
         AddInterface(typeof(ImageSource));
         AddInterface(typeof(VideoSource));

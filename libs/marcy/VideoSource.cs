@@ -1,14 +1,20 @@
-using System.Collections.Immutable;
+using System.Text.Json.Serialization;
+
+using CandyKingdom.Marcy.Immutables;
 
 namespace CandyKingdom.Marcy;
 
 public sealed record VideoSource : MediaSource<VideoMeta>
 {
-    public string MediaQuery { get; init; } = "";
+    [JsonConstructor]
+    public VideoSource(ImmutableList2<FileSrc<VideoMeta>> srcSet)
+        : base(srcSet)
+    {
+    }
 
     public VideoSource(IEnumerable<FileSrc<VideoMeta>> srcSet)
-      : base(srcSet) { }
+        : this(srcSet as ImmutableList2<FileSrc<VideoMeta>> ?? srcSet.ToImmutableList2())
+    {
 
-    public VideoSource()
-      : this(ImmutableList<FileSrc<VideoMeta>>.Empty) { }
+    }
 }

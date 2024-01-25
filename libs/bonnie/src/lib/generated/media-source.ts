@@ -10,4 +10,5 @@ import { FileSrc } from "./file-src";
 
 export interface MediaSource<TMeta extends FileMeta> extends MediaSourceBase {
     srcSet: FileSrc<TMeta>[];
+    mediaQuery: string;
 }
