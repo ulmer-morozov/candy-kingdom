@@ -7,14 +7,14 @@ namespace CandyKingdom.MarcyCms.Sample.Content;
 
 public sealed class FaceView : ViewFactory
 {
-    public override string Id { get; } = "face";
+    public override string Code { get; } = "face";
 
     public FaceView()
     {
         AddBones(
             new PageListBone()
             {
-                Title = En(""),
+                Title = Empty,
                 DataRoute = "~",
                 Style = "main-nav"
             }

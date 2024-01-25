@@ -1,5 +1,8 @@
+using System.Collections.Immutable;
+
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Content;
+using CandyKingdom.MarcyCms.Sample.Core;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,19 +23,29 @@ public sealed class ViewController : ControllerBase
 
     [Route("Api/Children/")]
     [HttpGet]
-    public async Task<ActionResult<Page>> Get([FromQuery] string url = "", CancellationToken cancellationToken = default)
+    public async Task<ActionResult<IEnumerable<Page>>> Get([FromQuery] string url = "", CancellationToken cancellationToken = default)
     {
         url = url.Replace("~", "").ToLowerInvariant();
 
         await using var context = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         var mainPage = await context.Pages
-        .Include(x => x.Children)
-        .SingleOrDefaultAsync
-        (
-            x => x.Url == url, cancellationToken
-        );
+            .Include(x => x.Children)
+            .Where(x => x.PublishStatus == PublishStatus.Published)
+            .SingleOrDefaultAsync
+            (
+                x => x.Url == url, cancellationToken
+            );
 
-        return new Page();
+        var children = (mainPage?.Children ?? [])
+            .Select(x => new Page
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Url = x.Url
+            })
+            .ToImmutableList();
+
+        return Ok(children);
     }
 }

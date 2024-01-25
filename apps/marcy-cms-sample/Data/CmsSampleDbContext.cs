@@ -12,6 +12,7 @@ public sealed class CmsSampleDbContext : IdentityDbContext<ApplicationUser>, IMa
     public DbSet<SettingGroupDb> SettingGroups => Set<SettingGroupDb>();
     public DbSet<SettingDb> SettingRecords => Set<SettingDb>();
     public DbSet<PageDb> Pages => Set<PageDb>();
+    public DbSet<ViewDb> Views => Set<ViewDb>();
 
     public CmsSampleDbContext(DbContextOptions<CmsSampleDbContext> options)
         : base(options)

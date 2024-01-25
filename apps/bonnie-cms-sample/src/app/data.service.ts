@@ -79,8 +79,11 @@ export class DataService {
             if (data === undefined || data === null)
               throw new Error(`Data ${bone.dataRoute} have not been preloaded`);
 
-            throw new Error(`not implemented`);
-            // bone.data = data;
+            if ('data' in bone) {
+              bone.data = data;
+            } else {
+              console.warn('not data in bone');
+            }
           }
 
           return x.page;

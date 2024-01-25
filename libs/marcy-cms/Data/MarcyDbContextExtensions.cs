@@ -50,9 +50,9 @@ public static class MarcyDbContextExtensions
     public static void SetupForMarcyCms(this ModelBuilder builder, JsonSerializerOptions serializerOptions)
     {
         builder
-              .Entity<PageDb>()
-              .HasIndex(x => x.Url)
-              .IsUnique();
+            .Entity<PageDb>()
+            .HasIndex(x => x.Url)
+            .IsUnique();
 
         builder
            .Entity<PageDb>()
@@ -81,6 +81,11 @@ public static class MarcyDbContextExtensions
                 v => v == PageData.Empty ? "" : JsonSerializer.Serialize(v, serializerOptions),
                 v => string.IsNullOrEmpty(v) ? PageData.Empty : JsonSerializer.Deserialize<PageData>(v, serializerOptions) ?? PageData.Empty
             );
+
+        builder
+            .Entity<ViewDb>()
+            .Property(x => x.Bones)
+            .HasJsonConversion(serializerOptions, ImmutableList2<Bone>.Empty);
 
         builder
             .Entity<SettingDb>()
