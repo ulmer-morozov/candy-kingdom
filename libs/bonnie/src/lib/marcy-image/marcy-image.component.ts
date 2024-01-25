@@ -3,14 +3,14 @@ import { BehaviorSubject, filter } from 'rxjs';
 
 import * as MCore from '../generated';
 
-import { UnsubscriberService } from '../unsubscribe.service';
-import { MediaStatus } from '../MediaStatus';
-import { MediaObjectFit } from '../MediaObjectFit';
-import { ImageSrcDirective } from '../imgsrc.directive';
+import { UnsubscriberService } from '../core/unsubscribe.service';
+import { MediaStatus } from '../core/MediaStatus';
+import { MediaObjectFit } from '../core/MediaObjectFit';
+import { ImageSrcDirective } from './imgsrc.directive';
 import { IHtmlPictureSource } from './IHtmlPictureSource';
 import { toHtmlPictureSources } from './toHtmlSources';
 import { getDefaultSrc } from './getDefaultSrc';
-import { DeviceServiceBase } from '../device.service.base';
+import { DeviceServiceBase } from '../core/device.service.base';
 
 @Component({
   selector: 'bon-image',

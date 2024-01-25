@@ -1,6 +1,6 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import * as MCore from './generated';
-import { SrcBaseDirective } from './src.directive';
+import * as MCore from '../generated';
+import { SrcBaseDirective } from '../core/src.directive';
 
 @Directive({
     selector: '[imgsrc]'

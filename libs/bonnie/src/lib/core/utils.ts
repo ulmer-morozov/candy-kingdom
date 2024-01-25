@@ -1,4 +1,4 @@
-import * as MCore from './generated';
+import * as MCore from '../generated';
 
 // https://stackoverflow.com/questions/42136098/array-groupby-in-typescript
 

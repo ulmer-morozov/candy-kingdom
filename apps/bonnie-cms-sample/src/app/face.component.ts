@@ -2,13 +2,18 @@ import { Component, Input } from '@angular/core';
 
 import { FaceModule } from './face.module';
 import { FaceBoneMap } from './FaceBoneMap';
-import { PageBase } from '@candy-kingdom/bonnie';
+import { LocalizeServiceBase, PageBase } from '@candy-kingdom/bonnie';
+import { RouterLocalizeService } from './router-localize.service';
 
 @Component({
   standalone: true,
   selector: 'app-face',
   templateUrl: './face.component.html',
-  imports: [FaceModule]
+  imports: [FaceModule],
+  providers:
+    [
+      { provide: LocalizeServiceBase, useClass: RouterLocalizeService },
+    ]
 })
 export default class FaceComponent {
   public readonly FaceBoneMap = FaceBoneMap;

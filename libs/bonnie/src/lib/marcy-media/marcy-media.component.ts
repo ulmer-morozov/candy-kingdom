@@ -2,9 +2,9 @@ import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit } fro
 
 import * as MCore from '../generated';
 
-import { UnsubscriberService } from '../unsubscribe.service';
-import { MediaObjectFit } from '../MediaObjectFit';
-import { DeviceServiceBase } from '../device.service.base';
+import { UnsubscriberService } from '../core/unsubscribe.service';
+import { MediaObjectFit } from '../core/MediaObjectFit';
+import { DeviceServiceBase } from '../core/device.service.base';
 
 @Component({
     selector: 'bon-media',

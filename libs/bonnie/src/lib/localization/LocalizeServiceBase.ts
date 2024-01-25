@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { LocalizedObject, LocalizedString } from '../generated';
-import { isLocalUrlString } from '../utils';
+import { isLocalUrlString } from '../core/utils';
 
 export abstract class LocalizeServiceBase {
   public abstract get locale(): string;

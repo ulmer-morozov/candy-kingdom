@@ -1,5 +1,5 @@
 import * as MCore from '../generated';
-import * as utils from '../utils';
+import * as utils from '../core/utils';
 
 import { IHtmlPictureSource } from './IHtmlPictureSource';
 

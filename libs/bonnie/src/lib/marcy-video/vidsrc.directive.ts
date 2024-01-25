@@ -1,8 +1,8 @@
 import { Directive, Input, OnInit } from '@angular/core';
 
-import * as MCore from './generated';
+import * as MCore from '../generated';
 
-import { SrcBaseDirective } from './src.directive';
+import { SrcBaseDirective } from '../core/src.directive';
 
 @Directive({
     selector: '[vidsrc]'

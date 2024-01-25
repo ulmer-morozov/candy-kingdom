@@ -3,12 +3,12 @@ import { BehaviorSubject, filter } from 'rxjs';
 
 import * as MCore from '../generated';
 
-import { UnsubscriberService } from '../unsubscribe.service';
-import { MediaStatus } from '../MediaStatus';
-import { MediaObjectFit } from '../MediaObjectFit';
-import { DeviceServiceBase } from '../device.service.base';
-import { VideoSrcDirective } from '../vidsrc.directive';
-import { ascendingT, matchesMediaQuery, descendingT } from '../utils';
+import { UnsubscriberService } from '../core/unsubscribe.service';
+import { MediaStatus } from '../core/MediaStatus';
+import { MediaObjectFit } from '../core/MediaObjectFit';
+import { DeviceServiceBase } from '../core/device.service.base';
+import { VideoSrcDirective } from './vidsrc.directive';
+import { ascendingT, matchesMediaQuery, descendingT } from '../core/utils';
 
 @Component({
     selector: 'bon-video',

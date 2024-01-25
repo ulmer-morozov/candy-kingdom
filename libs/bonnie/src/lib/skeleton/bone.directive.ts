@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
 import { Bone } from '../generated';
-import { UnsubscriberService } from '../unsubscribe.service';
+import { UnsubscriberService } from '../core/unsubscribe.service';
 import { LocalizeServiceBase } from '../localization/LocalizeServiceBase';
 
 @Directive({

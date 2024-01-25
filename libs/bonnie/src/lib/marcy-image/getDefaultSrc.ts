@@ -1,5 +1,5 @@
 import * as MCore from '../generated';
-import * as utils from '../utils';
+import * as utils from '../core/utils';
 
 export function getDefaultSrc(image: MCore.Image | undefined): MCore.FileSrc<MCore.ImageMeta> | undefined {
   if (image === undefined || image === null)

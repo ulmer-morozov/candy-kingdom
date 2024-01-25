@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Directive, EventEmitter, OnInit, Output } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
 
-import * as MCore from './generated';
+import * as MCore from '../generated';
 import * as utils from './utils';
 
 import { UnsubscriberService } from './unsubscribe.service';
