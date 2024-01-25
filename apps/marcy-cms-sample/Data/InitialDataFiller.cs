@@ -171,7 +171,7 @@ of a sample company"""),
         page.Children
             .Select(x => FromDto(x, pageDb))
             .ToList()
-            .ForEach(pageDb.Childern.Add);
+            .ForEach(pageDb.Children.Add);
 
         return pageDb;
     }

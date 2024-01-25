@@ -19,7 +19,7 @@ public sealed class PageDb
     public PageData Data { get; private set; }
 
     public PageDb? Parent { get; private set; }
-    public ICollection<PageDb> Childern { get; private set; }
+    public ICollection<PageDb> Children { get; private set; }
 
     public PageDb(Guid id, string url, string route, int order, PublishStatus publishStatus, LocalizedString title, OpenGraphData openGraph, IEnumerable<Bone> bones, PageData? data = null, PageDb? parent = null, IEnumerable<PageDb>? children = null)
     {
@@ -38,7 +38,7 @@ public sealed class PageDb
                             ?? ImmutableList2<Bone>.Empty;
 
         Parent = parent;
-        Childern = children?.ToList() ?? [];
+        Children = children?.ToList() ?? [];
     }
 
     private PageDb()
@@ -49,7 +49,7 @@ public sealed class PageDb
         Data = null!;
         OpenGraph = null!;
         Bones = null!;
-        Childern = null!;
+        Children = null!;
     }
 
     public void Copy(Page page)

@@ -23,7 +23,7 @@ public sealed class ProjectsPage : PageFactory
             new PageListBone()
             {
                 Title = En("Project-list"),
-                DataRoute = Route
+                DataRoute = $"~/{Route}"
             }
         );
     }

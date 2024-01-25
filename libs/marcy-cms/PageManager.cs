@@ -74,7 +74,7 @@ public class PageManager<TDbContext> : IPageManager
 
     private static Page ToDto(PageDb pageDb)
     {
-        var children = (pageDb.Childern ?? Array.Empty<PageDb>())
+        var children = (pageDb.Children ?? Array.Empty<PageDb>())
                                             .Select(ToDto)
                                             .OrderBy(x => x.Order)
                                             .ToImmutableList2();

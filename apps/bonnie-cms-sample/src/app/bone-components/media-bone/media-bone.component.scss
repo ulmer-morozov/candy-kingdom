@@ -5,7 +5,6 @@
 }
 
 :host.mobile-display {
-  @include v.windowGrid;
 
   .title {
     grid-row: 1;
@@ -16,7 +15,7 @@
     grid-row: 2;
     grid-column: 3/span 3;
 
-    >mrc-media {
+    >bon-media {
       margin-top: v.pxToVw(10);
       margin-left: v.pxToVw(12);
       margin-right: v.pxToVw(12);
