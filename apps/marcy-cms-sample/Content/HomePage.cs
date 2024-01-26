@@ -9,7 +9,7 @@ namespace CandyKingdom.MarcyCms.Sample.Content;
 public sealed class HomePage : PageFactory
 {
     public override string Route { get; } = "";
-    public override LocalizedString Title { get; } = En("Home page!");
+    public override LocalizedString Title { get; } = En("Home");
     public override OpenGraphData OpenGraph { get; } = new OpenGraphData
     {
         Title = En("OpenGraph Title of The Home Page"),

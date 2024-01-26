@@ -23,7 +23,8 @@ export const APP_Routes: Route[] = [
     loadComponent: () => import('./face.component'),
     providers: [DataService],
     resolve: {
-      page: (route: ActivatedRouteSnapshot) => inject(DataService).getPage(route.url.join('/'))
+      page: (route: ActivatedRouteSnapshot) => inject(DataService).getPage(route.url.join('/')),
+      faceView: () => inject(DataService).getView('face')
     }
   },
 ];

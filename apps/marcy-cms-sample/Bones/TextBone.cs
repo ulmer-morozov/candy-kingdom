@@ -7,10 +7,10 @@ namespace CandyKingdom.MarcyCms.Sample.Bones;
 
 public sealed record TextBone : Bone
 {
-    public const string TYPE = "text";
+    public const string BoneType = "text";
     public LocalizedString Title { get; init; } = Empty;
     public LocalizedString Text { get; init; } = Empty;
 
     public TextBone()
-        : base(TYPE) { }
+        : base(BoneType) { }
 }

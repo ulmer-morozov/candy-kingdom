@@ -1,5 +1,8 @@
+using System.Text.Json;
+
 using Autofac.Extensions.DependencyInjection;
 
+using CandyKingdom.Marcy;
 using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;
 using CandyKingdom.MarcyCms.Sample.Content;
@@ -12,6 +15,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+
+var srcSetJson = /*lang=json,strict*/ """{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}""";
+
+var filesrc = JsonSerializer.Deserialize<FileSrc<VideoMeta>>(srcSetJson, CmsJsonSerializationOptions.New());
+
+var videoSourceJson = /*lang=json,strict*/ """{"mediaQuery":"somequery","srcSet":[{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}]}""";
+
+var videoSource = JsonSerializer.Deserialize<VideoSource>(videoSourceJson, CmsJsonSerializationOptions.New());
+
+var videoJson = /*lang=json,strict*/ """{"$$type":"video","sources":[{"mediaQuery":"","srcSet":[{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}]}]}""";
+
+var video = JsonSerializer.Deserialize<PixMedia>(videoJson, CmsJsonSerializationOptions.New());
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +84,8 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddControllers()
     .AddJsonOptions(o => CmsJsonSerializationOptions.Configure(o.JsonSerializerOptions));
+
+builder.Services.ConfigureHttpJsonOptions(o => CmsJsonSerializationOptions.Configure(o.SerializerOptions));
 
 var app = builder.Build();
 

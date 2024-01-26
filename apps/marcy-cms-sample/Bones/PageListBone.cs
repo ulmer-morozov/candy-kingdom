@@ -7,11 +7,11 @@ namespace CandyKingdom.MarcyCms.Sample.Bones;
 
 public sealed record PageListBone : Bone, IHaveDataRouteWithData<string>
 {
-    public const string TYPE = "page-list";
+    public const string BoneType = "page-list";
     public LocalizedString Title { get; init; } = Empty;
     public string DataRoute { get; init; } = "";
     public string Data { get; init; } = "";
 
     public PageListBone()
-        : base(TYPE) { }
+        : base(BoneType) { }
 }

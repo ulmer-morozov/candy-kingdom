@@ -100,6 +100,12 @@ of a sample company"""),
                     .AddChild<AboutPage>()
         );
 
+        await CreateIfNotExist
+        (
+            context,
+            new FaceView()
+        );
+
         await context.SaveChangesAsync();
 
         var ds = context.SettingGroups.Include(x => x.Records).ToList();
@@ -135,8 +141,32 @@ of a sample company"""),
         var pageDb = FromDto(page);
 
         await context.Pages.AddAsync(pageDb);
-
     }
+
+    private static async Task CreateIfNotExist(CmsSampleDbContext context, params ViewFactory[] viewFactories)
+    {
+        var existingCodes = await context.Views
+                .Where(x => viewFactories.Select(y => y.Code).Contains(x.Code))
+                .Select(x => x.Code)
+                .ToListAsync();
+
+        var viewDbs = viewFactories
+                        .Where(x => !existingCodes.Contains(x.Code))
+                        .Select(x => x.Create())
+                        .Select
+                        (
+                            x => new ViewDb
+                            (
+                                id: Guid.NewGuid(),
+                                code: x.Code,
+                                bones: x.Bones
+                            )
+                        )
+                        .ToList();
+
+        await context.Views.AddRangeAsync(viewDbs);
+    }
+
 
     private static SettingDb FromDto(Setting setting, SettingGroupDb groupDb)
     {

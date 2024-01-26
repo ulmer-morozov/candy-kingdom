@@ -10,7 +10,7 @@ public static class MediaBoneStyle
 
 public sealed record MediaBone : Bone
 {
-    public const string TYPE = "media";
+    public const string BoneType = "media";
 
     public required PixMedia Media { get; init; }
     public LocalizedString Title { get; init; } = LocalizedString.Empty;
@@ -19,5 +19,5 @@ public sealed record MediaBone : Bone
     public LocalizedString Link { get; init; } = LocalizedString.Empty;
 
     public MediaBone()
-        : base(TYPE) { }
+        : base(BoneType) { }
 }

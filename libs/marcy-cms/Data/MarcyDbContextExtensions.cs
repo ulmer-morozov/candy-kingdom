@@ -84,6 +84,11 @@ public static class MarcyDbContextExtensions
 
         builder
             .Entity<ViewDb>()
+            .HasIndex(x => x.Code)
+            .IsUnique();
+
+        builder
+            .Entity<ViewDb>()
             .Property(x => x.Bones)
             .HasJsonConversion(serializerOptions, ImmutableList2<Bone>.Empty);
 
@@ -96,5 +101,6 @@ public static class MarcyDbContextExtensions
             .Entity<SettingGroupDb>()
             .HasMany(x => x.Records)
             .WithOne(x => x.Group);
+
     }
 }

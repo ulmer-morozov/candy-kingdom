@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { FaceModule } from './face.module';
 import { FaceBoneMap } from './FaceBoneMap';
-import { LocalizeServiceBase, PageBase } from '@candy-kingdom/bonnie';
+import { LocalizeServiceBase, PageBase, View } from '@candy-kingdom/bonnie';
 import { RouterLocalizeService } from './router-localize.service';
 
 @Component({
@@ -20,4 +20,7 @@ export default class FaceComponent {
 
   @Input({ required: true })
   public page!: PageBase;
+
+  @Input({ required: true })
+  public faceView!: View;
 }

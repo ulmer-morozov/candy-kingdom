@@ -6,6 +6,7 @@ $accentBgColor: #353D2F;
 
 $windowSmallTextColor: #1E1E1E;
 
+// todo: remove
 @function pxToVw($value) {
     @return 1.26*math.div($value, 1920) * 100vw;
 }

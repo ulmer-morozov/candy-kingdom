@@ -13,8 +13,8 @@ export class DataService {
     console.log('baseHref: ' + baseHref);
   }
 
-  public getView(viewId: string): Observable<Readonly<PageBase>> {
-    const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/${viewId}-view.json`);
+  public getView(viewCode: string): Observable<Readonly<PageBase>> {
+    const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/views/${viewCode}`);
     return pageOb;
   }
 

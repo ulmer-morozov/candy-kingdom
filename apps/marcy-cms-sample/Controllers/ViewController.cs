@@ -2,8 +2,8 @@ using System.Collections.Immutable;
 
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Content;
-using CandyKingdom.MarcyCms.Sample.Core;
 
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,9 +23,9 @@ public sealed class ViewController : ControllerBase
 
     [Route("Api/Children/")]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Page>>> Get([FromQuery] string url = "", CancellationToken cancellationToken = default)
+    public async Task<Results<NotFound<string>, Ok<ImmutableList<Page>>>> Get([FromQuery] string url = "", CancellationToken cancellationToken = default)
     {
-        url = url.Replace("~", "").ToLowerInvariant();
+        url = url == "~" ? url : url.Replace("~", "").ToLowerInvariant();
 
         await using var context = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
@@ -37,15 +37,55 @@ public sealed class ViewController : ControllerBase
                 x => x.Url == url, cancellationToken
             );
 
-        var children = (mainPage?.Children ?? [])
+        if (mainPage == null)
+        {
+            return TypedResults.NotFound($"Page with url = {url} hasn't found");
+        }
+
+        var children = mainPage.Children
             .Select(x => new Page
             {
                 Id = x.Id,
                 Title = x.Title,
-                Url = x.Url
+                Url = x.Url,
+                Order = x.Order
             })
+            .OrderBy(x => x.Order)
             .ToImmutableList();
 
-        return Ok(children);
+        return TypedResults.Ok(children);
+    }
+
+    [Route("Api/Views/{code}")]
+    [HttpGet]
+    public async Task<Results<NotFound<string>, UnprocessableEntity<string>, Ok<View>>> GetView(string code, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            return TypedResults.UnprocessableEntity($"code cannot be empty or whitespace");
+        }
+
+        await using var context = await _contextFactory.CreateDbContextAsync(cancellationToken);
+
+        var viewDb = await context.Views
+            .SingleOrDefaultAsync
+            (
+                x => x.Code == code,
+                cancellationToken
+            );
+
+        if (viewDb == null)
+        {
+            return TypedResults.NotFound($"View with code = {code} hasn't found");
+        }
+
+        var view = new View
+        {
+            Id = viewDb.Id,
+            Code = viewDb.Code,
+            Bones = viewDb.Bones
+        };
+
+        return TypedResults.Ok(view);
     }
 }

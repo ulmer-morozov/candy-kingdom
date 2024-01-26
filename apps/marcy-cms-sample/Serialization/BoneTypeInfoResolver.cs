@@ -22,10 +22,10 @@ public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =
                 {
-                    new JsonDerivedType(typeof(TextBone),TextBone.TYPE),
-                    new JsonDerivedType(typeof(MediaBone), MediaBone.TYPE),
-                    new JsonDerivedType(typeof(VimeoBone),VimeoBone.TYPE),
-                    new JsonDerivedType(typeof(PageListBone), PageListBone.TYPE),
+                    new JsonDerivedType(typeof(TextBone),TextBone.BoneType),
+                    new JsonDerivedType(typeof(MediaBone), MediaBone.BoneType),
+                    new JsonDerivedType(typeof(VimeoBone),VimeoBone.BoneType),
+                    new JsonDerivedType(typeof(PageListBone), PageListBone.BoneType),
                 }
             };
         }
