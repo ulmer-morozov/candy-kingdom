@@ -2,11 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>CandyKingdom.Marcy</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>CandyKingdom.Marcy</RootNamespace>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>UniqueID</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Ulmer-Morozov Dmitrii</Authors>
+    <Company>Company Name</Company>
+    <Product>Product Name</Product>
   </PropertyGroup>
 
   <PropertyGroup>
