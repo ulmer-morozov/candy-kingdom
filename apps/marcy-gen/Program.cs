@@ -3,17 +3,11 @@ using CandyKingdom.MarcyGen;
 using TypeGen.Core.Generator;
 using TypeGen.Core.SpecGeneration;
 
-var generatedContractsFolder = Path.Combine(
-          "..",
-          "..",
-          "libs",
-          "bonnie",
-          "src",
-          "lib",
-          "generated"
-        );
+var bonnieDir = Path.Combine("..", "..", "libs", "bonnie", "src", "lib", "generated");
+var bonnieCmsDir = Path.Combine("..", "..", "libs", "bonnie-cms", "src", "lib", "generated");
 
-GenerateTsFiles<MarcyGenerationSpec>(generatedContractsFolder);
+GenerateTsFiles<MarcyGenerationSpec>(bonnieDir);
+GenerateTsFiles<MarcyCmsGenerationSpec>(bonnieCmsDir);
 
 return 0;
 

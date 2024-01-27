@@ -1,44 +1,11 @@
-using System.Collections.Immutable;
-
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 
-using TypeGen.Core.Converters;
 using TypeGen.Core.SpecGeneration;
 using TypeGen.Core.TypeAnnotations;
 
 namespace CandyKingdom.MarcyGen;
-
-
-public class TypeNameConverter : ITypeNameConverter
-{
-    // These needed for successfull generation of generic classes that have same name as base class
-    public static readonly ImmutableList<Type> SpecialTypes = [typeof(Page)];
-
-    public string Convert(string name, Type type)
-    {
-        if (SpecialTypes.Contains(type))
-        {
-            return $"{name}Base";
-        }
-
-        return name;
-    }
-}
-
-public class FileNameConverter : ITypeNameConverter
-{
-    public string Convert(string name, Type type)
-    {
-        if (TypeNameConverter.SpecialTypes.Contains(type))
-        {
-            return $"{name}-base";
-        }
-
-        return name;
-    }
-}
 
 public sealed class MarcyGenerationSpec : GenerationSpec
 {

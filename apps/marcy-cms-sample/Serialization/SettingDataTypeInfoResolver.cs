@@ -21,8 +21,8 @@ public sealed class SettingDataTypeInfoResolver : DefaultJsonTypeInfoResolver
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =
                 {
-                    new JsonDerivedType(typeof(TextSettingData), TextSettingData.TYPE),
-                    new JsonDerivedType(typeof(LocalizedTextSettingData), LocalizedTextSettingData.TYPE)
+                    new JsonDerivedType(typeof(TextSettingData), TextSettingData.SettingDataType),
+                    new JsonDerivedType(typeof(LocalizedTextSettingData), LocalizedTextSettingData.SettingDataType)
                 }
             };
         }
