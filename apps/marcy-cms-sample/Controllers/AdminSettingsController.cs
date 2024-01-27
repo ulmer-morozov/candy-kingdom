@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
 [Authorize]
+[ApiController]
 [Route("Api/Admin/Settings")]
-public class AdminSettingsController : Controller
+public class AdminSettingsController : ControllerBase
 {
     private readonly ISettingsManager _settingsManager;
     private readonly ILogger<AdminSettingsController> _logger;

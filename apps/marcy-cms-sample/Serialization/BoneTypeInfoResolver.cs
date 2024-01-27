@@ -47,6 +47,19 @@ public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
             };
         }
 
+        if (jsonTypeInfo.Type == typeof(Setting))
+        {
+            jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+            {
+                IgnoreUnrecognizedTypeDiscriminators = false,
+                UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
+                DerivedTypes =
+                {
+                    new JsonDerivedType(typeof(Setting<SettingData>)),
+                }
+            };
+        }
+
         if (jsonTypeInfo.Type == typeof(SettingData))
         {
             jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
