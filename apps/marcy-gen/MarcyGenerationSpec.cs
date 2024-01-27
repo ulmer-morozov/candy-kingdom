@@ -103,5 +103,7 @@ public sealed class MarcyGenerationSpec : GenerationSpec
 
         AddInterface<OpenGraphData>();
 
+        // AddInterface<SettingGroup>()
+
     }
 }
