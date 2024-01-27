@@ -1,12 +1,11 @@
 using CandyKingdom.Marcy.Pages;
-using CandyKingdom.MarcyCms.Sample.Core;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
-[Authorize(Policy = Roles.Admin)]
+[Authorize]
 [Route("Api/Admin/Page")]
 public class AdminPageController : ControllerBase
 {

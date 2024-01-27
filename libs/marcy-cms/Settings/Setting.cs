@@ -15,4 +15,13 @@ public abstract record Setting
 {
     public Guid Id { get; init; }
     public string Title { get; init; } = "";
+
+    public static Setting<T> NewFromData<T>(T data)
+        where T : SettingData
+    {
+        return new Setting<T>
+        {
+            Data = data
+        };
+    }
 }

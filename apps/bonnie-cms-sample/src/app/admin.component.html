@@ -1,5 +1,6 @@
 <nav>
   <a routerLink="./">Admin-Home</a>
+  <a routerLink="./settings">Settings</a>
   <a routerLink="./forecast">Forecast</a>
   <span *ngIf="isSignedIn">
     | <button (click)="signOut()">Sign out</button></span

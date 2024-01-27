@@ -3,14 +3,13 @@ using System.Drawing;
 
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.ImageTools;
-using CandyKingdom.MarcyCms.Sample.Core;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
-[Authorize(Policy = Roles.Admin)]
+[Authorize]
 [Route("Api/Admin/Upload/Video")]
 public class AdminUploadVideoController : Controller
 {

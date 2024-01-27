@@ -13,13 +13,6 @@ export class DataService {
     console.log('baseHref: ' + baseHref);
   }
 
-  public getSettingGroups(): Observable<Readonly<SettingGroup>> {
-    const pageUrl = `/${pageRoute}`
-
-    const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/pages/?url=${encodeURIComponent(pageUrl)}`);
-    return pageOb;
-  }
-
   public getView(viewCode: string): Observable<Readonly<PageBase>> {
     const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/views/${viewCode}`);
     return pageOb;

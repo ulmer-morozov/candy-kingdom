@@ -1,5 +1,4 @@
 using CandyKingdom.Marcy.Immutables;
-using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Settings;
 
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
-[Authorize(Policy = Roles.Admin)]
+[Authorize]
 [Route("Api/Admin/Settings")]
 public class AdminSettingsController : Controller
 {
