@@ -3,12 +3,15 @@ using System.Text.Json;
 using Autofac.Extensions.DependencyInjection;
 
 using CandyKingdom.Marcy;
+using CandyKingdom.Marcy.Skeleton;
 using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;
+using CandyKingdom.MarcyCms.Sample.Bones;
 using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Sample.Data;
 using CandyKingdom.MarcyCms.Sample.Serialization;
+using CandyKingdom.MarcyCms.Settings;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -16,17 +19,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
-var srcSetJson = /*lang=json,strict*/ """{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}""";
+using static CandyKingdom.Marcy.LocalizedStringHelpers;
 
-var filesrc = JsonSerializer.Deserialize<FileSrc<VideoMeta>>(srcSetJson, CmsJsonSerializationOptions.New());
+var options = CmsJsonSerializationOptions.New();
 
-var videoSourceJson = /*lang=json,strict*/ """{"mediaQuery":"somequery","srcSet":[{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}]}""";
+var data = new TextSettingData
+{
+    Text = "example@example.com",
+    TextType = TextSettingType.SingleLine
+};
 
-var videoSource = JsonSerializer.Deserialize<VideoSource>(videoSourceJson, CmsJsonSerializationOptions.New());
+var textBone = new TextBone()
+{
+    Title = En("About page"),
+    Text = En("Some text example")
+};
 
-var videoJson = /*lang=json,strict*/ """{"$$type":"video","sources":[{"mediaQuery":"","srcSet":[{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}]}]}""";
+var dataJson = JsonSerializer.Serialize(data, options);
+var boneJson1 = JsonSerializer.Serialize(textBone, options);
+var boneJson2 = JsonSerializer.Serialize<Bone>(textBone, options);
 
-var video = JsonSerializer.Deserialize<PixMedia>(videoJson, CmsJsonSerializationOptions.New());
+// var deserializedData = JsonSerializer.Deserialize<SettingData>(dataJson, options);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,7 +85,7 @@ builder.Services
 // services.AddSingleton<IEmailSender, FakeEmailSender>();
 
 builder.Services.AddSingleton<IPageManager, PageManager<CmsSampleDbContext>>();
-// services.AddSingleton<ISettingsManager, SettingsManager>();
+builder.Services.AddSingleton<ISettingsManager, SettingsManager<CmsSampleDbContext>>();
 
 builder.Services.AddSingleton<InitialDataFiller>();
 

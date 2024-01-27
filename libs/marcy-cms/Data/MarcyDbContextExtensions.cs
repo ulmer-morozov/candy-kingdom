@@ -19,7 +19,7 @@ public static class MarcyDbContextExtensions
         propertyBuilder.HasJsonConversion(serializerOptions, LocalizedString.Empty);
     }
 
-    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions = null)
+    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions serializerOptions)
         where T : class, new()
     {
         propertyBuilder.HasConversion
@@ -29,7 +29,7 @@ public static class MarcyDbContextExtensions
         );
     }
 
-    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions, T defaultValue)
+    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions serializerOptions, T defaultValue)
     {
         propertyBuilder.HasConversion
         (
@@ -38,7 +38,7 @@ public static class MarcyDbContextExtensions
         );
     }
 
-    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions, Func<T> factory)
+    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions serializerOptions, Func<T> factory)
     {
         propertyBuilder.HasConversion
         (
