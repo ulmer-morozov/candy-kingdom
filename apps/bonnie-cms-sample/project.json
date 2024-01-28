@@ -8,19 +8,26 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/bonnie-cms-sample/browser",
         "index": "apps/bonnie-cms-sample/src/index.html",
         "main": "apps/bonnie-cms-sample/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/bonnie-cms-sample/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/bonnie-cms-sample/src/favicon.ico",
           "apps/bonnie-cms-sample/src/assets"
         ],
-        "styles": ["apps/bonnie-cms-sample/src/styles.scss"],
+        "styles": [
+          "apps/bonnie-cms-sample/src/styles.scss",
+          "libs/bonnie-cms/src/lib/styles/admin-styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -70,17 +77,23 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/bonnie-cms-sample/jest.config.ts"
       }
     },
     "server": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
         "outputPath": "dist/apps/bonnie-cms-sample/server",
@@ -119,7 +132,9 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": ["/"]
+        "routes": [
+          "/"
+        ]
       },
       "configurations": {
         "development": {

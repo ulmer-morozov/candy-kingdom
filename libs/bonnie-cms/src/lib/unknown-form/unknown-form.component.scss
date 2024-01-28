@@ -2,10 +2,6 @@
 
 :host {
     @include admin-form;
-}
 
-input,
-textarea {
-    @include adminInput;
-    font-size: inherit;
+    background-color: crimson;
 }

@@ -6,22 +6,23 @@ import { FormsModule } from '@angular/forms';
 import { TextFormComponent } from './text-form';
 import { EditableGroupComponent } from './core-components';
 import { FormControlsComponent } from './form-controls';
+import { UnknownFormComponent } from './unknown-form';
 
 const components = [
   AdminControlsComponent,
   EditableGroupComponent,
+  FormControlsComponent,
   TextFormComponent,
-  FormControlsComponent
+  UnknownFormComponent
 ];
 
-const directives = [
+const standaloneDirectives = [
   EditableDirective
 ];
 
 @NgModule({
   declarations: [
     ...components,
-    ...directives
   ],
   providers:
     [
@@ -29,12 +30,13 @@ const directives = [
   imports: [
     CommonModule,
     FormsModule,
+    ...standaloneDirectives
   ],
   exports: [
     CommonModule,
     FormsModule,
     ...components,
-    ...directives
+    ...standaloneDirectives
   ]
 })
 export class BonnieCmsModule { }

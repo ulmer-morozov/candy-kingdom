@@ -8,14 +8,13 @@ import { AuthGuard } from './guard';
   standalone: true,
   imports: [CommonModule, RouterModule],
   providers: [AuthGuard, AuthService],
-  selector: 'candy-kingdom-admin',
-  templateUrl: './admin.component.html',
+  selector: 'app-admin',
+  templateUrl: './admin.component.html'
 })
 export default class AdminComponent implements OnInit {
-  title = 'bonnie-cms-sample';
   public isSignedIn: boolean = false;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.auth.onStateChanged().forEach((state: any) => {

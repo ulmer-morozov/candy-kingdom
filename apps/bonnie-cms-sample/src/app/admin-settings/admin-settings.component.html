@@ -1,8 +1,5 @@
 <p>Welcome to Admin Settings</p>
 
-<pre>{{settingGroups | json}}</pre>
-
-
 <bonc-admin-controls #controls
                      [deviceControls]="true"
                      [editableGroup]="siteDataEditorGroup">
@@ -21,8 +18,9 @@
                         [label]="record.title"
                         [locale]="controls.locale"
                         [type]="TextInputStyle.SingleLine"
-                        boncEditable
                         class="form-item email">...</bonc-text-form>
+
+        <bonc-unknown-form *ngSwitchDefault boncEditable [label]="record.title">{{record | json}}</bonc-unknown-form>
       </container-element>
 
     </ng-container>
