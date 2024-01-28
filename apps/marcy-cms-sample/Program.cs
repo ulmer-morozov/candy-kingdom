@@ -21,6 +21,9 @@ using Microsoft.EntityFrameworkCore;
 
 using static CandyKingdom.Marcy.LocalizedStringHelpers;
 
+var contratsDir = Path.Combine("..", "..", "apps", "bonnie-cms-sample", "src", "lib", "generated");
+SpecGenerator.GenerateTsFiles<MarcyCmsSampleGenerationSpec>(contratsDir);
+
 var options = CmsJsonSerializationOptions.New();
 
 var data = new TextSettingData
@@ -140,11 +143,3 @@ var filler = app.Services.GetRequiredService<InitialDataFiller>();
 await filler.InitializeIfNecessary();
 
 app.Run();
-
-namespace CandyKingdom.MarcyCms.Sample
-{
-    internal sealed record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-    {
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
-}

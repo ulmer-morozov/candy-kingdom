@@ -42,7 +42,7 @@ public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =
                 {
-                    new JsonDerivedType(typeof(ProjectPageData), ProjectPageData.TYPE)
+                    new JsonDerivedType(typeof(ProjectPageData), ProjectPageData.PageDataType)
                 }
             };
         }
