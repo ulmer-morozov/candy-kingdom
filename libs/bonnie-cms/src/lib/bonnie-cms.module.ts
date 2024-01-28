@@ -39,4 +39,4 @@ const standaloneDirectives = [
     ...standaloneDirectives
   ]
 })
-export class BonnieCmsModule { }
+export class BonnieCmsModule { } // todo: move to standalone

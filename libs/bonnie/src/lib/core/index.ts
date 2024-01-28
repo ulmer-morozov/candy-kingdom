@@ -5,3 +5,4 @@ export * from './device.service';
 export * from './device.service.base';
 export * from './intersection.component';
 export * from './unsubscribe.service';
+export * from './encode-uri.pipe';

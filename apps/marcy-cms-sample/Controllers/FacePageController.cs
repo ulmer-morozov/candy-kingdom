@@ -25,7 +25,7 @@ public sealed class FacePageController : ControllerBase
              new GetPageParams
              {
                  IncludeChildren = false,
-                 publishStatus = PublishStatus.Published
+                 PublishStatus = PublishStatus.Published
              },
              cancellationToken
          );

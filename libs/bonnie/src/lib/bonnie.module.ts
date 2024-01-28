@@ -16,6 +16,7 @@ import { LocalizationIsNotEmptyPipe, LocalizePipe } from './localization/localiz
 import { UnknownBoneComponent } from './skeleton/unknown-bone.component';
 import { MarcyMediaComponent } from './marcy-media/marcy-media.component';
 import { BoneDirective } from './skeleton/bone.directive';
+import { EncodeURIComponentPipe } from './core';
 
 const components = [
   MarcyImageComponent,
@@ -39,6 +40,7 @@ const standAloneDirectives = [
 ];
 
 const pipes = [
+  EncodeURIComponentPipe,
   LocalizePipe,
   LocalizationIsNotEmptyPipe
 ]
@@ -68,4 +70,4 @@ const pipes = [
     ...standAloneDirectives
   ]
 })
-export class MarcyElementsModule { }
+export class BonnieModule { } // todo: move to standalone

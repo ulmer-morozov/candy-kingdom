@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  selector: 'candy-kingdom-signin-component',
+  selector: 'app-signin-component',
   templateUrl: './signin.component.html',
 })
 export default class SignInComponent implements OnInit {

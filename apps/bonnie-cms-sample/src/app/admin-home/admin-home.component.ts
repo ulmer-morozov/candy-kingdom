@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
 })
-export class AdminHomeComponent implements OnInit {
+export default class AdminHomeComponent implements OnInit {
   public isSignedIn: boolean = false;
 
   constructor(private authService: AuthService) {}

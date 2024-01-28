@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  selector: 'candy-kingdom-register-component',
+  selector: 'app-register-component',
   templateUrl: './register.component.html',
 })
 export default class RegisterComponent implements OnInit {

@@ -1,3 +1,7 @@
+using System.Collections.Immutable;
+using System.Web;
+
+using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
 
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
 [Authorize]
-[Route("Api/Admin/Page")]
+[Route("Api/Admin/Pages")]
 public class AdminPageController : ControllerBase
 {
     private readonly IPageManager _pageManager;
@@ -22,9 +26,10 @@ public class AdminPageController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Page>> Get(string url, CancellationToken cancellationToken = default)
     {
+        url = url == "~" ? url : HttpUtility.UrlDecode(url).Substring(1);
         var getParams = new GetPageParams
         {
-            IncludeChildren = false,
+            IncludeChildren = true,
         };
 
         var pageResult = await _pageManager.GetAsync(url, getParams, cancellationToken);
@@ -41,7 +46,14 @@ public class AdminPageController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
-        return pageResult.Data;
+        var resultPage = pageResult.Data with
+        {
+            Children = pageResult.Data.Children
+                .Select(x => new Page { Id = x.Id, Url = x.Url, Title = x.Title })
+                .ToImmutableList2()
+        };
+
+        return resultPage;
     }
 
     [HttpPost]

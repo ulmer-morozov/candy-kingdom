@@ -1,0 +1,15 @@
+ADMIN PAGES
+<bonc-admin-controls #controls
+                     [deviceControls]="true"
+                     [editableGroup]="siteDataEditorGroup">
+</bonc-admin-controls>
+
+<bonc-editable-group #siteDataEditorGroup></bonc-editable-group>
+
+<h2>Children</h2>
+
+<ul>
+  <li *ngFor="let childPage of page.children"><a [routerLink]="['../', ('~' + childPage.url) | encodeURIComponent]">{{childPage.title | localize:controls.locale}} ({{childPage.url}})</a></li>
+</ul>
+
+<pre>{{page | json}}</pre>

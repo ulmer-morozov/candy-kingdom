@@ -12,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-admin-settings',
   templateUrl: './admin-settings.component.html',
 })
-export class AdminSettingsComponent implements OnInit {
+export default class AdminSettingsComponent implements OnInit {
   public readonly TextInputStyle = TextInputStyle;
   private readonly _dataService = inject(AdminDataService);
   private readonly _http = inject(HttpClient);
@@ -32,7 +32,7 @@ export class AdminSettingsComponent implements OnInit {
       .subscribe
       (
         result => {
-          console.log('успешно сохранили site data');
+          console.log('successfully stored data');
         },
         error => {
           alert('site data send error!');

@@ -1,16 +1,23 @@
-import { Route } from '@angular/router';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
-import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
+import { Route, ActivatedRouteSnapshot } from '@angular/router';
+import { AdminDataService } from './admin-data.service';
+import { inject } from '@angular/core';
 
 export const ADMIN_ROUTES: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    component: AdminHomeComponent,
+    loadComponent: () => import('./admin-home/admin-home.component'),
   },
   {
     path: 'settings',
-    pathMatch: 'full',
-    component: AdminSettingsComponent,
+    loadComponent: () => import('./admin-settings/admin-settings.component'),
+  },
+  {
+    path: 'pages/:pageUrl',
+    loadComponent: () => import('./admin-pages/admin-pages.component'),
+    providers: [AdminDataService],
+    resolve: {
+      page: (route: ActivatedRouteSnapshot) => inject(AdminDataService).getPage(route.paramMap.get('pageUrl') ?? '~')
+    }
   }
 ];

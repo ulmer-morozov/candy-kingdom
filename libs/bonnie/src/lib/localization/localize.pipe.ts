@@ -3,6 +3,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LocalizeServiceBase } from './LocalizeServiceBase';
 import { LocalizedObject, LocalizedString } from '../generated';
 
+
+
 @Pipe({ name: 'localize', pure: false })
 export class LocalizePipe implements PipeTransform {
   constructor(private readonly localizeService: LocalizeServiceBase) {

@@ -31,10 +31,10 @@ public class PageManager<TDbContext> : IPageManager
 
             if (parameters.IncludeChildren)
             {
-                pageQuery = pageQuery.Include(x => x.Parent);
+                pageQuery = pageQuery.Include(x => x.Children);
             }
 
-            if (parameters.publishStatus != PublishStatus.NotSet)
+            if (parameters.PublishStatus != PublishStatus.NotSet)
             {
                 pageQuery = pageQuery.Where(x => x.PublishStatus == PublishStatus.Published);
             }

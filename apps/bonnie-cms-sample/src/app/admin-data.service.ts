@@ -10,8 +10,14 @@ export class AdminDataService {
   constructor(private readonly http: HttpClient, @Inject(APP_BASE_HREF) private baseHref: string) {
     console.log('baseHref: ' + baseHref);
   }
+
   public getSettingGroups(): Observable<SettingGroup[]> {
     const pageOb = this.http.get<SettingGroup[]>(`${this.baseHref}api/admin/settings`);
+    return pageOb;
+  }
+
+  public getPage(url: string): Observable<SettingGroup[]> {
+    const pageOb = this.http.get<SettingGroup[]>(`${this.baseHref}api/admin/pages/${url}`);
     return pageOb;
   }
 }
