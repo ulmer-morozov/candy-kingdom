@@ -1,6 +1,7 @@
 namespace CandyKingdom.MarcyCms.Settings;
 
 public interface ISetting<out T>
+    where T : SettingData
 {
     public T Data { get; }
 }

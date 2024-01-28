@@ -15,7 +15,9 @@ public sealed class MarcyCmsGenerationSpec : GenerationSpec
 
         AddBarrel("", BarrelScope.Files);
 
-        AddInterface<SettingGroup>();
+        AddInterface<SettingGroup>()
+            .Member(x => nameof(x.Records)).Type($"{nameof(Setting)}<any>[]", "./setting");
+
         AddInterface<Setting>();
         AddInterface(typeof(Setting<>));
 

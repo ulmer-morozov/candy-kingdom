@@ -4,10 +4,10 @@
  */
 
 import { IEquatable } from "./i-equatable";
-import { SettingBase } from "./setting-base";
+import { Setting } from "./setting";
 
 export interface SettingGroup {
     id: string;
     title: string;
-    records: SettingBase[];
+    records: Setting<any>[];
 }

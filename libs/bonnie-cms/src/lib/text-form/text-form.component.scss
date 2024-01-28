@@ -1,0 +1,11 @@
+@import './../../admin-variables.scss';
+
+:host {
+    @include admin-form;
+}
+
+input,
+textarea {
+    @include adminInput;
+    font-size: inherit;
+}

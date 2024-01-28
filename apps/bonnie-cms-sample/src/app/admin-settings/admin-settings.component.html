@@ -1,3 +1,43 @@
 <p>Welcome to Admin Settings</p>
 
 <pre>{{settingGroups | json}}</pre>
+
+
+<bonc-admin-controls #controls
+                     [deviceControls]="true"
+                     [editableGroup]="siteDataEditorGroup">
+</bonc-admin-controls>
+
+<bonc-editable-group #siteDataEditorGroup (saved)="save()" class="page-editor">
+
+  <section *ngFor="let group of settingGroups">
+    <h2>{{group.title}}</h2>
+
+    <ng-container *ngFor="let record of group.records">
+
+      <container-element [ngSwitch]="record.data.type">
+        <bonc-text-form *ngSwitchCase="'marcy-text'"
+                        [(ngModel)]="record.data.text"
+                        [label]="record.title"
+                        [locale]="controls.locale"
+                        [type]="TextInputStyle.SingleLine"
+                        boncEditable
+                        class="form-item email">...</bonc-text-form>
+      </container-element>
+
+    </ng-container>
+
+
+  </section>
+
+  <!--
+  <translation-form
+                    [(ngModel)]="data.footerSubHeader"
+                    [label]="'Footer subheader'"
+                    [field]="TextEditorField.Input"
+                    [locale]="controls.locale"
+                    editable
+                    class="form-item subheader">
+  </translation-form> -->
+
+</bonc-editable-group>

@@ -39,7 +39,7 @@ public sealed class ViewController : ControllerBase
 
         if (mainPage == null)
         {
-            return TypedResults.NotFound($"Page with url = {url} hasn't found");
+            return TypedResults.NotFound($"Page with url = {url} hasn't been found");
         }
 
         var children = mainPage.Children
@@ -76,7 +76,7 @@ public sealed class ViewController : ControllerBase
 
         if (viewDb == null)
         {
-            return TypedResults.NotFound($"View with code = {code} hasn't found");
+            return TypedResults.NotFound($"View with code = {code} hasn't been found");
         }
 
         var view = new View

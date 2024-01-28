@@ -3,6 +3,8 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-export interface ISetting<T> {
+import { SettingData } from "./setting-data";
+
+export interface ISetting<T extends SettingData> {
     data: T;
 }

@@ -1,0 +1,17 @@
+<div class="page-controls">
+  <a (click)="changeLocale()" class="locale">Locale: {{locale}}</a>
+
+  <a *ngIf="deviceControls" (click)="changeDevice()" class="device">
+    <span *ngIf="device === DeviceType.Desktop">DESKTOP</span>
+    <span *ngIf="device === DeviceType.Tablet">TABLET</span>
+    <span *ngIf="device === DeviceType.Mobile">MOBILE</span>
+  </a>
+
+  <a *ngIf="editableGroup && editableGroup.inEditMode"
+     (click)="editableGroup.saveAll()"
+     class="save">Save all</a>
+
+  <a *ngIf="editableGroup && editableGroup.inEditMode"
+     (click)="editableGroup.cancelAll()"
+     class="cancel">Cancel all</a>
+</div>

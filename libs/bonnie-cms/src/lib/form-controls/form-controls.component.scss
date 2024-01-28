@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  // flex-direction: row;
+
+  background-color: #222;
+  color: silver;
+}
+
+.content {
+  flex: 1;
+  padding: 10px;
+
+  &.edit {
+    background-color: #111;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  background-color: #111;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  a {
+    display: block;
+
+    &.apply {
+      flex: 1;
+    }
+  }
+}

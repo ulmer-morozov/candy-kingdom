@@ -1,0 +1,429 @@
+@import './../../variables';
+
+$adminAccentColor: #CCFF00;
+$adminNegativeAccentColor: black;
+$adminWarningColor: #FF355E;
+$adminFont: 'IBM Plex Mono',
+monospace;
+
+$adminDesktopViewPortCoeff: 0.75;
+$adminTabletViewPortCoeff: 0.55;
+$adminMobileViewPortCoeff: 0.35;
+
+$barWidth: 120px;
+
+////////////////////////
+//       FONTS
+
+@mixin adminBigTextDesktop {
+    letter-spacing: -0.01em;
+    font-size: $atom * 12 * $adminDesktopViewPortCoeff;
+    line-height: $big-text-line-height * $adminDesktopViewPortCoeff;
+    color: var(--text-color);
+}
+
+@mixin adminBigTextTablet {
+    font-size: $tabletAtom * 12 * $adminTabletViewPortCoeff;
+    line-height: $big-text-line-height-tablet * $adminTabletViewPortCoeff;
+    color: var(--text-color);
+}
+
+@mixin adminBigTextMobile {
+    font-size: $mobileAtom * 12/2 * $adminMobileViewPortCoeff; //todo: выяснить, почему тут надо делать на 2
+    line-height: $big-text-line-height-mobile * $adminMobileViewPortCoeff;
+    color: var(--text-color);
+}
+
+@mixin adminSmallTextDesktop {
+    font-size: $atom * 4 * $adminDesktopViewPortCoeff;
+    line-height: $small-text-line-height * $adminDesktopViewPortCoeff;
+    color: var(--text-color);
+}
+
+@mixin adminSmallTextTablet {
+    font-size: $tabletAtom * 4 * $adminTabletViewPortCoeff;
+    line-height: $small-text-line-height-tablet * $adminTabletViewPortCoeff;
+    color: var(--text-color);
+}
+
+@mixin adminSmallTextMobile {
+    font-size: $mobileAtom * 4 * $adminMobileViewPortCoeff;
+    line-height: $small-text-line-height-mobile * $adminMobileViewPortCoeff;
+    color: var(--text-color);
+}
+
+
+
+//////////////////////////
+
+@mixin adminDesktopGrid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: $desktopHGap * $adminDesktopViewPortCoeff;
+    padding-left: $desktopHGap * $adminDesktopViewPortCoeff;
+    padding-right: $desktopHGap * $adminDesktopViewPortCoeff;
+}
+
+@mixin adminTabletGrid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: $tabletHGap * $adminTabletViewPortCoeff;
+    padding-left: $tabletHGap * $adminTabletViewPortCoeff;
+    padding-right: $tabletHGap * $adminTabletViewPortCoeff;
+}
+
+@mixin adminTabletFlex {
+    display: flex;
+    flex-direction: column;
+    padding-right: $tabletHGap * $adminTabletViewPortCoeff;
+    padding-left: $tabletHGap * $adminTabletViewPortCoeff;
+}
+
+@mixin admin-mobile-flex {
+    display: flex;
+    flex-direction: column;
+    padding-right: $mobileAtom * $adminMobileViewPortCoeff;
+    padding-left: $mobileAtom * $adminMobileViewPortCoeff;
+}
+
+@mixin editingStyles() {
+    background: repeating-linear-gradient(-45deg,
+            $adminAccentColor,
+            $adminAccentColor 10px,
+            $adminNegativeAccentColor 10px,
+            $adminNegativeAccentColor 20px) fixed bottom;
+}
+
+@mixin editingStyles2() {
+    background: repeating-linear-gradient(-45deg,
+            transparentize($adminAccentColor, 0),
+            transparentize($adminAccentColor, 0) 10px,
+            transparentize($adminNegativeAccentColor, 1) 10px,
+            transparentize($adminNegativeAccentColor, 1) 20px) fixed bottom;
+}
+
+@mixin edit-media-overlay {
+    &:hover::after {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        content: '';
+        position: absolute;
+        color: silver;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-weight: bold;
+        font-size: 50pt;
+        pointer-events: none;
+        background-color: transparentize($adminAccentColor, 0.3);
+    }
+}
+
+
+@mixin admin-textarea {
+    display: block;
+    border: none;
+    box-sizing: border-box;
+    resize: none;
+    width: 100%;
+
+    &:focus {
+        outline: none;
+    }
+
+    &[readonly] {
+        cursor: pointer;
+
+        &::selection {
+            user-select: none;
+        }
+
+        &:hover {
+            @include editingStyles2;
+            color: $adminNegativeAccentColor;
+        }
+    }
+}
+
+@mixin empty-media-placeholder($text) {
+    background-color: black;
+
+    &::before {
+        content: $text;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+}
+
+$highlightColor: #333;
+
+@mixin admin-controls {
+    a.btn {
+        display: block;
+        //border: 1px solid white;
+        padding: 3pt;
+        text-align: center;
+        user-select: none;
+
+        &:hover {
+            border-color: $highlightColor;
+            background-color: $highlightColor;
+        }
+    }
+
+    select {
+        color: white;
+        border-color: white;
+        background-color: black;
+        padding: 3pt;
+
+        option {
+            color: white;
+        }
+    }
+
+    input[type="checkbox"] {
+        display: inline-block;
+        margin-right: 6pt;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        display: block;
+        background-color: black;
+        color: white;
+        border: 1px solid white;
+        padding: 6pt;
+        resize: none;
+        box-sizing: border-box;
+    }
+
+    input,
+    textarea,
+    select {
+        &:focus {
+            outline: none;
+            background-color: $highlightColor;
+            border-color: $highlightColor;
+        }
+    }
+}
+
+@mixin super-form {
+    @include admin-controls;
+
+    .form-field {}
+
+    .form-field+.form-field {
+        margin-top: 20pt;
+    }
+
+    .form-section+.form-section {
+        margin-top: 60pt;
+    }
+
+    label {
+        display: block;
+        user-select: none;
+
+        .inner {
+            display: inline-block;
+            padding-bottom: 4pt;
+        }
+    }
+}
+
+
+@mixin admin-button {
+    display: block;
+    color: white;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+
+    padding: 3pt 10pt;
+    text-align: center;
+    user-select: none;
+
+
+    &:hover {
+        border-color: $highlightColor;
+        background-color: #333;
+    }
+
+    &:disabled {
+        color: gray;
+    }
+}
+
+@mixin cancel-button {
+
+    &:hover:enabled,
+    &:focus:enabled {
+        //color: white;
+        //background-color: yellow;
+    }
+}
+
+@mixin save-button {
+
+    &:hover:enabled,
+    &:focus:enabled {
+        //color: white;
+        //background-color: yellow;
+    }
+}
+
+@mixin delete-button {
+    padding: 3pt 10pt;
+
+    &:hover,
+    &:focus {
+        //color: white;
+        background-color: red;
+    }
+}
+
+@mixin editor {
+    display: block;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+@mixin admin-form-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    padding-bottom: 40px;
+
+    form {
+        font-family: $adminFont;
+        font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+        font-family: $adminFont;
+        font-size: 14px;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .controls {
+        position: absolute;
+        bottom: 15px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    button+button {
+        margin-left: 4px;
+    }
+}
+
+@mixin admin-form-title {
+    font-family: $adminFont;
+    font-size: 14px;
+}
+
+@mixin admin-form {
+    display: block;
+}
+
+@mixin bone-input {
+    display: block;
+    border: none;
+    background-color:rgba(gray, 0.1);
+    color: var(--text-color);
+
+
+    &:hover {
+        background-color: lightgray;
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+        color: black;
+        background-color: $adminAccentColor;
+    }
+}
+
+@mixin adminInput {
+    display: block;
+    width: 100%;
+    padding: 6px;
+    color: silver;
+    border: 1px solid silver;
+    background-color: transparent;
+    box-sizing: border-box;
+
+    &:hover {
+        border-color: transparent;
+        background-color: #333;
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+        color: white;
+        border-color: transparent;
+        background-color: #555;
+    }
+}
+
+@mixin form-select-basic {
+    width: 100%;
+    margin-bottom: 0.5em;
+    padding: 6px;
+
+    font-size: inherit;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: 1px solid silver;
+    outline: none;
+    color: silver;
+
+    &:hover,
+    &:focus {
+      color: $adminAccentColor;
+    }
+
+    option {
+      background-color: #444;
+
+      &:checked {
+        color: $adminAccentColor;
+      }
+
+      &:not(checked) {
+        color: silver;
+      }
+    }
+}
