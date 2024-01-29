@@ -1,0 +1,46 @@
+@import './../styles/admin-variables.scss';
+
+:host {
+  display: block;
+
+  &.big.desktop {
+    @include adminBigTextDesktop;
+  }
+
+  &.big.tablet {
+    @include adminBigTextTablet;
+  }
+
+  &.big.mobile {
+    @include adminBigTextMobile;
+  }
+
+  &.small.desktop {
+    @include adminSmallTextDesktop;
+  }
+
+  &.small.tablet {
+    @include adminSmallTextTablet;
+  }
+
+  &.small.mobile {
+    @include adminSmallTextMobile;
+  }
+
+  &.form {
+    input {
+      @include adminInput;
+    }
+  }
+
+  input {
+    @include bone-input;
+    display: block;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    border: none;
+  }
+
+}

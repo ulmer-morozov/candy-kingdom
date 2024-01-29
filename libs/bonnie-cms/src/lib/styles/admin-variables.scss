@@ -15,6 +15,7 @@ $barWidth: 120px;
 ////////////////////////
 //       FONTS
 
+// todo: remove
 @mixin adminBigTextDesktop {
     letter-spacing: -0.01em;
     font-size: $atom * 12 * $adminDesktopViewPortCoeff;
@@ -29,7 +30,7 @@ $barWidth: 120px;
 }
 
 @mixin adminBigTextMobile {
-    font-size: $mobileAtom * 12/2 * $adminMobileViewPortCoeff; //todo: выяснить, почему тут надо делать на 2
+    font-size: $mobileAtom * 12/2 * $adminMobileViewPortCoeff;
     line-height: $big-text-line-height-mobile * $adminMobileViewPortCoeff;
     color: var(--text-color);
 }

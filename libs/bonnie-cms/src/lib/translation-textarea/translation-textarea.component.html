@@ -1,0 +1,9 @@
+<textarea [(ngModel)]="text[locale]"
+          [cdkAutosizeMinRows]="minRows"
+          [cdkAutosizeMaxRows]="maxRows"
+          (click)="onClick()"
+          (keyup)="onKeyPress()"
+          (blur)="onBlur()"
+          matInput
+          cdkTextareaAutosize>
+</textarea>

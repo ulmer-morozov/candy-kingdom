@@ -68,7 +68,8 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface<PageData>()
             .Member(nameof(PageData.Empty)).Ignore();
 
-        AddInterface<OpenGraphData>();
+        AddInterface<OpenGraphData>()
+            .Member(x => nameof(x.Empty)).Ignore();
 
         // AddInterface<SettingGroup>()
 

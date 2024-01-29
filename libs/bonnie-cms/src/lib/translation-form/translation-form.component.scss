@@ -1,0 +1,6 @@
+@import './../styles/admin-variables.scss';
+
+:host {
+    @include admin-form;
+}
+

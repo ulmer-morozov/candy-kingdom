@@ -2,7 +2,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminDataService } from '../admin-data.service';
 
-import { BonnieCmsModule } from "@candy-kingdom/bonnie-cms";
+import { BonnieCmsModule, TextEditorField } from "@candy-kingdom/bonnie-cms";
 import { HttpClient } from '@angular/common/http';
 import { BonnieModule, Page, PageData } from '@candy-kingdom/bonnie';
 import { RouterLink } from '@angular/router';
@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './admin-pages.component.html',
 })
 export default class AdminPagesComponent implements OnInit {
+  public readonly TextEditorField = TextEditorField;
   private readonly _dataService = inject(AdminDataService);
   private readonly _http = inject(HttpClient);
 

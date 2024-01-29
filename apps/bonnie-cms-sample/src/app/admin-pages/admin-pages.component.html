@@ -1,13 +1,49 @@
 ADMIN PAGES
 <bonc-admin-controls #controls
                      [deviceControls]="true"
-                     [editableGroup]="siteDataEditorGroup">
+                     [editableGroup]="pageEditorGroup">
 </bonc-admin-controls>
-
-<bonc-editable-group #siteDataEditorGroup></bonc-editable-group>
 
 <ul>
   <li *ngFor="let childPage of page.children"><a [routerLink]="['../', ('~' + childPage.url) | encodeURIComponent]">{{childPage.title | localize:controls.locale}}</a></li>
 </ul>
 
-<pre>{{page | json}}</pre>
+<!-- <pre>{{page | json}}</pre> -->
+
+<bonc-editable-group #pageEditorGroup (saved)="save()" class="page-editor">
+
+  <!-- todo: add form -->
+  <!-- <publish-status-form [(ngModel)]="page.publishStatus"
+                       [label]="'Publish status'"
+                       editable
+                       class="form-item page-title">
+
+  </publish-status-form> -->
+
+  <bonc-seo-form [(ngModel)]="page.openGraph"
+            [locale]="controls.locale"
+            [pageId]="page.id"
+            [label]="'Share information for social media'"
+            class="form-item seo">
+  </bonc-seo-form>
+
+  <bonc-translation-form [(ngModel)]="page.title"
+                    [locale]="controls.locale"
+                    [field]="TextEditorField.Input"
+                    [label]="'Page title (browser tab)'"
+                    class="form-item page-title">
+  </bonc-translation-form>
+
+  <h2>Page Body</h2>
+
+  <!-- <skeleton-editor [(ngModel)]="page.content"
+                   [locale]="controls.locale"
+                   [device]="controls.device"
+                   [style.--bg-color]="page.colorTheme.background"
+                   [style.--text-color]="page.colorTheme.text"
+                   [style.--noticeable-color]="page.colorTheme.noticeable"
+                   [style.--media-bg]="page.colorTheme.mediaBg"
+                   editable>
+  </skeleton-editor> -->
+
+</bonc-editable-group>

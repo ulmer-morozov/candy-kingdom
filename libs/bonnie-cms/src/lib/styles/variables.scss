@@ -1,5 +1,9 @@
 @use "sass:math";
 
+$atom: 0.34364261168vw; //todo: remove
+$tabletAtom: 0.54644809vw;//todo: remove
+$mobileAtom: 1.49253731vw;//todo: remove
+
 $mobileScreenMaxSize: 767px;
 $desktopScreenSize: 1280px;
 
