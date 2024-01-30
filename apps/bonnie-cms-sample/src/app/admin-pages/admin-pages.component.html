@@ -21,29 +21,26 @@ ADMIN PAGES
   </publish-status-form> -->
 
   <bonc-seo-form [(ngModel)]="page.openGraph"
-            [locale]="controls.locale"
-            [pageId]="page.id"
-            [label]="'Share information for social media'"
-            class="form-item seo">
+                 [locale]="controls.locale"
+                 [pageId]="page.id"
+                 [label]="'Share information for social media'"
+                 class="form-item seo">
   </bonc-seo-form>
 
   <bonc-translation-form [(ngModel)]="page.title"
-                    [locale]="controls.locale"
-                    [field]="TextEditorField.Input"
-                    [label]="'Page title (browser tab)'"
-                    class="form-item page-title">
+                         [locale]="controls.locale"
+                         [field]="TextEditorField.Input"
+                         [label]="'Page title (browser tab)'"
+                         class="form-item page-title">
   </bonc-translation-form>
 
   <h2>Page Body</h2>
 
-  <!-- <skeleton-editor [(ngModel)]="page.content"
-                   [locale]="controls.locale"
-                   [device]="controls.device"
-                   [style.--bg-color]="page.colorTheme.background"
-                   [style.--text-color]="page.colorTheme.text"
-                   [style.--noticeable-color]="page.colorTheme.noticeable"
-                   [style.--media-bg]="page.colorTheme.mediaBg"
-                   editable>
-  </skeleton-editor> -->
+  <bonc-skeleton-editor [(ngModel)]="page.bones"
+                        [map]="AdminBoneMap"
+                        [templates]="templates"
+                        [locale]="controls.locale"
+                        [device]="controls.device">
+  </bonc-skeleton-editor>
 
 </bonc-editable-group>

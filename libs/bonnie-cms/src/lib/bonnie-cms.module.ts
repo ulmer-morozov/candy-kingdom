@@ -14,6 +14,8 @@ import { TranslationTextareaComponent } from './translation-textarea';
 import { TranslationInputComponent } from './translation-input';
 import { TranslationFormComponent } from './translation-form';
 import { BoneEditorContainerComponent, SkeletonEditorAnchorDirective, SkeletonEditorComponent } from './skeleton-editor';
+import { UnknownBoneEditorComponent } from './bone-editors/unknown-bone-editor/unknown-bone-editor.component';
+import { BoneEditorBaseComponent } from './bone-editors/bone-editor-base.component';
 
 const components = [
   TranslationInputComponent,
@@ -27,7 +29,9 @@ const components = [
   UnknownFormComponent,
   SkeletonEditorComponent,
   SkeletonEditorAnchorDirective,
-  BoneEditorContainerComponent
+  BoneEditorContainerComponent,
+  BoneEditorBaseComponent,
+  UnknownBoneEditorComponent
 ];
 
 const standaloneDirectives = [

@@ -1,32 +1,33 @@
 <ng-template #controls let-index='index'>
-    <div [class.appearable]="index > 0 && index < bones.length" class="controls">
-        <div *ngIf="index < bones.length" class="up-down">
-            <a *ngIf="index > 0" (click)="moveDown(index - 1)" class="down">move down</a>
-            <a *ngIf="index > 0" (click)="moveUp(index)" class="up">move up</a>
-        </div>
-        <a (click)="templatesAreShown[index] = true" class="add">create</a>
-        <a *ngIf="index < bones.length" (click)="removeBone(index)" class="remove">remove</a>
+  <div [class.appearable]="index > 0 && index < bones.length" class="controls">
+    <div *ngIf="index < bones.length" class="up-down">
+      <a *ngIf="index > 0" (click)="moveDown(index - 1)" class="down">move down</a>
+      <a *ngIf="index > 0" (click)="moveUp(index)" class="up">move up</a>
     </div>
+    <a (click)="templatesAreShown[index] = true" class="add">create</a>
+    <a *ngIf="index < bones.length" (click)="removeBone(index)" class="remove">remove</a>
+  </div>
 
-    <div *ngIf="templatesAreShown[index]" class="templates">
-        <a *ngFor="let template of templates" (click)="templatesAreShown[index] = false; createBone(index,template);">{{template.title}}</a>
-        <a (click)="templatesAreShown[index] = false">Close</a>
-    </div>
+  <div *ngIf="templatesAreShown[index]" class="templates">
+    <a *ngFor="let template of templates" (click)="templatesAreShown[index] = false; createBone(index,template);">{{template.title}}</a>
+    <a (click)="templatesAreShown[index] = false">Close</a>
+  </div>
 </ng-template>
 
 <ng-container *ngFor="let bone of bones; let i = index">
-    <ng-container>
-        <ng-container *ngTemplateOutlet="controls; context: {index: i}"></ng-container>
-    </ng-container>
+  <ng-container>
+    <ng-container *ngTemplateOutlet="controls; context: {index: i}"></ng-container>
+  </ng-container>
 
-    <bone-editor-container #boneEditorContainer
-                           [bone]="bone"
-                           [locale]="locale"
-                           [device]="device"
-                           (removed)="removeBone(i)"
-                           (editing)="boneEditHandler($event)"
-                           (saved)="boneChangeHandler(i, $event)">
-    </bone-editor-container>
+  <bonc-bone-editor-container #boneEditorContainer
+                              [map]="map"
+                              [bone]="bone"
+                              [locale]="locale"
+                              [device]="device"
+                              (removed)="removeBone(i)"
+                              (editing)="boneEditHandler($event)"
+                              (saved)="boneChangeHandler(i, $event)">
+  </bonc-bone-editor-container>
 
 </ng-container>
 

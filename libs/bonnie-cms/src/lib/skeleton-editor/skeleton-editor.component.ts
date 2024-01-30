@@ -1,26 +1,13 @@
-import { Component, Host, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, Host, Input, OnChanges, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { BoneEditorContainerComponent } from './bone-editor-container/bone-editor-container.component';
 import { Bone } from '@candy-kingdom/bonnie';
 import { EditableDirective } from '../core-components';
 import { DeviceType } from '../core';
+import { IBoneTemplate } from './IBoneTemplate';
+import { BoneEditorMap } from './BoneEditorMap';
 
-interface IBoneTemplate {
-  readonly title: string;
-  readonly boneFactory: () => Bone;
-}
-
-function template<T>(title: string, type: string, dataEtalon: T): IBoneTemplate {
-  return {
-    title,
-    boneFactory: () => ({
-      type,
-      data: JSON.parse(JSON.stringify(dataEtalon)),
-      visibility: DeviceVisibility.All
-    })
-  };
-}
-
+// todo: rename class
 @Component({
   selector: 'bonc-skeleton-editor',
   templateUrl: './skeleton-editor.component.html',
@@ -39,39 +26,11 @@ export class SkeletonEditorComponent implements OnInit, OnChanges {
 
   public readonly templatesAreShown: boolean[] = [];
 
-  public readonly templates: ReadonlyArray<IBoneTemplate>;
+  constructor(@Host() public editable: EditableDirective<Bone[]>) {
 
-  constructor(@Host() public editable: EditableDirective<IBone[]>) {
-    this.templates = [
-      template<MediaBoneData>('Big image or video', BoneType.OneMedia, {
-        style: OneMediaStyle.ControlledBasic,
-        src: emptyImagePack(),
-        title: emptyLocalizedString(),
-        text: emptyLocalizedString(),
-        alt: emptyLocalizedString(),
-        link: emptyLocalizedString()
-      }),
-      //
-      template<IVimeoContentData>('Vimeo.com', BoneType.Vimeo, {
-        vimeoId: 0,
-        ratio: 16 / 9,
-        loop: false,
-        muted: false,
-        autoplay: false
-      }),
-      //
-      template<TextBoneData>('Text', BoneType.Text, {
-        text: emptyLocalizedString(),
-        title: emptyLocalizedString(),
-        title2: emptyLocalizedString(),
-        style: TextBoneStyle.LeftBigShorter,
-        columnTwo: emptyLocalizedString(),
-        columnThree: emptyLocalizedString()
-      })
-    ];
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {
       this.boneEditorContainerList.forEach
         (
@@ -91,17 +50,23 @@ export class SkeletonEditorComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  @Input({ required: true })
+  public map!: BoneEditorMap;
+
+  public ngOnChanges(): void {
     this.templatesAreShown.splice(0, this.templatesAreShown.length);
     if (this.bones === undefined)
       return;
 
-    this.bones.forEach(x => this.templatesAreShown.push(false));
-    // и  для последнего элемента
+    this.bones.forEach(() => this.templatesAreShown.push(false));
     this.templatesAreShown.push(false);
   }
 
-  public get bones(): IBone[] {
+  @Input({ required: true })
+  public templates!: ReadonlyArray<IBoneTemplate>;
+
+
+  public get bones(): Bone[] {
     return this.editable?.value ?? [];
   }
 
@@ -121,7 +86,10 @@ export class SkeletonEditorComponent implements OnInit, OnChanges {
   }
 
   public boneChangeHandler(index: number, newBoneValue: Bone): void {
-    this.editable.value[index] = newBoneValue;
+    if (Array.isArray(this.editable.value)) {
+      this.editable.value[index] = newBoneValue;
+    }
+
     this.editable.save();
   }
 

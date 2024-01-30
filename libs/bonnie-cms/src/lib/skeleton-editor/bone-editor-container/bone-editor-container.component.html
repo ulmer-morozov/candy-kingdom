@@ -1,49 +1,7 @@
-
 <div *ngIf="editor" class="left bar" [class.inactive]="editor.noPresets">
   <!-- <a *ngFor="let control of editor.controls" (click)="control.activate()">{{control.label}}</a> -->
-  <a (click)="showThemePopup()">theme</a>
-  <a (click)="setDisabled(!disabled)" class="disabled">block {{disabled ? 'disabled' : 'enabled'}} ({{editor.bone.visibility}})</a>
+  <!-- <a (click)="setDisabled(!disabled)" class="disabled">block {{disabled ? 'disabled' : 'enabled'}} ({{editor.bone.visibility}})</a> -->
   <a *ngIf="editor.currentPreset && !editor.noPresets" (click)="nextPreset()" class="preset">style:<br />{{editor.currentPreset.title}}</a>
-
-  <div *ngIf="themePopupIsShown && editor && editor!.bone.colorTheme" class="popup">
-    <a (click)="editor.startEditing(); hideThemePopup()" class="close">close</a>
-
-    <div class="color-group">
-      <label for="bgColor">Bg color</label>
-      <input [(colorPicker)]="editor!.bone.colorTheme!.background"
-             [style.background]="editor!.bone.colorTheme!.background"
-             autocomplete="off"
-             id="bgColor" />
-    </div>
-
-    <div class="color-group">
-      <label for="textColor">Text color</label>
-      <input [(colorPicker)]="editor!.bone.colorTheme!.text"
-             [style.background]="editor!.bone.colorTheme!.text"
-             autocomplete="off"
-             id="textColor" />
-    </div>
-
-    <div class="color-group">
-      <label for="mediaBg">Media bg color</label>
-      <input [(colorPicker)]="editor!.bone.colorTheme!.mediaBg"
-             [style.background]="editor!.bone.colorTheme!.mediaBg"
-             autocomplete="off"
-             id="mediaBg" />
-    </div>
-
-    <div class="color-group">
-      <label for="noticeable">Contrast color</label>
-      <input [(colorPicker)]="editor!.bone.colorTheme!.noticeable"
-             [style.background]="editor!.bone.colorTheme!.noticeable"
-             autocomplete="off"
-             id="noticeable" />
-    </div>
-
-    <a (click)="resetTheme(editor)"
-       class="reset"
-       role="button">reset theme</a>
-  </div>
 </div>
 
 <div class="editor-container"
