@@ -8,5 +8,6 @@ export * from './lib/seo-form';
 export * from './lib/translation-form';
 export * from './lib/translation-input';
 export * from './lib/translation-textarea';
+export * from './lib/skeleton-editor';
 
 export * from './lib/bonnie-cms.module';

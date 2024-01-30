@@ -3,16 +3,17 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
-import { AdminControlsComponent } from './admin-controls/admin-controls.component';
-import { EditableDirective } from './core-components/editable.directive';
+import { AdminControlsComponent } from './admin-controls/';
+import { EditableDirective } from './core-components';
 import { TextFormComponent } from './text-form';
 import { EditableGroupComponent } from './core-components';
 import { FormControlsComponent } from './form-controls';
 import { UnknownFormComponent } from './unknown-form';
-import { SeoFormComponent } from './seo-form/seo-form.component';
+import { SeoFormComponent } from './seo-form';
 import { TranslationTextareaComponent } from './translation-textarea';
 import { TranslationInputComponent } from './translation-input';
-import { TranslationFormComponent } from './translation-form/translation-form.component';
+import { TranslationFormComponent } from './translation-form';
+import { BoneEditorContainerComponent, SkeletonEditorAnchorDirective, SkeletonEditorComponent } from './skeleton-editor';
 
 const components = [
   TranslationInputComponent,
@@ -23,7 +24,10 @@ const components = [
   TranslationFormComponent,
   TextFormComponent,
   SeoFormComponent,
-  UnknownFormComponent
+  UnknownFormComponent,
+  SkeletonEditorComponent,
+  SkeletonEditorAnchorDirective,
+  BoneEditorContainerComponent
 ];
 
 const standaloneDirectives = [
