@@ -21,7 +21,7 @@ using Microsoft.EntityFrameworkCore;
 
 using static CandyKingdom.Marcy.LocalizedStringHelpers;
 
-var contratsDir = Path.Combine("..", "..", "apps", "bonnie-cms-sample", "src", "lib", "generated");
+var contratsDir = Path.Combine("..", "..", "apps", "bonnie-cms-sample", "src", "app", "generated");
 SpecGenerator.GenerateTsFiles<MarcyCmsSampleGenerationSpec>(contratsDir);
 
 var options = CmsJsonSerializationOptions.New();

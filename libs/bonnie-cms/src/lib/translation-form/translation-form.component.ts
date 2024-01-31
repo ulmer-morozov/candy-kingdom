@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LocalizedString } from '@candy-kingdom/bonnie';
 
 import { EditableDirective, FormBaseComponent } from '../core-components';
-import { TranslationInputStyle, TextEditorField } from '../core';
+import { TextEditorField } from '../core';
 
 @Component({
   selector: 'bonc-translation-form',
@@ -12,7 +12,6 @@ import { TranslationInputStyle, TextEditorField } from '../core';
   hostDirectives: [EditableDirective]
 })
 export class TranslationFormComponent extends FormBaseComponent<LocalizedString> implements OnInit {
-  public readonly TranslationInputStyle = TranslationInputStyle;
   public readonly TextEditorField = TextEditorField;
 
   @Input({ required: true })

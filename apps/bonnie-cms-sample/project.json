@@ -25,9 +25,13 @@
           "apps/bonnie-cms-sample/src/assets"
         ],
         "styles": [
-          "apps/bonnie-cms-sample/src/styles.scss",
-          "libs/bonnie-cms/src/lib/styles/admin-styles.scss"
+          "apps/bonnie-cms-sample/src/styles.scss"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/bonnie-cms/src/lib/styles"
+          ]
+        },
         "scripts": []
       },
       "configurations": {

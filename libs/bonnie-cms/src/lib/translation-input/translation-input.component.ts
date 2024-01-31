@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { DeviceType, TranslationInputStyle } from '../core';
+import { DeviceType } from '../core';
 import { LocalizedString } from '@candy-kingdom/bonnie';
 
 @Component({
@@ -8,11 +8,6 @@ import { LocalizedString } from '@candy-kingdom/bonnie';
   styleUrls: ['./translation-input.component.scss']
 })
 export class TranslationInputComponent {
-  public readonly EditorTextStyle = TranslationInputStyle;
-
-  @Input()
-  public style: TranslationInputStyle = TranslationInputStyle.NotSet;
-
   @Input({ required: true })
   public text!: LocalizedString;
 
@@ -31,30 +26,6 @@ export class TranslationInputComponent {
   @Output()
   public blurred: EventEmitter<void> = new EventEmitter();
 
-  @HostBinding('class.form') get isFormStyle(): boolean {
-    return this.style !== undefined && this.style === TranslationInputStyle.Form;
-  }
-
-  @HostBinding('class.big') get isBigStyle(): boolean {
-    return this.style !== undefined && this.style === TranslationInputStyle.Big;
-  }
-
-  @HostBinding('class.small') get isSmallStyle(): boolean {
-    return this.style !== undefined && this.style === TranslationInputStyle.Small;
-  }
-
-  @HostBinding('class.desktop') get isDesktop(): boolean {
-    return this.device !== undefined && this.device === DeviceType.Desktop;
-  }
-
-  @HostBinding('class.tablet') get isTablet(): boolean {
-    return this.device !== undefined && this.device === DeviceType.Tablet;
-  }
-
-  @HostBinding('class.mobile') get isMobile(): boolean {
-    return this.device !== undefined && this.device === DeviceType.Mobile;
-  }
-
   public onClick() {
     this.startEditing.emit();
   }
@@ -66,5 +37,4 @@ export class TranslationInputComponent {
   public onBlur() {
     this.blurred.emit();
   }
-
 }

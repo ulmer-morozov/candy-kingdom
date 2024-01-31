@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BoneDirective } from '@candy-kingdom/bonnie';
-import { TextBone } from './TextBone';
+
+import { TextBone } from '../../generated';
 
 @Component({
   selector: 'app-text-bone',

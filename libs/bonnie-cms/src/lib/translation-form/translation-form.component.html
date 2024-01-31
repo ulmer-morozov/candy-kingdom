@@ -1,11 +1,9 @@
 <bonc-form-controls *ngIf="editable.value" [editable]="editable">
   <label *ngIf="label">{{label}}</label>
 
-
   <bonc-translation-input *ngIf="field === TextEditorField.Input"
                           [text]="editable.value"
                           [locale]="locale"
-                          [style]="TranslationInputStyle.Form"
                           (startEditing)="editable.startEditing()"
                           (changed)="editable.updateDirty()"
                           (blurred)="editable.updateDirty()">
@@ -16,7 +14,6 @@
                              [text]="editable.value"
                              [minRows]="2"
                              [locale]="locale"
-                             [style]="TranslationInputStyle.Form"
                              (startEditing)="editable.startEditing()"
                              (changed)="editable.updateDirty()"
                              (blurred)="editable.updateDirty()">

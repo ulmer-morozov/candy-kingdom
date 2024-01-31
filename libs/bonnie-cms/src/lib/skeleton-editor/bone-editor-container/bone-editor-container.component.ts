@@ -7,6 +7,7 @@ import { SkeletonEditorAnchorDirective } from '../skeleton-editor-anchor.directi
 import { DeviceType } from '../../core';
 import { IBoneEditor } from '../IBoneEditor';
 import { BoneEditorMap } from '../BoneEditorMap';
+import { UnknownBoneEditorComponent } from '../../bone-editors';
 
 // todo: rename class
 @Component({
@@ -86,7 +87,7 @@ export class BoneEditorContainerComponent implements OnChanges {
 
     viewContainerRef.clear();
 
-    const componentType = this.map.getRequired(newBone.type);
+    const componentType = this.map.get(newBone.type) ?? UnknownBoneEditorComponent;
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
     const boneEditorRef = viewContainerRef.createComponent(componentFactory);

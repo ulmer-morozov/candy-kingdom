@@ -1,24 +1,25 @@
-﻿import { EventEmitter, HostBinding, Component } from '@angular/core';
+﻿import { EventEmitter, HostBinding, Component, Input } from '@angular/core';
 
 import { Bone } from '@candy-kingdom/bonnie';
-import { ContentPreset, IBoneEditor } from '../skeleton-editor';
+import { ContentPreset, IBoneEditor, createPreset } from '../skeleton-editor';
 import { DeviceType } from '../core/DeviceType';
 
 @Component({ template: '' })
 export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBoneEditor<TBone> {
   public readonly editing: EventEmitter<boolean> = new EventEmitter<boolean>();
-  public readonly saved: EventEmitter<TBone> = new EventEmitter<TBone>();
+  public readonly saved: EventEmitter<Bone> = new EventEmitter<Bone>();
   public readonly removed: EventEmitter<void> = new EventEmitter<void>();
 
   public readonly noPresets: boolean;
 
-  public locale: string;
+  @Input({ required: true })
+  public locale!: string;
   public device = DeviceType.NotSet;
 
-  private _bone: TBone;
-  private _storedData: string;
+  private _bone!: TBone;
+  private _storedData: string = '';
 
-  private _currentPreset: ContentPreset<TBone>;
+  private _currentPreset: ContentPreset<TBone> | undefined;
 
   protected readonly presets: ReadonlyArray<ContentPreset<TBone>>;
   private _isDirty = false;
@@ -30,7 +31,6 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
   protected abstract getPresets(): ContentPreset<TBone>[];
 
   constructor() {
-
     this.presets = this.getPresets();
 
     if (this.presets === undefined || this.presets === null)
@@ -38,7 +38,7 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 
     if (this.presets.length === 0) {
       this.presets = [
-        new ContentPreset<TBone>({ title: 'default', isActive: () => true })
+        createPreset<TBone>({ title: 'default', style: '' })
       ];
     }
 
@@ -57,8 +57,7 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
     return this.device !== undefined && this.device === DeviceType.Desktop;
   }
 
-  public get currentPreset(): ContentPreset<TBone> {
-    // console.log(`current preset: ${JSON.stringify(this._currentPreset)}`);
+  public get currentPreset(): ContentPreset<TBone> | undefined {
     return this._currentPreset;
   }
 
@@ -66,10 +65,7 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
     return this._bone;
   }
 
-  public get data(): TBone {
-    return this._bone?.data;
-  }
-
+  @Input({ required: true })
   public set bone(newData: TBone) {
     this._isDirty = false;
     this._storedData = JSON.stringify(newData);
@@ -144,28 +140,24 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
   }
 
   public nextPreset(): void {
-    const currentIndex = this.presets.indexOf(this._currentPreset);
-    this.applyPresetAtIndex(currentIndex + 1);
-    // console.log(`next preset: ${currentIndex + 1}`);
+    const newIndex = this._currentPreset === undefined ? 0 : this.presets.indexOf(this._currentPreset) + 1;
+    this.applyPresetAtIndex(newIndex);
   }
 
   private applyPresetAtIndex = (newIndex: number): void => {
     newIndex = newIndex < 0 ? 0 : newIndex % this.presets.length;
 
-    const currentIndex = this.presets.indexOf(this._currentPreset);
-
+    const currentIndex = this._currentPreset === undefined ? -1 : this.presets.indexOf(this._currentPreset);
     if (currentIndex === newIndex)
       return;
 
     this._currentPreset = this.presets[newIndex];
     this._currentPreset.transformer(this._bone);
+
     this.updateDirty();
   }
 
   private updatePresetByData = (): void => {
-    if (this.bone === undefined)
-      return;
-
     const countOfActive = this.presets.map(p => p.isActive(this._bone)).filter(p => p).length;
 
     if (countOfActive !== 1)

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Bone, BonnieModule, Page, PageData } from '@candy-kingdom/bonnie';
 import { RouterLink } from '@angular/router';
 import { AdminBoneMap } from '../AdminBoneMap';
+import { TextBoneEditorComponent } from '../bone-editors/text-bone-editor/text-bone-editor.component';
 
 
 export function template<T extends Bone = Bone>(title: string, type: string, dataEtalon: T): IBoneTemplate {
@@ -16,9 +17,13 @@ export function template<T extends Bone = Bone>(title: string, type: string, dat
   };
 }
 
+const boneEditors = [
+  TextBoneEditorComponent
+];
+
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterLink, BonnieModule, BonnieCmsModule],
+  imports: [CommonModule, RouterLink, BonnieModule, BonnieCmsModule, ...boneEditors],
   providers: [AdminDataService],
   selector: 'app-admin-pages',
   templateUrl: './admin-pages.component.html',

@@ -1,0 +1,23 @@
+@import 'admin-variables';
+
+:host {
+  @include editor;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+
+  .title,
+  .title-2,
+  .text {
+    white-space: pre-line;
+  }
+}
+
+.editor-preview.text {
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0.1);
+
+  &:hover {
+    border-color: transparent;
+    background-color: silver;
+  }
+}

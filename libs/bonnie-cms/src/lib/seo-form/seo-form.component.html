@@ -5,7 +5,6 @@
     <label>Title</label>
     <bonc-translation-input [text]="editable.value.title"
                             [locale]="locale"
-                            [style]="TranslationInputStyle.Form"
                             (startEditing)="editable.startEditing()"
                             (changed)="editable.updateDirty()"
                             (blurred)="editable.updateDirty()">
@@ -16,7 +15,6 @@
     <label>Description</label>
     <bonc-translation-textarea [text]="editable.value.description"
                                [locale]="locale"
-                               [style]="TranslationInputStyle.Form"
                                (startEditing)="editable.startEditing()"
                                (changed)="editable.updateDirty()"
                                (blurred)="editable.updateDirty()">

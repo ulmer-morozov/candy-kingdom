@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { OpenGraphData } from '@candy-kingdom/bonnie';
 
 import { EditableDirective, FormBaseComponent } from '../core-components';
-import { TranslationInputStyle } from '../core/TranslationInputStyle';
 import { MediaType } from '../core/MediaType';
 
 @Component({
@@ -12,7 +11,6 @@ import { MediaType } from '../core/MediaType';
   hostDirectives: [EditableDirective]
 })
 export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implements OnInit {
-  public readonly TranslationInputStyle = TranslationInputStyle;
   public readonly MediaType = MediaType;
 
   private _pageId = '';

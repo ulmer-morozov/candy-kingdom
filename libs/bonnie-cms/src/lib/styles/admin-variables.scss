@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import './variables.scss';
 
 $adminAccentColor: #CCFF00;
@@ -30,7 +31,7 @@ $barWidth: 120px;
 }
 
 @mixin adminBigTextMobile {
-    font-size: $mobileAtom * 12/2 * $adminMobileViewPortCoeff;
+    font-size: math.div($mobileAtom * 12, 2) * $adminMobileViewPortCoeff;
     line-height: $big-text-line-height-mobile * $adminMobileViewPortCoeff;
     color: var(--text-color);
 }

@@ -1,0 +1,19 @@
+<label>Title</label>
+<bonc-translation-textarea [text]="bone.text"
+                           [device]="device"
+                           [locale]="locale"
+                           (startEditing)="startEditing()"
+                           (changed)="markAsDirty()"
+                           (blurred)="updateDirty()"
+                           class="title">
+</bonc-translation-textarea>
+
+<label>Text</label>
+<bonc-translation-textarea [text]="bone.text"
+                           [device]="device"
+                           [locale]="locale"
+                           (startEditing)="startEditing()"
+                           (changed)="markAsDirty()"
+                           (blurred)="updateDirty()"
+                           class="text">
+</bonc-translation-textarea>

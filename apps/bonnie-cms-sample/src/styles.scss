@@ -1,4 +1,4 @@
-// @import '~@candy-kingdom/bonnie/styles/admin-styles.scss';
+@import 'admin-styles'; // todo: admin styles should be loading only for admin pages
 
 nav {
   display: flex;

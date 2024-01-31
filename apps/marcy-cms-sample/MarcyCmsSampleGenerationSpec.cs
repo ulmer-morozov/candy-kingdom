@@ -14,9 +14,9 @@ namespace CandyKingdom.MarcyCms.Sample;
 public static class GenExtensions
 {
     public static InterfaceSpecBuilder<T> InheritedFromBone<T>(this InterfaceSpecBuilder<T> builder)
-        where T: Bone
+        where T : Bone
     {
-        builder.IgnoreBase().CustomBase(nameof(Bone), "@candy-kingdom/bonnie");
+        builder.IgnoreBase().CustomBase(nameof(Bone), MarcyCmsSampleGenerationSpec.BonnieModuleImportPath);
         return builder;
     }
 
@@ -24,12 +24,18 @@ public static class GenExtensions
     {
         var expression = (MemberExpression)propSelector.Body;
 
-        return builder.Member(expression.Member.Name).Type(nameof(LocalizedString), "@candy-kingdom/bonnie");
+        builder
+            .Member(expression.Member.Name)
+            .Type(nameof(LocalizedString), MarcyCmsSampleGenerationSpec.BonnieModuleImportPath);
+
+        return builder;
     }
 }
 
 public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
 {
+    public const string BonnieModuleImportPath = "@candy-kingdom/bonnie";
+
     public override void OnBeforeGeneration(OnBeforeGenerationArgs args)
     {
         // args.GeneratorOptions.PropertyNameConverters.Add(new JsonMemberNameConverter());
@@ -39,7 +45,7 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
         AddBarrel("", BarrelScope.Files);
 
         AddInterface<ProjectPageData>()
-            .IgnoreBase().CustomBase(nameof(PageData), "@candy-kingdom/bonnie")
+            .IgnoreBase().CustomBase(nameof(PageData), BonnieModuleImportPath)
             .HasLocalizedString(x => x.SpecialTitle)
             .Member(x => nameof(x.PageDataType)).Ignore();
 
@@ -49,6 +55,13 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
             .HasLocalizedString(x => x.Link)
             .HasLocalizedString(x => x.Text)
             .HasLocalizedString(x => x.Alt)
-            .Member(x => nameof(x.Media)).Type(nameof(PixMedia), "@candy-kingdom/bonnie");
+            .Member(x => nameof(x.Media)).Type(nameof(PixMedia), BonnieModuleImportPath);
+
+        AddClass<TextBoneStyle>();
+
+        AddInterface<TextBone>()
+            .InheritedFromBone()
+            .HasLocalizedString(x => x.Title)
+            .HasLocalizedString(x => x.Text);
     }
 }
