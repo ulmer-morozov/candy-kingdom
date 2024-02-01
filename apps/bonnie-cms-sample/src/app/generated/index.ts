@@ -4,6 +4,8 @@
  */
 
 export * from './text-bone-style';
+export * from './page-list-bone';
 export * from './text-bone';
 export * from './project-page-data';
+export * from './page-list-bone-style';
 export * from './media-bone';

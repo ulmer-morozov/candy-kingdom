@@ -11,13 +11,3 @@
     white-space: pre-line;
   }
 }
-
-.editor-preview.text {
-  cursor: pointer;
-  background-color: rgba(128, 128, 128, 0.1);
-
-  &:hover {
-    border-color: transparent;
-    background-color: silver;
-  }
-}

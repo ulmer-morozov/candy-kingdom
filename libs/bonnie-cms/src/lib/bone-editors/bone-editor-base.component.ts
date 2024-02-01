@@ -1,7 +1,7 @@
 ﻿import { EventEmitter, HostBinding, Component, Input } from '@angular/core';
 
 import { Bone } from '@candy-kingdom/bonnie';
-import { ContentPreset, IBoneEditor, createPreset } from '../skeleton-editor';
+import { ContentPreset, IBoneEditor } from '../skeleton-editor';
 import { DeviceType } from '../core/DeviceType';
 
 @Component({ template: '' })
@@ -38,7 +38,13 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 
     if (this.presets.length === 0) {
       this.presets = [
-        createPreset<TBone>({ title: 'default', style: '' })
+
+        {
+          title: 'default',
+          isActive: () => true,
+          transformer: bone => bone,
+          clean: bone => bone,
+        }
       ];
     }
 

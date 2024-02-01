@@ -9,7 +9,7 @@ export interface ContentPreset<out TBone extends Bone> {
 
 export function createPreset<TBone extends Bone>(params: { title: string, style: string }): ContentPreset<TBone> {
   return {
-    title: `[${params.style}] \n${params.title}`,
+    title: params.title,
     isActive: x => x.style === params.style,
     transformer: bone => bone.style = params.style,
     clean: bone => bone.style = params.style,

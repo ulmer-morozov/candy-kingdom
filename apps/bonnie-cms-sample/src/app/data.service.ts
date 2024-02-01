@@ -10,7 +10,6 @@ type DataDictionary = { [n: string]: Observable<unknown> };
 @Injectable()
 export class DataService {
   constructor(private readonly http: HttpClient, @Inject(APP_BASE_HREF) private baseHref: string) {
-    console.log('baseHref: ' + baseHref);
   }
 
   public getView(viewCode: string): Observable<Readonly<PageBase>> {
@@ -79,11 +78,7 @@ export class DataService {
             if (data === undefined || data === null)
               throw new Error(`Data ${bone.dataRoute} have not been preloaded`);
 
-            if ('data' in bone) {
-              bone.data = data;
-            } else {
-              console.warn('not data in bone');
-            }
+            (bone as any).data = data; // todo: fix
           }
 
           return x.page;

@@ -1,0 +1,19 @@
+@import 'admin-variables';
+
+:host {
+  @include editor;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+input {
+  @include bone-input;
+  @include adminInput;
+
+  display: block;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  border: none;
+}

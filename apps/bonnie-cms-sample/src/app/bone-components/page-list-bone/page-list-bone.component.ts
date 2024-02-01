@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { BoneDirective } from '@candy-kingdom/bonnie';
-import { PageListBone } from './PageListBone';
-import { PageListBoneStyle } from './PageListBoneStyle';
+import { PageListBone, PageListBoneStyle } from '../../generated';
 
 @Component({
   selector: 'app-page-list',

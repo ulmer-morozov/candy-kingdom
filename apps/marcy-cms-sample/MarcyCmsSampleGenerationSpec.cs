@@ -30,6 +30,17 @@ public static class GenExtensions
 
         return builder;
     }
+
+    public static InterfaceSpecBuilder<T> HasBonnieMember<T, TProp>(this InterfaceSpecBuilder<T> builder, Expression<Func<T, TProp>> propSelector, string typeName)
+    {
+        var expression = (MemberExpression)propSelector.Body;
+
+        builder
+            .Member(expression.Member.Name)
+            .Type(typeName, MarcyCmsSampleGenerationSpec.BonnieModuleImportPath);
+
+        return builder;
+    }
 }
 
 public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
@@ -63,5 +74,12 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
             .InheritedFromBone()
             .HasLocalizedString(x => x.Title)
             .HasLocalizedString(x => x.Text);
+
+        AddInterface<PageListBone>()
+            .InheritedFromBone()
+            .HasLocalizedString(x => x.Title)
+            .HasBonnieMember(x => x.Data, $"PageBase[]");
+
+        AddClass<PageListBoneStyle>();
     }
 }

@@ -11,7 +11,13 @@ import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
   imports: [CommonModule, RouterModule],
   providers: [AuthGuard, AuthService, { provide: LocalizeServiceBase, useClass: RouterLocalizeService }],
   selector: 'app-admin',
-  templateUrl: './admin.component.html'
+  templateUrl: './admin.component.html',
+  styles: `
+    :host{
+      --bg-color: white;
+      --text-color: black;
+    }
+  `
 })
 export default class AdminComponent implements OnInit {
   public isSignedIn: boolean = false;
@@ -19,7 +25,7 @@ export default class AdminComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.auth.onStateChanged().forEach((state: any) => {
+    this.auth.onStateChanged().forEach(() => {
       this.auth
         .isSignedIn()
         .forEach((signedIn: boolean) => (this.isSignedIn = signedIn));
