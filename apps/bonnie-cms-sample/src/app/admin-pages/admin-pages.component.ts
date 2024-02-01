@@ -6,8 +6,9 @@ import { BonnieCmsModule, IBoneTemplate, TextEditorField } from "@candy-kingdom/
 import { HttpClient } from '@angular/common/http';
 import { Bone, BonnieModule, Page, PageData } from '@candy-kingdom/bonnie';
 import { RouterLink } from '@angular/router';
+
 import { AdminBoneMap } from '../AdminBoneMap';
-import { TextBoneEditorComponent } from '../bone-editors/text-bone-editor/text-bone-editor.component';
+import { MediaBoneEditorComponent, TextBoneEditorComponent } from '../bone-editors';
 
 
 export function template<T extends Bone = Bone>(title: string, type: string, dataEtalon: T): IBoneTemplate {
@@ -18,7 +19,8 @@ export function template<T extends Bone = Bone>(title: string, type: string, dat
 }
 
 const boneEditors = [
-  TextBoneEditorComponent
+  TextBoneEditorComponent,
+  MediaBoneEditorComponent
 ];
 
 @Component({

@@ -104,7 +104,7 @@ public sealed class AdminUploadImageController : Controller
 
     [HttpPost("Complex")]
     [RequestSizeLimit(50_000_000)]
-    public async Task<ActionResult<IEnumerable<FileSrc<ImageMeta>>>> UploadImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<Image>> UploadImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
@@ -133,7 +133,11 @@ public sealed class AdminUploadImageController : Controller
             cancellationToken
         );
 
-        return Ok(uploadedImageDict.Values);
+        var image = new Image(new[]{
+            new ImageSource(uploadedImageDict.Values)
+        });
+
+        return Ok(image);
     }
 
     private static ImageFormat GetFormatByExtension(string fileName)

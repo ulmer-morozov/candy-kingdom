@@ -3,11 +3,6 @@ using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.MarcyCms.Sample.Bones;
 
-public static class MediaBoneStyle
-{
-    public const string MobileDisplay = "mobile-display";
-}
-
 public sealed record MediaBone : Bone
 {
     public const string BoneType = "media";

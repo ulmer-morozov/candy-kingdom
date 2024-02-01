@@ -1,6 +1,3 @@
+import { PixMediaUnion } from "@candy-kingdom/bonnie";
 
-export enum MediaType {
-  NotSet = 0,
-  Image = 1,
-  Video = 2
-}
+export type MediaType = PixMediaUnion["type"];

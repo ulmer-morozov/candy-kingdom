@@ -1,10 +1,13 @@
-import { BoneEditorMap } from '@candy-kingdom/bonnie-cms';
+import { BoneEditorMap, IBoneEditor } from '@candy-kingdom/bonnie-cms';
 import { TextBoneEditorComponent } from './bone-editors/text-bone-editor/text-bone-editor.component';
 import { PageListBoneEditorComponent } from './bone-editors/page-list-bone-editor/page-list-bone-editor.component';
+import { Type } from '@angular/core';
+import { MediaBoneEditorComponent } from './bone-editors';
 
-const fullMap = new BoneEditorMap();
+const map = new Map<string, Type<IBoneEditor>>();
 
-fullMap.set('text', TextBoneEditorComponent);
-fullMap.set('page-list', PageListBoneEditorComponent);
+map.set('text', TextBoneEditorComponent);
+map.set('media', MediaBoneEditorComponent);
+map.set('page-list', PageListBoneEditorComponent);
 
-export const AdminBoneMap: Readonly<BoneEditorMap> = fullMap;
+export const AdminBoneMap: BoneEditorMap = map;

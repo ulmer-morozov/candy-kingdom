@@ -34,7 +34,7 @@ public sealed class ProjectA : PageFactory<ProjectPageData>
             },
             new MediaBone
             {
-                Style = MediaBoneStyle.MobileDisplay,
+                Style = MediaBoneStyle.FullWidth,
                 Media = Video
                 (
                     VideoSource

@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 
 import { BoneDirective } from '@candy-kingdom/bonnie';
-
-import { MediaBone } from './MediaBone';
-import { MediaBoneStyle } from './MediaBoneStyle';
+import { MediaBone, MediaBoneStyle } from '../../generated';
 
 @Component({
   selector: 'app-media-bone',

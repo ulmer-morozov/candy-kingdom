@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 import { AdminControlsComponent } from './admin-controls/';
-import { EditableDirective } from './core-components';
+import { EditableDirective, LinkPopupComponent } from './core-components';
 import { TextFormComponent } from './text-form';
 import { EditableGroupComponent } from './core-components';
 import { FormControlsComponent } from './form-controls';
@@ -15,6 +15,8 @@ import { TranslationInputComponent } from './translation-input';
 import { TranslationFormComponent } from './translation-form';
 import { BoneEditorContainerComponent, SkeletonEditorAnchorDirective, SkeletonEditorComponent } from './skeleton-editor';
 import { UnknownBoneEditorComponent } from './bone-editors/unknown-bone-editor/unknown-bone-editor.component';
+import { BonnieModule } from '@candy-kingdom/bonnie';
+import { MediaUploaderComponent } from './media-uploader/media-uploader.component';
 
 const components = [
   TranslationInputComponent,
@@ -29,8 +31,9 @@ const components = [
   SkeletonEditorComponent,
   SkeletonEditorAnchorDirective,
   BoneEditorContainerComponent,
-  // BoneEditorBaseComponent,
-  UnknownBoneEditorComponent
+  UnknownBoneEditorComponent,
+  MediaUploaderComponent,
+  LinkPopupComponent
 ];
 
 const standaloneDirectives = [
@@ -48,11 +51,13 @@ const standaloneDirectives = [
     CommonModule,
     FormsModule,
     CdkTextareaAutosize,
+    BonnieModule,
     ...standaloneDirectives
   ],
   exports: [
     CommonModule,
     FormsModule,
+    BonnieModule,
     ...components,
     ...standaloneDirectives
   ]

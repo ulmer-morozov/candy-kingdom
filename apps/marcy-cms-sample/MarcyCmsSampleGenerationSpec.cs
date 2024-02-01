@@ -13,6 +13,16 @@ namespace CandyKingdom.MarcyCms.Sample;
 
 public static class GenExtensions
 {
+    public static InterfaceSpecBuilder<T> IgnoreMember<T, TProp>(this InterfaceSpecBuilder<T> builder, Expression<Func<T, TProp>> propSelector)
+    {
+        var expression = (MemberExpression)propSelector.Body;
+
+        builder
+            .Member(expression.Member.Name)
+            .Ignore();
+
+        return builder;
+    }
     public static InterfaceSpecBuilder<T> InheritedFromBone<T>(this InterfaceSpecBuilder<T> builder)
         where T : Bone
     {
@@ -20,7 +30,7 @@ public static class GenExtensions
         return builder;
     }
 
-    public static InterfaceSpecBuilder<T> HasLocalizedString<T, TProp>(this InterfaceSpecBuilder<T> builder, Expression<Func<T, TProp>> propSelector)
+    public static InterfaceSpecBuilder<T> HasLocalizedString<T>(this InterfaceSpecBuilder<T> builder, Expression<Func<T, LocalizedString>> propSelector)
     {
         var expression = (MemberExpression)propSelector.Body;
 
@@ -30,6 +40,18 @@ public static class GenExtensions
 
         return builder;
     }
+
+    public static InterfaceSpecBuilder<T> HasMedia<T>(this InterfaceSpecBuilder<T> builder, Expression<Func<T, PixMedia>> propSelector)
+    {
+        var expression = (MemberExpression)propSelector.Body;
+
+        builder
+            .Member(expression.Member.Name)
+            .Type("PixMediaUnion", MarcyCmsSampleGenerationSpec.BonnieModuleImportPath);
+
+        return builder;
+    }
+
 
     public static InterfaceSpecBuilder<T> HasBonnieMember<T, TProp>(this InterfaceSpecBuilder<T> builder, Expression<Func<T, TProp>> propSelector, string typeName)
     {
@@ -66,14 +88,16 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
             .HasLocalizedString(x => x.Link)
             .HasLocalizedString(x => x.Text)
             .HasLocalizedString(x => x.Alt)
-            .Member(x => nameof(x.Media)).Type(nameof(PixMedia), BonnieModuleImportPath);
+            .HasMedia(x => x.Media);
 
-        AddClass<TextBoneStyle>();
+        AddClass<MediaBoneStyle>();
 
         AddInterface<TextBone>()
             .InheritedFromBone()
             .HasLocalizedString(x => x.Title)
             .HasLocalizedString(x => x.Text);
+
+        AddClass<TextBoneStyle>();
 
         AddInterface<PageListBone>()
             .InheritedFromBone()

@@ -4,12 +4,12 @@
  */
 
 import { Bone } from "@candy-kingdom/bonnie";
-import { PixMedia } from "@candy-kingdom/bonnie";
+import { PixMediaUnion } from "@candy-kingdom/bonnie";
 import { LocalizedString } from "@candy-kingdom/bonnie";
 
 export interface MediaBone extends Bone {
     readonly boneType: string;
-    media: PixMedia;
+    media: PixMediaUnion;
     title: LocalizedString;
     text: LocalizedString;
     alt: LocalizedString;

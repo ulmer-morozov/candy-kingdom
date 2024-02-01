@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { MediaType } from '../core/MediaType';
-import { DeviceType } from '../core/DeviceType';
-import { EditableGroupComponent } from '../core-components/editable-group';
+import { DeviceType } from '../core';
+import { EditableGroupComponent } from '../core-components';
 
 @Component({
   selector: 'bonc-admin-controls',
@@ -10,7 +9,6 @@ import { EditableGroupComponent } from '../core-components/editable-group';
   styleUrls: ['./admin-controls.component.scss']
 })
 export class AdminControlsComponent {
-  public readonly MediaType = MediaType;
   public readonly DeviceType = DeviceType;
 
   @Input({ required: true })

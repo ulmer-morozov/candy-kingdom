@@ -1,0 +1,72 @@
+@import '../../../lib/styles/admin-variables.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  translation-input {
+    z-index: 1;
+  }
+}
+
+.popup {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 350px;
+  padding: 20px;
+  box-sizing: border-box;
+  color: black;
+  background-color: white;
+  z-index: 5;
+  border: 2px solid black;
+
+  a {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $adminAccentColor;
+    }
+  }
+
+  a.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  label+label {
+    margin-top: 20px;
+  }
+
+  input {
+    width: 100%;
+    margin-top: 5px;
+    padding: 6px;
+    font-size: 12px;
+    box-sizing: border-box;
+    border: 1px solid #222;
+
+    &:hover,
+    &:focus {
+      background-color: silver;
+      color: #333;
+      border-color: silver;
+      outline: none;
+    }
+  }
+
+}
+
+button {
+  @include admin-button;
+  color: black;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $adminAccentColor;
+  }
+
+}
