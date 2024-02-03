@@ -18,6 +18,5 @@ public sealed record PageListBone : Bone, IHaveDataRouteWithData<ImmutableList2<
     [JsonIgnore]
     public ImmutableList2<Page> Data { get; init; } = ImmutableList2<Page>.Empty;
 
-    public PageListBone()
-        : base(BoneType) { }
+    public override string Type { get; } = BoneType;
 }

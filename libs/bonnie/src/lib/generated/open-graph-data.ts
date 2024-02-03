@@ -10,5 +10,4 @@ export interface OpenGraphData {
     title: LocalizedString;
     description: LocalizedString;
     image: LocalizedString;
-    empty: OpenGraphData;
 }

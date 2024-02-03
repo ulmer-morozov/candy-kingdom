@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminDataService } from '../admin-data.service';
 
@@ -9,6 +9,9 @@ import { RouterLink } from '@angular/router';
 
 import { AdminBoneMap } from '../AdminBoneMap';
 import { MediaBoneEditorComponent, TextBoneEditorComponent } from '../bone-editors';
+import { emptyMediaBone } from '../core/emptyMediaBone';
+import { emptyTextBone } from '../core';
+import { emptyPageListBone } from '../core/emptyPageListBone';
 
 const boneEditors = [
   TextBoneEditorComponent,
@@ -23,21 +26,21 @@ const boneEditors = [
   templateUrl: './admin-pages.component.html',
   styleUrl: './admin-pages.component.scss'
 })
-export default class AdminPagesComponent implements OnInit {
+export default class AdminPagesComponent {
   public readonly TextEditorField = TextEditorField;
   public readonly AdminBoneMap = AdminBoneMap;
 
-  public readonly templates: IBoneTemplate[] = [];
+  public readonly templates: IBoneTemplate[] = [
+    { title: 'media', boneFactory: emptyMediaBone },
+    { title: 'text', boneFactory: emptyTextBone },
+    { title: 'page-list', boneFactory: emptyPageListBone },
+  ];
 
   private readonly _dataService = inject(AdminDataService);
   private readonly _http = inject(HttpClient);
 
   @Input({ required: true })
   public page!: Page<PageData>;
-
-  public ngOnInit(): void {
-
-  }
 
   public save(): void {
 

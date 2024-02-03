@@ -8,8 +8,8 @@ import { LocalizedString } from "@candy-kingdom/bonnie";
 import { PageBase } from "@candy-kingdom/bonnie";
 
 export interface PageListBone extends Bone {
-    readonly boneType: string;
     title: LocalizedString;
     dataRoute: string;
     data: PageBase[];
+    type: 'page-list';
 }

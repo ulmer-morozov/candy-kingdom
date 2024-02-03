@@ -97,7 +97,7 @@ export class EditableDirective<T = unknown> {
 
   public save(newData?: T): void {
     if (!this._inEditMode) {
-      console.warn('save before edit mode');
+      console.warn('save before edit mode'); //todo: fix that
     }
 
     this.finishEditing();

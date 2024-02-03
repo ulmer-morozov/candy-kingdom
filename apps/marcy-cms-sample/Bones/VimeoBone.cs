@@ -11,6 +11,5 @@ public sealed record VimeoBone : Bone
     public bool Muted { get; init; }
     public bool Loop { get; init; }
 
-    public VimeoBone()
-        : base(BoneType) { }
+    public override string Type { get; } = BoneType;
 }

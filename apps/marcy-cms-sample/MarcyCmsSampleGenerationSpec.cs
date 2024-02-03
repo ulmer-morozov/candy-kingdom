@@ -23,10 +23,12 @@ public static class GenExtensions
 
         return builder;
     }
-    public static InterfaceSpecBuilder<T> InheritedFromBone<T>(this InterfaceSpecBuilder<T> builder)
+    public static InterfaceSpecBuilder<T> InheritedFromBone<T>(this InterfaceSpecBuilder<T> builder, string type)
         where T : Bone
     {
         builder.IgnoreBase().CustomBase(nameof(Bone), MarcyCmsSampleGenerationSpec.BonnieModuleImportPath);
+        builder.Member(x => nameof(x.Type)).Type($"'{type}'");
+
         return builder;
     }
 
@@ -83,24 +85,28 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
             .Member(x => nameof(x.PageDataType)).Ignore();
 
         AddInterface<MediaBone>()
-            .InheritedFromBone()
+            .InheritedFromBone(MediaBone.BoneType)
+            .Member(x => nameof(x.BoneType)).Ignore()
             .HasLocalizedString(x => x.Title)
             .HasLocalizedString(x => x.Link)
             .HasLocalizedString(x => x.Text)
             .HasLocalizedString(x => x.Alt)
             .HasMedia(x => x.Media);
 
+
         AddClass<MediaBoneStyle>();
 
         AddInterface<TextBone>()
-            .InheritedFromBone()
+            .InheritedFromBone(TextBone.BoneType)
+            .Member(x => nameof(x.BoneType)).Ignore()
             .HasLocalizedString(x => x.Title)
             .HasLocalizedString(x => x.Text);
 
         AddClass<TextBoneStyle>();
 
         AddInterface<PageListBone>()
-            .InheritedFromBone()
+            .InheritedFromBone(PageListBone.BoneType)
+            .Member(x => nameof(x.BoneType)).Ignore()
             .HasLocalizedString(x => x.Title)
             .HasBonnieMember(x => x.Data, $"PageBase[]");
 

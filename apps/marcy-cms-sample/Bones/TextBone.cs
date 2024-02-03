@@ -11,6 +11,5 @@ public sealed record TextBone : Bone
     public LocalizedString Title { get; init; } = Empty;
     public LocalizedString Text { get; init; } = Empty;
 
-    public TextBone()
-        : base(BoneType) { }
+    public override string Type { get; } = BoneType;
 }

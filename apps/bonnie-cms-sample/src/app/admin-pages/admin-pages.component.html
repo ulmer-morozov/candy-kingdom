@@ -8,7 +8,10 @@
   </ul>
 </nav>
 
-<bonc-editable-group #pageEditorGroup (saved)="save()" class="page-editor">
+<bonc-editable-group #pageEditorGroup
+                     [class.hidden]="page.url === '~'"
+                     (saved)="save()"
+                     class="page-editor">
 
   <!-- todo: add form -->
   <!-- <publish-status-form [(ngModel)]="page.publishStatus"

@@ -6,6 +6,10 @@
   background-color: var(--bg-color);
 }
 
+.input-container {
+  @include adminInputContainer;
+}
+
 input {
   @include bone-input;
   @include adminInput;

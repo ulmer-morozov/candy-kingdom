@@ -7,7 +7,7 @@ import { Bone } from "@candy-kingdom/bonnie";
 import { LocalizedString } from "@candy-kingdom/bonnie";
 
 export interface TextBone extends Bone {
-    readonly boneType: string;
     title: LocalizedString;
     text: LocalizedString;
+    type: 'text';
 }

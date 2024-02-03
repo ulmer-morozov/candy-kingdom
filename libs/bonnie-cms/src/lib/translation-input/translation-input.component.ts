@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DeviceType } from '../core';
 import { LocalizedString } from '@candy-kingdom/bonnie';
 

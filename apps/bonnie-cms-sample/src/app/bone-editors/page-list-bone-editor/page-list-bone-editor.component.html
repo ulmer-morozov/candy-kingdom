@@ -10,7 +10,9 @@
 
 <!-- todo: create selector for pages -->
 <label>Data Route (Page address)</label>
-<input [(ngModel)]="bone.dataRoute"
-       (click)="startEditing()"
-       (keyup)="markAsDirty()"
-       (blur)="updateDirty()" />
+<div class="input-container">
+  <input [(ngModel)]="bone.dataRoute"
+         (click)="startEditing()"
+         (keyup)="markAsDirty()"
+         (blur)="updateDirty()" />
+</div>
