@@ -3,5 +3,8 @@
 :host {
     @include admin-form;
 
+    color: black;
+    padding: 20px;
     background-color: crimson;
+    margin-bottom: 10px;
 }

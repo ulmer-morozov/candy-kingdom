@@ -1,5 +1,10 @@
 ﻿@import './admin-variables.scss';
 
+body {
+  background-color: #222;
+  color: silver;
+}
+
 bonc-bone-editor-container .bar a,
 bonc-form-controls .controls a {
   display: block;
@@ -115,6 +120,7 @@ a.delete-entity {
   @include form-select-basic;
 
   color: #222;
+
   option {
     background-color: silver;
 
@@ -124,7 +130,7 @@ a.delete-entity {
   }
 }
 
-bonc-editable-group > h2 {
+bonc-editable-group>h2 {
   color: silver;
   margin-top: 1em;
   margin-bottom: 0.5em;

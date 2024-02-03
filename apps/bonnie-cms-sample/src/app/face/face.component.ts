@@ -1,15 +1,17 @@
 import { Component, Input } from '@angular/core';
 
-import { FaceModule } from './face.module';
-import { FaceBoneMap } from './FaceBoneMap';
+import { FaceModule } from '../face.module';
+import { FaceBoneMap } from '../FaceBoneMap';
 import { LocalizeServiceBase, PageBase, View } from '@candy-kingdom/bonnie';
-import { RouterLocalizeService } from './router-localize.service';
+import { RouterLocalizeService } from '../router-localize.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-face',
   templateUrl: './face.component.html',
-  imports: [FaceModule],
+  styleUrl: './face.component.scss',
+  imports: [FaceModule, RouterLink],
   providers:
     [
       { provide: LocalizeServiceBase, useClass: RouterLocalizeService },

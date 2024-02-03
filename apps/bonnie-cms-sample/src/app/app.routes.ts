@@ -14,13 +14,13 @@ export const APP_Routes: Route[] = [
   },
   {
     path: 'admin',
-    loadComponent: () => import('./admin.component'),
+    loadComponent: () => import('./admin/admin.component'),
     loadChildren: () => import('./AdminRoutes').then((x) => x.ADMIN_ROUTES),
     canActivateChild: mapToCanActivate([AuthGuard]),
   },
   {
     path: '**',
-    loadComponent: () => import('./face.component'),
+    loadComponent: () => import('./face/face.component'),
     providers: [DataService],
     resolve: {
       page: (route: ActivatedRouteSnapshot) => inject(DataService).getPage(route.url.join('/')),

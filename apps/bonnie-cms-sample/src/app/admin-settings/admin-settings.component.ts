@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminDataService } from '../admin-data.service';
 
-import { BonnieCmsModule, SettingGroup, TextInputStyle } from "@candy-kingdom/bonnie-cms";
+import { BonnieCmsModule, SettingGroup, TextInputStyle, TextEditorField, TextSettingType } from '@candy-kingdom/bonnie-cms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -14,6 +14,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export default class AdminSettingsComponent implements OnInit {
   public readonly TextInputStyle = TextInputStyle;
+  public readonly TextSettingType = TextSettingType;
+  public readonly TextEditorField = TextEditorField;
+
   private readonly _dataService = inject(AdminDataService);
   private readonly _http = inject(HttpClient);
 

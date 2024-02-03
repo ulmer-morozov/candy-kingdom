@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from './service';
+import { AuthService } from '../service';
 import { CommonModule } from '@angular/common';
-import { AuthGuard } from './guard';
-import { RouterLocalizeService } from './router-localize.service';
+import { AuthGuard } from '../guard';
+import { RouterLocalizeService } from '../router-localize.service';
 import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
 
 @Component({
@@ -12,6 +12,8 @@ import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
   providers: [AuthGuard, AuthService, { provide: LocalizeServiceBase, useClass: RouterLocalizeService }],
   selector: 'app-admin',
   templateUrl: './admin.component.html',
+  styleUrl: './admin.component.scss',
+  encapsulation: ViewEncapsulation.None,
   styles: `
     :host{
       --bg-color: white;

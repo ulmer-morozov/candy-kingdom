@@ -1,0 +1,51 @@
+@use 'admin-variables'as v;
+@import 'admin-styles';
+
+:host {
+  display: block;
+  font-family: $adminFont;
+}
+
+.admin-menu-bar {
+  position: relative;
+  display: flex;
+  background-color: #000;
+  align-items: center;
+  padding: 20px 40px;
+  z-index: 1000;
+
+  a,
+  button {
+    color: silver;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    user-select: none;
+
+    &:hover {
+      color: $adminAccentColor;
+    }
+
+    &.active {
+      color: $adminAccentColor;
+      pointer-events: none;
+      border-color: $adminAccentColor;
+    }
+  }
+
+  a+a,
+  a+button,
+  button+a {
+    margin-left: 40px;
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .spacer{
+    flex: 1;
+  }
+}

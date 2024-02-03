@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+nav.root {
+  background-color: black;
+  color: silver;
+  padding: 20px;
+
+  a {
+    text-decoration: none;
+
+    &:hover{
+      text-decoration: underline;
+    }
+
+    &:visited {
+      color: silver;
+    }
+  }
+
+}

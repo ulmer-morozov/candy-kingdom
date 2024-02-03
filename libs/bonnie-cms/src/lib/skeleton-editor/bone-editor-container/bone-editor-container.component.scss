@@ -11,9 +11,13 @@
     opacity: 0.1;
     pointer-events: none;
   }
+
+  &.mobile {
+    width: 350px;
+  }
 }
 
-.preset{
+.preset {
   white-space: pre-line;
 }
 

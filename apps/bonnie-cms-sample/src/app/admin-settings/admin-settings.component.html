@@ -10,30 +10,34 @@
 
     <ng-container *ngFor="let record of group.records">
 
-      <container-element [ngSwitch]="record.data.type">
+      <ng-container [ngSwitch]="record.data.type">
+
+        <!-- text -->
         <bonc-text-form *ngSwitchCase="'marcy-text'"
                         [(ngModel)]="record.data.text"
                         [label]="record.title"
                         [locale]="controls.locale"
                         [type]="TextInputStyle.SingleLine"
                         class="form-item email">...</bonc-text-form>
+        <!-- translation -->
+        <bonc-translation-form *ngSwitchCase="'marcy-localized-text'"
+                               [(ngModel)]="record.data.text"
+                               [label]="'Footer subheader'"
+                               [field]="record.data.type === TextSettingType.SingleLine ? TextEditorField.Input : TextEditorField.Textarea"
+                               [locale]="controls.locale"
+                               class="form-item subheader">
+        </bonc-translation-form>
 
-        <bonc-unknown-form *ngSwitchDefault boncEditable [label]="record.title">{{record | json}}</bonc-unknown-form>
-      </container-element>
+        <!-- unknown -->
+        <bonc-unknown-form *ngSwitchDefault boncEditable [label]="record.data.type + ' (' + record.title + ')'">
+          <pre>{{record.data | json}}</pre>
+        </bonc-unknown-form>
+
+      </ng-container>
 
     </ng-container>
 
 
   </section>
-
-  <!--
-  <translation-form
-                    [(ngModel)]="data.footerSubHeader"
-                    [label]="'Footer subheader'"
-                    [field]="TextEditorField.Input"
-                    [locale]="controls.locale"
-                    editable
-                    class="form-item subheader">
-  </translation-form> -->
 
 </bonc-editable-group>
