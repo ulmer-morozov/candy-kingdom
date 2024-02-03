@@ -4,19 +4,11 @@ import { AdminDataService } from '../admin-data.service';
 
 import { BonnieCmsModule, IBoneTemplate, TextEditorField } from "@candy-kingdom/bonnie-cms";
 import { HttpClient } from '@angular/common/http';
-import { Bone, BonnieModule, Page, PageData } from '@candy-kingdom/bonnie';
+import { BonnieModule, Page, PageData } from '@candy-kingdom/bonnie';
 import { RouterLink } from '@angular/router';
 
 import { AdminBoneMap } from '../AdminBoneMap';
 import { MediaBoneEditorComponent, TextBoneEditorComponent } from '../bone-editors';
-
-
-export function template<T extends Bone = Bone>(title: string, type: string, dataEtalon: T): IBoneTemplate {
-  return {
-    title,
-    boneFactory: () => JSON.parse(JSON.stringify(dataEtalon)) as T
-  };
-}
 
 const boneEditors = [
   TextBoneEditorComponent,
@@ -29,6 +21,7 @@ const boneEditors = [
   providers: [AdminDataService],
   selector: 'app-admin-pages',
   templateUrl: './admin-pages.component.html',
+  styleUrl: './admin-pages.component.scss'
 })
 export default class AdminPagesComponent implements OnInit {
   public readonly TextEditorField = TextEditorField;

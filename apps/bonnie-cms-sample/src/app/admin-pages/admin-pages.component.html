@@ -1,13 +1,12 @@
 <bonc-admin-controls #controls
                      [deviceControls]="true"
-                     [editableGroup]="pageEditorGroup">
-</bonc-admin-controls>
+                     [editableGroup]="pageEditorGroup" />
 
-<ul>
-  <li *ngFor="let childPage of page.children"><a [routerLink]="['../', ('~' + childPage.url) | encodeURIComponent]">{{childPage.title | localize:controls.locale}}</a></li>
-</ul>
-
-<!-- <pre>{{page | json}}</pre> -->
+<nav *ngIf="page.children.length > 0" class="pages-nav">
+  <ul>
+    <li *ngFor="let childPage of page.children"><a [routerLink]="['../', ('~' + childPage.url) | encodeURIComponent]">{{childPage.title | localize:controls.locale}}</a></li>
+  </ul>
+</nav>
 
 <bonc-editable-group #pageEditorGroup (saved)="save()" class="page-editor">
 
@@ -19,19 +18,19 @@
 
   </publish-status-form> -->
 
-  <bonc-seo-form [(ngModel)]="page.openGraph"
-                 [locale]="controls.locale"
-                 [pageId]="page.id"
-                 [label]="'Share information for social media'"
-                 class="form-item seo">
-  </bonc-seo-form>
-
   <bonc-translation-form [(ngModel)]="page.title"
                          [locale]="controls.locale"
                          [field]="TextEditorField.Input"
                          [label]="'Page title (browser tab)'"
                          class="form-item page-title">
   </bonc-translation-form>
+
+  <bonc-seo-form [(ngModel)]="page.openGraph"
+                 [locale]="controls.locale"
+                 [pageId]="page.id"
+                 [label]="'Open Graph'"
+                 class="form-item seo">
+  </bonc-seo-form>
 
   <h2>Page Body</h2>
 

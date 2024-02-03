@@ -123,11 +123,10 @@ $barWidth: 120px;
     }
 }
 
-
 @mixin admin-textarea {
     display: block;
     width: 100%;
-    line-height: 120%;
+    line-height: 140%;
     padding: 2px 0;
     margin: 0;
     box-sizing: content-box;
@@ -366,7 +365,6 @@ $highlightColor: #333;
     border: none;
     background-color:rgba(gray, 0.1);
     color: var(--text-color);
-
 
     &:hover {
         background-color: lightgray;

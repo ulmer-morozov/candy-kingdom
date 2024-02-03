@@ -1,8 +1,9 @@
 ﻿@import './admin-variables.scss';
 
 body {
-  background-color: #222;
+  font-family: $adminFont;
   color: silver;
+  background-color: #222;
 }
 
 bonc-bone-editor-container .bar a,

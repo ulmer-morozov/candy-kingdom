@@ -2,6 +2,16 @@
 
 :host {
   display: block;
+  padding: 6px 12px;
+  border: 1px solid silver;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  &:focus-within {
+    background-color: #555;
+  }
 
   input {
     @include bone-input;
@@ -10,7 +20,6 @@
     display: block;
     box-sizing: border-box;
     font-family: inherit;
-    font-size: inherit;
     width: 100%;
     border: none;
   }
