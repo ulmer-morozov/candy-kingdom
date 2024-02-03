@@ -25,7 +25,7 @@ export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implement
   @Input()
   public set pageId(value: string) {
     this._pageId = value;
-    this.ogImageUploadUrl = `/Api/Admin/Page/Og-Image?pageId=${this.pageId}`; // todo: replace with link to single image api
+    this.ogImageUploadUrl = `/api/admin/page/Og-Image?pageId=${this.pageId}`; // todo: replace with link to single image api
   }
 
   public get pageId(): string {

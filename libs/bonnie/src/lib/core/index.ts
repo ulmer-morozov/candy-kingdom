@@ -8,5 +8,6 @@ export * from './unsubscribe.service';
 export * from './encode-uri.pipe';
 export * from './pix-media-union';
 export * from './emptyImage';
+export * from './emptyVideo';
 export * from './emptyBone';
 export * from './emptyLocalizedString';

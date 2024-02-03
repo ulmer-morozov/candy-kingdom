@@ -4,6 +4,7 @@ using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.MarcyCms.Sample.Bones;
 
+// todo: add  this bone
 public sealed record LinksBone : Bone
 {
     public const string BoneType = "links";

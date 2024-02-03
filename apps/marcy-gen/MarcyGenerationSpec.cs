@@ -32,12 +32,12 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface<PixMedia>().Member(x => nameof(x.Type)).Type("'image' | 'video'");
 
         AddInterface<Image>()
-            .Member(x => nameof(x.Type)).Type("'image'")
-            .Member(x => nameof(x.MediaType)).Ignore();
+            .Member(x => nameof(x.Type)).Type($"'{Image.MediaType}'")
+            .Member(x => nameof(x.MediaType)).MemberName("$type").Type($"'{Image.MediaType}'"); // todo: remove
 
         AddInterface<Video>()
-            .Member(x => nameof(x.Type)).Type("'video'")
-            .Member(x => nameof(x.MediaType)).Ignore();
+            .Member(x => nameof(x.Type)).Type($"'{Video.MediaType}'")
+            .Member(x => nameof(x.MediaType)).MemberName("$type").Type($"'{Video.MediaType}'"); // todo: remove
 
         AddInterface(typeof(ImageSource));
         AddInterface(typeof(VideoSource));

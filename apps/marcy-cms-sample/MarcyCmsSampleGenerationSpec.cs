@@ -29,6 +29,8 @@ public static class GenExtensions
         builder.IgnoreBase().CustomBase(nameof(Bone), MarcyCmsSampleGenerationSpec.BonnieModuleImportPath);
         builder.Member(x => nameof(x.Type)).Type($"'{type}'");
 
+        builder.Member(x => "BoneType").MemberName("$type").Type($"'{type}'"); // todo: remove. its a deserialization fix
+
         return builder;
     }
 
@@ -86,7 +88,6 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
 
         AddInterface<MediaBone>()
             .InheritedFromBone(MediaBone.BoneType)
-            .Member(x => nameof(x.BoneType)).Ignore()
             .HasLocalizedString(x => x.Title)
             .HasLocalizedString(x => x.Link)
             .HasLocalizedString(x => x.Text)
@@ -98,7 +99,6 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
 
         AddInterface<TextBone>()
             .InheritedFromBone(TextBone.BoneType)
-            .Member(x => nameof(x.BoneType)).Ignore()
             .HasLocalizedString(x => x.Title)
             .HasLocalizedString(x => x.Text);
 
@@ -106,7 +106,6 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
 
         AddInterface<PageListBone>()
             .InheritedFromBone(PageListBone.BoneType)
-            .Member(x => nameof(x.BoneType)).Ignore()
             .HasLocalizedString(x => x.Title)
             .HasBonnieMember(x => x.Data, $"PageBase[]");
 

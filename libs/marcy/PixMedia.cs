@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace CandyKingdom.Marcy;
 
-[JsonPolymorphic(TypeDiscriminatorPropertyName = "$$type")]
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
 [JsonDerivedType(typeof(Video), Video.MediaType)]
 [JsonDerivedType(typeof(Image), Image.MediaType)]
 public abstract record PixMedia

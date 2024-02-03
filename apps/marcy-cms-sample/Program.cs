@@ -2,7 +2,6 @@ using System.Text.Json;
 
 using Autofac.Extensions.DependencyInjection;
 
-using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Skeleton;
 using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;

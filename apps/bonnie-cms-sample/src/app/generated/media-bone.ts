@@ -8,6 +8,7 @@ import { PixMediaUnion } from "@candy-kingdom/bonnie";
 import { LocalizedString } from "@candy-kingdom/bonnie";
 
 export interface MediaBone extends Bone {
+    readonly $type: 'media';
     media: PixMediaUnion;
     title: LocalizedString;
     text: LocalizedString;

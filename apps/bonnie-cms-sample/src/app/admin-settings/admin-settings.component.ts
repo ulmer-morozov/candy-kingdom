@@ -28,18 +28,23 @@ export default class AdminSettingsComponent implements OnInit {
     });
   }
 
-
   public save(): void {
 
-    this._http.post('Api/Admin/SiteData', this.settingGroups)
-      .subscribe
-      (
-        result => {
-          console.log('successfully stored data');
-        },
-        error => {
-          alert('site data send error!');
-        }
-      );
+    // try {
+    //   this._http.post('api/Admin/Pages', this.settingGroups)
+    //     .subscribe
+    //     (
+    //       () => {
+    //         debugger;
+    //         console.log('successfully stored data'); // todo: add toast
+    //       },
+    //     );
+    // }
+
+    // catch (e) {
+    //   console.error(e);
+    // }
+
+
   }
 }

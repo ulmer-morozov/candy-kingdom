@@ -44,15 +44,18 @@ export default class AdminPagesComponent {
 
   public save(): void {
 
-    // this._http.post('Api/Admin/SiteData', this.settingGroups)
-    //   .subscribe
-    //   (
-    //     result => {
-    // console.log('successfully stored data');
-    //     },
-    //     error => {
-    //       alert('site data send error!');
-    //     }
-    //   );
+    try {
+      this._http.post('api/admin/pages', this.page)
+        .subscribe
+        (
+          () => {
+            console.log('successfully stored data'); // todo: add toast
+          },
+        );
+    }
+
+    catch (e) {
+      console.error(e);
+    }
   }
 }

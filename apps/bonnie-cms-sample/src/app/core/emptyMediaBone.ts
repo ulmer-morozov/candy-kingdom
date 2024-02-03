@@ -3,6 +3,7 @@ import { MediaBone } from "../generated";
 
 export function emptyMediaBone(): MediaBone {
   return {
+    $type: 'media', // todo: remove
     ...emptyBone(),
     type: 'media',
     media: emptyImage(),
