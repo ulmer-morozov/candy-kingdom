@@ -2,33 +2,30 @@
 
 :host {
   display: block;
+  padding: 6px 12px;
+  border: 1px solid silver;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  &:focus-within {
+    background-color: #555;
+  }
 }
 
 textarea {
-  @include bone-input;
-  width: 100%;
-  box-sizing: content-box;
-  font-family: inherit;
-  font-size: inherit;
-  padding: 0;
-  border: 0;
-
-  width: calc(100% - (6px *2) - (1px * 2));
-  padding: 6px;
+  @include admin-textarea;
   color: silver;
-  border: 1px solid silver;
   background-color: transparent;
 
   &:hover {
-    border-color: transparent;
-    background-color: #333;
     cursor: pointer;
   }
 
   &:focus {
     outline: none;
     color: white;
-    border-color: transparent;
-    background-color: #555;
+    cursor: default;
   }
 }
