@@ -1,17 +1,11 @@
-using System.Text.Json;
-
 using Autofac.Extensions.DependencyInjection;
 
-using CandyKingdom.Marcy.ImageMin;
-using CandyKingdom.Marcy.Skeleton;
 using CandyKingdom.Marcy.Storage;
 using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;
-using CandyKingdom.MarcyCms.Sample.Bones;
 using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Sample.Data;
 using CandyKingdom.MarcyCms.Sample.Serialization;
-using CandyKingdom.MarcyCms.Settings;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -19,30 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
-using static CandyKingdom.Marcy.LocalizedStringHelpers;
-
 var contratsDir = Path.Combine("..", "..", "apps", "bonnie-cms-sample", "src", "app", "generated");
 SpecGenerator.GenerateTsFiles<MarcyCmsSampleGenerationSpec>(contratsDir);
-
-var options = CmsJsonSerializationOptions.New();
-
-var data = new TextSettingData
-{
-    Text = "example@example.com",
-    TextType = TextSettingType.SingleLine
-};
-
-var textBone = new TextBone()
-{
-    Title = En("About page"),
-    Text = En("Some text example")
-};
-
-var dataJson = JsonSerializer.Serialize(data, options);
-var boneJson1 = JsonSerializer.Serialize(textBone, options);
-var boneJson2 = JsonSerializer.Serialize<Bone>(textBone, options);
-
-// var deserializedData = JsonSerializer.Deserialize<SettingData>(dataJson, options);
 
 var builder = WebApplication.CreateBuilder(args);
 
