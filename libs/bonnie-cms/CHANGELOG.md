@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.2...v0.1.3) (2024-02-04)
+
+
+### Bug Fixes
+
+* build ([d24ff41](https://github.com/ulmer-morozov/candy-kingdom/commit/d24ff4133a590201c14f8700a6be2b372cf936af))
+
+
+
 ## [0.1.2](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.1...v0.1.2) (2024-02-04)
 
 
