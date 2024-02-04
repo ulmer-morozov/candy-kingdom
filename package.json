@@ -9,7 +9,8 @@
     "cms:dev": "nx run-many --parallel --target=serve --projects=\"marcy-cms-sample,bonnie-cms-sample\" --proxyConfig=\"apps/bonnie-cms-sample/proxy.conf.json\"",
     "dotnet:format": "dotnet format candy-kingdom.sln",
     "pack:marcy": "nx build marcy --extraParameters=\"-p:GeneratePackageOnBuild=true;Version=$(git describe --tag --abbrev=0 | cut -c 2-)\"",
-    "pack:marcy-cms": "nx build marcy-cms --extraParameters=\"-p:GeneratePackageOnBuild=true;Version=$(git describe --tag --abbrev=0 | cut -c 2-)\""
+    "pack:marcy-cms": "nx build marcy-cms --extraParameters=\"-p:GeneratePackageOnBuild=true;Version=$(git describe --tag --abbrev=0 | cut -c 2-)\"",
+    "version-bump": "nx run marcy:version --syncVersions"
   },
   "private": true,
   "dependencies": {
