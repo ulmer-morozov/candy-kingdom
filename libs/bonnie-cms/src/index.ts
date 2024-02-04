@@ -3,6 +3,7 @@ export * from './lib/core';
 export * from './lib/core-components';
 export * from './lib/admin-controls';
 export * from './lib/form-controls';
+export * from './lib/media-uploader';
 export * from './lib/text-form';
 export * from './lib/seo-form';
 export * from './lib/unknown-form';

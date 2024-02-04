@@ -1,8 +1,8 @@
 import { Component, Host, Input, OnChanges, OnInit, QueryList, ViewChildren } from '@angular/core';
 
-import { BoneEditorContainerComponent } from './bone-editor-container/bone-editor-container.component';
 import { Bone } from '@candy-kingdom/bonnie';
-import { EditableDirective } from '../core-components';
+import { BoneEditorContainerComponent } from './bone-editor-container/bone-editor-container.component';
+import { EditableDirective } from '../core-components/editable.directive';
 import { DeviceType } from '../core';
 import { IBoneTemplate } from './IBoneTemplate';
 import { BoneEditorMap } from './BoneEditorMap';

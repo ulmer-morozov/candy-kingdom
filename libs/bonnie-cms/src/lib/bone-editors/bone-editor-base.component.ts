@@ -1,8 +1,10 @@
 ﻿import { EventEmitter, HostBinding, Component, Input } from '@angular/core';
 
 import { Bone } from '@candy-kingdom/bonnie';
-import { ContentPreset, IBoneEditor } from '../skeleton-editor';
-import { DeviceType } from '../core/DeviceType';
+
+import { ContentPreset } from '../skeleton-editor/ContentPreset';
+import { IBoneEditor } from '../skeleton-editor/IBoneEditor';
+import { DeviceType } from '../core';
 
 @Component({ template: '' })
 export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBoneEditor<TBone> {

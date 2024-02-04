@@ -7,7 +7,7 @@ import { SkeletonEditorAnchorDirective } from '../skeleton-editor-anchor.directi
 import { DeviceType } from '../../core';
 import { IBoneEditor } from '../IBoneEditor';
 import { BoneEditorMap } from '../BoneEditorMap';
-import { UnknownBoneEditorComponent } from '../../bone-editors';
+import { UnknownBoneEditorComponent } from '../../bone-editors/unknown-bone-editor/unknown-bone-editor.component';
 
 // todo: rename class
 @Component({

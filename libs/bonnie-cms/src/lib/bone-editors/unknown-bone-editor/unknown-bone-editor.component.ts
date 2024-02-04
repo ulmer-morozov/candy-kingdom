@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Bone } from '@candy-kingdom/bonnie';
-import { ContentPreset } from '../../skeleton-editor';
+
+import { ContentPreset } from '../../skeleton-editor/ContentPreset';
 import { BoneEditorBaseComponent } from '../bone-editor-base.component';
 
 @Component({
