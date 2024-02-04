@@ -106,8 +106,6 @@ export class EditableDirective<T = unknown> {
       ? JSON.parse(JSON.stringify(this.value))
       : newData;
 
-    debugger;
-
     this.setOriginal(newUnqieNotEmptyData);
     this.updateDirty();
 
