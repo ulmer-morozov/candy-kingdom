@@ -89,9 +89,9 @@ builder.Services
 
 builder.Services.AddMarcyCms<CmsSampleDbContext>(config =>
 {
-    config.FileStorage = new LocalFileStorage("/files", Path.Combine("wwwroot", "files"));
+    config.FileStorage = new LocalFileStorage("/files/", Path.Combine("wwwroot", "files"));
     // remove this line if image convertation tooks too long
-    config.MinificationVendors.Add(new ImageMinWebp(new ImageMinWebpOptions(quality: 90)));
+    // config.MinificationVendors.Add(new ImageMinWebp(new ImageMinWebpOptions(quality: 90)));
 });
 
 builder.Services.AddSingleton<InitialDataFiller>();

@@ -163,7 +163,16 @@ export class MediaUploaderComponent {
         if (event.body === undefined || event.body === null) {
           console.error('media deserialization error. Response body in undefined');
         } else {
-          this.srcChange.emit(event.body);
+          debugger;
+
+          // remove this
+          // needed for C# deserialization
+          const pixmedia = {
+            $type: event.body.type,
+            ...event.body as any,
+          };
+
+          this.srcChange.emit(pixmedia);
         }
         return;
 
