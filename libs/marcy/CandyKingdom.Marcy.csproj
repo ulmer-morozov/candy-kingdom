@@ -14,8 +14,6 @@
     <Authors>Ulmer-Morozov Dmitrii</Authors>
     <Company>Company Name</Company>
     <Product>Product Name</Product>
-    <IncludeSource>True</IncludeSource>
-    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup>
