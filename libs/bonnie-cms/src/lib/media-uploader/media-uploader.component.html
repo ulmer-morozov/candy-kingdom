@@ -1,5 +1,7 @@
 <bon-media [src]="src" [objectFit]="MediaObjectFit.Cover"></bon-media>
 
+<div *ngIf="src?.sources?.length===0">NO MEDIA</div>
+
 <div (click)="selectFile($event)" class="media-container">
 
   <input #fileInput [accept]="fileTypeMask" (change)="onFileSelect(fileInput)" name="media" type="file" />

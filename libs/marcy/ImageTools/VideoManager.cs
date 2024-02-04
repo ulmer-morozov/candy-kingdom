@@ -11,6 +11,11 @@ public sealed class VideoManager : IVideoManager
 {
     private readonly string? _ffmpegPath;
 
+    public VideoManager(string? ffmpegPath = null)
+    {
+        _ffmpegPath = ffmpegPath;
+    }
+
     public async Task<TempVideoFile> AnalyseMp4(
       Stream sourceStream,
       CancellationToken cancellationToken = default

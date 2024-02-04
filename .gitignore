@@ -43,3 +43,4 @@ Thumbs.db
 
 *.sh
 .npmrc
+bin-wrapper-downloads

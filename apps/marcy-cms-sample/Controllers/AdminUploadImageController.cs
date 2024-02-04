@@ -120,6 +120,8 @@ public sealed class AdminUploadImageController : Controller
 
         await file.OpenReadStream().CopyToAsync(imageMemoryStream, cancellationToken);
 
+        imageMemoryStream.Seek(0, SeekOrigin.Begin);
+
         var convertParameters = new ImageConvertParameters
         {
             Minify = true

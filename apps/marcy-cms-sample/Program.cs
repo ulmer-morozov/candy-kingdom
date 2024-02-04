@@ -2,12 +2,13 @@ using System.Text.Json;
 
 using Autofac.Extensions.DependencyInjection;
 
+using CandyKingdom.Marcy.ImageMin;
 using CandyKingdom.Marcy.Skeleton;
+using CandyKingdom.Marcy.Storage;
 using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;
 using CandyKingdom.MarcyCms.Sample.Bones;
 using CandyKingdom.MarcyCms.Sample.Content;
-using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Sample.Data;
 using CandyKingdom.MarcyCms.Sample.Serialization;
 using CandyKingdom.MarcyCms.Settings;
@@ -86,8 +87,12 @@ builder.Services
 // services.AddSingleton<IFileStorage, LocalFileStorage>();
 // services.AddSingleton<IEmailSender, FakeEmailSender>();
 
-builder.Services.AddSingleton<IPageManager, PageManager<CmsSampleDbContext>>();
-builder.Services.AddSingleton<ISettingsManager, SettingsManager<CmsSampleDbContext>>();
+builder.Services.AddMarcyCms<CmsSampleDbContext>(config =>
+{
+    config.FileStorage = new LocalFileStorage("/files", Path.Combine("wwwroot", "files"));
+    // remove this line if image convertation tooks too long
+    config.MinificationVendors.Add(new ImageMinWebp(new ImageMinWebpOptions(quality: 90)));
+});
 
 builder.Services.AddSingleton<InitialDataFiller>();
 
@@ -109,8 +114,9 @@ app.MapControllers();
 app.UseResponseCompression();
 
 app.MapCustomIdentityApi<ApplicationUser>();
-// app.UseDefaultFiles();
-// app.UseStaticFiles();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
