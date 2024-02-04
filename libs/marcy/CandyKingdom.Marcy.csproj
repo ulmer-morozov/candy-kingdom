@@ -8,6 +8,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageVersion Condition="'$(PackageVersion)' == ''">$(Version)</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
