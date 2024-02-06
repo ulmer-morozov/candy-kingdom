@@ -29,7 +29,8 @@ public static class MarcyCmsServiceCollectionExtension
         MinificationVendors = [
             new ImageMinJpegtran(new ImageMinJpegtranOptions()),
             new ImageMinMozJpeg(new ImageMinMozJpegOptions(quality: DefaultImageMinQuality)),
-            new ImageMinGuetzli(new ImageMinGuetzliOptions(quality: DefaultImageMinQuality))
+            new ImageMinWebp(new ImageMinWebpOptions(quality: DefaultImageMinQuality)),
+            // new ImageMinGuetzli(new ImageMinGuetzliOptions(quality: DefaultImageMinQuality))
         ]
     };
 
