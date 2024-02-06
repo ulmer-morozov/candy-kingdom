@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
+namespace CandyKingdom.MarcyCms.Controllers;
 
 [Authorize]
 [Route("Api/Admin/Pages")]

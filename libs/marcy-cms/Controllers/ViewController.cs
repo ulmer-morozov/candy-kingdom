@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CandyKingdom.MarcyCms.Sample.Controllers;
+namespace CandyKingdom.MarcyCms.Controllers;
 
 [Route("Api/Views")]
 public sealed class ViewController : ControllerBase

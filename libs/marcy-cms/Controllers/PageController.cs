@@ -1,12 +1,13 @@
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
+using CandyKingdom.MarcyCms;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CandyKingdom.MarcyCms.Sample.Controllers;
+namespace CandyKingdom.MarcyCms.Controllers;
 
 [Route("Api/Pages")]
 public sealed class PageController : ControllerBase

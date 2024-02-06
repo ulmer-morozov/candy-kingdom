@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
+namespace CandyKingdom.MarcyCms.Controllers;
 
 [Authorize]
 [Route("Api/Admin/Upload/Video")]
