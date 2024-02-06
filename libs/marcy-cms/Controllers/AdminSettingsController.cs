@@ -2,14 +2,16 @@ using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.MarcyCms.Settings;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
 [Authorize]
-[ApiController]
 [Route("Api/Admin/Settings")]
-public class AdminSettingsController : ControllerBase
+public sealed class AdminSettingsController : ControllerBase
 {
     private readonly ISettingsManager _settingsManager;
     private readonly ILogger<AdminSettingsController> _logger;
@@ -21,31 +23,32 @@ public class AdminSettingsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ImmutableList2<SettingGroup>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Ok<ImmutableList2<SettingGroup>>> GetAll(CancellationToken cancellationToken = default)
     {
         var groupsResult = await _settingsManager.GetGroupsAsync(cancellationToken: cancellationToken);
 
         if (!groupsResult.IsSuccessful)
         {
             _logger.LogError(groupsResult);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+
+            throw new Exception(groupsResult.Message);
         }
 
-        return groupsResult.Data;
+        return TypedResults.Ok(groupsResult.Data);
     }
 
-    [Route("SiteData")]
     [HttpPost]
-    public async Task<IActionResult> Store([FromBody] IEnumerable<Setting> settings, CancellationToken cancellationToken = default)
+    public async Task<Ok> Store([FromBody] IEnumerable<Setting> settings, CancellationToken cancellationToken = default)
     {
         var updateResult = await _settingsManager.UpdateAsync(settings, cancellationToken);
 
         if (!updateResult.IsSuccessful)
         {
             _logger.LogError(updateResult);
-            return StatusCode(StatusCodes.Status500InternalServerError);
+
+            throw new Exception(updateResult.Message);
         }
 
-        return Ok();
+        return TypedResults.Ok();
     }
 }

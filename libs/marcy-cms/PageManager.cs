@@ -94,4 +94,43 @@ public class PageManager<TDbContext> : IPageManager
 
         return page;
     }
+
+    public async Task<ResultOrError<ImmutableList2<Page>>> GetChildrenAsync(string url, GetChildrenParams? parameters = null, CancellationToken cancellationToken = default)
+    {
+        url = url == "~" ? url : url.Replace("~", "").ToLowerInvariant();
+
+        parameters ??= new GetChildrenParams();
+
+        await using var context = await _contextFactory.CreateDbContextAsync(cancellationToken);
+
+        IQueryable<PageDb> pageQuery = context.Pages.Include(x => x.Children);
+
+        if (parameters.PublishStatus != PublishStatus.NotSet)
+        {
+            pageQuery = pageQuery.Where(x => x.PublishStatus == PublishStatus.Published);
+        }
+
+        var mainPage = await pageQuery.SingleOrDefaultAsync
+            (
+                x => x.Url == url, cancellationToken
+            );
+
+        if (mainPage == null)
+        {
+            return ResultOrError.Fail<ImmutableList2<Page>>($"Page with url = {url} hasn't been found", (int)CRUDPageErrorCode.NotFound);
+        }
+
+        var children = mainPage.Children
+            .Select(x => new Page
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Url = x.Url,
+                Order = x.Order
+            })
+            .OrderBy(x => x.Order)
+            .ToImmutableList2();
+
+        return ResultOrError.Success(children);
+    }
 }

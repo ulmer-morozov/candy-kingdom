@@ -5,13 +5,15 @@ using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.ImageTools;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
 [Authorize]
 [Route("Api/Admin/Upload/Image")]
-public sealed class AdminUploadImageController : Controller
+public sealed class AdminUploadImageController : ControllerBase
 {
     public static readonly ImmutableList<ImageSetup> DefaultSetups = GenerateImageSetups();
 
@@ -24,16 +26,16 @@ public sealed class AdminUploadImageController : Controller
 
     [HttpPost("Raw")]
     [RequestSizeLimit(50_000_000)]
-    public async Task<ActionResult<FileSrc<ImageMeta>>> UploadRawImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<FileSrc<ImageMeta>>>> UploadRawImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
-            return BadRequest("Field \"file\": cannot be empty");
+            return TypedResults.BadRequest("Field \"file\": cannot be empty");
         }
 
         if (file.Length <= 0)
         {
-            return BadRequest("Field \"file\": stream cannot have zero length");
+            return TypedResults.BadRequest("Field \"file\": stream cannot have zero length");
         }
 
         using var imageMemoryStream = new MemoryStream();
@@ -58,21 +60,21 @@ public sealed class AdminUploadImageController : Controller
             cancellationToken
         );
 
-        return Ok(uploadedImageSrc);
+        return TypedResults.Ok(uploadedImageSrc);
     }
 
     [HttpPost]
     [RequestSizeLimit(50_000_000)]
-    public async Task<ActionResult<FileSrc<ImageMeta>>> UploadSingleImage([FromForm] IFormFile file, [FromForm] int width = 0, [FromForm] int height = 0, string format = "", CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<FileSrc<ImageMeta>>>> UploadSingleImage([FromForm] IFormFile file, [FromForm] int width = 0, [FromForm] int height = 0, string format = "", CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
-            return BadRequest("Field \"file\": cannot be empty");
+            return TypedResults.BadRequest("Field \"file\": cannot be empty");
         }
 
         if (file.Length <= 0)
         {
-            return BadRequest("Field \"file\": stream cannot have zero length");
+            return TypedResults.BadRequest("Field \"file\": stream cannot have zero length");
         }
 
         using var imageMemoryStream = new MemoryStream();
@@ -99,21 +101,21 @@ public sealed class AdminUploadImageController : Controller
             cancellationToken
         );
 
-        return Ok(uploadedImageSrc);
+        return TypedResults.Ok(uploadedImageSrc);
     }
 
     [HttpPost("Complex")]
     [RequestSizeLimit(50_000_000)]
-    public async Task<ActionResult<Image>> UploadImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<Image>>> UploadImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
-            return BadRequest("Field \"file\": cannot be empty");
+            return TypedResults.BadRequest("Field \"file\": cannot be empty");
         }
 
         if (file.Length <= 0)
         {
-            return BadRequest("Field \"file\": stream cannot have zero length");
+            return TypedResults.BadRequest("Field \"file\": stream cannot have zero length");
         }
 
         using var imageMemoryStream = new MemoryStream();
@@ -139,7 +141,7 @@ public sealed class AdminUploadImageController : Controller
             new ImageSource(uploadedImageDict.Values)
         });
 
-        return Ok(image);
+        return TypedResults.Ok(image);
     }
 
     private static ImageFormat GetFormatByExtension(string fileName)

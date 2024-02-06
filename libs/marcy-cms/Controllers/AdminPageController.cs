@@ -4,13 +4,16 @@ using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
 [Authorize]
 [Route("Api/Admin/Pages")]
-public class AdminPageController : ControllerBase
+public sealed class AdminPageController : ControllerBase
 {
     private readonly IPageManager _pageManager;
     private readonly ILogger<AdminPageController> _logger;
@@ -21,11 +24,11 @@ public class AdminPageController : ControllerBase
         _logger = logger;
     }
 
-    [Route("{url}")]
-    [HttpGet]
-    public async Task<ActionResult<Page>> Get(string url, CancellationToken cancellationToken = default)
+    [HttpGet("{url}")]
+    public async Task<Results<NotFound<string>, Ok<Page>>> Get(string url, CancellationToken cancellationToken = default)
     {
         url = url == "~" ? url : HttpUtility.UrlDecode(url).Substring(1);
+
         var getParams = new GetPageParams
         {
             IncludeChildren = true,
@@ -33,16 +36,16 @@ public class AdminPageController : ControllerBase
 
         var pageResult = await _pageManager.GetAsync(url, getParams, cancellationToken);
 
-        if (!pageResult.IsSuccessful && (CRUDPageErrorCode)pageResult.ErrorCode == CRUDPageErrorCode.NotFound)
+        if (!pageResult.IsSuccessful && pageResult.ErrorCode == (int)CRUDPageErrorCode.NotFound)
         {
-            return NotFound("Page not found");
+            return TypedResults.NotFound($"Page with url = {url} hasn't been found"); // todo: make JSON error responses
         }
 
         if (!pageResult.IsSuccessful)
         {
             _logger.LogError(pageResult);
 
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            throw new Exception(pageResult.Message);
         }
 
         var resultPage = pageResult.Data with
@@ -52,26 +55,26 @@ public class AdminPageController : ControllerBase
                 .ToImmutableList2()
         };
 
-        return resultPage;
+        return TypedResults.Ok(resultPage);
     }
 
     [HttpPost]
-    public async Task<IActionResult> StorePage([FromBody] Page page, CancellationToken cancellationToken = default)
+    public async Task<Results<NotFound<string>, Ok>> StorePage([FromBody] Page page, CancellationToken cancellationToken = default)
     {
         var pageResult = await _pageManager.StoreAsync(page, cancellationToken);
 
-        if (!pageResult.IsSuccessful && (CRUDPageErrorCode)pageResult.ErrorCode == CRUDPageErrorCode.NotFound)
+        if (!pageResult.IsSuccessful && pageResult.ErrorCode == (int)CRUDPageErrorCode.NotFound)
         {
-            return NotFound("Page not found");
+            return TypedResults.NotFound($"Page with url = {page.Url} hasn't been found"); // todo: make JSON error responses
         }
 
         if (!pageResult.IsSuccessful)
         {
             _logger.LogError(pageResult);
 
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            throw new Exception(pageResult.Message);
         }
 
-        return Ok();
+        return TypedResults.Ok();
     }
 }

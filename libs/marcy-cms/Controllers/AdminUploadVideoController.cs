@@ -3,15 +3,18 @@ using System.Drawing;
 
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.ImageTools;
+using CandyKingdom.Marcy.Immutables;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyKingdom.MarcyCms.Sample.Controllers.Admin;
 
 [Authorize]
 [Route("Api/Admin/Upload/Video")]
-public class AdminUploadVideoController : Controller
+public sealed class AdminUploadVideoController : ControllerBase
 {
     public static readonly ImmutableList<VideoSetup> DefaultSetups = GenerateVideoSetups();
 
@@ -24,16 +27,16 @@ public class AdminUploadVideoController : Controller
 
     [HttpPost("Raw")]
     [RequestSizeLimit(100_000_000)]
-    public async Task<ActionResult<FileSrc<ImageMeta>>> UploadRawVideo([FromForm] IFormFile file, CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<FileSrc<VideoMeta>>>> UploadRawVideo([FromForm] IFormFile file, CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
-            return BadRequest("Field \"file\": cannot be empty");
+            return TypedResults.BadRequest("Field \"file\": cannot be empty");
         }
 
         if (file.Length <= 0)
         {
-            return BadRequest("Field \"file\": stream cannot have zero length");
+            return TypedResults.BadRequest("Field \"file\": stream cannot have zero length");
         }
 
         var videoStream = file.OpenReadStream();
@@ -43,24 +46,24 @@ public class AdminUploadVideoController : Controller
             stream: videoStream,
             setup: VideoSetup.Empty,
             convertParameters: VideoConvertParameters.Default,
-           cancellationToken: cancellationToken
+            cancellationToken: cancellationToken
         );
 
-        return Ok(uploadedImageSrc);
+        return TypedResults.Ok(uploadedImageSrc);
     }
 
     [HttpPost]
     [RequestSizeLimit(100_000_000)]
-    public async Task<ActionResult<FileSrc<ImageMeta>>> UploadSingleVideo([FromForm] IFormFile file, [FromForm] int width = 0, [FromForm] int height = 0, string format = "", CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<FileSrc<VideoMeta>>>> UploadSingleVideo([FromForm] IFormFile file, [FromForm] int width = 0, [FromForm] int height = 0, string format = "", CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
-            return BadRequest("Field \"file\": cannot be empty");
+            return TypedResults.BadRequest("Field \"file\": cannot be empty");
         }
 
         if (file.Length <= 0)
         {
-            return BadRequest("Field \"file\": stream cannot have zero length");
+            return TypedResults.BadRequest("Field \"file\": stream cannot have zero length");
         }
 
         var videoStream = file.OpenReadStream();
@@ -79,21 +82,21 @@ public class AdminUploadVideoController : Controller
             cancellationToken: cancellationToken
         );
 
-        return Ok(uploadedVideoSrc);
+        return TypedResults.Ok(uploadedVideoSrc);
     }
 
     [HttpPost("Complex")]
     [RequestSizeLimit(100_000_000)]
-    public async Task<ActionResult<IEnumerable<FileSrc<VideoMeta>>>> UploadVideo([FromForm] IFormFile file, bool removeAudio = false, CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<Video>>> UploadVideo([FromForm] IFormFile file, bool removeAudio = false, CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
-            return BadRequest("Field \"file\": cannot be empty");
+            return TypedResults.BadRequest("Field \"file\": cannot be empty");
         }
 
         if (file.Length <= 0)
         {
-            return BadRequest("Field \"file\": stream cannot have zero length");
+            return TypedResults.BadRequest("Field \"file\": stream cannot have zero length");
         }
 
         var videoStream = file.OpenReadStream();
@@ -111,7 +114,12 @@ public class AdminUploadVideoController : Controller
             cancellationToken: cancellationToken
         );
 
-        return Ok(uploadedVideoSrcDict.Values);
+        var video = new Video
+        (
+           new[] { new VideoSource(uploadedVideoSrcDict.Values.ToImmutableList2()) }
+        );
+
+        return TypedResults.Ok(video);
     }
 
     private static VideoFormat GetFormatByExtension(string fileName)
@@ -126,7 +134,7 @@ public class AdminUploadVideoController : Controller
         };
     }
 
-    private static ImmutableList<VideoSetup> GenerateVideoSetups()
+    private static ImmutableList<VideoSetup> GenerateVideoSetups() // todo: move to cms cofigutation
     {
         var formats = ImmutableList.Create(VideoFormat.WebM, VideoFormat.Mp4);
         var widths = ImmutableList.Create(480, 640, 960, 1920);

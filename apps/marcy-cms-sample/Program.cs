@@ -75,6 +75,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddControllers()
+    .AddApplicationPart(typeof(MarcyCmsServiceCollectionExtension).Assembly)
     .AddJsonOptions(o => CmsJsonSerializationOptions.Configure(o.JsonSerializerOptions));
 
 builder.Services.ConfigureHttpJsonOptions(o => CmsJsonSerializationOptions.Configure(o.SerializerOptions));

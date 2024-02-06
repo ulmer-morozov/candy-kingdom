@@ -47,7 +47,7 @@ export class DataService {
                 (
                   notEmptyDataRoutes
                     .map(dataRoute => {
-                      const url = `${this.baseHref}api/Children/?url=${dataRoute}`;
+                      const url = `${this.baseHref}api/Pages/Children/?url=${dataRoute}`;
 
                       return {
                         route: dataRoute,

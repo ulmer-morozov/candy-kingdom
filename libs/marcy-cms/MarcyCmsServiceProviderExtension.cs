@@ -56,6 +56,7 @@ public static class MarcyCmsServiceCollectionExtension
         services.AddSingleton<IVideoManager, VideoManager>();
 
         services.AddSingleton<IPageManager, PageManager<TDbContext>>();
+        services.AddSingleton<IViewManager, ViewManager<TDbContext>>();
         services.AddSingleton<ISettingsManager, SettingsManager<TDbContext>>();
 
         return services;
