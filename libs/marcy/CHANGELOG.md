@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.7](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.6...v0.1.7) (2024-02-06)
+
+
+### Bug Fixes
+
+* video manager ([338b789](https://github.com/ulmer-morozov/candy-kingdom/commit/338b789a2385f92a24e15bc6bf254065fb3a10be))
+
+
+
 # [0.2.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.1...v0.2.0) (2024-02-06)
 
 
