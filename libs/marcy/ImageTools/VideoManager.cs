@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Globalization;
+using System.Text.Json;
 
 using CandyKingdom.Marcy.Utilities;
 
@@ -9,11 +11,21 @@ namespace CandyKingdom.Marcy.ImageTools;
 
 public sealed class VideoManager : IVideoManager
 {
-    private readonly string? _ffmpegPath;
+    private readonly string _ffmpegPath;
+    private readonly string _ffprobePath;
 
-    public VideoManager(string? ffmpegPath = null)
+    public VideoManager(string? ffmpegPath = null, string? ffprobePath = null)
     {
-        _ffmpegPath = ffmpegPath;
+        if (OperatingSystem.IsWindows())
+        {
+            _ffmpegPath = string.IsNullOrEmpty(ffmpegPath) ? "ffmpeg.exe" : ffmpegPath;
+            _ffprobePath = string.IsNullOrEmpty(ffprobePath) ? "ffprobe.exe" : ffprobePath;
+        }
+        else
+        {
+            _ffmpegPath = string.IsNullOrEmpty(ffmpegPath) ? "ffmpeg" : ffmpegPath;
+            _ffprobePath = string.IsNullOrEmpty(ffprobePath) ? "ffprobe" : ffprobePath;
+        }
     }
 
     public async Task<TempVideoFile> AnalyseMp4(
@@ -21,7 +33,7 @@ public sealed class VideoManager : IVideoManager
       CancellationToken cancellationToken = default
     )
     {
-        var tempVideoFilePath = FileUtils.CreateTempFilePath("video", ".some-video");
+        var tempVideoFilePath = FileUtils.CreateTempFilePath("video", ".mp4");
 
         await using (var fileStream = new FileStream(tempVideoFilePath, FileMode.CreateNew))
         {
@@ -29,16 +41,16 @@ public sealed class VideoManager : IVideoManager
             await sourceStream.DisposeAsync();
         }
 
-        var ffmpeg = new Engine(_ffmpegPath);
-        var inputFile = new InputFile(tempVideoFilePath);
+        var ffprobeMeta = await GetFfprobeMetaAsync(tempVideoFilePath, cancellationToken);
 
-        var metadata = await ffmpeg.GetMetaDataAsync(inputFile, cancellationToken);
+        var fileFormat = GetVideoFormat(ffprobeMeta);
+        var videoMeta = ToVideoMeta(ffprobeMeta);
 
         var tempFileVideo = new TempVideoFile
         {
             File = new FileInfo(tempVideoFilePath),
-            Format = GetVideoFormat(metadata.VideoData.Format),
-            Meta = ToVideoMeta(metadata)
+            Format = fileFormat,
+            Meta = videoMeta
         };
 
         return tempFileVideo;
@@ -152,9 +164,54 @@ public sealed class VideoManager : IVideoManager
         }
     }
 
+    private async Task<FFProbeMeta> GetFfprobeMetaAsync(string videoFilePath, CancellationToken cancellationToken = default)
+    {
+        var ffprobeArgs = $"-v quiet -show_format -show_streams -print_format json \"{videoFilePath}\"";
+        // var ffprobeArgs = $"-v quiet -show_format -print_format json \"{videoFilePath}\"";
+
+        var procesStartInfo = new ProcessStartInfo(_ffprobePath, ffprobeArgs)
+        {
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        };
+
+        var process = Process.Start(procesStartInfo) ?? throw new Exception("Cannot start ffprobe process");
+
+        var output = process.StandardOutput.ReadToEnd();
+
+        var err = process.StandardError.ReadToEnd();
+
+        if (!string.IsNullOrWhiteSpace(err))
+        {
+            throw new Exception(err);
+        }
+
+        await process.WaitForExitAsync(cancellationToken);
+
+        // File.WriteAllText("temp.json", output);
+        var videoMetadata = JsonSerializer.Deserialize<FFProbeMeta>(output);
+
+        if (videoMetadata == null)
+        {
+            throw new Exception($"Cannot deserialize {nameof(FFProbeMeta)} from {output}");
+        }
+
+        return videoMetadata;
+    }
+
+    private static VideoFormat GetVideoFormat(FFProbeMeta probeMeta)
+    {
+        var videoSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "video");
+
+        var format = videoSource?.CodecName ?? probeMeta.Format.FormatName;
+
+        return GetVideoFormat(format);
+    }
+
     private static VideoFormat GetVideoFormat(string format)
     {
-        if (format.StartsWith("h264"))
+        if (format.StartsWith("h264") || format.Contains("mp4"))
         {
             return VideoFormat.Mp4;
         }
@@ -181,6 +238,44 @@ public sealed class VideoManager : IVideoManager
             Duration = metadata.Duration,
             FullFormat = metadata.VideoData.Format,
             HasAudio = metadata.AudioData != null
+        };
+
+        return meta;
+    }
+
+    private static VideoMeta ToVideoMeta(FFProbeMeta probeMeta)
+    {
+        var videoSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "video");
+        var audioSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "audio");
+
+        if (videoSource == null)
+        {
+            throw new Exception($"video stream can not be null {probeMeta}");
+        }
+
+        var frameRateArr = videoSource.RFrameRate.Split('/');
+
+        var frameRate = frameRateArr.Length switch
+        {
+            0 => 0,
+            1 => double.Parse(frameRateArr[0], CultureInfo.InvariantCulture),
+            2 => double.Parse(frameRateArr[0], CultureInfo.InvariantCulture) / double.Parse(frameRateArr[1], CultureInfo.InvariantCulture),
+            _ => 0,
+        };
+
+        var size = long.Parse(probeMeta.Format.Size, CultureInfo.InvariantCulture);
+
+        var duration = double.Parse(videoSource.Duration, CultureInfo.InvariantCulture);
+
+        var meta = new VideoMeta
+        {
+            Width = videoSource.Width ?? 0,
+            Height = videoSource.Height ?? 0,
+            ByteCount = size,
+            FrameRate = frameRate,
+            Duration = TimeSpan.FromSeconds(duration),
+            FullFormat = videoSource.CodecLongName ?? probeMeta.Format.FormatLongName,
+            HasAudio = audioSource != null
         };
 
         return meta;
