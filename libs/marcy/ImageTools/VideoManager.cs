@@ -153,6 +153,10 @@ public sealed class VideoManager : IVideoManager
               cancellationToken
             );
 
+
+            // if VideoData is null it could be because InvariantGlobalization is set to true
+            // issue with FFmpeg.NET
+
             var tempFileVideo = new TempVideoFile
             {
                 File = outputMetadata.FileInfo,
