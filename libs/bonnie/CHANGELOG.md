@@ -2,6 +2,23 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.1...v0.2.0) (2024-02-06)
+
+
+### Bug Fixes
+
+* structure fixes ([a86f737](https://github.com/ulmer-morozov/candy-kingdom/commit/a86f73706a2c7ceb6ce421ce2577ddac8434a0d1))
+
+
+### Features
+
+* admin page editor ([9ff84a3](https://github.com/ulmer-morozov/candy-kingdom/commit/9ff84a3dd2f1a950ae5a0aecf0c29a94b8848195))
+* cms setting editor added ([bc5aa59](https://github.com/ulmer-morozov/candy-kingdom/commit/bc5aa592ad7b1b988028e1d40b98c2eac00b9f04))
+* page bones save ([215f791](https://github.com/ulmer-morozov/candy-kingdom/commit/215f79196fe4db3b6ce8a79315faf2dbd05b54ac))
+* partially realized media-bone ([3e5a427](https://github.com/ulmer-morozov/candy-kingdom/commit/3e5a427c890762a230f3bf78e53fb2cdcf4a7826))
+
+
+
 ## [0.1.6](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.5...v0.1.6) (2024-02-04)
 
 
