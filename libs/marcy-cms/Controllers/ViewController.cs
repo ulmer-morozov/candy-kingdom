@@ -30,7 +30,7 @@ public sealed class ViewController : ControllerBase
         var viewResult = await _viewManager.GetAsync(code, cancellationToken);
 
 
-        if (!viewResult.IsSuccessful && viewResult.ErrorCode == (int)CRUDPageErrorCode.NotFound)
+        if (!viewResult.IsSuccessful && viewResult.ErrorCode == (int)CRUDErrorCode.NotFound)
         {
             return TypedResults.NotFound($"View with code = {code} hasn't been found");
         }

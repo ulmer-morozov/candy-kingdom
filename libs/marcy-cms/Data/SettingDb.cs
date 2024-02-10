@@ -23,4 +23,9 @@ public sealed class SettingDb
         Group = null!;
         Data = null!;
     }
+
+    public void SetData(SettingData newData)
+    {
+        Data = newData;
+    }
 }

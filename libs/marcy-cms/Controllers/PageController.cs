@@ -34,7 +34,7 @@ public sealed class PageController : ControllerBase
              cancellationToken
          );
 
-        if (!pageResult.IsSuccessful && (CRUDPageErrorCode)pageResult.ErrorCode == CRUDPageErrorCode.NotFound)
+        if (!pageResult.IsSuccessful && (CRUDErrorCode)pageResult.ErrorCode == CRUDErrorCode.NotFound)
         {
             return TypedResults.NotFound("Page not found");
         }
@@ -59,7 +59,7 @@ public sealed class PageController : ControllerBase
 
         var childrenResult = await _pageManager.GetChildrenAsync(url, getParams, cancellationToken);
 
-        if (!childrenResult.IsSuccessful && childrenResult.ErrorCode == (int)CRUDPageErrorCode.NotFound)
+        if (!childrenResult.IsSuccessful && childrenResult.ErrorCode == (int)CRUDErrorCode.NotFound)
         {
             return TypedResults.NotFound($"Page with url = {url} hasn't been found");
         }

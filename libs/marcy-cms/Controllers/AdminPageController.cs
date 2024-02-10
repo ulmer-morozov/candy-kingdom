@@ -36,7 +36,7 @@ public sealed class AdminPageController : ControllerBase
 
         var pageResult = await _pageManager.GetAsync(url, getParams, cancellationToken);
 
-        if (!pageResult.IsSuccessful && pageResult.ErrorCode == (int)CRUDPageErrorCode.NotFound)
+        if (!pageResult.IsSuccessful && pageResult.ErrorCode == (int)CRUDErrorCode.NotFound)
         {
             return TypedResults.NotFound($"Page with url = {url} hasn't been found"); // todo: make JSON error responses
         }
@@ -63,7 +63,7 @@ public sealed class AdminPageController : ControllerBase
     {
         var pageResult = await _pageManager.StoreAsync(page, cancellationToken);
 
-        if (!pageResult.IsSuccessful && pageResult.ErrorCode == (int)CRUDPageErrorCode.NotFound)
+        if (!pageResult.IsSuccessful && pageResult.ErrorCode == (int)CRUDErrorCode.NotFound)
         {
             return TypedResults.NotFound($"Page with url = {page.Url} hasn't been found"); // todo: make JSON error responses
         }

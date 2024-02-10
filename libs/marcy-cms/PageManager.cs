@@ -46,7 +46,7 @@ public class PageManager<TDbContext> : IPageManager
 
         if (pageDb == null)
         {
-            return ResultOrError.Fail<Page>($"Page with Url {url} not found.", (int)CRUDPageErrorCode.NotFound);
+            return ResultOrError.Fail<Page>($"Page with Url {url} not found.", (int)CRUDErrorCode.NotFound);
         }
 
         var dto = ToDto(pageDb);
@@ -62,7 +62,7 @@ public class PageManager<TDbContext> : IPageManager
 
         if (pageDb == null)
         {
-            return ResultOrError.Fail($"Page with Url = {page.Url} not found.", (int)CRUDPageErrorCode.NotFound);
+            return ResultOrError.Fail($"Page with Url = {page.Url} not found.", (int)CRUDErrorCode.NotFound);
         }
 
         pageDb.Copy(page);
@@ -117,7 +117,7 @@ public class PageManager<TDbContext> : IPageManager
 
         if (mainPage == null)
         {
-            return ResultOrError.Fail<ImmutableList2<Page>>($"Page with url = {url} hasn't been found", (int)CRUDPageErrorCode.NotFound);
+            return ResultOrError.Fail<ImmutableList2<Page>>($"Page with url = {url} hasn't been found", (int)CRUDErrorCode.NotFound);
         }
 
         var children = mainPage.Children

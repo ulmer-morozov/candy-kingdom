@@ -28,7 +28,7 @@ public sealed class ViewManager<TDbContext> : IViewManager
 
         if (viewDb == null)
         {
-            return ResultOrError.Fail<View>($"View with code = {code} hasn't been found", (int)CRUDPageErrorCode.NotFound);
+            return ResultOrError.Fail<View>($"View with code = {code} hasn't been found", (int)CRUDErrorCode.NotFound);
         }
 
         var view = new View

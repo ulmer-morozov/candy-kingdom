@@ -38,9 +38,19 @@ public sealed class AdminSettingsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<Ok> Store([FromBody] IEnumerable<Setting> settings, CancellationToken cancellationToken = default)
+    public async Task<Results<UnprocessableEntity<string>, Ok>> Store([FromBody] IEnumerable<Setting> settings, CancellationToken cancellationToken = default)
     {
         var updateResult = await _settingsManager.UpdateAsync(settings, cancellationToken);
+
+        if (!updateResult.IsSuccessful && updateResult.ErrorCode == (int)CRUDErrorCode.NotFound)
+        {
+            return TypedResults.UnprocessableEntity(updateResult.Message);
+        }
+
+        if (!updateResult.IsSuccessful && updateResult.ErrorCode == (int)CRUDErrorCode.InvalidData)
+        {
+            return TypedResults.UnprocessableEntity(updateResult.Message);
+        }
 
         if (!updateResult.IsSuccessful)
         {
