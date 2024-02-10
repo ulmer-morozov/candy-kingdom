@@ -10,5 +10,6 @@ export * from './setting-base';
 export * from './setting-data';
 export * from './setting-group';
 export * from './setting';
+export * from './svg-setting-data';
 export * from './text-setting-data';
 export * from './text-setting-type';

@@ -30,6 +30,11 @@ public sealed class MarcyCmsGenerationSpec : GenerationSpec
             .Member(x => nameof(x.Text)).Type(nameof(LocalizedString), "@candy-kingdom/bonnie")
             .Member(nameof(LocalizedTextSettingData.SettingDataType)).Ignore();
 
+        AddInterface<SvgSettingData>()
+            .Member(x => nameof(x.Src)).Type("FileSrcImageMeta", "@candy-kingdom/bonnie")
+            .Member(nameof(SvgSettingData.SettingDataType)).Ignore();
+
+
         AddEnum<TextSettingType>();
     }
 }

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LocalizedString } from '@candy-kingdom/bonnie';
 
-import { EditableDirective, FormBaseComponent } from '../core-components';
-import { TextEditorField } from '../core';
+import { EditableDirective, FormBaseComponent } from '../../core-components';
+import { TextEditorField } from '../../core';
 
 @Component({
   selector: 'bonc-translation-form',

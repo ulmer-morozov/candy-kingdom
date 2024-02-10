@@ -49,7 +49,7 @@ public sealed class MarcyGenerationSpec : GenerationSpec
 
         AddInterface<FileMeta>();
         AddInterface<PixMeta>();
-        AddInterface<ImageMeta>();
+        AddInterface<ImageMeta>().Member(x => nameof(x.Empty)).Ignore();
         AddInterface<VideoMeta>().Member(x => nameof(x.Duration)).Type(TsType.Number);
 
         AddInterface<SizesItem>();

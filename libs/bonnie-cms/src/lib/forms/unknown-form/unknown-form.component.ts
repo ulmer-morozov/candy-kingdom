@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBaseComponent } from '../core-components/form-base.component';
+import { FormBaseComponent } from '../../core-components/form-base.component';
 
 @Component({
   selector: 'bonc-unknown-form',

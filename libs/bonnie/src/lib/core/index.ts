@@ -11,3 +11,4 @@ export * from './emptyImage';
 export * from './emptyVideo';
 export * from './emptyBone';
 export * from './emptyLocalizedString';
+export * from './FileSrcImageMeta';

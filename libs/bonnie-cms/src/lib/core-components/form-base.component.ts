@@ -13,8 +13,9 @@ export abstract class FormBaseComponent<TData = unknown> {
   private _locale = '';
 
   constructor(
-    @Host() public editable: EditableDirective<TData>,
-    public readonly http: HttpClient) {
+    @Host() public editable: EditableDirective<TData>,// todo: may be this should be in injector too;
+    public readonly http: HttpClient// todo: move to injector where needed
+    ) {
   }
 
   @Input()

@@ -1,5 +1,6 @@
 using Autofac;
 
+using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Data;
@@ -45,6 +46,15 @@ public sealed class InitialDataFiller
                             {
                                 Text = En("English Company Title"),
                                 TextType = TextSettingType.SingleLine
+                            }
+                        },
+                        new Setting<SvgSettingData>
+                        {
+                            Id = CmsSampleSettingIds.Logo,
+                            Title = "Logo",
+                            Data = new SvgSettingData
+                            {
+                                Src=new FileSrc<ImageMeta> { Meta = ImageMeta.Empty, Url = "", MimeType = "" }
                             }
                         },
                         new Setting<LocalizedTextSettingData>

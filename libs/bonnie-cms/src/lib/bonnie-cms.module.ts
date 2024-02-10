@@ -3,33 +3,40 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
+import { BonnieModule } from '@candy-kingdom/bonnie';
+
 import { AdminControlsComponent } from './admin-controls/';
 import { EditableDirective, LinkPopupComponent } from './core-components';
 import { TextFormComponent } from './forms/text-form';
 import { EditableGroupComponent } from './core-components';
 import { FormControlsComponent } from './form-controls';
-import { UnknownFormComponent } from './unknown-form';
 import { SeoFormComponent } from './forms/seo-form';
 import { TranslationTextareaComponent } from './translation-textarea';
 import { TranslationInputComponent } from './translation-input';
-import { TranslationFormComponent } from './translation-form';
 import { BoneEditorContainerComponent, SkeletonEditorAnchorDirective, SkeletonEditorComponent } from './skeleton-editor';
 import { UnknownBoneEditorComponent } from './bone-editors/unknown-bone-editor/unknown-bone-editor.component';
-import { BonnieModule } from '@candy-kingdom/bonnie';
 import { MediaUploaderComponent } from './media-uploader/media-uploader.component';
 import { DataService } from './services/data.service';
 import { AdminDataService } from './services/admin-data.service';
+import { TranslationFormComponent } from './forms/translation-form';
+import { SvgFormComponent } from './forms/svg-form';
+import { UnknownFormComponent } from './forms/unknown-form/unknown-form.component';
+
+const formComponents = [
+  TranslationFormComponent,
+  TextFormComponent,
+  SeoFormComponent,
+  SvgFormComponent,
+  UnknownFormComponent
+];
 
 const components = [
+  ...formComponents,
   TranslationInputComponent,
   TranslationTextareaComponent,
   AdminControlsComponent,
   EditableGroupComponent,
   FormControlsComponent,
-  TranslationFormComponent,
-  TextFormComponent,
-  SeoFormComponent,
-  UnknownFormComponent,
   SkeletonEditorComponent,
   SkeletonEditorAnchorDirective,
   BoneEditorContainerComponent,

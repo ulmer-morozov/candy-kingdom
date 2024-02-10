@@ -2,13 +2,11 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   NgZone,
   OnChanges,
   Output,
   QueryList,
-  SimpleChanges,
   ViewChildren
 } from '@angular/core';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';

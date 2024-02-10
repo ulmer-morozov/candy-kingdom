@@ -19,14 +19,22 @@
                         [locale]="controls.locale"
                         [type]="TextInputStyle.SingleLine"
                         class="form-item email">...</bonc-text-form>
+
         <!-- translation -->
         <bonc-translation-form *ngSwitchCase="'marcy-localized-text'"
                                [(ngModel)]="record.data.text"
-                               [label]="'Footer subheader'"
+                               [label]="record.title"
                                [field]="record.data.type === TextSettingType.SingleLine ? TextEditorField.Input : TextEditorField.Textarea"
-                               [locale]="controls.locale"
-                               class="form-item subheader">
+                               [locale]="controls.locale">
         </bonc-translation-form>
+
+        <!-- svg -->
+        <bonc-svg-form *ngSwitchCase="'marcy-svg'"
+                       [(ngModel)]="record.data.src"
+                       [label]="record.title"
+                       [locale]="controls.locale">
+        </bonc-svg-form>
+
 
         <!-- unknown -->
         <bonc-unknown-form *ngSwitchDefault boncEditable [label]="record.data.type + ' (' + record.title + ')'">

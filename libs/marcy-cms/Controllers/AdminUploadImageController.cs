@@ -24,6 +24,29 @@ public sealed class AdminUploadImageController : ControllerBase
         _imageUploader = imageUploader;
     }
 
+    [HttpPost("SVG")]
+    public async Task<Results<BadRequest<string>, Ok<FileSrc<ImageMeta>>>> UploadSvgImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
+    {
+        if (file == null)
+        {
+            return TypedResults.BadRequest("Field \"file\": cannot be empty");
+        }
+
+        if (file.Length <= 0)
+        {
+            return TypedResults.BadRequest("Field \"file\": stream cannot have zero length");
+        }
+
+        var fileStream = file.OpenReadStream();
+
+        using var textReader = new StreamReader(fileStream);
+        var res = await textReader.ReadToEndAsync(cancellationToken);
+
+
+        return TypedResults.BadRequest(res);
+    }
+
+
     [HttpPost("Raw")]
     [RequestSizeLimit(50_000_000)]
     public async Task<Results<BadRequest<string>, Ok<FileSrc<ImageMeta>>>> UploadRawImage([FromForm] IFormFile file, CancellationToken cancellationToken = default)
