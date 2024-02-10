@@ -4,6 +4,7 @@ using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 using CandyKingdom.MarcyCms.Sample.Bones;
+using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Sample.Core;
 
 using TypeGen.Core.SpecGeneration;
@@ -110,5 +111,7 @@ public sealed class MarcyCmsSampleGenerationSpec : GenerationSpec
             .HasBonnieMember(x => x.Data, $"PageBase[]");
 
         AddClass<PageListBoneStyle>();
+
+        AddClass<CmsSampleSettingIds>();
     }
 }

@@ -8,7 +8,6 @@ namespace CandyKingdom.Marcy.Serialization;
 [JsonSerializable(typeof(VideoSource))]
 [JsonSerializable(typeof(FileSrc<ImageMeta>))]
 [JsonSerializable(typeof(FileSrc<VideoMeta>))]
-
 public partial class MarcyJsonContext : JsonSerializerContext
 {
 }

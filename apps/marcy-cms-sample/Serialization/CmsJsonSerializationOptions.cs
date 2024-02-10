@@ -7,6 +7,7 @@ using System.Text.Unicode;
 
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Serialization;
+using CandyKingdom.MarcyCms.Settings;
 
 namespace CandyKingdom.MarcyCms.Sample.Serialization;
 
@@ -21,7 +22,8 @@ public static class CmsJsonSerializationOptions
     public static readonly IJsonTypeInfoResolver CombinedResolver = JsonTypeInfoResolver.Combine
     (
         new BoneTypeInfoResolver(),
-        MarcyJsonContext.Default
+        MarcyJsonContext.Default,
+        MarcyCmsJsonContext.Default
     );
 
     public static JsonSerializerOptions New()

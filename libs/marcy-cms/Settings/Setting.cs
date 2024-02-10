@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace CandyKingdom.MarcyCms.Settings;
 
 public interface ISetting<out T>
@@ -12,7 +14,9 @@ public sealed record Setting<T> : Setting, ISetting<T>
     public required T Data { get; init; }
 }
 
-public abstract record Setting
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+[JsonDerivedType(typeof(Setting<SettingData>), "data")]
+public record Setting
 {
     public Guid Id { get; init; }
     public string Title { get; init; } = "";
@@ -25,4 +29,10 @@ public abstract record Setting
             Data = data
         };
     }
+}
+
+[JsonSerializable(typeof(Setting))]
+[JsonSerializable(typeof(Setting<SettingData>))]
+public partial class MarcyCmsJsonContext : JsonSerializerContext
+{
 }
