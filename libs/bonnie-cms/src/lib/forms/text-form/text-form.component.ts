@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TextInputStyle } from './TextInputStyle';
-import { FormBaseComponent } from '../core-components/form-base.component';
-import { EditableDirective } from '../core-components';
+import { FormBaseComponent } from '../../core-components/form-base.component';
+import { EditableDirective } from '../../core-components';
 
 @Component({
   selector: 'bonc-text-form',

@@ -40,7 +40,6 @@ export default class AdminPagesComponent {
   public page!: BON.Page<BON.PageData>;
 
   public save(): void {
-
     try {
       this._dataService.storePage(this.page)
         .subscribe

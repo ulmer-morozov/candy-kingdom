@@ -25,7 +25,6 @@ export default class AdminSettingsComponent implements OnInit {
   }
 
   public save(): void {
-
     try {
       const settings = this.settingGroups.flatMap(x => x.records);
 
@@ -41,7 +40,5 @@ export default class AdminSettingsComponent implements OnInit {
     catch (e) {
       console.error(e);
     }
-
-
   }
 }

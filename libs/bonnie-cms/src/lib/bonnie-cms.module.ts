@@ -5,11 +5,11 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 import { AdminControlsComponent } from './admin-controls/';
 import { EditableDirective, LinkPopupComponent } from './core-components';
-import { TextFormComponent } from './text-form';
+import { TextFormComponent } from './forms/text-form';
 import { EditableGroupComponent } from './core-components';
 import { FormControlsComponent } from './form-controls';
 import { UnknownFormComponent } from './unknown-form';
-import { SeoFormComponent } from './seo-form';
+import { SeoFormComponent } from './forms/seo-form';
 import { TranslationTextareaComponent } from './translation-textarea';
 import { TranslationInputComponent } from './translation-input';
 import { TranslationFormComponent } from './translation-form';

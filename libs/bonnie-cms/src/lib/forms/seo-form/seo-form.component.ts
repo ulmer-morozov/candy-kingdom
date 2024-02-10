@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { OpenGraphData } from '@candy-kingdom/bonnie';
 
-import { EditableDirective, FormBaseComponent } from '../core-components';
+import { EditableDirective, FormBaseComponent } from '../../core-components';
 
 @Component({
   selector: 'bonc-seo-form',
