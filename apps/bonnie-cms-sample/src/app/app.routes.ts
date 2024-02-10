@@ -1,7 +1,9 @@
 import { ActivatedRouteSnapshot, Route, mapToCanActivate } from '@angular/router';
-import { AuthGuard } from './guard';
 import { inject } from '@angular/core';
-import { DataService } from './data.service';
+
+import { DataService } from '@candy-kingdom/bonnie-cms';
+
+import { AuthGuard } from './guard';
 
 export const APP_Routes: Route[] = [
   {

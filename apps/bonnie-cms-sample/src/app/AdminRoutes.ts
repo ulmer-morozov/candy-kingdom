@@ -1,6 +1,7 @@
 import { Route, ActivatedRouteSnapshot } from '@angular/router';
-import { AdminDataService } from './admin-data.service';
 import { inject } from '@angular/core';
+
+import { AdminDataService } from '@candy-kingdom/bonnie-cms';
 
 export const ADMIN_ROUTES: Route[] = [
   {

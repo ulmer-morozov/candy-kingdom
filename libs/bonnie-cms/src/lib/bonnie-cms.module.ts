@@ -17,6 +17,8 @@ import { BoneEditorContainerComponent, SkeletonEditorAnchorDirective, SkeletonEd
 import { UnknownBoneEditorComponent } from './bone-editors/unknown-bone-editor/unknown-bone-editor.component';
 import { BonnieModule } from '@candy-kingdom/bonnie';
 import { MediaUploaderComponent } from './media-uploader/media-uploader.component';
+import { DataService } from './services/data.service';
+import { AdminDataService } from './services/admin-data.service';
 
 const components = [
   TranslationInputComponent,
@@ -46,6 +48,8 @@ const standaloneDirectives = [
   ],
   providers:
     [
+      DataService,
+      AdminDataService
     ],
   imports: [
     CommonModule,

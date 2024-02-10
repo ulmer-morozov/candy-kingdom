@@ -3,7 +3,9 @@ import { Inject, Injectable } from "@angular/core";
 import { APP_BASE_HREF } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { SettingGroup } from "@candy-kingdom/bonnie-cms";
+import { PageBase } from "@candy-kingdom/bonnie";
+
+import { SettingBase, SettingGroup } from "../generated";
 
 @Injectable()
 export class AdminDataService {
@@ -19,6 +21,16 @@ export class AdminDataService {
   public getPage(url: string): Observable<SettingGroup[]> {
     const pageOb = this.http.get<SettingGroup[]>(`${this.baseHref}api/admin/pages/${url}`);
     return pageOb;
+  }
+
+  public storePage(page: PageBase): Observable<void> {
+    const ob = this.http.post<void>(`${this.baseHref}api/admin/pages`, page);
+    return ob;
+  }
+
+  public updateSettings(settings: SettingBase[]): Observable<void> {
+    const ob = this.http.post<void>(`${this.baseHref}api/admin/settings`, settings);
+    return ob;
   }
 }
 

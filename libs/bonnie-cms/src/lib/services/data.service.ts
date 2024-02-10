@@ -1,9 +1,10 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable, combineLatest, map, merge, mergeMap, of } from 'rxjs';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { PageBase, View } from '@candy-kingdom/bonnie';
+import { Setting, SettingData } from "../generated";
 
 type DataDictionary = { [n: string]: Observable<unknown> };
 
@@ -21,6 +22,14 @@ export class DataService {
     const pageUrl = `/${pageRoute}`
 
     const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/pages/?url=${encodeURIComponent(pageUrl)}`);
+    return pageOb;
+  }
+
+  public getSettings(ids: string[]): Observable<Readonly<Setting<SettingData>[]>> {
+    const pageOb = this.http.get<Setting<SettingData>[]>(`${this.baseHref}api/settings`, {
+      params: { ids: ids }
+    });
+
     return pageOb;
   }
 

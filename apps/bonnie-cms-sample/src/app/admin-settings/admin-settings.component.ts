@@ -1,26 +1,22 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminDataService } from '../admin-data.service';
 
-import { BonnieCmsModule, SettingGroup, TextInputStyle, TextEditorField, TextSettingType } from '@candy-kingdom/bonnie-cms';
-import { HttpClient } from '@angular/common/http';
+import * as BONC from '@candy-kingdom/bonnie-cms';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, BonnieCmsModule],
-  providers: [AdminDataService],
+  imports: [CommonModule, BONC.BonnieCmsModule],
   selector: 'app-admin-settings',
   templateUrl: './admin-settings.component.html',
 })
 export default class AdminSettingsComponent implements OnInit {
-  public readonly TextInputStyle = TextInputStyle;
-  public readonly TextSettingType = TextSettingType;
-  public readonly TextEditorField = TextEditorField;
+  public readonly TextInputStyle = BONC.TextInputStyle;
+  public readonly TextSettingType = BONC.TextSettingType;
+  public readonly TextEditorField = BONC.TextEditorField;
 
-  private readonly _dataService = inject(AdminDataService);
-  private readonly _http = inject(HttpClient);
+  private readonly _dataService = inject(BONC.AdminDataService);
 
-  public settingGroups: SettingGroup[] = [];
+  public settingGroups: BONC.SettingGroup[] = [];
 
   public ngOnInit(): void {
     this._dataService.getSettingGroups().subscribe(x => {
@@ -30,20 +26,21 @@ export default class AdminSettingsComponent implements OnInit {
 
   public save(): void {
 
-    // try {
-    //   this._http.post('api/Admin/Pages', this.settingGroups)
-    //     .subscribe
-    //     (
-    //       () => {
-    //         debugger;
-    //         console.log('successfully stored data'); // todo: add toast
-    //       },
-    //     );
-    // }
+    try {
+      const settings = this.settingGroups.flatMap(x => x.records);
 
-    // catch (e) {
-    //   console.error(e);
-    // }
+      this._dataService.updateSettings(settings)
+        .subscribe
+        (
+          () => {
+            console.log('successfully updated settings'); // todo: add toast
+          },
+        );
+    }
+
+    catch (e) {
+      console.error(e);
+    }
 
 
   }

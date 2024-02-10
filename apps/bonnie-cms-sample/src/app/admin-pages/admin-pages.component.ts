@@ -1,11 +1,10 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminDataService } from '../admin-data.service';
 
-import { BonnieCmsModule, IBoneTemplate, TextEditorField } from "@candy-kingdom/bonnie-cms";
-import { HttpClient } from '@angular/common/http';
-import { BonnieModule, Page, PageData } from '@candy-kingdom/bonnie';
 import { RouterLink } from '@angular/router';
+
+import * as BON from '@candy-kingdom/bonnie';
+import * as BONC from "@candy-kingdom/bonnie-cms";
 
 import { AdminBoneMap } from '../AdminBoneMap';
 import { MediaBoneEditorComponent, TextBoneEditorComponent } from '../bone-editors';
@@ -20,32 +19,30 @@ const boneEditors = [
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterLink, BonnieModule, BonnieCmsModule, ...boneEditors],
-  providers: [AdminDataService],
+  imports: [CommonModule, RouterLink, BON.BonnieModule, BONC.BonnieCmsModule, ...boneEditors],
   selector: 'app-admin-pages',
   templateUrl: './admin-pages.component.html',
   styleUrl: './admin-pages.component.scss'
 })
 export default class AdminPagesComponent {
-  public readonly TextEditorField = TextEditorField;
+  public readonly TextEditorField = BONC.TextEditorField;
   public readonly AdminBoneMap = AdminBoneMap;
 
-  public readonly templates: IBoneTemplate[] = [
+  public readonly templates: BONC.IBoneTemplate[] = [
     { title: 'media', boneFactory: emptyMediaBone },
     { title: 'text', boneFactory: emptyTextBone },
     { title: 'page-list', boneFactory: emptyPageListBone },
   ];
 
-  private readonly _dataService = inject(AdminDataService);
-  private readonly _http = inject(HttpClient);
+  private readonly _dataService = inject(BONC.AdminDataService);
 
   @Input({ required: true })
-  public page!: Page<PageData>;
+  public page!: BON.Page<BON.PageData>;
 
   public save(): void {
 
     try {
-      this._http.post('api/admin/pages', this.page)
+      this._dataService.storePage(this.page)
         .subscribe
         (
           () => {
