@@ -4,13 +4,12 @@ using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
-using CandyKingdom.MarcyCms.Data;
 using CandyKingdom.MarcyCms.Settings;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CandyKingdom.MarcyCms;
+namespace CandyKingdom.MarcyCms.Data;
 
 public static class MarcyDbContextExtensions
 {

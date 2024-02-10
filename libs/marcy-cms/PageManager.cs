@@ -5,7 +5,7 @@ using CandyKingdom.MarcyCms.Data;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace CandyKingdom.MarcyCms.Sample.Core;
+namespace CandyKingdom.MarcyCms;
 
 public class PageManager<TDbContext> : IPageManager
     where TDbContext : DbContext, IMarcyCmsDbContext

@@ -1,4 +1,4 @@
-namespace CandyKingdom.MarcyCms.Sample.Data;
+namespace CandyKingdom.MarcyCms.Sample.Content;
 
 public static class CmsSampleSettingGroupIds
 {

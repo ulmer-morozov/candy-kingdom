@@ -2,7 +2,7 @@ using System.Text;
 
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
-using CandyKingdom.MarcyCms.Sample.Content;
+using CandyKingdom.MarcyCms.Sample.Data;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

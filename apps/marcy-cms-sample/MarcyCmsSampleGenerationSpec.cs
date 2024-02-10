@@ -4,7 +4,7 @@ using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 using CandyKingdom.MarcyCms.Sample.Bones;
-using CandyKingdom.MarcyCms.Sample.PageTypes;
+using CandyKingdom.MarcyCms.Sample.Core;
 
 using TypeGen.Core.SpecGeneration;
 using TypeGen.Core.SpecGeneration.Generic;

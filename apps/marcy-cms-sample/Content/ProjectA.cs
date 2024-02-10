@@ -3,7 +3,7 @@ using System.Globalization;
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Bones;
-using CandyKingdom.MarcyCms.Sample.PageTypes;
+using CandyKingdom.MarcyCms.Sample.Core;
 
 using static CandyKingdom.Marcy.LocalizedStringHelpers;
 using static CandyKingdom.Marcy.Shugar;

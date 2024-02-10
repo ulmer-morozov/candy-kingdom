@@ -1,11 +1,10 @@
 using CandyKingdom.MarcyCms.Data;
-using CandyKingdom.MarcyCms.Sample.Data;
 using CandyKingdom.MarcyCms.Sample.Serialization;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CandyKingdom.MarcyCms.Sample.Content;
+namespace CandyKingdom.MarcyCms.Sample.Data;
 
 public sealed class CmsSampleDbContext : IdentityDbContext<ApplicationUser>, IMarcyCmsDbContext
 {

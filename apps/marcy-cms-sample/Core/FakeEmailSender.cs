@@ -2,7 +2,7 @@ using System.Text;
 
 using Microsoft.AspNetCore.Identity.UI.Services;
 
-namespace CandyKingdom.MarcyCms.Sample;
+namespace CandyKingdom.MarcyCms.Sample.Core;
 
 public sealed class FakeEmailSender : IEmailSender
 {

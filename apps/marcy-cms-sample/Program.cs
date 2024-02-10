@@ -3,7 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using CandyKingdom.Marcy.Storage;
 using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;
-using CandyKingdom.MarcyCms.Sample.Content;
+using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Sample.Data;
 using CandyKingdom.MarcyCms.Sample.Serialization;
 

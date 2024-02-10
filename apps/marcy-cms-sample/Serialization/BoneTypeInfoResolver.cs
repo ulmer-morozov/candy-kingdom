@@ -5,7 +5,7 @@ using System.Text.Json.Serialization.Metadata;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 using CandyKingdom.MarcyCms.Sample.Bones;
-using CandyKingdom.MarcyCms.Sample.PageTypes;
+using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Settings;
 
 namespace CandyKingdom.MarcyCms.Sample.Serialization;

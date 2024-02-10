@@ -1,7 +1,7 @@
 using CandyKingdom.Marcy.ImageMin;
 using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Storage;
-using CandyKingdom.MarcyCms.Sample.Core;
+using CandyKingdom.MarcyCms.Data;
 using CandyKingdom.MarcyCms.Settings;
 
 using Microsoft.EntityFrameworkCore;

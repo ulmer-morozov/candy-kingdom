@@ -1,7 +1,7 @@
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 
-namespace CandyKingdom.MarcyCms.Sample.PageTypes;
+namespace CandyKingdom.MarcyCms.Sample.Core;
 
 public sealed record ProjectPageData : PageData
 {

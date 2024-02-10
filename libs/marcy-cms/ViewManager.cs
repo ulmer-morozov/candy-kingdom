@@ -1,5 +1,6 @@
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
+using CandyKingdom.MarcyCms.Data;
 
 using Microsoft.EntityFrameworkCore;
 
