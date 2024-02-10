@@ -8,7 +8,6 @@ import { TextEditorField } from '../../core';
   selector: 'bonc-translation-form',
   templateUrl: './translation-form.component.html',
   styleUrls: ['./translation-form.component.scss'],
-  inputs: FormBaseComponent.inputs,
   hostDirectives: [EditableDirective]
 })
 export class TranslationFormComponent extends FormBaseComponent<LocalizedString> implements OnInit {

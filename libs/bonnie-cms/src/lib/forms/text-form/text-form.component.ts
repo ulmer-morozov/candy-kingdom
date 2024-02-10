@@ -7,7 +7,6 @@ import { EditableDirective } from '../../core-components';
   selector: 'bonc-text-form',
   templateUrl: './text-form.component.html',
   styleUrls: ['./text-form.component.scss'],
-  inputs: FormBaseComponent.inputs,
   hostDirectives: [EditableDirective]
 })
 export class TextFormComponent extends FormBaseComponent<string> implements OnInit {

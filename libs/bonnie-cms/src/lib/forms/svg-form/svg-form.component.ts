@@ -8,7 +8,6 @@ import { FileSrc, ImageMeta } from '@candy-kingdom/bonnie';
   selector: 'bonc-svg-form',
   templateUrl: './svg-form.component.html',
   styleUrls: ['./svg-form.component.scss'],
-  inputs: FormBaseComponent.inputs, // todo: remove
   hostDirectives: [EditableDirective]
 })
 export class SvgFormComponent extends FormBaseComponent<FileSrc<ImageMeta>> implements OnInit {

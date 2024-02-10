@@ -4,8 +4,7 @@ import { FormBaseComponent } from '../../core-components/form-base.component';
 @Component({
   selector: 'bonc-unknown-form',
   templateUrl: './unknown-form.component.html',
-  styleUrls: ['./unknown-form.component.scss'],
-  inputs: FormBaseComponent.inputs
+  styleUrls: ['./unknown-form.component.scss']
 })
 export class UnknownFormComponent extends FormBaseComponent<string> implements OnInit {
   @Input()
