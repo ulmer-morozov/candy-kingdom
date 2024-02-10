@@ -5,6 +5,8 @@ namespace CandyKingdom.MarcyCms.Settings;
 public interface ISetting<out T>
     where T : SettingData
 {
+    public Guid Id { get; }
+    public string Title { get; }
     public T Data { get; }
 }
 

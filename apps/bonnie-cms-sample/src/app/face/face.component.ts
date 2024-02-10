@@ -5,6 +5,7 @@ import { FaceBoneMap } from '../FaceBoneMap';
 import { LocalizeServiceBase, PageBase, View } from '@candy-kingdom/bonnie';
 import { RouterLocalizeService } from '../router-localize.service';
 import { RouterLink } from '@angular/router';
+import { SettingDataDict } from '@candy-kingdom/bonnie-cms';
 
 @Component({
   standalone: true,
@@ -25,4 +26,7 @@ export default class FaceComponent {
 
   @Input({ required: true })
   public faceView!: View;
+
+  @Input({ required: true })
+  public settings!: SettingDataDict;
 }

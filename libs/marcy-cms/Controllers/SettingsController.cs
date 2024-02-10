@@ -22,7 +22,7 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<Results<UnprocessableEntity<string>, Ok<ImmutableDictionary<Guid, Setting>>>> Get([FromQuery] Guid[] ids, CancellationToken cancellationToken = default)
+    public async Task<Results<UnprocessableEntity<string>, Ok<ImmutableDictionary<Guid, SettingData>>>> Get([FromQuery] Guid[] ids, CancellationToken cancellationToken = default)
     {
         var settingResult = await _settingsManager.GetSettingsAsync(ids, cancellationToken);
 
@@ -38,7 +38,9 @@ public sealed class SettingsController : ControllerBase
             throw new Exception(settingResult.Message);
         }
 
-        var dict = settingResult.Data.ToImmutableDictionary(x => x.Id);
+        var dict = settingResult.Data
+            .OfType<ISetting<SettingData>>()
+            .ToImmutableDictionary(x => x.Id, x => x.Data);
 
         return TypedResults.Ok(dict);
     }

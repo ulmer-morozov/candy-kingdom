@@ -4,6 +4,7 @@ import { inject } from '@angular/core';
 import { DataService } from '@candy-kingdom/bonnie-cms';
 
 import { AuthGuard } from './guard';
+import { CmsSampleSettingIds } from './generated';
 
 export const APP_Routes: Route[] = [
   {
@@ -26,7 +27,8 @@ export const APP_Routes: Route[] = [
     providers: [DataService],
     resolve: {
       page: (route: ActivatedRouteSnapshot) => inject(DataService).getPage(route.url.join('/')),
-      faceView: () => inject(DataService).getView('face')
+      faceView: () => inject(DataService).getView('face'),
+      settings: () => inject(DataService).getSettings([CmsSampleSettingIds.email, CmsSampleSettingIds.company, CmsSampleSettingIds.description])
     }
   },
 ];
