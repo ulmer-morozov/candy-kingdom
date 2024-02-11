@@ -27,7 +27,7 @@ public sealed class AdminPageController : ControllerBase
     [HttpGet("{url}")]
     public async Task<Results<NotFound<string>, Ok<Page>>> Get(string url, CancellationToken cancellationToken = default)
     {
-        url = url == "~" ? url : HttpUtility.UrlDecode(url).Substring(1);
+        url = url == "~" ? url : HttpUtility.UrlDecode(url)[1..];
 
         var getParams = new GetPageParams
         {

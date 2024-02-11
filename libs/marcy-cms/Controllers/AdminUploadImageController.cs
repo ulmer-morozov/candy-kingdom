@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using System.Drawing;
-using System.Xml;
 
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.ImageTools;

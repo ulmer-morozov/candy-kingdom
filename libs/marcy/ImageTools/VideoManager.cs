@@ -194,12 +194,7 @@ public sealed class VideoManager : IVideoManager
         await process.WaitForExitAsync(cancellationToken);
 
         // File.WriteAllText("temp.json", output);
-        var videoMetadata = JsonSerializer.Deserialize<FFProbeMeta>(output);
-
-        if (videoMetadata == null)
-        {
-            throw new Exception($"Cannot deserialize {nameof(FFProbeMeta)} from {output}");
-        }
+        var videoMetadata = JsonSerializer.Deserialize<FFProbeMeta>(output) ?? throw new Exception($"Cannot deserialize {nameof(FFProbeMeta)} from {output}");
 
         return videoMetadata;
     }
