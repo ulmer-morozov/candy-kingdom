@@ -50,6 +50,7 @@ public static class MarcyCmsServiceCollectionExtension
         var imageMin = new ImageMin(config.MinificationVendors);
         services.AddSingleton<IImageMin>(imageMin);
 
+        services.AddSingleton<ISvgUploader, SvgUploader>();
         services.AddSingleton<IImageUploader, ImageUploader>();
         services.AddSingleton<IVideoUploader, VideoUploader>();
 
