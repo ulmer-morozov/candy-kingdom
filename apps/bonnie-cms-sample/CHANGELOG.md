@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.2.0...v0.3.0) (2024-02-11)
+
+
+### Features
+
+* spaces! ([bf12bb4](https://github.com/ulmer-morozov/candy-kingdom/commit/bf12bb4876c6c2ddea7ce14b85190a941680275d))
+
+
+
 # [0.2.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.8...v0.2.0) (2024-02-11)
 
 

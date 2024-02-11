@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.2.0...v0.3.0) (2024-02-11)
+
+
+### Features
+
+* **marcy:** dotnet format ([4487cd9](https://github.com/ulmer-morozov/candy-kingdom/commit/4487cd98c905721834f323c7a5c1f5ab80709fe0))
+
+
+
 # [0.2.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.8...v0.2.0) (2024-02-11)
 
 
