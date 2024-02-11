@@ -68,6 +68,13 @@ multiline description
 of a sample company"""),
                                 TextType = TextSettingType.MultiLine
                             }
+                        },
+                        new Setting<FileSettingData>{
+                            Id=CmsSampleSettingIds.SomeFile,
+                            Title="Some json File",
+                            Data = new(){
+                                AllowedMimeTypes = new ImmutableList2<string>(["application/json"])
+                            }
                         }
                 }.ToImmutableList2()
             }

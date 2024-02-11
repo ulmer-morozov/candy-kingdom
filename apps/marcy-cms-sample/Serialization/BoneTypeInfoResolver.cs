@@ -57,6 +57,7 @@ public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
                 DerivedTypes =
                 {
                     new JsonDerivedType(typeof(SvgSettingData), SvgSettingData.SettingDataType),
+                    new JsonDerivedType(typeof(FileSettingData), FileSettingData.SettingDataType),
                     new JsonDerivedType(typeof(TextSettingData), TextSettingData.SettingDataType),
                     new JsonDerivedType(typeof(LocalizedTextSettingData), LocalizedTextSettingData.SettingDataType)
                 }

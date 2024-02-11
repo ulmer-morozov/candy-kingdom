@@ -47,7 +47,7 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface(typeof(FileSrc<>));
         AddInterface(typeof(FileSrcBase));
 
-        AddInterface<FileMeta>();
+        AddInterface<FileMeta>().Member(x => nameof(x.Empty)).Ignore();
         AddInterface<PixMeta>();
         AddInterface<SvgMeta>();
         AddInterface<ImageMeta>().Member(x => nameof(x.Empty)).Ignore();

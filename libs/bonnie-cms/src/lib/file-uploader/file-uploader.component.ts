@@ -66,7 +66,8 @@ export class FileUploaderComponent {
       return;
 
     const file = fileInput.files[0];
-    const uploadUrl = this.uploadUrlMap.get(file.type);
+
+    const uploadUrl = this.uploadUrlMap.get(file.type) ?? this.uploadUrlMap.get("");
 
     if (uploadUrl === undefined || uploadUrl === null) {
       console.error(`upload map doesn't have url for type '${file.type}'`);

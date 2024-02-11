@@ -22,12 +22,14 @@ import { TranslationFormComponent } from './forms/translation-form';
 import { SvgFormComponent } from './forms/svg-form';
 import { UnknownFormComponent } from './forms/unknown-form/unknown-form.component';
 import { FileUploaderComponent } from './file-uploader';
+import { FileFormComponent } from './forms/file-form';
 
 const formComponents = [
   TranslationFormComponent,
   TextFormComponent,
   SeoFormComponent,
   SvgFormComponent,
+  FileFormComponent,
   UnknownFormComponent
 ];
 

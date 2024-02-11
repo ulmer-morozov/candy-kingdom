@@ -35,6 +35,14 @@
                        [locale]="controls.locale">
         </bonc-svg-form>
 
+        <!-- file -->
+        <bonc-file-form *ngSwitchCase="'marcy-file'"
+                        [(ngModel)]="record.data.src"
+                        [uploadTypes]="record.data.allowedMimeTypes"
+                        [uploadMap]="genericFileUploadMap"
+                        [label]="record.title"
+                        [locale]="controls.locale">
+        </bonc-file-form>
 
         <!-- unknown -->
         <bonc-unknown-form *ngSwitchDefault boncEditable [label]="record.data.type + ' (' + record.title + ')'">

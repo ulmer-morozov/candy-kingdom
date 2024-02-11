@@ -3,6 +3,7 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
+export * from './file-setting-data';
 export * from './i-equatable';
 export * from './i-setting';
 export * from './localized-text-setting-data';

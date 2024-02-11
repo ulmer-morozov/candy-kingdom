@@ -8,4 +8,5 @@ export class CmsSampleSettingIds {
     static logo: string = "60cf6e06-e692-4607-b679-e46230f74a1b";
     static description: string = "f41b1b1a-300e-4746-aace-3c16e9b34d95";
     static email: string = "8691f810-636c-4c38-8cde-e31d6000d94d";
+    static someFile: string = "a816fe6d-d4e5-452c-88fa-2f4b9a01ffbd";
 }

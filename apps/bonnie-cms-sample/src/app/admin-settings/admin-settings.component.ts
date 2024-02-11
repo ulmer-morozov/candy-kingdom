@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import * as BONC from '@candy-kingdom/bonnie-cms';
 
+const genericFileUploadMap = new Map<string, string>();
+
+genericFileUploadMap.set("", "/api/admin/upload/file")
+
 @Component({
   standalone: true,
   imports: [CommonModule, BONC.BonnieCmsModule],
@@ -13,6 +17,8 @@ export default class AdminSettingsComponent implements OnInit {
   public readonly TextInputStyle = BONC.TextInputStyle;
   public readonly TextSettingType = BONC.TextSettingType;
   public readonly TextEditorField = BONC.TextEditorField;
+
+  public readonly genericFileUploadMap = genericFileUploadMap;
 
   private readonly _dataService = inject(BONC.AdminDataService);
 
