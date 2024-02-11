@@ -78,6 +78,7 @@ const standaloneDirectives = [
     CommonModule,
     FormsModule,
     BonnieModule,
+    LottieFormComponent,
     ...components,
     ...standaloneDirectives
   ]
