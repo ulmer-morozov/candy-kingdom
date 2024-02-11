@@ -21,7 +21,7 @@ public static class CmsJsonSerializationOptions
 
     public static readonly IJsonTypeInfoResolver CombinedResolver = JsonTypeInfoResolver.Combine
     (
-        new BoneTypeInfoResolver(),
+        new CmsSampleTypeInfoResolver(),
         MarcyJsonContext.Default,
         MarcyCmsJsonContext.Default
     );

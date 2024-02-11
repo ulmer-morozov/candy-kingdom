@@ -10,7 +10,7 @@ using CandyKingdom.MarcyCms.Settings;
 
 namespace CandyKingdom.MarcyCms.Sample.Serialization;
 
-public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
+public sealed class CmsSampleTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
