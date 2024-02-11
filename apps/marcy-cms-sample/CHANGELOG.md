@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.8...v0.2.0) (2024-02-11)
+
+
+### Features
+
+* working on svg editor ([5b9848e](https://github.com/ulmer-morozov/candy-kingdom/commit/5b9848e109b7f87c8e431daad34b41193e340b78))
+
+
+
 ## [0.1.8](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.1.7...v0.1.8) (2024-02-10)
 
 
