@@ -70,11 +70,16 @@ of a sample company"""),
                             }
                         },
                         new Setting<FileSettingData>{
-                            Id=CmsSampleSettingIds.SomeFile,
-                            Title="Some json File",
+                            Id = CmsSampleSettingIds.SomeFile,
+                            Title = "Some json File",
                             Data = new(){
                                 AllowedMimeTypes = new ImmutableList2<string>(["application/json"])
                             }
+                        },
+                        new Setting<LottieSettingData>{
+                            Id = CmsSampleSettingIds.Animation,
+                            Title = "Lottie animation",
+                            Data = new()
                         }
                 }.ToImmutableList2()
             }

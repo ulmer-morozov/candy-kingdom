@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { LottieComponent } from 'ngx-lottie';
+
 
 import { BonnieModule } from '@candy-kingdom/bonnie';
 
@@ -23,6 +25,7 @@ import { SvgFormComponent } from './forms/svg-form';
 import { UnknownFormComponent } from './forms/unknown-form/unknown-form.component';
 import { FileUploaderComponent } from './file-uploader';
 import { FileFormComponent } from './forms/file-form';
+import { LottieFormComponent } from './forms/lottie-form/lottie-form.component';
 
 const formComponents = [
   TranslationFormComponent,
@@ -30,6 +33,7 @@ const formComponents = [
   SeoFormComponent,
   SvgFormComponent,
   FileFormComponent,
+  LottieFormComponent,
   UnknownFormComponent
 ];
 
@@ -67,6 +71,7 @@ const standaloneDirectives = [
     FormsModule,
     CdkTextareaAutosize,
     BonnieModule,
+    LottieComponent,
     ...standaloneDirectives
   ],
   exports: [

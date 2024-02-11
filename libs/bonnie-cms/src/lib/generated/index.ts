@@ -7,6 +7,7 @@ export * from './file-setting-data';
 export * from './i-equatable';
 export * from './i-setting';
 export * from './localized-text-setting-data';
+export * from './lottie-setting-data';
 export * from './setting-base';
 export * from './setting-data';
 export * from './setting-group';

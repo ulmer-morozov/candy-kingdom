@@ -1,0 +1,11 @@
+@import './../../styles/admin-variables.scss';
+
+:host {
+  @include admin-form;
+
+  max-width: 600px;
+}
+
+a {
+  color: silver;
+}

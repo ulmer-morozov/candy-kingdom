@@ -8,6 +8,8 @@ import { AuthGuard } from './guard';
 import { AuthService } from './service';
 import { APP_BASE_HREF } from '@angular/common';
 
+import { provideLottieOptions } from 'ngx-lottie';
+
 function getBaseHref() {
   return document.getElementsByTagName('base')[0].href;
 }
@@ -27,6 +29,10 @@ export const appConfig: ApplicationConfig = {
     },
 
     { provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [] },
+
+    provideLottieOptions({
+      player: () => import('lottie-web'),
+    }),
 
     AuthGuard,
     AuthService,

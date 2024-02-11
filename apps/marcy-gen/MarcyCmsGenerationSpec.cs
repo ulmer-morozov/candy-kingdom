@@ -38,6 +38,10 @@ public sealed class MarcyCmsGenerationSpec : GenerationSpec
             .Member(x => nameof(x.Src)).Type("FileSrcFileMeta", "@candy-kingdom/bonnie")
             .Member(nameof(FileSettingData.SettingDataType)).Ignore();
 
+        AddInterface<LottieSettingData>()
+            .Member(x => nameof(x.Src)).Type("FileSrcFileMeta", "@candy-kingdom/bonnie")
+            .Member(nameof(LottieSettingData.SettingDataType)).Ignore();
+
         AddEnum<TextSettingType>();
     }
 }

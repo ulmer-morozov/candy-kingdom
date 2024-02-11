@@ -44,6 +44,14 @@
                         [locale]="controls.locale">
         </bonc-file-form>
 
+        <!-- file -->
+        <bonc-lottie-form *ngSwitchCase="'marcy-lottie'"
+                        [(ngModel)]="record.data.src"
+                        [uploadMap]="genericFileUploadMap"
+                        [label]="record.title"
+                        [locale]="controls.locale">
+        </bonc-lottie-form>
+
         <!-- unknown -->
         <bonc-unknown-form *ngSwitchDefault boncEditable [label]="record.data.type + ' (' + record.title + ')'">
           <pre>{{record.data | json}}</pre>
