@@ -1,11 +1,16 @@
-@import './../../styles/admin-variables.scss';
+@use './../../styles/admin-variables.scss'as v;
 
 :host {
-  @include admin-form;
+  @include v.admin-form;
 
   max-width: 600px;
 }
 
 a {
   color: silver;
+}
+
+ng-lottie {
+  @include v.checkerboard;
+  display: block;
 }
