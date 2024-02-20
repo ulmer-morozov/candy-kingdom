@@ -103,7 +103,12 @@
         "outputPath": "dist/apps/bonnie-cms-sample/server",
         "main": "apps/bonnie-cms-sample/server.ts",
         "tsConfig": "apps/bonnie-cms-sample/tsconfig.server.json",
-        "inlineStyleLanguage": "scss"
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/bonnie-cms/src/lib/styles"
+          ]
+        }
       },
       "configurations": {
         "production": {

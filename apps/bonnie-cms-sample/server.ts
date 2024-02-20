@@ -5,6 +5,9 @@ import { CommonEngine } from '@angular/ssr';
 import * as express from 'express';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+
+import { API_BASE_URL } from '@candy-kingdom/bonnie-cms';
+
 import bootstrap from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -30,6 +33,8 @@ export function app(): express.Express {
     })
   );
 
+  const apiServerHost = process.env['API_HOST'] || 'http://localhost:5236';
+
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
@@ -40,7 +45,10 @@ export function app(): express.Express {
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
         publicPath: distFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+        providers: [
+          { provide: APP_BASE_HREF, useValue: baseUrl },
+          { provide: API_BASE_URL, useValue: apiServerHost }
+        ],
       })
       .then((html) => res.send(html))
       .catch((err) => next(err));

@@ -2,9 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable, combineLatest, map, merge, mergeMap, of } from 'rxjs';
 
-import { APP_BASE_HREF } from '@angular/common';
 import { PageBase, View } from '@candy-kingdom/bonnie';
 import { SettingData } from "../generated";
+import { API_BASE_URL } from "./API_BASE_URL";
 
 type DataDictionary = { [n: string]: Observable<unknown> };
 
@@ -12,7 +12,7 @@ export type SettingDataDict = { [id: string]: SettingData };
 
 @Injectable()
 export class DataService {
-  constructor(private readonly http: HttpClient, @Inject(APP_BASE_HREF) private baseHref: string) {
+  constructor(private readonly http: HttpClient, @Inject(API_BASE_URL) private baseHref: string) {
   }
 
   public getView(viewCode: string): Observable<Readonly<PageBase>> {

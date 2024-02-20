@@ -6,13 +6,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { AuthInterceptor } from './interceptor';
 import { AuthGuard } from './guard';
 import { AuthService } from './service';
-import { APP_BASE_HREF } from '@angular/common';
 
 import { provideLottieOptions } from 'ngx-lottie';
-
-function getBaseHref() {
-  return document.getElementsByTagName('base')[0].href;
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,8 +22,6 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [Router],
     },
-
-    { provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [] },
 
     provideLottieOptions({
       player: () => import('lottie-web'),

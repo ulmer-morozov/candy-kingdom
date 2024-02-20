@@ -1,15 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { APP_BASE_HREF } from '@angular/common';
 import { Observable } from 'rxjs';
 
 import { PageBase } from "@candy-kingdom/bonnie";
 
 import { SettingBase, SettingGroup } from "../generated";
+import { API_BASE_URL } from "./API_BASE_URL";
 
 @Injectable()
 export class AdminDataService {
-  constructor(private readonly http: HttpClient, @Inject(APP_BASE_HREF) private baseHref: string) {
+  constructor(private readonly http: HttpClient, @Inject(API_BASE_URL) private baseHref: string) {
     console.log('baseHref: ' + baseHref);
   }
 
