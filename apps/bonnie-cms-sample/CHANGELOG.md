@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.4.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.3.0...v0.4.0) (2024-02-20)
+
+
+### Bug Fixes
+
+* **core:** api url added to data service. sample build fix ([26e1834](https://github.com/ulmer-morozov/candy-kingdom/commit/26e1834c20eb267c6e9f4cfb8a1dbf788d660509))
+
+
+
 # [0.3.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.2.0...v0.3.0) (2024-02-11)
 
 
