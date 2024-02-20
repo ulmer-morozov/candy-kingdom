@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable, combineLatest, map, merge, mergeMap, of } from 'rxjs';
 
 import { PageBase, View } from '@candy-kingdom/bonnie';
+
 import { SettingData } from "../generated";
 import { API_BASE_URL } from "./API_BASE_URL";
 
