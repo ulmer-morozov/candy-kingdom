@@ -10,7 +10,7 @@
     "dotnet:format": "dotnet format candy-kingdom.sln",
     "pack:marcy-cms": "nx build marcy-cms --extraParameters=\"-p:GeneratePackageOnBuild=true;Version=$(git describe --tag --abbrev=0 | cut -c 2-)\"",
     "pack:all": "npm run pack:marcy && npm run pack:marcy-cms",
-    "version-bump": "nx run bonnie:version --syncVersions"
+    "version-bump": "nx run bonnie:version --syncVersions --releaseAs=minor"
   },
   "private": true,
   "dependencies": {
