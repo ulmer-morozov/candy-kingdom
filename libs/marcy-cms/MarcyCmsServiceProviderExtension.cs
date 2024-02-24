@@ -23,16 +23,14 @@ public static class MarcyCmsServiceCollectionExtension
     public static DirectoryInfo DefaultCacheDir { get; } = new("media_cache");
     public const int DefaultImageMinQuality = 90;
 
-    public static IServiceCollection AddMarcyCms<TDbContext>(this IServiceCollection services, IWebHostEnvironment environment, Action<MarcyCmsConfiguration>? configurator = null)
+    public static IServiceCollection AddMarcyCms<TDbContext>(this IServiceCollection services, Action<MarcyCmsConfiguration>? configurator = null)
         where TDbContext : DbContext, IMarcyCmsDbContext
     {
-        Console.WriteLine($"Webroot: {environment.WebRootPath}");
-
         var config = new MarcyCmsConfiguration
         {
             ImageUploaderConfig = new ImageUploaderConfig { CacheDir = DefaultCacheDir },
             VideoUploaderConfig = new VideoUploaderConfig { CacheDir = DefaultCacheDir },
-            FileStorage = new LocalFileStorage("/storage/", Path.Combine(environment.WebRootPath, "storage")),
+            FileStorage = new LocalFileStorage("/storage/", Path.Combine(Directory.GetCurrentDirectory(), "storage")),
             MinificationVendors = [
                   new ImageMinJpegtran(new ImageMinJpegtranOptions()),
             new ImageMinMozJpeg(new ImageMinMozJpegOptions(quality: DefaultImageMinQuality)),
