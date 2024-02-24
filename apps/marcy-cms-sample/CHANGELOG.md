@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.6.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.5.0...v0.6.0) (2024-02-24)
+
+
+### Features
+
+* removed env dir ([ce2eb63](https://github.com/ulmer-morozov/candy-kingdom/commit/ce2eb6347e6671013752eee1449923b6bc7260bf))
+
+
+
 # [0.5.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.4.0...v0.5.0) (2024-02-24)
 
 
