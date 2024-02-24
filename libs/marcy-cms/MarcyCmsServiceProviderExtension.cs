@@ -4,6 +4,7 @@ using CandyKingdom.Marcy.Storage;
 using CandyKingdom.MarcyCms.Data;
 using CandyKingdom.MarcyCms.Settings;
 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,23 +22,25 @@ public static class MarcyCmsServiceCollectionExtension
 {
     public static DirectoryInfo DefaultCacheDir { get; } = new("media_cache");
     public const int DefaultImageMinQuality = 90;
-    public static MarcyCmsConfiguration DefaultConfig { get; } = new MarcyCmsConfiguration
+
+    public static IServiceCollection AddMarcyCms<TDbContext>(this IServiceCollection services, IWebHostEnvironment environment, Action<MarcyCmsConfiguration>? configurator = null)
+        where TDbContext : DbContext, IMarcyCmsDbContext
     {
-        ImageUploaderConfig = new ImageUploaderConfig { CacheDir = DefaultCacheDir },
-        VideoUploaderConfig = new VideoUploaderConfig { CacheDir = DefaultCacheDir },
-        FileStorage = new LocalFileStorage("/storage/", Path.Combine("wwwroot", "storage")),
-        MinificationVendors = [
-            new ImageMinJpegtran(new ImageMinJpegtranOptions()),
+        Console.WriteLine($"Webroot: {environment.WebRootPath}");
+
+        var config = new MarcyCmsConfiguration
+        {
+            ImageUploaderConfig = new ImageUploaderConfig { CacheDir = DefaultCacheDir },
+            VideoUploaderConfig = new VideoUploaderConfig { CacheDir = DefaultCacheDir },
+            FileStorage = new LocalFileStorage("/storage/", Path.Combine(environment.WebRootPath, "storage")),
+            MinificationVendors = [
+                  new ImageMinJpegtran(new ImageMinJpegtranOptions()),
             new ImageMinMozJpeg(new ImageMinMozJpegOptions(quality: DefaultImageMinQuality)),
             new ImageMinWebp(new ImageMinWebpOptions(quality: DefaultImageMinQuality)),
             // new ImageMinGuetzli(new ImageMinGuetzliOptions(quality: DefaultImageMinQuality))
         ]
-    };
+        };
 
-    public static IServiceCollection AddMarcyCms<TDbContext>(this IServiceCollection services, Action<MarcyCmsConfiguration>? configurator = null)
-        where TDbContext : DbContext, IMarcyCmsDbContext
-    {
-        var config = DefaultConfig;
         configurator?.Invoke(config);
 
         config.ImageUploaderConfig.CacheDir.Create();
