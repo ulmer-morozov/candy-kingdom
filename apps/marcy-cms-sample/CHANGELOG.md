@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.5.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.4.0...v0.5.0) (2024-02-24)
+
+
+### Features
+
+* bin wrapper locks ([97bc71d](https://github.com/ulmer-morozov/candy-kingdom/commit/97bc71df1c215ebd93d05ec21a7c418265e0f976))
+
+
+
 # [0.4.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.3.0...v0.4.0) (2024-02-20)
 
 
