@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.7.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.6.0...v0.7.0) (2024-02-25)
+
+
+### Features
+
+* S3 config from env ([2764cb5](https://github.com/ulmer-morozov/candy-kingdom/commit/2764cb517178daa7e894e53e75808000bc4bf141))
+
+
+
 # [0.6.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.5.0...v0.6.0) (2024-02-24)
 
 
