@@ -3,6 +3,7 @@ using System.Drawing;
 
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.ImageTools;
+using CandyKingdom.Marcy.Immutables;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -204,11 +205,10 @@ public sealed class AdminUploadImageController : ControllerBase
 
         var orderedSrcs = uploadedImageDict.Values
             .OrderByDescending(x => x.Meta.Width)
-            .ThenByDescending(x => x.MimeType.Contains("web")); // webp first)
+            .ThenByDescending(x => x.MimeType.Contains("web"))
+            .ToImmutableList2(); // webp first)
 
-        var image = new Image([
-            new ImageSource(orderedSrcs)
-        ]);
+        var image = new Image(new[] { new ImageSource(orderedSrcs) }.ToImmutableList2());
 
         return TypedResults.Ok(image);
     }
@@ -226,11 +226,10 @@ public sealed class AdminUploadImageController : ControllerBase
         };
     }
 
-    private static ImmutableList<ImageSetup> GenerateImageSetups(IEnumerable<ImageFormat> formats)
+    private static ImmutableList<ImageSetup> GenerateImageSetups(IEnumerable<ImageFormat> imageFormats)
     {
         // todo: add formats based on image transparency
         // for example Webp|Png
-        var imageFormats = formats.ToImmutableList();
         ImmutableList<int> widths = [160, 320, 480, 640, 960, 1280, 1440, 1920, 2560];
 
         var setups = imageFormats
