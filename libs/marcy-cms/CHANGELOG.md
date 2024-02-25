@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.8.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.7.0...v0.8.0) (2024-02-25)
+
+
+### Features
+
+* transparency images ([0fc8f2a](https://github.com/ulmer-morozov/candy-kingdom/commit/0fc8f2a7849fcbaa32eb5c26c00f32db4a1841d4))
+
+
+
 # [0.7.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.6.0...v0.7.0) (2024-02-25)
 
 
