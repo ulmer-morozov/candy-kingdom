@@ -40,7 +40,7 @@ public sealed class ImageMin : IImageMin
 
             var minifiedImageStream = await vendor.Minify(tempFilePath, cancellationToken);
 
-            if (minifiedImageStream.Length >= bestFileSize)
+            if (minifiedImageStream.Length >= bestFileSize || minifiedImageStream.Length == 0)
             {
                 Console.WriteLine(
                   $"!{vendor.Name} minified worse than best result. delta: {bestFileSize - minifiedImageStream.Length}. Size: {minifiedImageStream.Length}"

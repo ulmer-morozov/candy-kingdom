@@ -16,17 +16,20 @@ namespace CandyKingdom.MarcyCms.Controllers;
 [Route("Api/Admin/Upload/Image")]
 public sealed class AdminUploadImageController : ControllerBase
 {
-    public static readonly ImmutableList<ImageSetup> DefaultSetups = GenerateImageSetups();
+    public static readonly ImmutableList<ImageSetup> DefaultTransparentSetups = GenerateImageSetups([ImageFormat.WebP, ImageFormat.Png]);
+    public static readonly ImmutableList<ImageSetup> DefaultNonTransparentSetups = GenerateImageSetups([ImageFormat.WebP, ImageFormat.Jpeg]);
 
     private readonly IImageUploader _imageUploader;
     private readonly ISvgUploader _svgUploader;
     private readonly ILogger<AdminUploadImageController> _logger;
+    private readonly IImageManager _imageManager;
 
-    public AdminUploadImageController(IImageUploader imageUploader, ISvgUploader svgUploader, ILogger<AdminUploadImageController> logger)
+    public AdminUploadImageController(IImageUploader imageUploader, ISvgUploader svgUploader, ILogger<AdminUploadImageController> logger, IImageManager imageManager)
     {
         _imageUploader = imageUploader;
         _svgUploader = svgUploader;
         _logger = logger;
+        _imageManager = imageManager;
     }
 
     [HttpPost("SVG")]
@@ -182,6 +185,8 @@ public sealed class AdminUploadImageController : ControllerBase
 
         await file.OpenReadStream().CopyToAsync(imageMemoryStream, cancellationToken);
 
+        var isTransparent = _imageManager.HasTransparency(imageMemoryStream);
+
         imageMemoryStream.Seek(0, SeekOrigin.Begin);
 
         var convertParameters = new ImageConvertParameters
@@ -192,14 +197,18 @@ public sealed class AdminUploadImageController : ControllerBase
         var uploadedImageDict = await _imageUploader.ConvertAndStore
         (
             imageStream: imageMemoryStream,
-            setups: DefaultSetups,
+            setups: isTransparent ? DefaultTransparentSetups : DefaultNonTransparentSetups,
             convertParameters,
             cancellationToken
         );
 
-        var image = new Image(new[]{
-            new ImageSource(uploadedImageDict.Values)
-        });
+        var orderedSrcs = uploadedImageDict.Values
+            .OrderByDescending(x => x.Meta.Width)
+            .ThenByDescending(x => x.MimeType.Contains("web")); // webp first)
+
+        var image = new Image([
+            new ImageSource(orderedSrcs)
+        ]);
 
         return TypedResults.Ok(image);
     }
@@ -217,11 +226,11 @@ public sealed class AdminUploadImageController : ControllerBase
         };
     }
 
-    private static ImmutableList<ImageSetup> GenerateImageSetups()
+    private static ImmutableList<ImageSetup> GenerateImageSetups(IEnumerable<ImageFormat> formats)
     {
         // todo: add formats based on image transparency
         // for example Webp|Png
-        ImmutableList<ImageFormat> imageFormats = [ImageFormat.WebP, ImageFormat.Jpeg];
+        var imageFormats = formats.ToImmutableList();
         ImmutableList<int> widths = [160, 320, 480, 640, 960, 1280, 1440, 1920, 2560];
 
         var setups = imageFormats

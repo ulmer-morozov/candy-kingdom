@@ -47,7 +47,7 @@ public abstract class ImageMinBinVendor<T> : ImageMinVendor
 
         if (!File.Exists(input))
         {
-            throw new Exception($"Невозможно минифицировать. Файл не найден: {input}");
+            throw new Exception($"Couldn't minify file. File's not found: {input}");
         }
 
         var args = GetArgs(input, output, options);
@@ -56,7 +56,8 @@ public abstract class ImageMinBinVendor<T> : ImageMinVendor
 
         if (!File.Exists(output))
         {
-            throw new Exception($"Файл не минифицирован: {output}");
+            File.Copy(input, output);
+            Console.WriteLine($"File wasn't minified: {output}");
         }
     }
 
