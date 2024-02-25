@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.10.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.9.0...v0.10.0) (2024-02-25)
+
+
+### Bug Fixes
+
+* svg uploader ([2e92d39](https://github.com/ulmer-morozov/candy-kingdom/commit/2e92d39c063650c64d88867d040a59d3fdcb4dd8))
+
+
+
 # [0.9.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.8.0...v0.9.0) (2024-02-25)
 
 
