@@ -1,5 +1,6 @@
 export * from './seo-form';
 export * from './svg-form';
+export * from './one-image-form';
 export * from './file-form';
 export * from './text-form';
 export * from './lottie-form';
