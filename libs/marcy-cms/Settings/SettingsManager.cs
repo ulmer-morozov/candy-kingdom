@@ -85,7 +85,10 @@ public sealed class SettingsManager<TDbContext> : ISettingsManager
             .Include(x => x.Records)
             .ToListAsync(cancellationToken);
 
-        var groups = groupDbs.Select(ToDto).ToImmutableList2();
+        var groups = groupDbs
+            .Select(ToDto)
+            .OrderBy(x => x.Order)
+            .ToImmutableList2();
 
         return ResultOrError.Success(groups);
     }
@@ -96,7 +99,10 @@ public sealed class SettingsManager<TDbContext> : ISettingsManager
         {
             Id = groupDb.Id,
             Title = groupDb.Title,
-            Records = groupDb.Records.Select(ToDto).ToImmutableList2()
+            Records = groupDb.Records
+                .Select(ToDto)
+                .OrderBy(x => x.Order)
+                .ToImmutableList2()
         };
     }
 
@@ -107,6 +113,7 @@ public sealed class SettingsManager<TDbContext> : ISettingsManager
         setting = setting with
         {
             Id = db.Id,
+            Order = db.Order,
             Title = db.Title
         };
 
