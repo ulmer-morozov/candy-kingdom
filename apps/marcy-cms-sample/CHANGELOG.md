@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.10.0...v0.11.0) (2024-03-05)
+
+
+### Features
+
+* favicon editor added ([0a64942](https://github.com/ulmer-morozov/candy-kingdom/commit/0a649426db7c61bb3225fb1e082e4ab67fa41ea4))
+* open graph image added ([0f8f046](https://github.com/ulmer-morozov/candy-kingdom/commit/0f8f046bec257de4a04cc1d788431b2c2126bc94))
+
+
+
 # [0.10.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.9.0...v0.10.0) (2024-02-25)
 
 

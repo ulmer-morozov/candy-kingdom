@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.10.0...v0.11.0) (2024-03-05)
+
+
+### Features
+
+* open graph image added ([0f8f046](https://github.com/ulmer-morozov/candy-kingdom/commit/0f8f046bec257de4a04cc1d788431b2c2126bc94))
+
+
+
 # [0.10.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.9.0...v0.10.0) (2024-02-25)
 
 
