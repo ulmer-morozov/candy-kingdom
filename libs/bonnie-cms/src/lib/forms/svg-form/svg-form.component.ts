@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, Host, Input, OnInit, inject } from '@angular/core';
 
-import { FormBaseComponent } from '../../core-components/form-base.component';
-import { EditableDirective } from '../../core-components';
-
 import { FileMeta, FileSrc, SvgMeta } from '@candy-kingdom/bonnie';
+
+import { FormBaseComponent } from '../../core-components/form-base.component';
+import { EditableDirective } from '../../core-components/editable.directive';
 
 @Component({
   selector: 'bonc-svg-form',

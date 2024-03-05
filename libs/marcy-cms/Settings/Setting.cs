@@ -21,6 +21,7 @@ public sealed record Setting<T> : Setting, ISetting<T>
 public record Setting
 {
     public Guid Id { get; init; }
+    public int Order { get; init; }
     public string Title { get; init; } = "";
 
     public static Setting<T> NewFromData<T>(T data)

@@ -113,7 +113,7 @@ public sealed class AdminUploadImageController : ControllerBase
 
         var convertParameters = new ImageConvertParameters
         {
-            Minify = false
+            Minify = true
         };
 
         var uploadedImageSrc = await _imageUploader.ConvertAndStore
@@ -129,7 +129,7 @@ public sealed class AdminUploadImageController : ControllerBase
 
     [HttpPost]
     [RequestSizeLimit(50_000_000)]
-    public async Task<Results<BadRequest<string>, Ok<FileSrc<ImageMeta>>>> UploadSingleImage([FromForm] IFormFile file, [FromForm] int width = 0, [FromForm] int height = 0, string format = "", CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<FileSrc<ImageMeta>>>> UploadSingleImage([FromForm] IFormFile file, [FromQuery] int width = 0, [FromQuery] int height = 0, [FromQuery] string format = "", CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
@@ -145,16 +145,18 @@ public sealed class AdminUploadImageController : ControllerBase
 
         await file.OpenReadStream().CopyToAsync(imageMemoryStream, cancellationToken);
 
+        imageMemoryStream.Seek(0, SeekOrigin.Begin);
+
         var imageSetup = new ImageSetup
         {
             Type = ImageTransformType.CropResize,
             Size = new Size(width, height),
-            Format = GetFormatByExtension(string.IsNullOrWhiteSpace(format) ? file.Name : format)
+            Format = GetFormatByExtensionOrMime(string.IsNullOrWhiteSpace(format) ? file.FileName : format)
         };
 
         var convertParameters = new ImageConvertParameters
         {
-            Minify = true
+            Minify = false
         };
 
         var uploadedImageSrc = await _imageUploader.ConvertAndStore
@@ -185,6 +187,7 @@ public sealed class AdminUploadImageController : ControllerBase
         using var imageMemoryStream = new MemoryStream();
 
         await file.OpenReadStream().CopyToAsync(imageMemoryStream, cancellationToken);
+        imageMemoryStream.Seek(0, SeekOrigin.Begin);
 
         var isTransparent = _imageManager.HasTransparency(imageMemoryStream);
 
@@ -213,6 +216,19 @@ public sealed class AdminUploadImageController : ControllerBase
         return TypedResults.Ok(image);
     }
 
+    private static ImageFormat GetFormatByExtensionOrMime(string fileNameOrMime)
+    {
+        var formatFromMime = GetFormatByMimeType(fileNameOrMime);
+
+        if (!formatFromMime.IsEmpty)
+        {
+            return formatFromMime;
+        }
+
+        var formatFromExtension = GetFormatByExtension(fileNameOrMime);
+        return formatFromExtension;
+    }
+
     private static ImageFormat GetFormatByExtension(string fileName)
     {
         var extenision = Path.GetExtension(fileName).ToLowerInvariant();
@@ -222,6 +238,19 @@ public sealed class AdminUploadImageController : ControllerBase
             ".png" => ImageFormat.Png,
             ".jpg" or ".jpeg" => ImageFormat.Jpeg,
             ".webp" => ImageFormat.WebP,
+            _ => ImageFormat.Empty,
+        };
+    }
+
+    private static ImageFormat GetFormatByMimeType(string fileName)
+    {
+        var mime = fileName.ToLowerInvariant();
+
+        return mime switch
+        {
+            "image/png" => ImageFormat.Png,
+            "image/jpeg" => ImageFormat.Jpeg,
+            "image/webp" => ImageFormat.WebP,
             _ => ImageFormat.Empty,
         };
     }

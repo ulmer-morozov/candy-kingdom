@@ -1,0 +1,14 @@
+@use './../../styles/admin-variables.scss' as v;
+
+:host {
+  @include v.admin-form;
+}
+
+img {
+  @include v.checkerboard;
+  display: block;
+}
+
+a {
+  color: silver;
+}

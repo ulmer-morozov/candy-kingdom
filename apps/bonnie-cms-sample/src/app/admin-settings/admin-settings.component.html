@@ -35,6 +35,15 @@
                        [locale]="controls.locale">
         </bonc-svg-form>
 
+        <!-- one image -->
+        <bonc-one-image-form *ngSwitchCase="'marcy-one-image'"
+                             [(ngModel)]="record.data.src"
+                             [mimeTypes]="record.data.allowedMimeTypes"
+                             [uploadUrl]="'/api/admin/upload/image?width=' + record.data.width + '&height='+record.data.height + '&format=' + record.data.format.mimeType"
+                             [label]="record.title"
+                             [locale]="controls.locale">
+        </bonc-one-image-form>
+
         <!-- file -->
         <bonc-file-form *ngSwitchCase="'marcy-file'"
                         [(ngModel)]="record.data.src"
@@ -46,10 +55,10 @@
 
         <!-- file -->
         <bonc-lottie-form *ngSwitchCase="'marcy-lottie'"
-                        [(ngModel)]="record.data.src"
-                        [uploadMap]="genericFileUploadMap"
-                        [label]="record.title"
-                        [locale]="controls.locale">
+                          [(ngModel)]="record.data.src"
+                          [uploadMap]="genericFileUploadMap"
+                          [label]="record.title"
+                          [locale]="controls.locale">
         </bonc-lottie-form>
 
         <!-- unknown -->

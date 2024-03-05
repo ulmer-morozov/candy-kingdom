@@ -56,9 +56,13 @@ public sealed class CmsSampleTypeInfoResolver : DefaultJsonTypeInfoResolver
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                 DerivedTypes =
                 {
+                    // Images
                     new JsonDerivedType(typeof(SvgSettingData), SvgSettingData.SettingDataType),
+                    new JsonDerivedType(typeof(OneImageSettingData), OneImageSettingData.SettingDataType),
+                    // Files
                     new JsonDerivedType(typeof(FileSettingData), FileSettingData.SettingDataType),
                     new JsonDerivedType(typeof(LottieSettingData), LottieSettingData.SettingDataType),
+                    // Text
                     new JsonDerivedType(typeof(TextSettingData), TextSettingData.SettingDataType),
                     new JsonDerivedType(typeof(LocalizedTextSettingData), LocalizedTextSettingData.SettingDataType)
                 }

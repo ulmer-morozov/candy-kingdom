@@ -26,12 +26,14 @@ import { UnknownFormComponent } from './forms/unknown-form/unknown-form.componen
 import { FileUploaderComponent } from './file-uploader';
 import { FileFormComponent } from './forms/file-form';
 import { LottieFormComponent } from './forms/lottie-form/lottie-form.component';
+import { OneImageFormComponent } from './forms/one-image-form/one-image-form.component';
 
 const formComponents = [
   TranslationFormComponent,
   TextFormComponent,
   SeoFormComponent,
   SvgFormComponent,
+  OneImageFormComponent,
   FileFormComponent,
   LottieFormComponent,
   UnknownFormComponent

@@ -47,6 +47,11 @@ public sealed class ImmutableList2<T> : IEquatable<ImmutableList2<T>>, IEnumerab
         return _list.IndexOf(item, index, count, equalityComparer);
     }
 
+    public int IndexOf(T item)
+    {
+        return _list.IndexOf(item);
+    }
+
     public ImmutableList2<T> Insert(int index, T element)
     {
         return _list.Insert(index, element).WithDeepEquality();
