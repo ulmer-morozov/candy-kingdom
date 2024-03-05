@@ -7,5 +7,6 @@ import { IEquatable } from "./i-equatable";
 
 export interface SettingBase {
     id: string;
+    order: number;
     title: string;
 }

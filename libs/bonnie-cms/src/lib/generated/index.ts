@@ -4,14 +4,15 @@
  */
 
 export * from './file-setting-data';
+export * from './setting-group';
+export * from './text-setting-data';
+export * from './one-image-setting-data';
+export * from './lottie-setting-data';
 export * from './i-equatable';
+export * from './setting-base';
+export * from './svg-setting-data';
+export * from './setting-data';
+export * from './setting';
+export * from './text-setting-type';
 export * from './i-setting';
 export * from './localized-text-setting-data';
-export * from './lottie-setting-data';
-export * from './setting-base';
-export * from './setting-data';
-export * from './setting-group';
-export * from './setting';
-export * from './svg-setting-data';
-export * from './text-setting-data';
-export * from './text-setting-type';

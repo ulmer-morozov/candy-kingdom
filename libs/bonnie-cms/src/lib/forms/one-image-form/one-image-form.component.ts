@@ -16,14 +16,13 @@ const DefaultImageMimeTypes = ['image/png', 'image/jpeg'];
 export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>> implements OnInit {
   private readonly cd = inject(ChangeDetectorRef);
 
-  @Input()
-  public label = '';
-
   public uploadMap = new Map<string, string>();
 
   private _mimeTypes = DefaultImageMimeTypes;
 
   private _uploadUrl = '/api/admin/upload/image';
+
+  private _label = ''
 
   constructor(@Host() editable: EditableDirective<FileSrc<ImageMeta>>) {
     super(editable)
@@ -35,6 +34,15 @@ export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>>
     this.editable.externalSaveCall.subscribe(() => {
       this.editable.save();
     });
+  }
+
+  @Input()
+  public set label(newValue: string) {
+    this._label = newValue;
+  }
+
+  public get label(): string {
+    return this._label;
   }
 
   @Input()

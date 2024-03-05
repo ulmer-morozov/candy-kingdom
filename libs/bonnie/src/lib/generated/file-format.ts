@@ -4,11 +4,8 @@
  */
 
 import { IEquatable } from "./i-equatable";
-import { Setting } from "./setting";
 
-export interface SettingGroup {
-    id: string;
-    order: number;
-    title: string;
-    records: Setting<any>[];
+export interface FileFormat {
+    extension: string;
+    mimeType: string;
 }

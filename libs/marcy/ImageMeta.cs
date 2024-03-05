@@ -2,7 +2,7 @@ namespace CandyKingdom.Marcy;
 
 public sealed record ImageMeta : PixMeta
 {
-    public static ImageMeta Empty { get; } = new ImageMeta
+    public static new ImageMeta Empty { get; } = new ImageMeta
     {
         Width = 0,
         Height = 0,

@@ -78,7 +78,7 @@ public sealed class ImageManager : IImageManager
 
             if (needCrop)
             {
-                croppedImage = sourceImage.Crop(top, left, cropWidth, cropHeight);
+                croppedImage = sourceImage.Crop(left, top, cropWidth, cropHeight);
             }
 
             var scale = (float)finalWidth / sourceImage.Width;

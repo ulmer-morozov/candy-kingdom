@@ -16,6 +16,7 @@ public static class CmsJsonSerializationOptions
     public static readonly ImmutableList<JsonConverter> DefaultConverters = [
         new JsonStringEnumConverter(),
         new JsonConverterForLocalizedObject<string>(),
+        new JsonConverterForLocalizedObject<FileSrc<ImageMeta>>(),
         new JsonConverterForLocalizedString()
     ];
 

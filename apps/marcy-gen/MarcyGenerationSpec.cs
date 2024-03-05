@@ -1,4 +1,5 @@
 using CandyKingdom.Marcy;
+using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 
@@ -72,7 +73,7 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface<OpenGraphData>()
             .Member(x => nameof(x.Empty)).Ignore();
 
-        // AddInterface<SettingGroup>()
-
+        AddInterface<FileFormat>()
+            .Member(nameof(FileFormat.Empty)).Ignore();
     }
 }

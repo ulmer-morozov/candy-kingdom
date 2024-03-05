@@ -36,6 +36,7 @@ public sealed class MarcyCmsGenerationSpec : GenerationSpec
 
         AddInterface<OneImageSettingData>()
             .Member(x => nameof(x.Src)).Type("FileSrcImageMeta", "@candy-kingdom/bonnie")
+            .Member(x => nameof(x.Format)).Type("FileFormat", "@candy-kingdom/bonnie")
             .Member(nameof(OneImageSettingData.SettingDataType)).Ignore();
 
         AddInterface<FileSettingData>()

@@ -17,8 +17,7 @@ public sealed class ProjectA : PageFactory<ProjectPageData>
     public override OpenGraphData OpenGraph { get; } = new OpenGraphData
     {
         Title = En("OpenGraph Title of The Project \"A\""),
-        Description = En("OpenGraph Description of The Project \"A\""),
-        Image = En("")
+        Description = En("OpenGraph Description of The Project \"A\"")
     };
     public override ProjectPageData Data { get; } = new ProjectPageData
     {

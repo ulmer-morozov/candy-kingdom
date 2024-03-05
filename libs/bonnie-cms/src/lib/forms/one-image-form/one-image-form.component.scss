@@ -4,9 +4,10 @@
   @include v.admin-form;
 }
 
-img {
+img.img-preview {
   @include v.checkerboard;
   display: block;
+  width: 100%;
 }
 
 a {

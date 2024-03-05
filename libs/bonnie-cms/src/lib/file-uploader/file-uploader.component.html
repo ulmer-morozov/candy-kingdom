@@ -1,4 +1,4 @@
-<div *ngIf="src?.url?.length === undefined || src?.url?.length === 0">Upload file</div>
+<div *ngIf="src === undefined || src.url === undefined || src?.url?.length === 0">Upload file</div>
 
 <ng-content></ng-content>
 

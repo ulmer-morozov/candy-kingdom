@@ -10,6 +10,9 @@ import { EditableDirective, FormBaseComponent } from '../../core-components';
   hostDirectives: [EditableDirective]
 })
 export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implements OnInit {
+  public readonly imageWidth = 1200;
+  public readonly imageHeight = 630;
+
   private _pageId = '';
   public ogImageUploadUrl = '';
 

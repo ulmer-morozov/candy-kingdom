@@ -4,7 +4,7 @@
                       [uploadTypes]="mimeTypes"
                       [uploadUrlMap]="uploadMap"
                       (srcChange)="onFileUploaded($event)">
-    <img *ngIf="editable.value?.url?.length ?? 0 > 0" [src]="editable.value?.url" />
+    <img *ngIf="editable.value?.url?.length ?? 0 > 0" [src]="editable.value?.url" class="img-preview" />
   </bonc-file-uploader>
 
   <a *ngIf="editable.value?.url?.length ?? 0 > 0" [href]="editable.value!.url" download target="_blank">Download</a>
