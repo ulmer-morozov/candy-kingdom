@@ -28,7 +28,14 @@ export const APP_Routes: Route[] = [
     resolve: {
       page: (route: ActivatedRouteSnapshot) => inject(DataService).getPage(route.url.join('/')),
       faceView: () => inject(DataService).getView('face'),
-      settings: () => inject(DataService).getSettings([CmsSampleSettingIds.email, CmsSampleSettingIds.company, CmsSampleSettingIds.description])
+      settings: () => inject(DataService).getSettings([
+        CmsSampleSettingIds.email,
+        CmsSampleSettingIds.company,
+        CmsSampleSettingIds.description,
+        CmsSampleSettingIds.faviconIco,
+        CmsSampleSettingIds.faviconSvg,
+        CmsSampleSettingIds.faviconAppleTouch180,
+      ])
     }
   },
 ];

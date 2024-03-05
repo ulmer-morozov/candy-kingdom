@@ -4,7 +4,7 @@
   @include v.admin-form;
 }
 
-img.img-preview {
+img {
   @include v.checkerboard;
   display: block;
   width: 100%;
