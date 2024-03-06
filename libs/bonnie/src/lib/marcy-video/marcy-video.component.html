@@ -11,6 +11,7 @@
            [src]="source !== undefined ? source.url :'' "
            (load)="onLoad()"
            (canplay)="video.muted=true;video.play();"
+           playsInline
            autoplay
            loop
            muted> </video>
