@@ -112,25 +112,27 @@ export class FileUploaderComponent {
   private getEventMessage(event: HttpEvent<FileSrc<FileMeta>>): void {
     switch (event.type) {
       case HttpEventType.Sent:
-        return;
+        break;
 
       case HttpEventType.UploadProgress:
         this.progress = event.total === undefined ? 0.5 : event.loaded / event.total;
         this.updateClip();
-        return;
+        break;
 
       case HttpEventType.Response:
         if (event.body === null || event.body === undefined) {
           console.warn(`empty body from uploader`);
-          return;
+          break;
         }
 
         this.srcChange.emit(event.body);
-        return;
+        break;
 
       default:
-        return;
+        break;
     }
+
+    this.cd.detectChanges()
   }
 
   private updateClip(): void {
