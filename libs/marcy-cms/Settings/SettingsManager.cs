@@ -98,6 +98,7 @@ public sealed class SettingsManager<TDbContext> : ISettingsManager
         return new SettingGroup
         {
             Id = groupDb.Id,
+            Order = groupDb.Order,
             Title = groupDb.Title,
             Records = groupDb.Records
                 .Select(ToDto)
