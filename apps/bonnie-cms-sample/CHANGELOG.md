@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.13.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.12.0...v0.13.0) (2024-03-06)
+
+
+### Bug Fixes
+
+* seo form image ([1560947](https://github.com/ulmer-morozov/candy-kingdom/commit/1560947a327f24637d68c83457e7c10472758949))
+
+
+
 # [0.12.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.11.0...v0.12.0) (2024-03-06)
 
 
