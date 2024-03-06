@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { catchError, last, map, Observable } from 'rxjs';
@@ -44,7 +44,7 @@ export class MediaUploaderComponent {
   private _uploadType?: MediaType;
   private _src?: PixMediaUnion;
 
-  constructor(private sanitizer: DomSanitizer, private http: HttpClient) {
+  constructor(private sanitizer: DomSanitizer, private http: HttpClient, private cd: ChangeDetectorRef) {
   }
 
   @Input()
@@ -152,12 +152,12 @@ export class MediaUploaderComponent {
   private getEventMessage(event: HttpEvent<PixMediaUnion>): void {
     switch (event.type) {
       case HttpEventType.Sent:
-        return;
+        break;
 
       case HttpEventType.UploadProgress:
         this.progress = event.total === undefined ? 0.5 : event.loaded / event.total;
         this.updateClip();
-        return;
+        break;
 
       case HttpEventType.Response:
         if (event.body === undefined || event.body === null) {
@@ -172,11 +172,13 @@ export class MediaUploaderComponent {
 
           this.srcChange.emit(pixmedia);
         }
-        return;
+        break;
 
       default:
-        return;
+        break;
     }
+
+    this.cd.detectChanges();
   }
 
   private updateClip(): void {
