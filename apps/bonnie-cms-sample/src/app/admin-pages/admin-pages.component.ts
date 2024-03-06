@@ -52,6 +52,7 @@ export default class AdminPagesComponent {
 
     catch (e) {
       console.error(e);
+      alert(`Error: ${JSON.stringify(e)}`);
     }
   }
 }

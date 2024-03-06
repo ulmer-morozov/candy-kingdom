@@ -24,11 +24,14 @@
   <div class="form-group">
     <label>Share image | 1200x630</label>
 
-    <bonc-one-image-form [(ngModel)]="editable.value.image"
-                         [uploadUrl]="'/api/admin/upload/image?width=' + imageWidth + '&height='+imageHeight + '&format=image/jpeg'"
-                         [locale]="locale">
-    </bonc-one-image-form>
+    <bonc-file-uploader [src]="editable.value.image[locale]"
+                        [uploadTypes]="['image/png', 'image/jpeg']"
+                        [uploadUrlMap]="uploadMap"
+                        (srcChange)="replaceImage($event)">
+      <img *ngIf="editable.value.image[locale]?.url?.length ?? 0 > 0" [src]="editable.value.image[locale].url" />
+    </bonc-file-uploader>
 
+    <a *ngIf="editable.value.image[locale]?.url?.length ?? 0 > 0" [href]="editable.value.image[locale].url" download target="_blank">Download</a>
   </div>
 
 </bonc-form-controls>

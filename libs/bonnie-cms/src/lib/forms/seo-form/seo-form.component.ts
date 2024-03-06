@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { OpenGraphData } from '@candy-kingdom/bonnie';
+import { FileMeta, FileSrc, ImageMeta, OpenGraphData } from '@candy-kingdom/bonnie';
 
 import { EditableDirective, FormBaseComponent } from '../../core-components';
+
+const uploadMap = new Map<string, string>();
+uploadMap.set('', `/api/admin/upload/image?width=${1200}&height=${630}&format=image/jpeg`);
 
 @Component({
   selector: 'bonc-seo-form',
@@ -10,8 +13,7 @@ import { EditableDirective, FormBaseComponent } from '../../core-components';
   hostDirectives: [EditableDirective]
 })
 export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implements OnInit {
-  public readonly imageWidth = 1200;
-  public readonly imageHeight = 630;
+  public readonly uploadMap = uploadMap;
 
   private _pageId = '';
   public ogImageUploadUrl = '';
@@ -37,5 +39,15 @@ export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implement
 
   public ResToSrc(res: { url: string }): string {
     return res.url;
+  }
+
+  public replaceImage($event: FileSrc<FileMeta>): void {
+    this.editable.startEditing();
+
+    if (this.editable.value !== undefined) {
+      this.editable.value.image[this.locale] = $event as FileSrc<ImageMeta>;
+    }
+
+    this.editable.updateDirty();
   }
 }
