@@ -87,7 +87,7 @@ public sealed class AdminUploadVideoController : ControllerBase
 
     [HttpPost("Complex")]
     [RequestSizeLimit(100_000_000)]
-    public async Task<Results<BadRequest<string>, Ok<Video>>> UploadVideo([FromForm] IFormFile file, bool removeAudio = false, CancellationToken cancellationToken = default)
+    public async Task<Results<BadRequest<string>, Ok<Video>>> UploadVideo([FromForm] IFormFile file, [FromQuery] bool removeAudio = false, CancellationToken cancellationToken = default)
     {
         if (file == null)
         {
