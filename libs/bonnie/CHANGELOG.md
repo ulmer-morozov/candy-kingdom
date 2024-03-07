@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.14.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.13.0...v0.14.0) (2024-03-07)
+
+
+### Bug Fixes
+
+* mobile video playsinline ([780ea74](https://github.com/ulmer-morozov/candy-kingdom/commit/780ea74e2008f43ade3a0b17dd4320b13176a565))
+
+
+
 # [0.13.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.12.0...v0.13.0) (2024-03-06)
 
 
