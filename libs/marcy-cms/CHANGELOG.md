@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.15.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.14.0...v0.15.0) (2024-03-07)
+
+
+### Bug Fixes
+
+* removeAudio query added ([2fb16c0](https://github.com/ulmer-morozov/candy-kingdom/commit/2fb16c0f9ae98536c1dbd1c6287c81c348f44b45))
+
+
+
 # [0.14.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.13.0...v0.14.0) (2024-03-07)
 
 
