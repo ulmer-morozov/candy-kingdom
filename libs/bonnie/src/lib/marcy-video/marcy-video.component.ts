@@ -155,12 +155,14 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
                 continue;
 
             // SSR
-            if (typeof this.videoRef.nativeElement.canPlayType !== 'function') {
+            if (typeof this.videoRef.nativeElement?.canPlayType !== 'function') {
                 // return first mp4, because all players can play them
                 const mp4Srcs = videoSource
                     .srcSet
                     .filter(x => x.mimeType === 'video/mp4')
                     .sort(descendingT(x => x.meta.width)); // bigest video
+
+                console.log(`ssr found video ${mp4Srcs[0].url}`)
 
                 // element or undefined
                 return mp4Srcs[0];
@@ -182,12 +184,16 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
 
                 const currentDiff = fileSrc.meta.width - realPixelsVideoWidth;
 
+                console.log(`browser video currentDiff ${currentDiff}`)
+
                 // too big video source width
                 if (currentDiff > 0)
                     break;
 
                 bestSrc = fileSrc;
             }
+
+            console.log(`browser found suitable video ${bestSrc.url}`)
 
             return bestSrc;
         }

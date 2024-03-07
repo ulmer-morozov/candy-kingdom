@@ -10,7 +10,7 @@ public sealed record ImageSource : MediaSource<ImageMeta>
 
     [JsonConstructor]
     public ImageSource(ImmutableList2<FileSrc<ImageMeta>> srcSet)
-        : base(srcSet)
+        : base(srcSet.OrderByDescending(x => x.Meta.Width).ThenByDescending(x => x.MimeType.Contains("web")))
     {
     }
 

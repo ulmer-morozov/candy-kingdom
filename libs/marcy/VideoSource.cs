@@ -8,7 +8,7 @@ public sealed record VideoSource : MediaSource<VideoMeta>
 {
     [JsonConstructor]
     public VideoSource(ImmutableList2<FileSrc<VideoMeta>> srcSet)
-        : base(srcSet)
+        : base(srcSet.OrderByDescending(x => x.Meta.Width).ThenByDescending(x => x.MimeType.Contains("web")))
     {
     }
 
