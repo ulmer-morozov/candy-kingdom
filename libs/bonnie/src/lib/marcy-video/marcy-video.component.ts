@@ -178,11 +178,11 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
         .filter(x => this.videoRef.nativeElement.canPlayType(x.mimeType))
         .sort((a, b) => {
           if (a.meta.width === b.meta.width) {
-            return isWebM(a) ? 1 : -1; // if same width prefer webM
+            return isWebM(a) ? -1 : 1; // if same width prefer webM
           }
 
           // else prefer smallest
-          return a.meta.width <= b.meta.width ? 1 : -1;
+          return a.meta.width <= b.meta.width ? -1 : 1;
         }); // smallest video
 
       if (fileSrcs.length === 0)
