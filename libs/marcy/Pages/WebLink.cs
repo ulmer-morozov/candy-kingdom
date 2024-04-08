@@ -1,6 +1,4 @@
-using CandyKingdom.Marcy;
-
-namespace CandyKingdom.MarcyCms.Sample.Bones;
+namespace CandyKingdom.Marcy.Pages;
 
 public sealed record WebLink
 {

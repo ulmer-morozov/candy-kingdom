@@ -1,5 +1,6 @@
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
+using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 
 namespace CandyKingdom.MarcyCms.Sample.Bones;
