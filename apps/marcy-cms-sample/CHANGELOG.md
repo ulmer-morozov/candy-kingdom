@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.20.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.19.0...v0.20.0) (2024-04-08)
+
+
+
 # [0.19.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.18.0...v0.19.0) (2024-03-07)
 
 
