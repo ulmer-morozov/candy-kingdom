@@ -35,6 +35,18 @@ public sealed class SmartJsonProducer : ISmartJsonProducer
       ImmutableList<VideoSetup> videoSetups
     )
     {
+        return SerializeAndInject(obj, typeof(T), jsonSerializerOptions, convertParameters, imageSetups, videoSetups);
+    }
+
+    public string SerializeAndInject(
+      object? obj,
+      Type inputType,
+      JsonSerializerOptions jsonSerializerOptions,
+      ImageConvertParameters convertParameters,
+      ImmutableList<ImageSetup> imageSetups,
+      ImmutableList<VideoSetup> videoSetups
+    )
+    {
         var cacheDir = new DirectoryInfo(Path.Combine("marcy-cache"));
 
         var imageResizeConverter = new ImageResizeConverter(
@@ -57,7 +69,7 @@ public sealed class SmartJsonProducer : ISmartJsonProducer
         jsonSerializerOptions.Converters.Add(imageResizeConverter);
         jsonSerializerOptions.Converters.Add(videoConverter);
 
-        var imageJson = JsonSerializer.Serialize(obj, jsonSerializerOptions);
+        var imageJson = JsonSerializer.Serialize(obj, inputType, jsonSerializerOptions);
 
         return imageJson;
     }
