@@ -7,7 +7,7 @@ public abstract class PageFactory<T> : PageFactory
 {
     public abstract T Data { get; }
 
-    public override Page Create(string baseUrl)
+    public override Page<T> Create(string baseUrl)
     {
         var page = base.Create(baseUrl);
 
