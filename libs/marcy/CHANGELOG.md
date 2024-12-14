@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.22.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.21.0...v0.22.0) (2024-12-14)
+
+
+### Features
+
+* add child typisation ([6029f48](https://github.com/ulmer-morozov/candy-kingdom/commit/6029f4897dcd1081fbf9ef278fc79f5f68ab742c))
+
+
+
 # [0.21.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.20.0...v0.21.0) (2024-12-14)
 
 
