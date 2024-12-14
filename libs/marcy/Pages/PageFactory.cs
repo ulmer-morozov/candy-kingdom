@@ -18,6 +18,12 @@ public abstract class PageFactory<T> : PageFactory
 
         return newPage;
     }
+
+    public override PageFactory<T> AddChild<TAction>(Action<TAction>? instanceAction = null)
+    {
+        base.AddChild(instanceAction);
+        return this;
+    }
 }
 
 public abstract class PageFactory : SkeletonFactory
@@ -36,7 +42,7 @@ public abstract class PageFactory : SkeletonFactory
         return this;
     }
 
-    public PageFactory AddChild<T>(Action<T>? instanceAction = null)
+    public virtual PageFactory AddChild<T>(Action<T>? instanceAction = null)
         where T : PageFactory, new()
     {
         var instance = new T();
