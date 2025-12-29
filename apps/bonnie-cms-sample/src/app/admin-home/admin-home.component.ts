@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../service';
 import { CommonModule } from '@angular/common';
 
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 export default class AdminHomeComponent implements OnInit {
   public isSignedIn: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  private readonly authService = inject(AuthService);
 
   ngOnInit(): void {
     this.authService.onStateChanged().forEach((state: boolean) => {

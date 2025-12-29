@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, Optional, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, inject } from '@angular/core';
 import { BehaviorSubject, filter } from 'rxjs';
 
 import * as MCore from '../generated';
@@ -37,22 +37,20 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
 
   private _objectFit = MediaObjectFit.Original;
 
-  constructor
-    (
-      public readonly device: DeviceServiceBase,
-      public readonly cd: ChangeDetectorRef,
-      private readonly _u: UnsubscriberService,
-      @Optional() srcDir?: VideoSrcDirective
-    ) {
+  public readonly device = inject(DeviceServiceBase);
+  public readonly cd = inject(ChangeDetectorRef);
+  private readonly _u = inject(UnsubscriberService);
+  private readonly _srcDir = inject(VideoSrcDirective, { optional: true });
 
+  constructor() {
     console.log('MarcyVideoComponent ctor');
 
-    if (srcDir === undefined || srcDir === null)
+    if (this._srcDir === undefined || this._srcDir === null)
       throw new Error(`${MarcyVideoComponent.name} should have [vidsrc] directive as source object`);
 
-    this.src = srcDir;
+    this.src = this._srcDir;
 
-    cd.detach();
+    this.cd.detach();
   }
 
   public ngOnInit(): void {

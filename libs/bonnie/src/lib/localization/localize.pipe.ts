@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LocalizeServiceBase } from './LocalizeServiceBase';
 import { LocalizedObject, LocalizedString } from '../generated';
@@ -7,8 +7,7 @@ import { LocalizedObject, LocalizedString } from '../generated';
 
 @Pipe({ name: 'localize', pure: false })
 export class LocalizePipe implements PipeTransform {
-  constructor(private readonly localizeService: LocalizeServiceBase) {
-  }
+  private readonly localizeService = inject(LocalizeServiceBase);
 
   public transform(value: LocalizedString, locale?: string): string {
     if (value === undefined || value === null)
@@ -20,7 +19,7 @@ export class LocalizePipe implements PipeTransform {
 
 @Pipe({ name: 'localizeObject', pure: false })
 export class LocalizeObjectPipe implements PipeTransform {
-  constructor(private readonly localizeService: LocalizeServiceBase) { }
+  private readonly localizeService = inject(LocalizeServiceBase);
 
   public transform<T>(object: LocalizedObject<T>, locale?: string): T | undefined {
     if (object === undefined || object === null)
@@ -32,7 +31,7 @@ export class LocalizeObjectPipe implements PipeTransform {
 
 @Pipe({ name: 'localizationIsNotEmpty', pure: false })
 export class LocalizationIsNotEmptyPipe implements PipeTransform {
-  constructor(private readonly localizeService: LocalizeServiceBase) { }
+  private readonly localizeService = inject(LocalizeServiceBase);
 
   public transform(value: LocalizedString, locale?: string): boolean {
     if (value === undefined || value === null)
@@ -47,7 +46,7 @@ export class LocalizationIsNotEmptyPipe implements PipeTransform {
 
 @Pipe({ name: 'localizationIsEmpty', pure: false })
 export class LocalizationIsEmptyPipe implements PipeTransform {
-  constructor(private readonly localizeService: LocalizeServiceBase) { }
+  private readonly localizeService = inject(LocalizeServiceBase);
 
   public transform(value: LocalizedString, locale?: string): boolean {
 
@@ -64,9 +63,8 @@ export class LocalizationIsEmptyPipe implements PipeTransform {
 
 @Pipe({ name: 'localizeUrl', pure: false })
 export class LocalizeUrlPipe implements PipeTransform {
-  constructor(private readonly localizeService: LocalizeServiceBase, private readonly domSanitizer: DomSanitizer) {
-
-  }
+  private readonly localizeService = inject(LocalizeServiceBase);
+  private readonly domSanitizer = inject(DomSanitizer);
 
   public transform(value: LocalizedString, locale?: string): SafeResourceUrl {
     if (value === undefined || value === null)
@@ -80,7 +78,7 @@ export class LocalizeUrlPipe implements PipeTransform {
 
 @Pipe({ name: 'isLocalUrl', pure: false })
 export class IsLocalUrlPipe implements PipeTransform {
-  constructor(private readonly localizeService: LocalizeServiceBase) { }
+  private readonly localizeService = inject(LocalizeServiceBase);
 
   public transform(value: LocalizedString, locale?: string): boolean {
 
@@ -94,7 +92,7 @@ export class IsLocalUrlPipe implements PipeTransform {
 
 @Pipe({ name: 'isNotLocalUrl', pure: false })
 export class IsNotLocalUrlPipe implements PipeTransform {
-  constructor(private readonly localizeService: LocalizeServiceBase) { }
+  private readonly localizeService = inject(LocalizeServiceBase);
 
   public transform(value: LocalizedString, locale?: string): boolean {
 

@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable, combineLatest, map, merge, mergeMap, of } from 'rxjs';
 
 import { PageBase, View } from '@candy-kingdom/bonnie';
@@ -13,8 +13,8 @@ export type SettingDataDict = { [id: string]: SettingData };
 
 @Injectable()
 export class DataService {
-  constructor(private readonly http: HttpClient, @Inject(API_BASE_URL) private baseHref: string) {
-  }
+  private readonly http = inject(HttpClient);
+  private readonly baseHref = inject(API_BASE_URL);
 
   public getView(viewCode: string): Observable<Readonly<PageBase>> {
     const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/views/${viewCode}`);

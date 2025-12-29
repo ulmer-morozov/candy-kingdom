@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -7,8 +7,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class RouterLocalizeService extends LocalizeServiceBase {
   private readonly localeSubject: BehaviorSubject<string>;
   public readonly locale$: Observable<string>;
+  private readonly route = inject(ActivatedRoute);
 
-  constructor(route: ActivatedRoute) {
+  constructor() {
     super();
 
     this.localeSubject = new BehaviorSubject('');
@@ -29,12 +30,12 @@ export class RouterLocalizeService extends LocalizeServiceBase {
       this.localeSubject.next(newLocale);
     }
 
-    route.params.subscribe
+    this.route.params.subscribe
       (
         (param: Params) => next(param['locale'] as string)
       );
 
-    route.data.subscribe
+    this.route.data.subscribe
       (
         (param: Params) => next(param['locale'] as string)
       );

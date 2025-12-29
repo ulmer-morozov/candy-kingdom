@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Directive, OnInit, inject } from '@angular/core';
 import { Bone } from '../generated';
 import { UnsubscriberService } from '../core/unsubscribe.service';
 import { LocalizeServiceBase } from '../localization/LocalizeServiceBase';
@@ -10,9 +10,11 @@ import { LocalizeServiceBase } from '../localization/LocalizeServiceBase';
 export class BoneDirective<T extends Bone = Bone> implements OnInit {
   private _bone?: T;
 
-  constructor(private readonly cd: ChangeDetectorRef,
-    private readonly _u: UnsubscriberService,
-    private readonly localizationService: LocalizeServiceBase) {
+  private readonly cd = inject(ChangeDetectorRef);
+  private readonly _u = inject(UnsubscriberService);
+  private readonly localizationService = inject(LocalizeServiceBase);
+
+  constructor() {
     this.cd.detach();
   }
 

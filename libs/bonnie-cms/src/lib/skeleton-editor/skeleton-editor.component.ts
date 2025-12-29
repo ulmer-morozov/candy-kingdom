@@ -1,4 +1,4 @@
-import { Component, Host, Input, OnChanges, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
 
 import { Bone } from '@candy-kingdom/bonnie';
 import { BoneEditorContainerComponent } from './bone-editor-container/bone-editor-container.component';
@@ -26,9 +26,7 @@ export class SkeletonEditorComponent implements OnInit, OnChanges {
 
   public readonly templatesAreShown: boolean[] = [];
 
-  constructor(@Host() public editable: EditableDirective<Bone[]>) {
-
-  }
+  public readonly editable = inject(EditableDirective<Bone[]>, { host: true });
 
   public ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {

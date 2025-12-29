@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Observable } from 'rxjs';
 
 import { PageBase } from "@candy-kingdom/bonnie";
@@ -9,8 +9,11 @@ import { API_BASE_URL } from "./API_BASE_URL";
 
 @Injectable()
 export class AdminDataService {
-  constructor(private readonly http: HttpClient, @Inject(API_BASE_URL) private baseHref: string) {
-    console.log('baseHref: ' + baseHref);
+  private readonly http = inject(HttpClient);
+  private readonly baseHref = inject(API_BASE_URL);
+
+  constructor() {
+    console.log('baseHref: ' + this.baseHref);
   }
 
   public getSettingGroups(): Observable<SettingGroup[]> {

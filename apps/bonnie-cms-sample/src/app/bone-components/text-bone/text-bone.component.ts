@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { BoneDirective } from '@candy-kingdom/bonnie';
 
 import { TextBone } from '../../generated';
@@ -10,8 +10,11 @@ import { TextBone } from '../../generated';
   hostDirectives: [BoneDirective]
 })
 export class TextBoneComponent implements OnInit {
-  constructor(private readonly cd: ChangeDetectorRef, public readonly bd: BoneDirective<TextBone>) {
-    cd.detach();
+  private readonly cd = inject(ChangeDetectorRef);
+  public readonly bd = inject(BoneDirective<TextBone>, { host: true });
+
+  constructor() {
+    this.cd.detach();
   }
 
   public ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -22,10 +22,10 @@ export default class RegisterComponent implements OnInit {
   registerSucceeded: boolean = false;
   signedIn: boolean = false;
 
-  constructor(
-    private authService: AuthService,
-    private formBuilder: FormBuilder
-  ) {
+  private readonly authService = inject(AuthService);
+  private readonly formBuilder = inject(FormBuilder);
+
+  constructor() {
     this.authService.isSignedIn().forEach((isSignedIn) => {
       this.signedIn = isSignedIn;
     });

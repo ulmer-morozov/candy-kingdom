@@ -1,4 +1,4 @@
-import { Component, Host, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 
 import { EditableDirective } from './editable.directive';
 
@@ -11,7 +11,7 @@ export abstract class FormBaseComponent<TData = unknown> {
   protected name = '';
   private _locale = '';
 
-  constructor(@Host() public readonly editable: EditableDirective<TData>) { }
+  public readonly editable = inject(EditableDirective<TData>, { host: true });
 
   @Input()
   public set locale(value: string) {

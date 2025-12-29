@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,11 +20,11 @@ export default class SignInComponent implements OnInit {
   authFailed: boolean = false;
   signedIn: boolean = false;
 
-  constructor(
-    private authService: AuthService,
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {
+  private readonly authService = inject(AuthService);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+
+  constructor() {
     this.authService.isSignedIn().forEach((isSignedIn) => {
       this.signedIn = isSignedIn;
     });

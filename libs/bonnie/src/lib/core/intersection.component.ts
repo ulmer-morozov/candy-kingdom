@@ -1,5 +1,5 @@
-import { ElementRef, OnInit, OnDestroy, Component, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
-import { BehaviorSubject, Observable, filter, skip } from 'rxjs';
+import { ElementRef, OnInit, OnDestroy, Component, Output, EventEmitter, Input, ChangeDetectorRef, inject } from '@angular/core';
+import { BehaviorSubject, filter } from 'rxjs';
 import { UnsubscriberService } from './unsubscribe.service';
 
 @Component({
@@ -12,13 +12,17 @@ export class IntersectionComponent implements OnInit, OnDestroy {
     @Output()
     public readonly intersected = new EventEmitter<void>();
 
+    private readonly _hostRef = inject(ElementRef);
+    private readonly _u = inject(UnsubscriberService);
+    private readonly _cd = inject(ChangeDetectorRef);
+
     private readonly intersectionObserver?: IntersectionObserver;
     private readonly _intersectSubject = new BehaviorSubject<boolean>(false);
 
     private _session: any;
 
-    constructor(private readonly _hostRef: ElementRef, private readonly _u: UnsubscriberService, cd: ChangeDetectorRef) {
-        cd.detach();
+    constructor() {
+        this._cd.detach();
         // no template with variables, so we don't need to call changeDetection
 
         if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {

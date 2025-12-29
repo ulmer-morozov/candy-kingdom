@@ -16,11 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_Routes, withComponentInputBinding()),
     {
       provide: HTTP_INTERCEPTORS,
-      useFactory: (router: Router) => {
-        return new AuthInterceptor(router);
-      },
+      useClass: AuthInterceptor,
       multi: true,
-      deps: [Router],
     },
 
     provideLottieOptions({

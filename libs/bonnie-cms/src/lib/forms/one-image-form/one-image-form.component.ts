@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Host, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 
 import { FileMeta, FileSrc, ImageMeta } from '@candy-kingdom/bonnie';
 
@@ -24,8 +24,8 @@ export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>>
 
   private _label = ''
 
-  constructor(@Host() editable: EditableDirective<FileSrc<ImageMeta>>) {
-    super(editable)
+  constructor() {
+    super()
 
     this.uploadMap.set('', this._uploadUrl);
   }

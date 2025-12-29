@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, EventEmitter, Input, OnChanges, Output, ViewChild, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Bone } from '@candy-kingdom/bonnie';
@@ -46,8 +46,7 @@ export class BoneEditorContainerComponent implements OnChanges {
   @Input()
   public device = DeviceType.NotSet;
 
-  constructor(private readonly componentFactoryResolver: ComponentFactoryResolver) {
-  }
+  private readonly componentFactoryResolver = inject(ComponentFactoryResolver);
 
   ngOnChanges(): void {
     if (this.editor === undefined || this.editor === null)

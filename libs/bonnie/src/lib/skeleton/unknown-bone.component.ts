@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { IBoneComponent } from "./IBoneComponent";
 import { Bone } from '../generated';
 import { BoneDirective } from './bone.directive';
@@ -17,9 +17,12 @@ import { BoneDirective } from './bone.directive';
   ]
 })
 export class UnknownBoneComponent implements IBoneComponent {
-  constructor(private readonly cd: ChangeDetectorRef, public readonly bd: BoneDirective<Bone>) {
-    console.log('BoneDirective', bd);
-    cd.detach();
+  private readonly cd = inject(ChangeDetectorRef);
+  public readonly bd = inject(BoneDirective<Bone>, { host: true });
+
+  constructor() {
+    console.log('BoneDirective', this.bd);
+    this.cd.detach();
   }
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { catchError, last, map, Observable } from 'rxjs';
@@ -44,8 +44,9 @@ export class MediaUploaderComponent {
   private _uploadType?: MediaType;
   private _src?: PixMediaUnion;
 
-  constructor(private sanitizer: DomSanitizer, private http: HttpClient, private cd: ChangeDetectorRef) {
-  }
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly http = inject(HttpClient);
+  private readonly cd = inject(ChangeDetectorRef);
 
   @Input()
   public set src(newSrc: PixMediaUnion | undefined) {

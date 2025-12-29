@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
 
 import { BoneDirective } from '@candy-kingdom/bonnie';
 import { MediaBone, MediaBoneStyle } from '../../generated';
@@ -12,8 +12,11 @@ import { MediaBone, MediaBoneStyle } from '../../generated';
 export class MediaBoneComponent implements OnInit {
   public readonly MediaBoneStyle = MediaBoneStyle;
 
-  constructor(private readonly cd: ChangeDetectorRef, public readonly bd: BoneDirective<MediaBone>) {
-    cd.detach();
+  private readonly cd = inject(ChangeDetectorRef);
+  public readonly bd = inject(BoneDirective<MediaBone>, { host: true });
+
+  constructor() {
+    this.cd.detach();
   }
 
   public ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
 import { BoneDirective } from '@candy-kingdom/bonnie';
 import { PageListBone, PageListBoneStyle } from '../../generated';
 
@@ -11,8 +11,11 @@ import { PageListBone, PageListBoneStyle } from '../../generated';
 export class PageListBoneComponent implements OnInit {
   public readonly PageListBoneStyle = PageListBoneStyle;
 
-  constructor(private readonly cd: ChangeDetectorRef, public readonly bd: BoneDirective<PageListBone>) {
-    cd.detach();
+  private readonly cd = inject(ChangeDetectorRef);
+  public readonly bd = inject(BoneDirective<PageListBone>, { host: true });
+
+  constructor() {
+    this.cd.detach();
   }
 
   @HostBinding('class')

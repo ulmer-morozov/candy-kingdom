@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { BehaviorSubject, Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
 
 import * as MCore from '../generated';
@@ -22,7 +22,10 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements On
 
     private _data?: T;
 
-    constructor(private readonly _u: UnsubscriberService, private readonly cd: ChangeDetectorRef) {
+    private readonly _u = inject(UnsubscriberService);
+    private readonly cd = inject(ChangeDetectorRef);
+
+    constructor() {
         console.log('SrcBaseDirective ctor');
         this.cd.detach();
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../service';
 import { CommonModule } from '@angular/common';
@@ -24,7 +24,8 @@ import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
 export default class AdminComponent implements OnInit {
   public isSignedIn: boolean = false;
 
-  constructor(private auth: AuthService, private router: Router) { }
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   ngOnInit() {
     this.auth.onStateChanged().forEach(() => {

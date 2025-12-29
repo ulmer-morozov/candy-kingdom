@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Host, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 
 import { FileMeta, FileSrc, SvgMeta } from '@candy-kingdom/bonnie';
 
@@ -23,8 +23,8 @@ export class SvgFormComponent extends FormBaseComponent<FileSrc<SvgMeta>> implem
 
   private _uploadUrl = '/api/admin/upload/image/svg';
 
-  constructor(@Host() editable: EditableDirective<FileSrc<SvgMeta>>) {
-    super(editable)
+  constructor() {
+    super()
 
     this.uploadMap.set(this.SvgMime, this._uploadUrl);
   }

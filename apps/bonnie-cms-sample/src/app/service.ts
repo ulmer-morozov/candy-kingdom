@@ -3,7 +3,7 @@ import {
   HttpErrorResponse,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UserInfo } from './dto';
 import {
   BehaviorSubject,
@@ -18,7 +18,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   private _authStateChanged: Subject<boolean> = new BehaviorSubject<boolean>(
     false
