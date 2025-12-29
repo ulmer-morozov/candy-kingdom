@@ -1,22 +1,24 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal, effect, Signal } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class RouterLocalizeService extends LocalizeServiceBase {
-  private readonly localeSubject: BehaviorSubject<string>;
-  public readonly locale$: Observable<string>;
+  private readonly _locale = signal<string>('');
+  public readonly locale: Signal<string>;
   private readonly route = inject(ActivatedRoute);
 
   constructor() {
     super();
 
-    this.localeSubject = new BehaviorSubject('');
-    this.locale$ = this.localeSubject.asObservable();
+    // Expose signal as read-only
+    this.locale = this._locale.asReadonly();
 
-    this.localeSubject.subscribe(x => {
-      console.log(`new locale ${x}`);
+    console.log(`new locale ${this._locale()}`);
+
+    // Watch locale changes for logging and emit to subject
+    effect(() => {
+      console.log(`new locale ${this._locale()}`);
     });
 
     const next = (newLocale?: string) => {
@@ -24,10 +26,10 @@ export class RouterLocalizeService extends LocalizeServiceBase {
 
       newLocale = newLocale?.toLowerCase() ?? defaultLocale;
 
-      if (newLocale.length === 0 || this.localeSubject.value === newLocale)
+      if (newLocale.length === 0 || this._locale() === newLocale)
         return;
 
-      this.localeSubject.next(newLocale);
+      this._locale.set(newLocale);
     }
 
     this.route.params.subscribe
@@ -39,9 +41,5 @@ export class RouterLocalizeService extends LocalizeServiceBase {
       (
         (param: Params) => next(param['locale'] as string)
       );
-  }
-
-  public override get locale(): string {
-    return this.localeSubject.value;
   }
 }

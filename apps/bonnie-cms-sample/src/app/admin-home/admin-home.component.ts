@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, EffectRef, OnDestroy, effect, inject } from '@angular/core';
 import { AuthService } from '../service';
 import { CommonModule } from '@angular/common';
 
@@ -8,17 +8,19 @@ import { CommonModule } from '@angular/common';
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
 })
-export default class AdminHomeComponent implements OnInit {
+export default class AdminHomeComponent implements OnDestroy {
   public isSignedIn: boolean = false;
 
   private readonly authService = inject(AuthService);
+  private readonly _effectCleanup?: EffectRef;
 
-  ngOnInit(): void {
-    this.authService.onStateChanged().forEach((state: boolean) => {
-      this.isSignedIn = state;
+  constructor() {
+    effect(() => {
+      this.isSignedIn = this.authService.authState();
     });
-    this.authService.isSignedIn().forEach((signedIn: boolean) => {
-      this.isSignedIn = signedIn;
-    });
+  }
+
+  ngOnDestroy(): void {
+    this._effectCleanup?.destroy();
   }
 }

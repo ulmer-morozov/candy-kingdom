@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, inject } from '@angular/core';
-import { BehaviorSubject, filter } from 'rxjs';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, inject, signal, effect, EffectRef } from '@angular/core';
 
 import * as MCore from '../generated';
 
@@ -20,7 +19,7 @@ function isWebM(src: MCore.FileSrc<MCore.ImageMeta>): boolean {
   styleUrls: ['./marcy-video.component.scss'],
   providers: [UnsubscriberService]
 })
-export class MarcyVideoComponent implements OnInit, AfterViewInit {
+export class MarcyVideoComponent implements OnInit, AfterViewInit, OnDestroy {
   public readonly MediaStatus = MediaStatus;
   public readonly MarcyObjectFit = MediaObjectFit;
 
@@ -30,8 +29,9 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
   @Output()
   public readonly isLoaded: EventEmitter<void> = new EventEmitter();
 
-  public readonly $status = new BehaviorSubject<MediaStatus>(MediaStatus.NotSet);
+  public readonly $status = signal<MediaStatus>(MediaStatus.NotSet);
   public readonly src: VideoSrcDirective;
+  private readonly _effectCleanup?: EffectRef;
 
   public source?: MCore.FileSrc<MCore.VideoMeta>;
 
@@ -51,20 +51,17 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
     this.src = this._srcDir;
 
     this.cd.detach();
+
+    // Watch for status changes and emit when loaded
+    this._effectCleanup = effect(() => {
+      if (this.$status() === MediaStatus.Loaded) {
+        this.isLoaded.next();
+      }
+    });
   }
 
   public ngOnInit(): void {
     console.log('MarcyVideoComponent ngOnInit');
-
-    // bind loaded event
-    this.$status
-      .pipe
-      (
-        this._u.takeUntilDestroy,
-        filter(status => status === MediaStatus.Loaded)
-      )
-      .subscribe(() => this.isLoaded.next());
-
     this.cd.detectChanges();
   }
 
@@ -105,18 +102,18 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
 
     console.log('MarcyVideoComponent new source', this.source);
 
-    if (this.$status.value === MediaStatus.NotSet && this.source === undefined) {
+    if (this.$status() === MediaStatus.NotSet && this.source === undefined) {
       return;
     }
 
     if (this.source === undefined) {
-      this.$status.next(MediaStatus.NotSet);
+      this.$status.set(MediaStatus.NotSet);
 
       this.cd.detectChanges();
       return;
     }
 
-    this.$status.next(MediaStatus.NotLoaded);
+    this.$status.set(MediaStatus.NotLoaded);
 
     this.cd.detectChanges();
   }
@@ -133,7 +130,7 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
   }
 
   public onLoad() {
-    this.$status.next(MediaStatus.Loaded);
+    this.$status.set(MediaStatus.Loaded);
   }
 
   private findMoreSuitableSource(): MCore.FileSrc<MCore.VideoMeta> | undefined {
@@ -210,5 +207,9 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
     }
 
     return undefined;
+  }
+  
+  public ngOnDestroy(): void {
+    this._effectCleanup?.destroy();
   }
 }

@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Directive, EventEmitter, OnInit, Output, inject } from '@angular/core';
-import { BehaviorSubject, Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
+import { ChangeDetectorRef, Directive, EventEmitter, OnInit, Output, inject, signal, effect, EffectRef, Signal, OnDestroy } from '@angular/core';
+import { Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
 
 import * as MCore from '../generated';
 import * as utils from './utils';
@@ -10,41 +10,39 @@ import { UnsubscriberService } from './unsubscribe.service';
     selector: '[bonSrcBase]',
     providers: [UnsubscriberService]
 })
-export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements OnInit {
+export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements OnInit, OnDestroy {
     @Output()
     public readonly ratioChange = new EventEmitter<number>()
 
     @Output()
     public readonly srcChange = new EventEmitter<T | undefined>()
 
-    private readonly _ratioSubject = new BehaviorSubject<number>(0);
+    private readonly _ratio = signal<number>(0);
+    public readonly ratio = this._ratio.asReadonly();
+
     private readonly _queryChangeClearSubject = new Subject<void>();
 
     private _data?: T;
 
     private readonly _u = inject(UnsubscriberService);
     private readonly cd = inject(ChangeDetectorRef);
+    private readonly _effectCleanup?: EffectRef;
 
     constructor() {
         console.log('SrcBaseDirective ctor');
         this.cd.detach();
+
+        // Watch for ratio changes and emit
+        this._effectCleanup = effect(() => {
+            const ratio = this._ratio();
+            this.ratioChange.next(ratio);
+            this.cd.detectChanges(); // todo: verify, do i need it here
+        });
     }
 
     public ngOnInit(): void {
         console.log('SrcBaseDirective ngOnInit');
-
-        this._ratioSubject
-            .pipe(this._u.takeUntilDestroy)
-            .subscribe(x => {
-                this.ratioChange.next(x);
-                this.cd.detectChanges(); // todo: verify, do i need it here
-            });
-
         this.cd.detectChanges();
-    }
-
-    public get ratio(): number {
-        return this._ratioSubject.value;
     }
 
     public get data(): T | undefined {
@@ -67,7 +65,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements On
         this._queryChangeClearSubject.next();
 
         // ratio
-        this._ratioSubject.next(0);
+        this._ratio.set(0);
 
         this.srcChange.next(this._data);
 
@@ -82,7 +80,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements On
 
         if (allRatios.length === 1) {
             // same ratio for all
-            this._ratioSubject.next(allRatios[0]);
+            this._ratio.set(allRatios[0]);
             return;
         }
 
@@ -115,7 +113,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements On
             const ratio = srcRatios[0]; // most accurate ratio in biggest image
 
             if (source.mediaQuery.length === 0) {
-                this._ratioSubject.next(ratio);
+                this._ratio.set(ratio);
                 return;
             }
 
@@ -125,7 +123,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements On
             const mediaQueryList = window.matchMedia(source.mediaQuery);
 
             if (mediaQueryList.matches) {
-                this._ratioSubject.next(ratio);
+                this._ratio.set(ratio);
                 return;
             }
         }
@@ -160,6 +158,10 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements On
 
         const combinedObservable = merge(...queryObservables);
         return combinedObservable;
+    }
+
+    public ngOnDestroy(): void {
+        this._effectCleanup?.destroy();
     }
 }
 

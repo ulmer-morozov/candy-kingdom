@@ -1,16 +1,15 @@
-import { Observable } from 'rxjs';
+import { Signal } from '@angular/core';
 import { LocalizedObject, LocalizedString } from '../generated';
 import { isLocalUrlString } from '../core/utils';
 
 export abstract class LocalizeServiceBase {
-  public abstract get locale(): string;
-  public abstract get locale$(): Observable<string>;
+  public abstract get locale(): Signal<string>;
 
   public getLocalized<T>(value: LocalizedObject<T>, defaultValue: T, locale?: string): T {
     if (value === undefined)
       return defaultValue;
 
-    locale = locale ?? this.locale;
+    locale = locale ?? this.locale();
 
     const obj = value[locale] ?? defaultValue;
     return obj;

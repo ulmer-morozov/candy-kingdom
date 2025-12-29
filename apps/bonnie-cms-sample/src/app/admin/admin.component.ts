@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, EffectRef, OnDestroy, ViewEncapsulation, effect, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../service';
 import { CommonModule } from '@angular/common';
@@ -21,17 +21,16 @@ import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
     }
   `
 })
-export default class AdminComponent implements OnInit {
+export default class AdminComponent implements OnDestroy {
   public isSignedIn: boolean = false;
 
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly _effectCleanup?: EffectRef;
 
-  ngOnInit() {
-    this.auth.onStateChanged().forEach(() => {
-      this.auth
-        .isSignedIn()
-        .forEach((signedIn: boolean) => (this.isSignedIn = signedIn));
+  constructor() {
+    effect(() => {
+      this.isSignedIn = this.auth.authState();
     });
   }
 
@@ -43,5 +42,9 @@ export default class AdminComponent implements OnInit {
         }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this._effectCleanup?.destroy();
   }
 }
