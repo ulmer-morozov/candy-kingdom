@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { RouterLink } from '@angular/router';
 
-import { Page, PageData, LocalizePipe, EncodeURIComponentPipe } from '@candy-kingdom/bonnie';
+import { Page, PageData, LocalizePipe, EncodeURIComponentPipe, DeviceServiceBase, DeviceService } from '@candy-kingdom/bonnie';
 import {
   AdminDataService,
   IBoneTemplate,
@@ -35,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     SkeletonEditorComponent,
     LocalizePipe,
     EncodeURIComponentPipe
-],
+  ],
+  providers: [AdminDataService,{ provide: DeviceServiceBase, useClass: DeviceService }],
   selector: 'app-admin-pages',
   templateUrl: './admin-pages.component.html',
   styleUrl: './admin-pages.component.scss',

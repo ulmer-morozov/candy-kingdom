@@ -38,6 +38,7 @@ genericFileUploadMap.set("", "/api/admin/upload/file")
     EditableGroupComponent,
     UnknownFormComponent
   ],
+  providers: [AdminDataService],
   selector: 'app-admin-settings',
   templateUrl: './admin-settings.component.html',
 })
