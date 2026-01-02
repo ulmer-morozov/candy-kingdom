@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, inject, signal, effect, EffectRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import * as MCore from '../generated';
 
@@ -8,6 +9,7 @@ import { MediaObjectFit } from '../core/MediaObjectFit';
 import { DeviceServiceBase } from '../core/device.service.base';
 import { VideoSrcDirective } from './vidsrc.directive';
 import { matchesMediaQuery, descendingT } from '../core/utils';
+import { IntersectionComponent } from '../core/intersection.component';
 
 function isWebM(src: MCore.FileSrc<MCore.ImageMeta>): boolean {
   return src.mimeType === 'video/webm';
@@ -15,6 +17,8 @@ function isWebM(src: MCore.FileSrc<MCore.ImageMeta>): boolean {
 
 @Component({
   selector: 'bon-video',
+  standalone: true,
+  imports: [CommonModule, IntersectionComponent],
   templateUrl: './marcy-video.component.html',
   styleUrls: ['./marcy-video.component.scss'],
   providers: [UnsubscriberService]
@@ -208,7 +212,7 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     return undefined;
   }
-  
+
   public ngOnDestroy(): void {
     this._effectCleanup?.destroy();
   }

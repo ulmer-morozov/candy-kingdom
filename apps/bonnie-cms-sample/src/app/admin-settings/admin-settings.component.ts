@@ -1,7 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import * as BONC from '@candy-kingdom/bonnie-cms';
+import {
+  AdminDataService,
+  BonnieCmsModule,
+  SettingGroup,
+  TextEditorField,
+  TextInputStyle,
+  TextSettingType,
+} from '@candy-kingdom/bonnie-cms';
 
 const genericFileUploadMap = new Map<string, string>();
 
@@ -9,20 +16,20 @@ genericFileUploadMap.set("", "/api/admin/upload/file")
 
 @Component({
   standalone: true,
-  imports: [CommonModule, BONC.BonnieCmsModule],
+  imports: [CommonModule, BonnieCmsModule],
   selector: 'app-admin-settings',
   templateUrl: './admin-settings.component.html',
 })
 export default class AdminSettingsComponent implements OnInit {
-  public readonly TextInputStyle = BONC.TextInputStyle;
-  public readonly TextSettingType = BONC.TextSettingType;
-  public readonly TextEditorField = BONC.TextEditorField;
+  public readonly TextInputStyle = TextInputStyle;
+  public readonly TextSettingType = TextSettingType;
+  public readonly TextEditorField = TextEditorField;
 
   public readonly genericFileUploadMap = genericFileUploadMap;
 
-  private readonly _dataService = inject(BONC.AdminDataService);
+  private readonly _dataService = inject(AdminDataService);
 
-  public settingGroups: BONC.SettingGroup[] = [];
+  public settingGroups: SettingGroup[] = [];
 
   public ngOnInit(): void {
     this._dataService.getSettingGroups().subscribe(x => {

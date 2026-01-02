@@ -1,12 +1,17 @@
 import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { FileMeta, FileSrc, SvgMeta } from '@candy-kingdom/bonnie';
 
 import { FormBaseComponent } from '../../core-components/form-base.component';
 import { EditableDirective } from '../../core-components/editable.directive';
+import { FormControlsComponent } from '../../form-controls/form-controls.component';
+import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 
 @Component({
   selector: 'bonc-svg-form',
+  standalone: true,
+  imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
   templateUrl: './svg-form.component.html',
   styleUrls: ['./svg-form.component.scss'],
   hostDirectives: [EditableDirective]

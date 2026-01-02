@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { DeviceType } from '../core';
 import { EditableGroupComponent } from '../core-components';
 
 @Component({
   selector: 'bonc-admin-controls',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './admin-controls.component.html',
   styleUrls: ['./admin-controls.component.scss']
 })

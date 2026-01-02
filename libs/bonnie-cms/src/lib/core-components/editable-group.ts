@@ -5,6 +5,7 @@ import { EditableDirective } from './editable.directive';
 
 @Component({
   selector: 'bonc-editable-group',
+  standalone: true,
   template: '<ng-content></ng-content>'
 })
 export class EditableGroupComponent implements AfterContentInit, OnDestroy {

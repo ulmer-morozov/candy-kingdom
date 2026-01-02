@@ -6,6 +6,8 @@ import { UnknownBoneComponent } from './unknown-bone.component';
 
 @Component({
   selector: 'bon-skeleton',
+  standalone: true,
+  imports: [SkeletonAnchorDirective],
   templateUrl: './skeleton.component.html',
   styleUrls: ['./skeleton.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -3,13 +3,16 @@ import * as MCore from '../generated';
 import { SrcBaseDirective } from '../core/src.directive';
 
 @Directive({
-    selector: '[imgsrc]'
+  standalone: true,
+  selector: '[imgsrc]',
 })
-export class ImageSrcDirective extends SrcBaseDirective<MCore.Image> implements OnInit {
-
-    @Input()
-    public set imgsrc(value: MCore.Image | undefined) {
-        console.log('set imgsrc', value);
-        this.data = value;
-    }
+export class ImageSrcDirective
+  extends SrcBaseDirective<MCore.Image>
+  implements OnInit
+{
+  @Input()
+  public set imgsrc(value: MCore.Image | undefined) {
+    console.log('set imgsrc', value);
+    this.data = value;
+  }
 }

@@ -9,6 +9,7 @@ import {
   QueryList,
   ViewChildren
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
 
@@ -17,6 +18,8 @@ import { DeviceType } from '../core';
 
 @Component({
   selector: 'bonc-translation-textarea',
+  standalone: true,
+  imports: [FormsModule, CdkTextareaAutosize],
   templateUrl: './translation-textarea.component.html',
   styleUrls: ['./translation-textarea.component.scss']
 })

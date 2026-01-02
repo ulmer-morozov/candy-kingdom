@@ -12,7 +12,10 @@ import { DeviceService } from './core/device.service';
 import { MarcyVideoComponent } from './marcy-video/marcy-video.component';
 import { SkeletonAnchorDirective } from './skeleton/skeleton-anchor.directive';
 import { SkeletonComponent } from './skeleton/skeleton.component';
-import { LocalizationIsNotEmptyPipe, LocalizePipe } from './localization/localize.pipe';
+import {
+  LocalizationIsNotEmptyPipe,
+  LocalizePipe,
+} from './localization/localize.pipe';
 import { UnknownBoneComponent } from './skeleton/unknown-bone.component';
 import { MarcyMediaComponent } from './marcy-media/marcy-media.component';
 import { BoneDirective } from './skeleton/bone.directive';
@@ -25,49 +28,34 @@ const components = [
   IntersectionComponent,
   //
   SkeletonComponent,
-  UnknownBoneComponent
+  UnknownBoneComponent,
 ];
 
-const directives = [
-  SrcBaseDirective,
-  ImageSrcDirective,
-  VideoSrcDirective,
-];
+const directives = [SrcBaseDirective, ImageSrcDirective, VideoSrcDirective];
 
-const standAloneDirectives = [
-  SkeletonAnchorDirective,
-  BoneDirective
-];
+const standAloneDirectives = [SkeletonAnchorDirective, BoneDirective];
 
 const pipes = [
   EncodeURIComponentPipe,
   LocalizePipe,
-  LocalizationIsNotEmptyPipe
-]
+  LocalizationIsNotEmptyPipe,
+];
 
 @NgModule({
-  declarations: [
-    ...components,
-    ...directives,
+  declarations: [...components, ...directives, ...pipes],
+  providers: [
     ...pipes,
+    UnsubscriberService,
+    DeviceService,
+    { provide: DeviceServiceBase, useExisting: DeviceService },
   ],
-  providers:
-    [
-      ...pipes,
-      UnsubscriberService,
-      DeviceService,
-      { provide: DeviceServiceBase, useExisting: DeviceService },
-    ],
-  imports: [
-    CommonModule,
-    ...standAloneDirectives
-  ],
+  imports: [CommonModule, ...standAloneDirectives],
   exports: [
     CommonModule,
     ...pipes,
     ...components,
     ...directives,
-    ...standAloneDirectives
-  ]
+    ...standAloneDirectives,
+  ],
 })
-export class BonnieModule { } // todo: move to standalone
+export class BonnieModule {} // todo: move to standalone

@@ -1,4 +1,5 @@
 import { Component, ComponentFactoryResolver, EventEmitter, Input, OnChanges, Output, ViewChild, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { Bone } from '@candy-kingdom/bonnie';
@@ -12,6 +13,8 @@ import { UnknownBoneEditorComponent } from '../../bone-editors/unknown-bone-edit
 // todo: rename class
 @Component({
   selector: 'bonc-bone-editor-container',
+  standalone: true,
+  imports: [CommonModule, SkeletonEditorAnchorDirective],
   templateUrl: './bone-editor-container.component.html',
   styleUrls: ['./bone-editor-container.component.scss']
 })

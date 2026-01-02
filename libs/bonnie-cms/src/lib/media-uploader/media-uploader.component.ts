@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { catchError, last, map, Observable } from 'rxjs';
 
-import { MediaObjectFit, PixMediaUnion } from '@candy-kingdom/bonnie';
+import { MediaObjectFit, PixMediaUnion, MarcyMediaComponent } from '@candy-kingdom/bonnie';
 import { MediaType } from '../core';
 
 const imageMimeTypes = ['image/png', 'image/jpeg'];
@@ -16,6 +17,8 @@ const allMediaFileTypes = `${imageFileTypes},${videoFileTypes}`;
 
 @Component({
   selector: 'bonc-media-uploader',
+  standalone: true,
+  imports: [CommonModule, DecimalPipe, MarcyMediaComponent],
   templateUrl: './media-uploader.component.html',
   styleUrls: ['./media-uploader.component.scss']
 })

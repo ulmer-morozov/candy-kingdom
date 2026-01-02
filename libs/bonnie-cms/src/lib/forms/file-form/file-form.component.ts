@@ -1,12 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { FormBaseComponent } from '../../core-components/form-base.component';
 import { EditableDirective } from '../../core-components';
 
 import { FileMeta, FileSrc, SvgMeta } from '@candy-kingdom/bonnie';
+import { FormControlsComponent } from '../../form-controls/form-controls.component';
+import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 
 @Component({
   selector: 'bonc-file-form',
+  standalone: true,
+  imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
   templateUrl: './file-form.component.html',
   styleUrls: ['./file-form.component.scss'],
   hostDirectives: [EditableDirective]

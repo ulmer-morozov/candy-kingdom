@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import * as BONC from '@candy-kingdom/bonnie-cms';
+import {
+  BoneEditorBaseComponent,
+  BonnieCmsModule,
+  ContentPreset,
+  LinkPopupComponent,
+  TextEditorField,
+  createPreset,
+} from '@candy-kingdom/bonnie-cms';
 
 import { MediaBone, MediaBoneStyle } from '../../generated';
 import { MediaUploadMap } from '../../core';
@@ -9,26 +16,26 @@ import { MediaUploadMap } from '../../core';
   selector: 'app-media-bone-editor',
   templateUrl: './media-bone-editor.component.html',
   styleUrls: ['./media-bone-editor.component.scss'],
-  imports: [BONC.BonnieCmsModule]
+  imports: [BonnieCmsModule],
 })
-export class MediaBoneEditorComponent extends BONC.BoneEditorBaseComponent<MediaBone> {
+export class MediaBoneEditorComponent extends BoneEditorBaseComponent<MediaBone> {
   public readonly MediaBoneStyle = MediaBoneStyle;
   public readonly MediaUploadMap = MediaUploadMap;
 
-  public LinkPopupField = BONC.TextEditorField;
+  public LinkPopupField = TextEditorField;
 
-  private currentOpenLinkPopup: BONC.LinkPopupComponent | undefined;
+  private currentOpenLinkPopup: LinkPopupComponent | undefined;
 
-  protected getPresets(): BONC.ContentPreset<MediaBone>[] {
+  protected getPresets(): ContentPreset<MediaBone>[] {
     return [
-      BONC.createPreset<MediaBone>({
+      createPreset<MediaBone>({
         title: 'Default',
-        style: MediaBoneStyle.default
+        style: MediaBoneStyle.default,
       }),
-      BONC.createPreset<MediaBone>({
+      createPreset<MediaBone>({
         title: 'Full width',
-        style: MediaBoneStyle.fullWidth
-      })
+        style: MediaBoneStyle.fullWidth,
+      }),
     ];
   }
 
@@ -44,19 +51,17 @@ export class MediaBoneEditorComponent extends BONC.BoneEditorBaseComponent<Media
     this.currentOpenLinkPopup = undefined;
   }
 
-  public updateOpen(newLinkPopup: BONC.LinkPopupComponent): void {
+  public updateOpen(newLinkPopup: LinkPopupComponent): void {
     this.closePopUpIfExists();
     this.currentOpenLinkPopup = newLinkPopup;
   }
 
   private closePopUpIfExists(): void {
-    if (this.currentOpenLinkPopup === undefined)
-      return;
+    if (this.currentOpenLinkPopup === undefined) return;
 
     this.currentOpenLinkPopup.hidePopup();
     this.currentOpenLinkPopup = undefined;
   }
 
-  public onUpdated() {
-  }
+  public onUpdated() {}
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { catchError, last, map, Observable } from 'rxjs';
@@ -7,6 +8,8 @@ import { FileMeta, FileSrc } from '@candy-kingdom/bonnie';
 
 @Component({
   selector: 'bonc-file-uploader',
+  standalone: true,
+  imports: [CommonModule, DecimalPipe],
   templateUrl: './file-uploader.component.html',
   styleUrls: ['./file-uploader.component.scss']
 })

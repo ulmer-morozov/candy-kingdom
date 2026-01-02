@@ -4,6 +4,7 @@ import { LocalizedString } from '@candy-kingdom/bonnie';
 
 @Component({
   selector: 'bonc-translation-input',
+  standalone: true,
   templateUrl: './translation-input.component.html',
   styleUrls: ['./translation-input.component.scss']
 })

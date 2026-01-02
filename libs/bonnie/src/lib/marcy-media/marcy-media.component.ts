@@ -1,13 +1,18 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import * as MCore from '../generated';
 
 import { UnsubscriberService } from '../core/unsubscribe.service';
 import { MediaObjectFit } from '../core/MediaObjectFit';
 import { DeviceServiceBase } from '../core/device.service.base';
+import { MarcyImageComponent } from '../marcy-image/marcy-image.component';
+import { MarcyVideoComponent } from '../marcy-video/marcy-video.component';
 
 @Component({
     selector: 'bon-media',
+    standalone: true,
+    imports: [CommonModule, MarcyImageComponent, MarcyVideoComponent],
     templateUrl: './marcy-media.component.html',
     styleUrls: ['./marcy-media.component.scss'],
     providers: [UnsubscriberService]

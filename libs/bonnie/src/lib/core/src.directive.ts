@@ -1,4 +1,16 @@
-import { ChangeDetectorRef, Directive, EventEmitter, OnInit, Output, inject, signal, effect, EffectRef, Signal, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  EventEmitter,
+  OnInit,
+  Output,
+  inject,
+  signal,
+  effect,
+  EffectRef,
+  Signal,
+  OnDestroy,
+} from '@angular/core';
 import { Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
 
 import * as MCore from '../generated';
@@ -7,162 +19,183 @@ import * as utils from './utils';
 import { UnsubscriberService } from './unsubscribe.service';
 
 @Directive({
-    selector: '[bonSrcBase]',
-    providers: [UnsubscriberService]
+  standalone: true,
+  selector: '[bonSrcBase]',
+  providers: [UnsubscriberService],
 })
-export class SrcBaseDirective<T extends MCore.Image | MCore.Video> implements OnInit, OnDestroy {
-    @Output()
-    public readonly ratioChange = new EventEmitter<number>()
+export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
+  implements OnInit, OnDestroy
+{
+  @Output()
+  public readonly ratioChange = new EventEmitter<number>();
 
-    @Output()
-    public readonly srcChange = new EventEmitter<T | undefined>()
+  @Output()
+  public readonly srcChange = new EventEmitter<T | undefined>();
 
-    private readonly _ratio = signal<number>(0);
-    public readonly ratio = this._ratio.asReadonly();
+  private readonly _ratio = signal<number>(0);
+  public readonly ratio = this._ratio.asReadonly();
 
-    private readonly _queryChangeClearSubject = new Subject<void>();
+  private readonly _queryChangeClearSubject = new Subject<void>();
 
-    private _data?: T;
+  private _data?: T;
 
-    private readonly _u = inject(UnsubscriberService);
-    private readonly cd = inject(ChangeDetectorRef);
-    private readonly _effectCleanup?: EffectRef;
+  private readonly _u = inject(UnsubscriberService);
+  private readonly cd = inject(ChangeDetectorRef);
+  private readonly _effectCleanup?: EffectRef;
 
-    constructor() {
-        console.log('SrcBaseDirective ctor');
-        this.cd.detach();
+  constructor() {
+    console.log('SrcBaseDirective ctor');
+    this.cd.detach();
 
-        // Watch for ratio changes and emit
-        this._effectCleanup = effect(() => {
-            const ratio = this._ratio();
-            this.ratioChange.next(ratio);
-            this.cd.detectChanges(); // todo: verify, do i need it here
-        });
+    // Watch for ratio changes and emit
+    this._effectCleanup = effect(() => {
+      const ratio = this._ratio();
+      this.ratioChange.next(ratio);
+      this.cd.detectChanges(); // todo: verify, do i need it here
+    });
+  }
+
+  public ngOnInit(): void {
+    console.log('SrcBaseDirective ngOnInit');
+    this.cd.detectChanges();
+  }
+
+  public get data(): T | undefined {
+    return this._data;
+  }
+
+  public set data(val: T | undefined) {
+    console.log('set data', val);
+
+    if (val !== undefined && val !== null && val.sources.length === 0) {
+      console.warn(`image should have sources!`);
+      val = undefined;
     }
 
-    public ngOnInit(): void {
-        console.log('SrcBaseDirective ngOnInit');
-        this.cd.detectChanges();
+    this._data = val;
+
+    console.log('calling src change ', this._data);
+
+    // clear mediaQuery subscriptions
+    this._queryChangeClearSubject.next();
+
+    // ratio
+    this._ratio.set(0);
+
+    this.srcChange.next(this._data);
+
+    if (this._data === undefined || this._data.sources.length === 0) {
+      return;
     }
 
-    public get data(): T | undefined {
-        return this._data;
+    const allRatios = this._data.sources
+      .flatMap((x) => x.srcSet)
+      .map((x) => x.meta.ratio)
+      .filter(utils.distinct);
+
+    if (allRatios.length === 1) {
+      // same ratio for all
+      this._ratio.set(allRatios[0]);
+      return;
     }
 
-    public set data(val: T | undefined) {
-        console.log('set data', val);
+    this.watchMediaQueries().subscribe(() => {
+      this.calcRatio();
+      console.log('watchMediaQueries calcRatio');
+    });
 
-        if (val !== undefined && val !== null && val.sources.length === 0) {
-            console.warn(`image should have sources!`);
-            val = undefined;
-        }
+    this.calcRatio();
+  }
 
-        this._data = val;
+  private calcRatio(): void {
+    if (
+      this._data === undefined ||
+      this._data === null ||
+      this._data.sources.length === 0
+    )
+      return;
 
-        console.log('calling src change ', this._data);
+    for (let i = 0; i < this._data.sources.length; i++) {
+      const source = this._data.sources[i];
+      const srcRatios = source.srcSet
+        .sort(utils.descendingT((x) => x.meta.width))
+        .map((x) => x.meta.ratio)
+        .filter(utils.distinct);
 
-        // clear mediaQuery subscriptions
-        this._queryChangeClearSubject.next();
+      if (srcRatios.length === 0) {
+        // console.warn(`each source should have srcSet with same ratio. founded: ${srcRatios.join(', ')}`);
+        return;
+      }
 
-        // ratio
-        this._ratio.set(0);
+      if (srcRatios.length > 1) {
+        console.warn(
+          `each source should have srcSet with same ratio. founded: ${srcRatios.join(
+            ', '
+          )}`
+        );
+      }
 
-        this.srcChange.next(this._data);
+      const ratio = srcRatios[0]; // most accurate ratio in biggest image
 
-        if (this._data === undefined || this._data.sources.length === 0) {
-            return;
-        }
+      if (source.mediaQuery.length === 0) {
+        this._ratio.set(ratio);
+        return;
+      }
 
-        const allRatios = this._data.sources
-            .flatMap(x => x.srcSet)
-            .map(x => x.meta.ratio)
-            .filter(utils.distinct);
+      if (
+        typeof window === 'undefined' ||
+        typeof window.matchMedia === 'undefined'
+      )
+        return;
 
-        if (allRatios.length === 1) {
-            // same ratio for all
-            this._ratio.set(allRatios[0]);
-            return;
-        }
+      const mediaQueryList = window.matchMedia(source.mediaQuery);
 
-        this.watchMediaQueries()
-            .subscribe(() => {this.calcRatio(); console.log('watchMediaQueries calcRatio')});
-
-        this.calcRatio();
+      if (mediaQueryList.matches) {
+        this._ratio.set(ratio);
+        return;
+      }
     }
+  }
 
-    private calcRatio(): void {
-        if (this._data === undefined || this._data === null || this._data.sources.length === 0)
-            return;
+  public watchMediaQueries(): Observable<MediaQueryListEvent> {
+    console.log('watchMediaQueries');
 
-        for (let i = 0; i < this._data.sources.length; i++) {
-            const source = this._data.sources[i];
-            const srcRatios = source.srcSet
-                .sort(utils.descendingT(x => x.meta.width))
-                .map(x => x.meta.ratio)
-                .filter(utils.distinct);
+    if (
+      this._data === undefined ||
+      this._data === null ||
+      typeof window === 'undefined' ||
+      typeof window.matchMedia === 'undefined'
+    )
+      return NEVER.pipe(
+        this._u.takeUntilDestroy,
+        takeUntil(this._queryChangeClearSubject)
+      );
 
-            if (srcRatios.length === 0) {
-                // console.warn(`each source should have srcSet with same ratio. founded: ${srcRatios.join(', ')}`);
-                return;
-            }
+    const mediaQueries = this._data.sources
+      .map((x) => x.mediaQuery)
+      .filter(utils.distinct)
+      .filter((x) => x.length > 0);
 
-            if (srcRatios.length > 1) {
-                console.warn(`each source should have srcSet with same ratio. founded: ${srcRatios.join(', ')}`);
-            }
+    console.log('watchMediaQueries mediaQueries', mediaQueries);
 
-            const ratio = srcRatios[0]; // most accurate ratio in biggest image
+    const queryObservables = mediaQueries.map((media) => {
+      const queryList = window.matchMedia(media);
+      const observable = fromEvent<MediaQueryListEvent>(
+        queryList,
+        'change'
+      ).pipe(
+        this._u.takeUntilDestroy,
+        takeUntil(this._queryChangeClearSubject)
+      );
 
-            if (source.mediaQuery.length === 0) {
-                this._ratio.set(ratio);
-                return;
-            }
+      return observable;
+    });
 
-            if (typeof window === 'undefined' || typeof window.matchMedia === 'undefined')
-                return;
+    const combinedObservable = merge(...queryObservables);
+    return combinedObservable;
+  }
 
-            const mediaQueryList = window.matchMedia(source.mediaQuery);
-
-            if (mediaQueryList.matches) {
-                this._ratio.set(ratio);
-                return;
-            }
-        }
-    }
-
-    public watchMediaQueries(): Observable<MediaQueryListEvent> {
-        console.log('watchMediaQueries');
-
-        if (this._data === undefined
-            || this._data === null
-            || typeof window === 'undefined'
-            || typeof window.matchMedia === 'undefined')
-            return NEVER.pipe(this._u.takeUntilDestroy, takeUntil(this._queryChangeClearSubject));
-
-        const mediaQueries = this._data.sources
-            .map(x => x.mediaQuery)
-            .filter(utils.distinct)
-            .filter(x => x.length > 0);
-
-        console.log('watchMediaQueries mediaQueries', mediaQueries);
-
-        const queryObservables = mediaQueries.map
-            (
-                media => {
-                    const queryList = window.matchMedia(media);
-                    const observable = fromEvent<MediaQueryListEvent>(queryList, 'change')
-                        .pipe(this._u.takeUntilDestroy, takeUntil(this._queryChangeClearSubject));
-
-                    return observable;
-                }
-            );
-
-        const combinedObservable = merge(...queryObservables);
-        return combinedObservable;
-    }
-
-    public ngOnDestroy(): void {
-        this._effectCleanup?.destroy();
-    }
+  public ngOnDestroy(): void {
+    this._effectCleanup?.destroy();
+  }
 }
-
-

@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, inject } from '@angular/core';
+import { CommonModule, AsyncPipe } from '@angular/common';
 import { BehaviorSubject, filter } from 'rxjs';
 
 import * as MCore from '../generated';
@@ -11,9 +12,12 @@ import { IHtmlPictureSource } from './IHtmlPictureSource';
 import { toHtmlPictureSources } from './toHtmlSources';
 import { getDefaultSrc } from './getDefaultSrc';
 import { DeviceServiceBase } from '../core/device.service.base';
+import { IntersectionComponent } from '../core/intersection.component';
 
 @Component({
   selector: 'bon-image',
+  standalone: true,
+  imports: [CommonModule, AsyncPipe, IntersectionComponent],
   templateUrl: './marcy-image.component.html',
   styleUrls: ['./marcy-image.component.scss'],
   providers: [UnsubscriberService]

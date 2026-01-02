@@ -1,14 +1,19 @@
 import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { FileMeta, FileSrc, ImageMeta } from '@candy-kingdom/bonnie';
 
 import { FormBaseComponent } from '../../core-components/form-base.component';
 import { EditableDirective } from '../../core-components/editable.directive';
+import { FormControlsComponent } from '../../form-controls/form-controls.component';
+import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 
 const DefaultImageMimeTypes = ['image/png', 'image/jpeg'];
 
 @Component({
   selector: 'bonc-one-image-form',
+  standalone: true,
+  imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
   templateUrl: './one-image-form.component.html',
   styleUrls: ['./one-image-form.component.scss'],
   hostDirectives: [EditableDirective]

@@ -1,13 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
 import { FileMeta, FileSrc, SvgMeta } from '@candy-kingdom/bonnie';
 
 import { FormBaseComponent } from '../../core-components/form-base.component';
 import { EditableDirective } from '../../core-components/editable.directive';
-import { AnimationOptions } from 'ngx-lottie';
+import { FormControlsComponent } from '../../form-controls/form-controls.component';
+import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 
 @Component({
   selector: 'bonc-lottie-form',
+  standalone: true,
+  imports: [CommonModule, FormControlsComponent, FileUploaderComponent, LottieComponent],
   templateUrl: './lottie-form.component.html',
   styleUrls: ['./lottie-form.component.scss'],
   hostDirectives: [EditableDirective]

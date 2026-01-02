@@ -3,6 +3,7 @@ import { UnsubscriberService } from './unsubscribe.service';
 
 @Component({
     selector: 'bon-intersection',
+    standalone: true,
     template: '<ng-content></ng-content>',
     styles: [':host{display:block}'],
     providers: [UnsubscriberService]

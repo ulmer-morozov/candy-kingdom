@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { Bone } from '@candy-kingdom/bonnie';
 import { BoneEditorContainerComponent } from './bone-editor-container/bone-editor-container.component';
@@ -10,6 +11,8 @@ import { BoneEditorMap } from './BoneEditorMap';
 // todo: rename class
 @Component({
   selector: 'bonc-skeleton-editor',
+  standalone: true,
+  imports: [CommonModule, BoneEditorContainerComponent],
   templateUrl: './skeleton-editor.component.html',
   styleUrls: ['./skeleton-editor.component.scss'],
   hostDirectives: [EditableDirective]
