@@ -3,34 +3,39 @@ import { CommonModule } from '@angular/common';
 
 import { RouterLink } from '@angular/router';
 
-import { BonnieModule, Page, PageData } from '@candy-kingdom/bonnie';
+import { Page, PageData, LocalizePipe, EncodeURIComponentPipe } from '@candy-kingdom/bonnie';
 import {
   AdminDataService,
-  BonnieCmsModule,
   IBoneTemplate,
   TextEditorField,
+  SeoFormComponent,
+  TranslationFormComponent,
+  AdminControlsComponent,
+  EditableGroupComponent,
+  SkeletonEditorComponent,
 } from '@candy-kingdom/bonnie-cms';
 
 import { AdminBoneMap } from '../AdminBoneMap';
-import {
-  MediaBoneEditorComponent,
-  TextBoneEditorComponent,
-} from '../bone-editors';
 import { emptyMediaBone } from '../core/emptyMediaBone';
 import { emptyTextBone } from '../core';
 import { emptyPageListBone } from '../core/emptyPageListBone';
+import { FormsModule } from '@angular/forms';
 
-const boneEditors = [TextBoneEditorComponent, MediaBoneEditorComponent];
 
 @Component({
   standalone: true,
   imports: [
+    FormsModule,
     CommonModule,
     RouterLink,
-    BonnieModule,
-    BonnieCmsModule,
-    ...boneEditors,
-  ],
+    AdminControlsComponent,
+    EditableGroupComponent,
+    SeoFormComponent,
+    TranslationFormComponent,
+    SkeletonEditorComponent,
+    LocalizePipe,
+    EncodeURIComponentPipe
+],
   selector: 'app-admin-pages',
   templateUrl: './admin-pages.component.html',
   styleUrl: './admin-pages.component.scss',

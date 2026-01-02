@@ -12,5 +12,3 @@ export * from './lib/translation-textarea';
 export * from './lib/skeleton-editor';
 
 export * from './lib/bone-editors';
-
-export * from './lib/bonnie-cms.module';

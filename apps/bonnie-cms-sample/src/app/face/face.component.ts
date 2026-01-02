@@ -1,25 +1,38 @@
 import { Component, Input, inject } from '@angular/core';
 
-import { FaceModule } from '../face.module';
 import { FaceBoneMap } from '../FaceBoneMap';
-import { LocalizeServiceBase, PageBase, View } from '@candy-kingdom/bonnie';
+import {
+  LocalizeServiceBase,
+  PageBase,
+  SkeletonComponent,
+  View,
+} from '@candy-kingdom/bonnie';
 import { RouterLocalizeService } from '../router-localize.service';
 import { RouterLink } from '@angular/router';
-import { FileSettingData, LocalizedTextSettingData, OneImageSettingData, SettingDataDict, SvgSettingData } from '@candy-kingdom/bonnie-cms';
+import {
+  FileSettingData,
+  LocalizedTextSettingData,
+  OneImageSettingData,
+  SettingDataDict,
+  SvgSettingData,
+} from '@candy-kingdom/bonnie-cms';
 import { Meta, Title } from '@angular/platform-browser';
 import { CmsSampleSettingIds } from '../generated/cms-sample-setting-ids';
 import { DOCUMENT, APP_BASE_HREF } from '@angular/common';
+
 
 @Component({
   standalone: true,
   selector: 'app-face',
   templateUrl: './face.component.html',
   styleUrl: './face.component.scss',
-  imports: [FaceModule, RouterLink],
-  providers:
-    [
-      { provide: LocalizeServiceBase, useClass: RouterLocalizeService },
-    ]
+  imports: [
+    RouterLink,
+    SkeletonComponent
+  ],
+  providers: [
+    { provide: LocalizeServiceBase, useClass: RouterLocalizeService },
+  ],
 })
 export default class FaceComponent {
   public readonly FaceBoneMap = FaceBoneMap;

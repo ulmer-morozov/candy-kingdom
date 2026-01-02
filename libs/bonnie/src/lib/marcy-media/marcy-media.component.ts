@@ -8,11 +8,13 @@ import { MediaObjectFit } from '../core/MediaObjectFit';
 import { DeviceServiceBase } from '../core/device.service.base';
 import { MarcyImageComponent } from '../marcy-image/marcy-image.component';
 import { MarcyVideoComponent } from '../marcy-video/marcy-video.component';
+import { VideoSrcDirective } from '../marcy-video';
+import { ImageSrcDirective } from '../marcy-image';
 
 @Component({
     selector: 'bon-media',
     standalone: true,
-    imports: [CommonModule, MarcyImageComponent, MarcyVideoComponent],
+    imports: [CommonModule, MarcyImageComponent, MarcyVideoComponent, VideoSrcDirective, ImageSrcDirective],
     templateUrl: './marcy-media.component.html',
     styleUrls: ['./marcy-media.component.scss'],
     providers: [UnsubscriberService]

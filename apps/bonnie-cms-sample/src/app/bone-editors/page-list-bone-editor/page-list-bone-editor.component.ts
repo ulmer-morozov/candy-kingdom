@@ -1,13 +1,19 @@
 import { Component, HostBinding } from '@angular/core';
-import { BoneEditorBaseComponent, BonnieCmsModule, ContentPreset, createPreset } from '@candy-kingdom/bonnie-cms';
+import {
+  BoneEditorBaseComponent,
+  ContentPreset,
+  TranslationInputComponent,
+  createPreset,
+} from '@candy-kingdom/bonnie-cms';
 import { PageListBone, PageListBoneStyle } from '../../generated';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  standalone: true,
   selector: 'app-page-list-bone-editor',
+  standalone: true,
   templateUrl: './page-list-bone-editor.component.html',
   styleUrls: ['./page-list-bone-editor.component.scss'],
-  imports: [BonnieCmsModule]
+  imports: [FormsModule, TranslationInputComponent]
 })
 export class PageListBoneEditorComponent extends BoneEditorBaseComponent<PageListBone> {
   protected getPresets(): ContentPreset<PageListBone>[] {

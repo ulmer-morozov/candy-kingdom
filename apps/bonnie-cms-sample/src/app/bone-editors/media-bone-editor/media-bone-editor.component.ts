@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import {
   BoneEditorBaseComponent,
-  BonnieCmsModule,
   ContentPreset,
   LinkPopupComponent,
   TextEditorField,
+  TranslationInputComponent,
+  MediaUploaderComponent,
   createPreset,
 } from '@candy-kingdom/bonnie-cms';
 
@@ -16,7 +17,11 @@ import { MediaUploadMap } from '../../core';
   selector: 'app-media-bone-editor',
   templateUrl: './media-bone-editor.component.html',
   styleUrls: ['./media-bone-editor.component.scss'],
-  imports: [BonnieCmsModule],
+  imports: [
+    TranslationInputComponent,
+    MediaUploaderComponent,
+    LinkPopupComponent,
+],
 })
 export class MediaBoneEditorComponent extends BoneEditorBaseComponent<MediaBone> {
   public readonly MediaBoneStyle = MediaBoneStyle;

@@ -5,7 +5,7 @@ import { LocalizedObject, LocalizedString } from '../generated';
 
 
 
-@Pipe({ name: 'localize', pure: false })
+@Pipe({ name: 'localize', standalone:true, pure: false })
 export class LocalizePipe implements PipeTransform {
   private readonly localizeService = inject(LocalizeServiceBase);
 
@@ -17,7 +17,7 @@ export class LocalizePipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'localizeObject', pure: false })
+@Pipe({ name: 'localizeObject', standalone:true, pure: false })
 export class LocalizeObjectPipe implements PipeTransform {
   private readonly localizeService = inject(LocalizeServiceBase);
 
@@ -29,7 +29,7 @@ export class LocalizeObjectPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'localizationIsNotEmpty', pure: false })
+@Pipe({ name: 'localizationIsNotEmpty', standalone:true, pure: false })
 export class LocalizationIsNotEmptyPipe implements PipeTransform {
   private readonly localizeService = inject(LocalizeServiceBase);
 
@@ -44,7 +44,7 @@ export class LocalizationIsNotEmptyPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'localizationIsEmpty', pure: false })
+@Pipe({ name: 'localizationIsEmpty', standalone:true, pure: false })
 export class LocalizationIsEmptyPipe implements PipeTransform {
   private readonly localizeService = inject(LocalizeServiceBase);
 
@@ -61,7 +61,7 @@ export class LocalizationIsEmptyPipe implements PipeTransform {
 }
 
 
-@Pipe({ name: 'localizeUrl', pure: false })
+@Pipe({ name: 'localizeUrl', standalone:true, pure: false })
 export class LocalizeUrlPipe implements PipeTransform {
   private readonly localizeService = inject(LocalizeServiceBase);
   private readonly domSanitizer = inject(DomSanitizer);
@@ -76,7 +76,7 @@ export class LocalizeUrlPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'isLocalUrl', pure: false })
+@Pipe({ name: 'isLocalUrl', standalone:true, pure: false })
 export class IsLocalUrlPipe implements PipeTransform {
   private readonly localizeService = inject(LocalizeServiceBase);
 
@@ -90,7 +90,7 @@ export class IsLocalUrlPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'isNotLocalUrl', pure: false })
+@Pipe({ name: 'isNotLocalUrl', standalone:true, pure: false })
 export class IsNotLocalUrlPipe implements PipeTransform {
   private readonly localizeService = inject(LocalizeServiceBase);
 

@@ -1,5 +1,10 @@
 import { Component, HostBinding } from '@angular/core';
-import { BoneEditorBaseComponent, BonnieCmsModule, ContentPreset, createPreset } from '@candy-kingdom/bonnie-cms';
+import {
+  BoneEditorBaseComponent,
+  ContentPreset,
+  createPreset,
+  TranslationTextareaComponent,
+} from '@candy-kingdom/bonnie-cms';
 import { TextBone, TextBoneStyle } from '../../generated';
 
 @Component({
@@ -7,7 +12,7 @@ import { TextBone, TextBoneStyle } from '../../generated';
   selector: 'app-text-bone-editor',
   templateUrl: './text-bone-editor.component.html',
   styleUrls: ['./text-bone-editor.component.scss'],
-  imports: [BonnieCmsModule]
+  imports: [TranslationTextareaComponent]
 })
 export class TextBoneEditorComponent extends BoneEditorBaseComponent<TextBone> {
   protected getPresets(): ContentPreset<TextBone>[] {

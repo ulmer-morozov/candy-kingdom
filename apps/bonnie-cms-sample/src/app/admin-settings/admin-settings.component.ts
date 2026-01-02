@@ -3,12 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import {
   AdminDataService,
-  BonnieCmsModule,
   SettingGroup,
   TextEditorField,
   TextInputStyle,
   TextSettingType,
+  TextFormComponent,
+  TranslationFormComponent,
+  SvgFormComponent,
+  OneImageFormComponent,
+  FileFormComponent,
+  LottieFormComponent,
+  AdminControlsComponent,
+  EditableGroupComponent,
+  UnknownFormComponent,
 } from '@candy-kingdom/bonnie-cms';
+import { FormsModule } from '@angular/forms';
 
 const genericFileUploadMap = new Map<string, string>();
 
@@ -16,7 +25,19 @@ genericFileUploadMap.set("", "/api/admin/upload/file")
 
 @Component({
   standalone: true,
-  imports: [CommonModule, BonnieCmsModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    AdminControlsComponent,
+    TextFormComponent,
+    TranslationFormComponent,
+    SvgFormComponent,
+    OneImageFormComponent,
+    FileFormComponent,
+    LottieFormComponent,
+    EditableGroupComponent,
+    UnknownFormComponent
+  ],
   selector: 'app-admin-settings',
   templateUrl: './admin-settings.component.html',
 })

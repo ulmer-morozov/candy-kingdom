@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DeviceType } from '../core';
 import { LocalizedString } from '@candy-kingdom/bonnie';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'bonc-translation-input',
   standalone: true,
+  imports: [FormsModule],
   templateUrl: './translation-input.component.html',
   styleUrls: ['./translation-input.component.scss']
 })
