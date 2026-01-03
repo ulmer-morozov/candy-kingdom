@@ -1,19 +1,30 @@
-import { ApplicationConfig } from '@angular/core';
-import { Router, provideRouter, withComponentInputBinding } from '@angular/router';
-import { APP_Routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { AuthInterceptor } from './interceptor';
-import { AuthGuard } from './guard';
-import { AuthService } from './service';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { appRoutes } from './app.routes';
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
 
 import { provideLottieOptions } from 'ngx-lottie';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+
+import { AuthGuard } from './guard';
+import { AuthService } from './service';
+import { AuthInterceptor } from './interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideClientHydration(),
+    provideZonelessChangeDetection(),
     provideHttpClient(),
-    provideRouter(APP_Routes, withComponentInputBinding()),
+    provideClientHydration(withEventReplay()),
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(appRoutes, withComponentInputBinding()),
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

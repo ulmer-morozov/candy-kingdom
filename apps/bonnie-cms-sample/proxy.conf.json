@@ -1,9 +1,9 @@
 {
-  "/api/*": {
+  "/api/**": {
     "target": "http://localhost:5236",
     "secure": false
   },
-  "/files/*": {
+  "/files/**": {
     "target": "http://localhost:5236",
     "secure": false
   }

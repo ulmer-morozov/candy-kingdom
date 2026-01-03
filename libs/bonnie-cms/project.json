@@ -2,36 +2,39 @@
   "name": "bonnie-cms",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/bonnie-cms/src",
-  "prefix": "candy-kingdom",
-  "tags": [],
+  "prefix": "lib",
   "projectType": "library",
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk"
+    }
+  },
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "libs/bonnie-cms/ng-package.json"
+        "project": "libs/bonnie-cms/ng-package.json",
+        "tsConfig": "libs/bonnie-cms/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "libs/bonnie-cms/tsconfig.lib.prod.json"
         },
-        "development": {
-          "tsConfig": "libs/bonnie-cms/tsconfig.lib.json"
-        }
+        "development": {}
       },
       "defaultConfiguration": "production"
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+    "nx-release-publish": {
       "options": {
-        "jestConfig": "libs/bonnie-cms/jest.config.ts"
+        "packageRoot": "dist/{projectRoot}"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     }
   }
 }

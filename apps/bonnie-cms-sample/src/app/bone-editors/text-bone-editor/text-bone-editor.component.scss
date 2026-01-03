@@ -1,4 +1,4 @@
-@import 'admin-variables.scss';
+@use 'admin-variables.scss' as *;
 
 :host {
   @include editor;

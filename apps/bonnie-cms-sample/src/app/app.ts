@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  standalone: true,
   imports: [RouterModule],
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
+  templateUrl: './app.html',
+  styleUrl: './app.scss',
 })
-export class AppComponent {
-  title = 'bonnie-cms-sample';
+export class App {
+  protected title = 'bonnie-cms-sample';
 }

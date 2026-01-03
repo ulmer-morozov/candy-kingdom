@@ -1,4 +1,4 @@
-@import './../styles/admin-variables';
+@use './../styles/admin-variables' as *;
 
 :host {
     display: block;

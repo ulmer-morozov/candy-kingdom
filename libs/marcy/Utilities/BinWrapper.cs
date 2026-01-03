@@ -74,10 +74,6 @@ public sealed class BinWrapper
 
                     _downloadTask = Download();
                 }
-                else
-                {
-                    var elsd = 12;
-                }
             }
 
             await _downloadTask;
@@ -110,6 +106,7 @@ public sealed class BinWrapper
         }
         catch (Exception e)
         {
+            Console.WriteLine($"Error running process: {e.Message}");
             process?.Dispose();
         }
     }

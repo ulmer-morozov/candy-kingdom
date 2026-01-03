@@ -1,5 +1,5 @@
-@use 'admin-variables'as v;
-@import 'admin-styles';
+@use 'admin-variables'as *;
+@use 'admin-styles' as *;
 
 :host {
   display: block;

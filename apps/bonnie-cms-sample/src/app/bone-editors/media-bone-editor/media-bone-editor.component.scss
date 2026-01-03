@@ -1,5 +1,6 @@
-@import '../../../sample-variables.scss';
-@import 'admin-variables';
+@use '../../../sample-variables.scss' as *;
+@use 'variables' as *;
+@use 'admin-variables' as *;
 
 :host {
     @include editor;

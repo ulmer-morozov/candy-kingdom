@@ -6,7 +6,7 @@ import { DataService } from '@candy-kingdom/bonnie-cms';
 import { AuthGuard } from './guard';
 import { CmsSampleSettingIds } from './generated';
 
-export const APP_Routes: Route[] = [
+export const appRoutes: Route[] = [
   {
     path: 'signin',
     loadComponent: () => import('./signin.component'),

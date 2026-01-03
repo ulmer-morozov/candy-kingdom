@@ -1,5 +1,7 @@
 @use 'sass:math';
-@import './variables.scss';
+@use 'sass:color';
+
+@use './variables.scss' as *;
 
 $adminAccentColor: #CCFF00;
 $adminNegativeAccentColor: black;
@@ -104,10 +106,10 @@ $barWidth: 120px;
 
 @mixin editingStyles2() {
   background: repeating-linear-gradient(-45deg,
-      transparentize($adminAccentColor, 0),
-      transparentize($adminAccentColor, 0) 10px,
-      transparentize($adminNegativeAccentColor, 1) 10px,
-      transparentize($adminNegativeAccentColor, 1) 20px) fixed bottom;
+      rgba($adminAccentColor, 0),
+      rgba($adminAccentColor, 0) 10px,
+      rgba($adminNegativeAccentColor, 1) 10px,
+      rgba($adminNegativeAccentColor, 1) 20px) fixed bottom;
 }
 
 @mixin edit-media-overlay {
@@ -125,7 +127,7 @@ $barWidth: 120px;
     font-weight: bold;
     font-size: 50pt;
     pointer-events: none;
-    background-color: transparentize($adminAccentColor, 0.3);
+    background-color: color.adjust($adminAccentColor, $alpha: -0.3);
   }
 }
 
