@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.19.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.18.0...v0.19.0) (2026-01-09)
+
+
+### Bug Fixes
+
+* page type after clean up ([f1d0e8e](https://github.com/ulmer-morozov/candy-kingdom/commit/f1d0e8e6efd0c428c13dd04420df5919fc4939d8))
+* type serialization ([1408477](https://github.com/ulmer-morozov/candy-kingdom/commit/1408477e5ba9eb90dc76706c3032177366d6b694))
+
+
+### Features
+
+* add child typisation ([6029f48](https://github.com/ulmer-morozov/candy-kingdom/commit/6029f4897dcd1081fbf9ef278fc79f5f68ab742c))
+
+
+
 # [0.24.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.23.0...v0.24.0) (2024-12-14)
 
 
