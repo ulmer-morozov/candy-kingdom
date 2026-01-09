@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  NgZone,
-  OnChanges,
-  Output,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, QueryList, ViewChildren, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
@@ -51,11 +41,6 @@ export class TranslationTextareaComponent implements OnChanges, AfterViewInit {
   @Output()
   public blurred: EventEmitter<void> = new EventEmitter();
 
-  constructor(
-    private ngZone: NgZone
-  ) {
-  }
-
   ngAfterViewInit(): void {
     setTimeout(this.triggerResize.bind(this));
   }
@@ -79,9 +64,10 @@ export class TranslationTextareaComponent implements OnChanges, AfterViewInit {
   private triggerResize() {
     // console.log('trigger resize!');
 
-    this.ngZone.onStable.pipe(take(1))
-      .subscribe(() => {
-        this.autosizeList.forEach(x => x.resizeToFitContent(true));
-      });
+    // todo: investigate is it working or not
+    // this.ngZone.onStable.pipe(take(1))
+    //   .subscribe(() => {
+    //     this.autosizeList.forEach(x => x.resizeToFitContent(true));
+    //   });
   }
 }
