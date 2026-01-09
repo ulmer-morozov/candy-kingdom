@@ -47,3 +47,4 @@ Thumbs.db
 **/bin/
 **/obj/
 /artifacts/
+publish.sh
