@@ -1,0 +1,141 @@
+@use './../../styles/admin-variables.scss' as *;
+
+:host {
+  display: flex;
+}
+
+.editor-container {
+  background-color: var(--bg-color);
+
+  &.disabled {
+    opacity: 0.1;
+    pointer-events: none;
+  }
+
+  &.mobile {
+    width: 350px;
+  }
+}
+
+.preset {
+  white-space: pre-line;
+}
+
+.bar {
+  width: $barWidth;
+  display: flex;
+  flex-direction: column;
+  pointer-events: all;
+
+  &.left:hover,
+  &.active {
+    background-color: #111;
+  }
+
+  &.hidden {
+    opacity: 0.2;
+  }
+
+  &.left {
+    position: relative;
+    border-right: none;
+
+  }
+
+  &.right {
+    border-left: none;
+    text-align: right;
+
+    .delete {
+      display: none;
+
+      &:hover {
+        color: $adminWarningColor;
+      }
+    }
+
+    &.active,
+    &:hover {
+
+      .delete {
+        display: block;
+      }
+    }
+  }
+}
+
+.left.bar.inactive {
+
+  a:hover {
+    cursor: initial;
+    color: #444;
+  }
+}
+
+.popup {
+  position: absolute;
+  top: 0;
+  right: -350px;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  padding: 20px;
+
+  color: #222;
+  background-color: white;
+  border: 2px solid black;
+  box-sizing: border-box;
+  z-index: 3;
+
+  a {
+    padding: 0 !important;
+    cursor: pointer !important;
+  }
+
+  a.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #666;
+
+    &:hover {
+      background-color: $adminAccentColor !important;
+    }
+  }
+
+  a.reset {
+    align-self: flex-start;
+    margin-top: 30px;
+
+    &:hover {
+      background-color: $adminAccentColor !important;
+    }
+  }
+}
+
+.color-group {
+  display: flex;
+
+  &:first-of-type {
+    margin-top: 20px;
+  }
+
+  label {
+    flex: 1;
+  }
+
+  input {
+    border: 1px solid #222;
+    padding: 6px;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.color-group+.color-group {
+  margin-top: 10px;
+}

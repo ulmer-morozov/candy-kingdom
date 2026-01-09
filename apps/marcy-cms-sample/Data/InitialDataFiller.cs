@@ -1,5 +1,8 @@
+using System.Collections.Immutable;
+
 using Autofac;
 
+using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Data;
@@ -35,6 +38,7 @@ public sealed class InitialDataFiller
             {
                 Id = CmsSampleSettingGroupIds.Main,
                 Title = "Main",
+                Order = 1,
                 Records = new List<Setting>
                 {
                         new Setting<LocalizedTextSettingData>
@@ -47,6 +51,12 @@ public sealed class InitialDataFiller
                                 TextType = TextSettingType.SingleLine
                             }
                         },
+                        new Setting<SvgSettingData>
+                        {
+                            Id = CmsSampleSettingIds.Logo,
+                            Title = "Logo",
+                            Data = new SvgSettingData()
+                        },
                         new Setting<LocalizedTextSettingData>
                         {
                             Id = CmsSampleSettingIds.Description,
@@ -58,6 +68,18 @@ multiline description
 of a sample company"""),
                                 TextType = TextSettingType.MultiLine
                             }
+                        },
+                        new Setting<FileSettingData>{
+                            Id = CmsSampleSettingIds.SomeFile,
+                            Title = "Some json File",
+                            Data = new(){
+                                AllowedMimeTypes = new ImmutableList2<string>(["application/json"])
+                            }
+                        },
+                        new Setting<LottieSettingData>{
+                            Id = CmsSampleSettingIds.Animation,
+                            Title = "Lottie animation",
+                            Data = new()
                         }
                 }.ToImmutableList2()
             }
@@ -70,6 +92,7 @@ of a sample company"""),
               {
                   Id = CmsSampleSettingGroupIds.Contacts,
                   Title = "Contacts",
+                  Order = 10,
                   Records = new List<Setting>
                   {
                         new Setting<TextSettingData>
@@ -82,6 +105,44 @@ of a sample company"""),
                                 TextType = TextSettingType.SingleLine
                             }
                         }
+                  }.ToImmutableList2()
+              }
+        );
+
+        await CreateIfNotExist
+        (
+              context,
+              new SettingGroup
+              {
+                  Id = CmsSampleSettingGroupIds.Favicon,
+                  Title = "Favicon",
+                  Order = 2,
+                  Records = new List<Setting>
+                  {
+                        new Setting<FileSettingData>
+                        {
+                            Id = CmsSampleSettingIds.FaviconIco,
+                            Title = "Favicon 32x32 (.ico)",
+                            Data = new FileSettingData{
+                                AllowedMimeTypes = ImmutableList.Create("image/x-icon").ToImmutableList2()
+                            }
+                        },
+                        new Setting<SvgSettingData>
+                        {
+                            Id = CmsSampleSettingIds.FaviconSvg,
+                            Title = "Favicon (.svg)",
+                            Data = new SvgSettingData()
+                        },
+                        new Setting<OneImageSettingData>
+                        {
+                            Id = CmsSampleSettingIds.FaviconAppleTouch180,
+                            Title = "Favicon 180x180 (.png)",
+                            Data = new OneImageSettingData(){
+                                Width = 180,
+                                Height = 180,
+                                Format = ImageFormat.Png
+                            }
+                        },
                   }.ToImmutableList2()
               }
         );
@@ -115,12 +176,19 @@ of a sample company"""),
     {
         var groupDb = await context.SettingGroups
             .Include(x => x.Records)
-            .SingleOrDefaultAsync(x => x.Id == settingGroup.Id) ?? new SettingGroupDb(settingGroup.Id, settingGroup.Title, []);
+            .SingleOrDefaultAsync(x => x.Id == settingGroup.Id) ?? new SettingGroupDb
+            (
+                settingGroup.Id,
+                settingGroup.Order,
+                settingGroup.Title,
+                []
+            );
 
         var existingSetingIds = groupDb.Records.Select(x => x.Id);
 
         var newRecords = settingGroup.Records
                 .Where(x => groupDb.Records.All(y => y.Id != x.Id))
+                .Select(x => x with { Order = settingGroup.Records.IndexOf(x) + 1 })
                 .Select(x => FromDto(x, groupDb))
                 .ToList();
 
@@ -174,7 +242,7 @@ of a sample company"""),
 
         if (setting is ISetting<SettingData> typedSetting)
         {
-            return new SettingDb(setting.Id, setting.Title, typedSetting.Data, groupDb);
+            return new SettingDb(setting.Id, setting.Order, setting.Title, typedSetting.Data, groupDb);
         }
 
         throw new ArgumentException($"Unknown type of setting {settingType}");

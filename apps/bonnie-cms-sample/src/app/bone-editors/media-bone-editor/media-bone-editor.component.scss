@@ -1,0 +1,82 @@
+@use '../../../sample-variables.scss' as *;
+@use 'variables' as *;
+@use 'admin-variables' as *;
+
+:host {
+    @include editor;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+
+  //
+  //
+  // DESKTOP STYLES
+  &.desktop {
+    .container {
+      @include adminDesktopGrid;
+      grid-row-gap: $atom * $adminDesktopViewPortCoeff;
+    }
+
+    .image-container {
+      grid-column-start: 1;
+      grid-column-end: 13;
+
+      &.flexible {
+        position: relative;
+
+        .uploader {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+      }
+    }
+
+    .title {
+      grid-row-start: 2;
+      grid-column-start: 4;
+      grid-column-end: 7;
+    }
+
+    .text {
+      grid-row-start: 2;
+      grid-column-start: 7;
+      grid-column-end: 13;
+    }
+  }
+
+
+  //
+  //
+  // TABLET STYLES
+  &.tablet {
+    .container {
+      @include adminTabletFlex;
+    }
+  }
+
+
+  //
+  //
+  // MOBILE STYLES
+  &.mobile {
+
+    .container {
+      @include admin-mobile-flex;
+    }
+  }
+}
+
+
+
+
+
+
+

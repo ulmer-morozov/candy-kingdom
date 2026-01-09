@@ -3,7 +3,7 @@ using System.Globalization;
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.MarcyCms.Sample.Bones;
-using CandyKingdom.MarcyCms.Sample.PageTypes;
+using CandyKingdom.MarcyCms.Sample.Core;
 
 using static CandyKingdom.Marcy.LocalizedStringHelpers;
 using static CandyKingdom.Marcy.Shugar;
@@ -17,8 +17,7 @@ public sealed class ProjectA : PageFactory<ProjectPageData>
     public override OpenGraphData OpenGraph { get; } = new OpenGraphData
     {
         Title = En("OpenGraph Title of The Project \"A\""),
-        Description = En("OpenGraph Description of The Project \"A\""),
-        Image = En("")
+        Description = En("OpenGraph Description of The Project \"A\"")
     };
     public override ProjectPageData Data { get; } = new ProjectPageData
     {
@@ -34,7 +33,7 @@ public sealed class ProjectA : PageFactory<ProjectPageData>
             },
             new MediaBone
             {
-                Style = MediaBoneStyle.MobileDisplay,
+                Style = MediaBoneStyle.FullWidth,
                 Media = Video
                 (
                     VideoSource

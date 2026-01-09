@@ -3,12 +3,10 @@ import {
   HttpErrorResponse,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { UserInfo } from './dto';
 import {
-  BehaviorSubject,
   Observable,
-  Subject,
   catchError,
   map,
   of,
@@ -18,15 +16,11 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
-  private _authStateChanged: Subject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
+  private readonly _authState = signal<boolean>(false);
+  public readonly authState = this._authState.asReadonly();
 
-  public onStateChanged() {
-    return this._authStateChanged.asObservable();
-  }
 
   // cookie-based login
   public signIn(email: string, password: string) {
@@ -44,7 +38,7 @@ export class AuthService {
       )
       .pipe<boolean>(
         map((res: HttpResponse<string>) => {
-          this._authStateChanged.next(res.ok);
+          this._authState.set(res.ok);
           return res.ok;
         })
       );
@@ -86,7 +80,7 @@ export class AuthService {
       .pipe<boolean>(
         map((res: HttpResponse<string>) => {
           if (res.ok) {
-            this._authStateChanged.next(false);
+            this._authState.set(false);
           }
           return res.ok;
         })

@@ -1,0 +1,23 @@
+<bonc-form-controls *ngIf="editable.value" [editable]="editable">
+  <label *ngIf="label">{{label}}</label>
+
+  <bonc-translation-input *ngIf="field === TextEditorField.Input"
+                          [text]="editable.value"
+                          [locale]="locale"
+                          (startEditing)="editable.startEditing()"
+                          (changed)="editable.updateDirty()"
+                          (blurred)="editable.updateDirty()">
+  </bonc-translation-input>
+
+
+  <bonc-translation-textarea *ngIf="field === TextEditorField.Textarea"
+                             [text]="editable.value"
+                             [minRows]="2"
+                             [locale]="locale"
+                             (startEditing)="editable.startEditing()"
+                             (changed)="editable.updateDirty()"
+                             (blurred)="editable.updateDirty()">
+  </bonc-translation-textarea>
+</bonc-form-controls>
+
+<div *ngIf="editable.value===undefined">Editable value canot be undefined</div>

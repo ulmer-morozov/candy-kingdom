@@ -1,0 +1,9 @@
+{
+  "name": "@candy-kingdom/bonnie-cms",
+  "version": "0.24.0",
+  "peerDependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0"
+  },
+  "sideEffects": false
+}

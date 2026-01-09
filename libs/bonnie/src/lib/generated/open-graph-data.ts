@@ -5,10 +5,12 @@
 
 import { IEquatable } from "./i-equatable";
 import { LocalizedString } from "./localized-string";
+import { LocalizedObject } from "./localized-object";
+import { FileSrc } from "./file-src";
+import { ImageMeta } from "./image-meta";
 
 export interface OpenGraphData {
     title: LocalizedString;
     description: LocalizedString;
-    image: LocalizedString;
-    empty: OpenGraphData;
+    image: LocalizedObject<FileSrc<ImageMeta>>;
 }

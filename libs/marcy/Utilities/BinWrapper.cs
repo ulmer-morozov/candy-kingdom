@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Net;
 using System.Runtime.InteropServices;
 
 namespace CandyKingdom.Marcy.Utilities;
@@ -13,6 +12,10 @@ public sealed class BinWrapper
 
     public ImmutableList<OsDependendName> ExecutableNames { get; }
     public ImmutableList<OsDependendSource> Sources { get; }
+
+    private readonly object _lock = new();
+    private static readonly HttpClient HttpClient = new();
+    private Task? _downloadTask;
 
     public BinWrapper(
       IEnumerable<OsDependendName> executableNames,
@@ -54,25 +57,58 @@ public sealed class BinWrapper
 
         if (!executableFile.Exists)
         {
-            await DownloadExecutable();
+            lock (_lock)
+            {
+                if (_downloadTask == null)
+                {
+
+                    var name = executableFile.Name;
+
+                    Console.WriteLine($"CALLING NEW DOWNLOAD {executableFile.Name}");
+
+                    async Task Download()
+                    {
+                        await DownloadExecutable();
+                        Thread.Sleep(1000);
+                    }
+
+                    _downloadTask = Download();
+                }
+            }
+
+            await _downloadTask;
         }
 
         var argumentString = string.Join(" ", args);
 
-        using var process = new Process
-        {
-            StartInfo =
-    {
-      FileName = executableFile.FullName,
-      UseShellExecute = false,
-      CreateNoWindow = true,
-      RedirectStandardOutput = true,
-      Arguments = argumentString
-    }
-        };
+        Process? process = null;
 
-        process.Start();
-        await process.WaitForExitAsync(cancellationToken);
+        try
+        {
+            lock (_lock)
+            {
+                process = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = executableFile.FullName,
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardOutput = true,
+                        Arguments = argumentString
+                    }
+                };
+
+                process.Start();
+                process.WaitForExit();
+            }
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error running process: {e.Message}");
+            process?.Dispose();
+        }
     }
 
     public Task DownloadExecutable()
@@ -100,15 +136,15 @@ public sealed class BinWrapper
 
     private async Task Download(OsDependendSource source)
     {
-        using var webClient = new WebClient();
-
-        webClient.DownloadProgressChanged += (sender, e) =>
-          Console.WriteLine(
-            $"Скачано {source.FileName} {e.ProgressPercentage}% ({e.BytesReceived}/{e.TotalBytesToReceive})"
-          );
-
         var filePath = Path.Combine(Destination, source.FileName);
-        await webClient.DownloadFileTaskAsync(source.Url, filePath);
+
+        Console.WriteLine($"Downloading {source.FileName} > {source.Url} to {filePath}");
+
+        var fileBytes = await HttpClient.GetByteArrayAsync(source.Url);
+
+        File.WriteAllBytes(filePath, fileBytes);
+
+        Console.WriteLine($"Downloaded {source.FileName} > {source.Url} to {filePath}");
 
         Chmod(755, filePath);
     }

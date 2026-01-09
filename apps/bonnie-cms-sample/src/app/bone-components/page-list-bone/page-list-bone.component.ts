@@ -1,10 +1,13 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
-import { BoneDirective } from '@candy-kingdom/bonnie';
-import { PageListBone } from './PageListBone';
-import { PageListBoneStyle } from './PageListBoneStyle';
+import { ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { BoneDirective, LocalizePipe } from '@candy-kingdom/bonnie';
+import { PageListBone, PageListBoneStyle } from '../../generated';
 
 @Component({
   selector: 'app-page-list',
+  standalone: true,
+  imports: [CommonModule, RouterLink, LocalizePipe],
   templateUrl: './page-list-bone.component.html',
   styleUrls: ['./page-list-bone.component.scss'],
   hostDirectives: [BoneDirective]
@@ -12,8 +15,11 @@ import { PageListBoneStyle } from './PageListBoneStyle';
 export class PageListBoneComponent implements OnInit {
   public readonly PageListBoneStyle = PageListBoneStyle;
 
-  constructor(private readonly cd: ChangeDetectorRef, public readonly bd: BoneDirective<PageListBone>) {
-    cd.detach();
+  private readonly cd = inject(ChangeDetectorRef);
+  public readonly bd = inject(BoneDirective<PageListBone>, { host: true });
+
+  constructor() {
+    this.cd.detach();
   }
 
   @HostBinding('class')

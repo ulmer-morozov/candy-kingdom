@@ -8,6 +8,7 @@ import { IEquatable } from "./i-equatable";
 import { ImageSource } from "./image-source";
 
 export interface Image extends PixMedia {
+    readonly $type: 'image';
     sources: ImageSource[];
     type: 'image';
 }

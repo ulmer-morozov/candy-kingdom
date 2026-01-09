@@ -1,8 +1,6 @@
-using CandyKingdom.MarcyCms.Data;
-
 using Microsoft.EntityFrameworkCore;
 
-namespace CandyKingdom.MarcyCms;
+namespace CandyKingdom.MarcyCms.Data;
 
 public interface IMarcyCmsDbContext
 {

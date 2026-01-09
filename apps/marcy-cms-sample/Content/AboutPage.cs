@@ -13,8 +13,7 @@ public sealed class AboutPage : PageFactory
     public override OpenGraphData OpenGraph { get; } = new OpenGraphData
     {
         Title = En("OpenGraph Title of The About Page"),
-        Description = En("OpenGraph Description of The About Page"),
-        Image = En("")
+        Description = En("OpenGraph Description of The About Page")
     };
 
     public AboutPage()

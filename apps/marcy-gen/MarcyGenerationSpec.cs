@@ -1,44 +1,12 @@
-using System.Collections.Immutable;
-
 using CandyKingdom.Marcy;
+using CandyKingdom.Marcy.ImageTools;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 
-using TypeGen.Core.Converters;
 using TypeGen.Core.SpecGeneration;
 using TypeGen.Core.TypeAnnotations;
 
 namespace CandyKingdom.MarcyGen;
-
-
-public class TypeNameConverter : ITypeNameConverter
-{
-    // These needed for successfull generation of generic classes that have same name as base class
-    public static readonly ImmutableList<Type> SpecialTypes = [typeof(Page)];
-
-    public string Convert(string name, Type type)
-    {
-        if (SpecialTypes.Contains(type))
-        {
-            return $"{name}Base";
-        }
-
-        return name;
-    }
-}
-
-public class FileNameConverter : ITypeNameConverter
-{
-    public string Convert(string name, Type type)
-    {
-        if (TypeNameConverter.SpecialTypes.Contains(type))
-        {
-            return $"{name}-base";
-        }
-
-        return name;
-    }
-}
 
 public sealed class MarcyGenerationSpec : GenerationSpec
 {
@@ -65,12 +33,12 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface<PixMedia>().Member(x => nameof(x.Type)).Type("'image' | 'video'");
 
         AddInterface<Image>()
-            .Member(x => nameof(x.Type)).Type("'image'")
-            .Member(x => nameof(x.MediaType)).Ignore();
+            .Member(x => nameof(x.Type)).Type($"'{Image.MediaType}'")
+            .Member(x => nameof(x.MediaType)).MemberName("$type").Type($"'{Image.MediaType}'"); // todo: remove
 
         AddInterface<Video>()
-            .Member(x => nameof(x.Type)).Type("'video'")
-            .Member(x => nameof(x.MediaType)).Ignore();
+            .Member(x => nameof(x.Type)).Type($"'{Video.MediaType}'")
+            .Member(x => nameof(x.MediaType)).MemberName("$type").Type($"'{Video.MediaType}'"); // todo: remove
 
         AddInterface(typeof(ImageSource));
         AddInterface(typeof(VideoSource));
@@ -80,9 +48,10 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface(typeof(FileSrc<>));
         AddInterface(typeof(FileSrcBase));
 
-        AddInterface<FileMeta>();
+        AddInterface<FileMeta>().Member(x => nameof(x.Empty)).Ignore();
         AddInterface<PixMeta>();
-        AddInterface<ImageMeta>();
+        AddInterface<SvgMeta>();
+        AddInterface<ImageMeta>().Member(x => nameof(x.Empty)).Ignore();
         AddInterface<VideoMeta>().Member(x => nameof(x.Duration)).Type(TsType.Number);
 
         AddInterface<SizesItem>();
@@ -101,7 +70,10 @@ public sealed class MarcyGenerationSpec : GenerationSpec
         AddInterface<PageData>()
             .Member(nameof(PageData.Empty)).Ignore();
 
-        AddInterface<OpenGraphData>();
+        AddInterface<OpenGraphData>()
+            .Member(x => nameof(x.Empty)).Ignore();
 
+        AddInterface<FileFormat>()
+            .Member(nameof(FileFormat.Empty)).Ignore();
     }
 }

@@ -16,7 +16,7 @@ public sealed class FaceView : ViewFactory
             {
                 Title = Empty,
                 DataRoute = "~",
-                Style = "main-nav"
+                Style = PageListBoneStyle.MainNav
             }
         );
     }

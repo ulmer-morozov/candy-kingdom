@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
-namespace CandyKingdom.MarcyCms.Sample;
+namespace CandyKingdom.MarcyCms.Sample.Core;
 
 /// <summary>
 /// Provides extension methods for <see cref="IEndpointRouteBuilder"/> to add identity endpoints.

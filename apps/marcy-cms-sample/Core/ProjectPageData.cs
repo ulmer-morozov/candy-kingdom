@@ -1,16 +1,16 @@
 using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Pages;
 
-namespace CandyKingdom.MarcyCms.Sample.PageTypes;
+namespace CandyKingdom.MarcyCms.Sample.Core;
 
 public sealed record ProjectPageData : PageData
 {
-    public const string TYPE = "project";
+    public const string PageDataType = "project";
 
     public LocalizedString SpecialTitle { get; init; } = LocalizedString.Empty;
 
     public ProjectPageData()
-        : base(TYPE)
+        : base(PageDataType)
     {
     }
 }

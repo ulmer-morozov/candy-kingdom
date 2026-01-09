@@ -4,6 +4,7 @@
  */
 
 export * from './bone';
+export * from './file-format';
 export * from './file-meta';
 export * from './file-src-base';
 export * from './file-src';
@@ -28,6 +29,7 @@ export * from './pix-meta';
 export * from './publish-status';
 export * from './sizes-item';
 export * from './sizes-width-unit';
+export * from './svg-meta';
 export * from './video-meta';
 export * from './video-source';
 export * from './video';

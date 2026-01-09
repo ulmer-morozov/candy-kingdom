@@ -1,11 +1,8 @@
-using System.Text.Json;
-
 using Autofac.Extensions.DependencyInjection;
 
-using CandyKingdom.Marcy;
+using CandyKingdom.Marcy.Storage;
 using CandyKingdom.MarcyCms;
 using CandyKingdom.MarcyCms.Sample;
-using CandyKingdom.MarcyCms.Sample.Content;
 using CandyKingdom.MarcyCms.Sample.Core;
 using CandyKingdom.MarcyCms.Sample.Data;
 using CandyKingdom.MarcyCms.Sample.Serialization;
@@ -16,17 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
-var srcSetJson = /*lang=json,strict*/ """{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}""";
-
-var filesrc = JsonSerializer.Deserialize<FileSrc<VideoMeta>>(srcSetJson, CmsJsonSerializationOptions.New());
-
-var videoSourceJson = /*lang=json,strict*/ """{"mediaQuery":"somequery","srcSet":[{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}]}""";
-
-var videoSource = JsonSerializer.Deserialize<VideoSource>(videoSourceJson, CmsJsonSerializationOptions.New());
-
-var videoJson = /*lang=json,strict*/ """{"$$type":"video","sources":[{"mediaQuery":"","srcSet":[{"meta":{"duration":"00:12:14.2600000","fullFormat":"h264 (High) (avc1 / 0x31637661), yuv420p(progressive)","hasAudio":true,"frameRate":24,"width":1280,"height":534,"ratio":2.397,"byteCount":185765954},"mimeType":"video/mp4","url":"https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"}]}]}""";
-
-var video = JsonSerializer.Deserialize<PixMedia>(videoJson, CmsJsonSerializationOptions.New());
+var contratsDir = Path.Combine("..", "..", "apps", "bonnie-cms-sample", "src", "app", "generated");
+SpecGenerator.GenerateTsFiles<MarcyCmsSampleGenerationSpec>(contratsDir);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,9 +58,11 @@ builder.Services
 
 // services.AddSingleton<IFileStorage, LocalFileStorage>();
 // services.AddSingleton<IEmailSender, FakeEmailSender>();
-
-builder.Services.AddSingleton<IPageManager, PageManager<CmsSampleDbContext>>();
-// services.AddSingleton<ISettingsManager, SettingsManager>();
+// config.MinificationVendors.Add(new ImageMinWebp(new ImageMinWebpOptions(quality: 90)));
+builder.Services.AddMarcyCms<CmsSampleDbContext>(config =>
+{
+    config.FileStorage = new LocalFileStorage("/files/", Path.Combine(builder.Environment.WebRootPath ?? "", "files"));
+});
 
 builder.Services.AddSingleton<InitialDataFiller>();
 
@@ -83,6 +73,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddControllers()
+    .AddApplicationPart(typeof(MarcyCmsServiceCollectionExtension).Assembly)
     .AddJsonOptions(o => CmsJsonSerializationOptions.Configure(o.JsonSerializerOptions));
 
 builder.Services.ConfigureHttpJsonOptions(o => CmsJsonSerializationOptions.Configure(o.SerializerOptions));
@@ -94,8 +85,9 @@ app.MapControllers();
 app.UseResponseCompression();
 
 app.MapCustomIdentityApi<ApplicationUser>();
-// app.UseDefaultFiles();
-// app.UseStaticFiles();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -122,38 +114,8 @@ app.MapPost("/api/logout", async (SignInManager<ApplicationUser> signInManager, 
     )
     .RequireAuthorization();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/api/weatherforecast", () =>
-        {
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
-        }
-    )
-    .WithName("GetWeatherForecast")
-    .WithOpenApi()
-    .RequireAuthorization();
-
 var filler = app.Services.GetRequiredService<InitialDataFiller>();
 
 await filler.InitializeIfNecessary();
 
 app.Run();
-
-namespace CandyKingdom.MarcyCms.Sample
-{
-    internal sealed record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-    {
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
-}

@@ -16,9 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@candy-kingdom/bonnie": ["libs/bonnie/src/index.ts"],
-      "@candy-kingdom/generated/marcy-cms-types": [
-        "libs/generated/marcy-cms-types/src/index.ts"
-      ]
+      "@candy-kingdom/bonnie-cms": ["libs/bonnie-cms/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

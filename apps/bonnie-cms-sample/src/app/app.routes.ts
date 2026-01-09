@@ -1,9 +1,12 @@
 import { ActivatedRouteSnapshot, Route, mapToCanActivate } from '@angular/router';
-import { AuthGuard } from './guard';
 import { inject } from '@angular/core';
-import { DataService } from './data.service';
 
-export const APP_Routes: Route[] = [
+import { DataService } from '@candy-kingdom/bonnie-cms';
+
+import { AuthGuard } from './guard';
+import { CmsSampleSettingIds } from './generated';
+
+export const appRoutes: Route[] = [
   {
     path: 'signin',
     loadComponent: () => import('./signin.component'),
@@ -14,17 +17,25 @@ export const APP_Routes: Route[] = [
   },
   {
     path: 'admin',
-    loadComponent: () => import('./admin.component'),
+    loadComponent: () => import('./admin/admin.component'),
     loadChildren: () => import('./AdminRoutes').then((x) => x.ADMIN_ROUTES),
     canActivateChild: mapToCanActivate([AuthGuard]),
   },
   {
     path: '**',
-    loadComponent: () => import('./face.component'),
+    loadComponent: () => import('./face/face.component'),
     providers: [DataService],
     resolve: {
       page: (route: ActivatedRouteSnapshot) => inject(DataService).getPage(route.url.join('/')),
-      faceView: () => inject(DataService).getView('face')
+      faceView: () => inject(DataService).getView('face'),
+      settings: () => inject(DataService).getSettings([
+        CmsSampleSettingIds.email,
+        CmsSampleSettingIds.company,
+        CmsSampleSettingIds.description,
+        CmsSampleSettingIds.faviconIco,
+        CmsSampleSettingIds.faviconSvg,
+        CmsSampleSettingIds.faviconAppleTouch180,
+      ])
     }
   },
 ];

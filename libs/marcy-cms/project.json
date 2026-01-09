@@ -1,34 +1,3 @@
 {
-  "name": "marcy-cms",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/marcy-cms",
-  "targets": {
-    "build": {
-      "executor": "@nx-dotnet/core:build",
-      "outputs": [
-        "{workspaceRoot}/dist/libs/marcy-cms",
-        "{workspaceRoot}/dist/intermediates/libs/marcy-cms"
-      ],
-      "options": {
-        "configuration": "Debug",
-        "noDependencies": true
-      },
-      "configurations": {
-        "production": {
-          "configuration": "Release"
-        }
-      }
-    },
-    "lint": {
-      "executor": "@nx-dotnet/core:format"
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular"
-      }
-    }
-  },
-  "tags": []
+  "name": "marcy-cms"
 }

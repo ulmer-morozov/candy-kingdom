@@ -1,0 +1,39 @@
+<bonc-form-controls *ngIf="editable.value" [editable]="editable">
+  <h2 *ngIf="label">{{label}}</h2>
+
+  <div class="form-group">
+    <label>Title</label>
+    <bonc-translation-input [text]="editable.value.title"
+                            [locale]="locale"
+                            (startEditing)="editable.startEditing()"
+                            (changed)="editable.updateDirty()"
+                            (blurred)="editable.updateDirty()">
+    </bonc-translation-input>
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <bonc-translation-textarea [text]="editable.value.description"
+                               [locale]="locale"
+                               (startEditing)="editable.startEditing()"
+                               (changed)="editable.updateDirty()"
+                               (blurred)="editable.updateDirty()">
+    </bonc-translation-textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Share image | 1200x630</label>
+
+    <bonc-file-uploader [src]="editable.value.image[locale]"
+                        [uploadTypes]="['image/png', 'image/jpeg']"
+                        [uploadUrlMap]="uploadMap"
+                        (srcChange)="replaceImage($event)">
+      <img *ngIf="editable.value.image[locale]?.url?.length ?? 0 > 0" [src]="editable.value.image[locale].url" />
+    </bonc-file-uploader>
+
+    <a *ngIf="editable.value.image[locale]?.url?.length ?? 0 > 0" [href]="editable.value.image[locale].url" download target="_blank">Download</a>
+  </div>
+
+</bonc-form-controls>
+
+<div *ngIf="!editable.value">Editable Value canot be null or undefined</div>

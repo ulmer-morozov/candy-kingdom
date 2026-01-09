@@ -1,0 +1,14 @@
+@use './../../styles/admin-variables.scss' as *;
+
+:host {
+  @include admin-form;
+}
+
+bonc-one-image-form{
+  max-width: 600px;
+}
+
+img{
+  display: block;
+  width: 100%;
+}

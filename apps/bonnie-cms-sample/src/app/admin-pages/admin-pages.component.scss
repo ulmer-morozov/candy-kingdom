@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.pages-nav {
+  top: 80px;
+  left: 20px;
+  position: absolute;
+  background-color: #111;
+  padding: 10px;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    li a {
+      color: silver;
+    }
+  }
+}
+
+.page-editor.hidden{
+  display: none;
+}

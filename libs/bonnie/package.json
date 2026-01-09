@@ -1,12 +1,9 @@
 {
   "name": "@candy-kingdom/bonnie",
-  "version": "0.1.1",
+  "version": "0.24.0",
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0"
   },
   "sideEffects": false
 }

@@ -1,0 +1,139 @@
+﻿@use './admin-variables.scss' as *;
+
+body {
+  font-family: $adminFont;
+  color: silver;
+  background-color: #222;
+}
+
+bonc-bone-editor-container .bar a,
+bonc-form-controls .controls a {
+  display: block;
+  padding: 8px;
+  color: #444;
+  user-select: none;
+  cursor: pointer;
+  text-align: right;
+
+  &:hover {
+    color: #666;
+    background-color: #333;
+  }
+
+  &:active {
+    color: #555;
+  }
+
+  &.save,
+  &.close,
+  &.preset {
+    flex: 1;
+  }
+
+  &.preset {
+    font-size: 11px;
+  }
+
+  &.save:hover {
+    color: $adminAccentColor;
+  }
+}
+
+bonc-form-controls {
+  h2 {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.3em;
+  }
+
+  .form-group+.form-group {
+    margin-top: 14px;
+  }
+}
+
+.page-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #222;
+  padding-top: 50px;
+  padding-bottom: 200px;
+
+  .form-item {
+    margin-bottom: 10px;
+  }
+
+  .page-title,
+  .seo,
+  .project-preview,
+  .project-title,
+  .address-form,
+  .email,
+  .phone,
+  .url,
+  .category-title {
+    width: 400px;
+  }
+
+  .social-links-form,
+  .subheader,
+  .action {
+    width: 500px;
+  }
+
+  .project-preview .form-group {
+    width: 200px;
+  }
+}
+
+a.delete-entity {
+  width: 200px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $adminWarningColor;
+  color: white;
+  cursor: pointer;
+
+  user-select: none;
+
+  &:hover {
+    text-decoration: underline;
+    background-color: darken($adminWarningColor, 10%);
+
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.form-select {
+  @include form-select-basic;
+}
+
+.form-select-light {
+  @include form-select-basic;
+
+  color: #222;
+
+  option {
+    background-color: silver;
+
+    &:not(checked) {
+      color: #222;
+    }
+  }
+}
+
+bonc-editable-group>h2 {
+  color: silver;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  margin-left: -11em;
+}

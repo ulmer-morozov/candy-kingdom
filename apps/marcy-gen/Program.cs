@@ -3,23 +3,21 @@ using CandyKingdom.MarcyGen;
 using TypeGen.Core.Generator;
 using TypeGen.Core.SpecGeneration;
 
-var generatedContractsFolder = Path.Combine(
-          "..",
-          "..",
-          "libs",
-          "bonnie",
-          "src",
-          "lib",
-          "generated"
-        );
+var bonnieDir = Path.Combine("libs", "bonnie", "src", "lib", "generated");
+var bonnieCmsDir = Path.Combine("libs", "bonnie-cms", "src", "lib", "generated");
 
-GenerateTsFiles<MarcyGenerationSpec>(generatedContractsFolder);
+Console.WriteLine("Generating TypeScript files...");
+
+GenerateTsFiles<MarcyGenerationSpec>(bonnieDir);
+GenerateTsFiles<MarcyCmsGenerationSpec>(bonnieCmsDir);
 
 return 0;
 
 static void GenerateTsFiles<T>(string outputDirectory)
   where T : GenerationSpec, new()
 {
+  Console.WriteLine("Output directory: " + Path.GetFullPath(outputDirectory));
+
     var customMappings = new Dictionary<string, string>();
 
     var generator = new Generator(
@@ -30,5 +28,5 @@ static void GenerateTsFiles<T>(string outputDirectory)
       }
     );
 
-    generator.Generate(new[] { new T() }); // generates the files
+    generator.Generate([new T()]); // generates the files
 }

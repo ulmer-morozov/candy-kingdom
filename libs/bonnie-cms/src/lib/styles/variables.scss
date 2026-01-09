@@ -1,0 +1,415 @@
+$atom: 0.34364261168vw;
+$tabletAtom: 0.54644809vw;
+$mobileAtom: 1.49253731vw;
+
+$mobileScreenMaxSize: 767px;
+$desktopScreenSize: 1280px;
+
+@mixin page {
+  display: block;
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
+
+  @include desktop {
+    padding-bottom: $violetGap;
+  }
+
+  @include tablet {
+    padding-bottom: $blueTabletGap;
+  }
+
+  @include mobile {
+    padding-bottom: $redMobileGap + $yellowMobileGap - $big-text-line-height-mobile;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: $mobileScreenMaxSize) {
+    @content;
+  }
+}
+
+@mixin tablet_only {
+  @media (min-width: $mobileScreenMaxSize + 1px) and (max-width: $desktopScreenSize - 1px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $desktopScreenSize - 1px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktopScreenSize) {
+    @content;
+  }
+}
+
+@mixin projects-grid-with-rows($qty) {
+  display: grid;
+  position: relative;
+  grid-template-columns: repeat($qty - 1, 1fr $desktopHGap) 1fr;
+}
+
+
+$desktopHGap: $atom * 3;
+$tabletHGap: $tabletAtom * 3;
+$mobileHGap: $mobileAtom * 3;
+
+///// отступы
+$pinkGap: 5 * $atom;
+$redGap: 10 * $atom;
+$yellowGap: 15 * $atom;
+$blueGap: 30 * $atom;
+$violetGap: 45 * $atom;
+
+$pinkTabletGap: 5 * $tabletAtom;
+$redTabletGap: 10 * $tabletAtom;
+$yellowTabletGap: 15 * $tabletAtom;
+$blueTabletGap: 30 * $tabletAtom;
+$violetTabletGap: 45 * $tabletAtom;
+
+$pinkMobileGap: 5 * $mobileAtom;
+$redMobileGap: 10 * $mobileAtom;
+$yellowMobileGap: 15 * $mobileAtom;
+$blueMobileGap: 30 * $mobileAtom;
+$violetMobileGap: 45 * $mobileAtom;
+
+
+$defaultEasing: cubic-bezier(0.4, 0.0, 0.2, 1);
+$accelerateEasing: cubic-bezier(0.4, 0.0, 1, 1);
+$decelerateEasing: cubic-bezier(0.0, 0.0, 0.2, 1);
+
+$footerDesktopHeight: $violetGap + $blueGap;
+$footerTabletHeight: $violetTabletGap + $blueTabletGap;
+$footerMobileHeight:  2 * $violetMobileGap + $redMobileGap - 2 * $mobileAtom;;
+
+@mixin tablet-flex {
+  display: flex;
+  flex-direction: column;
+  padding-right: $tabletHGap;
+  padding-left: $tabletHGap;
+}
+
+@mixin mobile-flex {
+  display: flex;
+  flex-direction: column;
+  padding-right: $mobileAtom;
+  padding-left: $mobileAtom;
+}
+
+@mixin mobile-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: $mobileAtom;
+  padding-left: $mobileAtom;
+  padding-right: $mobileAtom;
+}
+
+@mixin tablet-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: $tabletHGap;
+  padding-left: $tabletHGap;
+  padding-right: $tabletHGap;
+}
+
+@mixin tablet-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-column-gap: $tabletHGap;
+  padding-left: $tabletHGap;
+  padding-right: $tabletHGap;
+}
+
+@mixin desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-column-gap: $desktopHGap;
+  padding-left: $desktopHGap;
+  padding-right: $desktopHGap;
+}
+
+$big-text-line-height: 13 * $atom;
+$big-text-line-height-tablet: 13 * $tabletAtom;
+$big-text-line-height-mobile: 6 * $mobileAtom;
+
+@mixin big-text {
+  letter-spacing: -0.01em;
+  margin-left: -0.07em;
+
+  @include desktop {
+    font-size: $atom * 12;
+    line-height: $big-text-line-height;
+  }
+
+  @include tablet {
+    font-size: $tabletAtom * 12;
+    line-height: $big-text-line-height-tablet;
+  }
+
+  @include mobile {
+    font-size: $mobileAtom * 6;
+    line-height: 1em;
+  }
+}
+
+$small-text-line-height: $atom * 5;
+$small-text-line-height-tablet: $tabletAtom * 5;
+$small-text-line-height-mobile: $mobileAtom * 3.2 * 1.25;
+
+@mixin small-text {
+  @include desktop {
+    font-size: 4 * $atom;
+    font-size: #{"min(#{4 * $atom}, 28px)"};
+
+    line-height: (5/4);// $small-text-line-height;
+  }
+
+  @include tablet {
+    font-size: $tabletAtom * 4;
+    line-height: $small-text-line-height-tablet;
+  }
+
+  @include mobile {
+    font-size: $mobileAtom * 3.2;
+    line-height: $small-text-line-height-mobile;
+  }
+}
+
+@mixin link {
+  @include linkWithColor(var(--text-color));
+}
+
+$underlineHeight: 1px;
+
+@mixin hover-underline-small-text($color) {
+
+  @include desktop {
+    position: relative;
+
+    &::after {
+      display: none;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: $underlineHeight;
+      left: 0;
+      bottom: 0;
+      background-color: $color;
+    }
+
+    &:hover::after {
+      display: block;
+    }
+  }
+
+}
+
+@mixin hover-underline-big-text($color) {
+
+  @include desktop {
+    position: relative;
+
+    &::after {
+      display: none;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: $underlineHeight;
+      left: 0;
+      bottom: 0;
+      background-color: $color;
+    }
+
+    &:hover::after {
+      display: block;
+    }
+  }
+}
+
+@mixin underline-big-text($color) {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: $underlineHeight;
+    left: 0;
+    bottom: 0;
+    background-color: $color;
+  }
+}
+
+@mixin underline-small-text($color) {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: $underlineHeight;
+    left: 0;
+    bottom: 0;
+    background-color: $color;
+  }
+
+}
+
+
+@mixin linkWithColor($color) {
+  color: $color;
+  text-decoration: none;
+  user-select: none;
+
+  &:visited,
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color;
+  }
+}
+
+@mixin reset-button {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  font-weight: 400;
+
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  user-select: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
+@mixin bigTextMarginTopToMeetSmallText {
+  margin-top: -0.1em;
+}
+
+@mixin categoryGrid($gapSelector, $projectInRow) {
+  $totalColumns: (2 * $projectInRow - 1);
+  display: grid;
+  position: relative;
+
+  @include desktop {
+    grid-template-columns: repeat($projectInRow - 1, 1fr $desktopHGap) 1fr;
+
+    #{$gapSelector} {
+      &:nth-of-type(#{$projectInRow}n) {
+        grid-column-start: 1;
+        grid-column-end: 13;
+        height: $desktopHGap;
+      }
+
+      &:nth-child(#{$totalColumns + 1}n):last-child {
+        display: none;
+      }
+
+      $i: 2;
+
+      @while $i < $totalColumns {
+        &:nth-child(#{$totalColumns + 1}n + #{$i}):last-child {
+          grid-column: span $totalColumns + 1 - $i;
+        }
+
+        $i: $i+2;
+      }
+    }
+  }
+
+  @include tablet {
+    grid-template-columns: repeat($projectInRow - 1, 1fr $tabletHGap) 1fr;
+
+    #{$gapSelector} {
+      &:nth-of-type(#{$projectInRow}n) {
+        grid-column-start: 1;
+        grid-column-end: 13;
+        height: $tabletHGap;
+      }
+
+      &:nth-child(#{$totalColumns + 1}n):last-child {
+        display: none;
+      }
+
+      $i: 2;
+
+      @while $i < $totalColumns {
+        &:nth-child(#{$totalColumns + 1}n + #{$i}):last-child {
+          grid-column: span $totalColumns + 1 - $i;
+        }
+
+        $i: $i+2;
+      }
+    }
+  }
+}
+
+@mixin media_cover() {
+  // objtct-fit для media
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .media-container {
+    position: static !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+$touchCircleWidthTablet: 4vw;
+$touchCircleWidthMobile: 10vw;
+
+@mixin touch-response() {
+  @include desktop {
+    display: none;
+  }
+
+  @include tablet {
+    position: relative;
+
+    &:after {
+      position: absolute;
+      content: '';
+      width: $touchCircleWidthTablet;
+      height: $touchCircleWidthTablet;
+      top: calc(50% - 2vw);
+      left: calc(50% - 2vw);
+      border-radius: 50%;
+      background-color: black;
+      opacity: 0;
+      transition: opacity 0.2s $defaultEasing;
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
+
+    &:focus:after,
+    &:active:after {
+      opacity: 0.2;
+    }
+
+  }
+
+  @include mobile {
+
+    &:after {
+      width: $touchCircleWidthMobile;
+      height: $touchCircleWidthMobile;
+      top: calc(50% - 5vw);
+      left: calc(50% - 5vw);
+    }
+  }
+}

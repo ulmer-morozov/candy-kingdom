@@ -1,32 +1,39 @@
-import { ApplicationConfig } from '@angular/core';
-import { Router, provideRouter, withComponentInputBinding } from '@angular/router';
-import { APP_Routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { appRoutes } from './app.routes';
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
+
+import { provideLottieOptions } from 'ngx-lottie';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { AuthInterceptor } from './interceptor';
+
 import { AuthGuard } from './guard';
 import { AuthService } from './service';
-import { APP_BASE_HREF } from '@angular/common';
-
-function getBaseHref() {
-  return document.getElementsByTagName('base')[0].href;
-}
+import { AuthInterceptor } from './interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideClientHydration(),
+    provideZonelessChangeDetection(),
     provideHttpClient(),
-    provideRouter(APP_Routes, withComponentInputBinding()),
+    provideClientHydration(withEventReplay()),
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(appRoutes, withComponentInputBinding()),
+
     {
       provide: HTTP_INTERCEPTORS,
-      useFactory: (router: Router) => {
-        return new AuthInterceptor(router);
-      },
+      useClass: AuthInterceptor,
       multi: true,
-      deps: [Router],
     },
 
-    { provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [] },
+    provideLottieOptions({
+      player: () => import('lottie-web'),
+    }),
 
     AuthGuard,
     AuthService,

@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="image-container">
+    <bonc-media-uploader [(src)]="bone.media"
+                         [uploadUrlMap]="MediaUploadMap"
+                         (srcChange)="startEditing()"
+                         (updated)="startEditing()"
+                         class="uploader"></bonc-media-uploader>
+  </div>
+
+  <div class="title">
+    <bonc-translation-input [text]="bone.title"
+                            [device]="device"
+                            [locale]="locale"
+                            (startEditing)="startEditing()"
+                            (changed)="markAsDirty()"
+                            (blurred)="updateDirty()">
+    </bonc-translation-input>
+  </div>
+
+  <div class="text">
+    <bonc-link-popup #linkPopup
+                     [(link)]="bone.link"
+                     [field]="LinkPopupField.Input"
+                     [locale]="locale"
+                     [linkTitle]="bone.text"
+                     (startEditing)="startEditing()"
+                     (changed)="markAsDirty()"
+                     (blurred)="updateDirty()"
+                     (open)="updateOpen(linkPopup)"
+                     (closed)="updateClosed()">
+    </bonc-link-popup>
+  </div>
+
+</div>

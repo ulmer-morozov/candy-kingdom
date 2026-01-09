@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  selector: 'candy-kingdom-register-component',
+  selector: 'app-register-component',
   templateUrl: './register.component.html',
 })
 export default class RegisterComponent implements OnInit {
@@ -22,10 +22,10 @@ export default class RegisterComponent implements OnInit {
   registerSucceeded: boolean = false;
   signedIn: boolean = false;
 
-  constructor(
-    private authService: AuthService,
-    private formBuilder: FormBuilder
-  ) {
+  private readonly authService = inject(AuthService);
+  private readonly formBuilder = inject(FormBuilder);
+
+  constructor() {
     this.authService.isSignedIn().forEach((isSignedIn) => {
       this.signedIn = isSignedIn;
     });

@@ -128,11 +128,7 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
                 }
             }
 
-            var orderedSrcs = imageSrcDict
-              .Values.OrderByDescending(x => x.Meta.Width)
-              .ThenByDescending(x => x.MimeType.Contains("web")); // webp first)
-
-            var imageSource = new ImageSource(orderedSrcs) { MediaQuery = imageSourceM.MediaQuery ?? "" };
+            var imageSource = new ImageSource(imageSrcDict.Values) { MediaQuery = imageSourceM.MediaQuery ?? "" };
 
             imageSources.Add(imageSource);
         }

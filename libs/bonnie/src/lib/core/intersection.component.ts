@@ -1,9 +1,9 @@
-import { ElementRef, OnInit, OnDestroy, Component, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
-import { BehaviorSubject, Observable, filter, skip } from 'rxjs';
+import { ElementRef, OnInit, OnDestroy, Component, Output, EventEmitter, Input, ChangeDetectorRef, inject, signal, effect, EffectRef, Signal } from '@angular/core';
 import { UnsubscriberService } from './unsubscribe.service';
 
 @Component({
     selector: 'bon-intersection',
+    standalone: true,
     template: '<ng-content></ng-content>',
     styles: [':host{display:block}'],
     providers: [UnsubscriberService]
@@ -12,13 +12,20 @@ export class IntersectionComponent implements OnInit, OnDestroy {
     @Output()
     public readonly intersected = new EventEmitter<void>();
 
+    private readonly _hostRef = inject(ElementRef);
+    private readonly _u = inject(UnsubscriberService);
+    private readonly _cd = inject(ChangeDetectorRef);
+
     private readonly intersectionObserver?: IntersectionObserver;
-    private readonly _intersectSubject = new BehaviorSubject<boolean>(false);
+    private readonly _intersected = signal<boolean>(false);
+
+    public readonly intersectedOnce = this._intersected.asReadonly();
 
     private _session: any;
+    private readonly _effectCleanup?: EffectRef;
 
-    constructor(private readonly _hostRef: ElementRef, private readonly _u: UnsubscriberService, cd: ChangeDetectorRef) {
-        cd.detach();
+    constructor() {
+        this._cd.detach();
         // no template with variables, so we don't need to call changeDetection
 
         if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
@@ -27,12 +34,16 @@ export class IntersectionComponent implements OnInit, OnDestroy {
         }
 
         this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this));
+
+        // Watch for intersection changes and emit when it becomes true
+        this._effectCleanup = effect(() => {
+            if (this._intersected()) {
+                this.intersected.next();
+            }
+        });
     }
 
     public ngOnInit(): void {
-        this._intersectSubject
-            .pipe(this._u.takeUntilDestroy, filter(x => x === true))
-            .subscribe(x => this.intersected.next());
     }
 
     @Input()
@@ -46,9 +57,6 @@ export class IntersectionComponent implements OnInit, OnDestroy {
         this.reset();
     }
 
-    public get intersectedOnce(): boolean {
-        return this._intersectSubject.value;
-    }
 
     private reset(): void {
         if (this.intersectionObserver === undefined || this.intersectionObserver === null)
@@ -56,7 +64,7 @@ export class IntersectionComponent implements OnInit, OnDestroy {
 
         this.intersectionObserver.unobserve(this._hostRef.nativeElement);
 
-        this._intersectSubject.next(false);
+        this._intersected.set(false);
 
         this.intersectionObserver.observe(this._hostRef.nativeElement);
     }
@@ -67,7 +75,7 @@ export class IntersectionComponent implements OnInit, OnDestroy {
         }
 
         const isIntersecting = entries[0].isIntersecting
-        this._intersectSubject.next(isIntersecting);
+        this._intersected.set(isIntersecting);
 
         console.log(`intersected ${isIntersecting}`, this._hostRef.nativeElement);
 
@@ -78,7 +86,7 @@ export class IntersectionComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this._intersectSubject.complete();
+        this._effectCleanup?.destroy();
         this.intersectionObserver?.disconnect();
     }
 }

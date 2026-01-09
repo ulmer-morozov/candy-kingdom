@@ -1,0 +1,11 @@
+<bonc-form-controls [editable]="editable">
+  <label *ngIf="label">{{label}}</label>
+  <bonc-file-uploader [src]="editable.value"
+                      [uploadTypes]="uploadTypes"
+                      [uploadUrlMap]="uploadMap"
+                      (srcChange)="onFileUploaded($event)">
+    <div *ngIf="editable.value?.url?.length ?? 0 > 0">{{editable.value?.url}}</div>
+  </bonc-file-uploader>
+
+  <a *ngIf="editable.value?.url?.length ?? 0 > 0" [href]="editable.value!.url" download target="_blank">Download</a>
+</bonc-form-controls>

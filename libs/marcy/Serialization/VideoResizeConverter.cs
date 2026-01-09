@@ -129,11 +129,7 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
                 }
             }
 
-            var orderedSrcs = srcDict
-              .Values.OrderByDescending(x => x.Meta.Width)
-              .ThenByDescending(x => x.MimeType.Contains("web")); // webm first
-
-            var videoSource = new VideoSource(orderedSrcs) { MediaQuery = sourceM.MediaQuery ?? "" };
+            var videoSource = new VideoSource(srcDict.Values) { MediaQuery = sourceM.MediaQuery ?? "" };
 
             sources.Add(videoSource);
         }

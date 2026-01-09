@@ -1,15 +1,24 @@
-import { Route } from '@angular/router';
-import { ForecastComponent } from './forecast.component';
-import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { Route, ActivatedRouteSnapshot } from '@angular/router';
+import { inject } from '@angular/core';
+
+import { AdminDataService } from '@candy-kingdom/bonnie-cms';
 
 export const ADMIN_ROUTES: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    component: AdminHomeComponent,
+    loadComponent: () => import('./admin-home/admin-home.component'),
   },
   {
-    path: 'forecast',
-    component: ForecastComponent,
+    path: 'settings',
+    loadComponent: () => import('./admin-settings/admin-settings.component'),
   },
+  {
+    path: 'pages/:pageUrl',
+    loadComponent: () => import('./admin-pages/admin-pages.component'),
+    providers: [AdminDataService],
+    resolve: {
+      page: (route: ActivatedRouteSnapshot) => inject(AdminDataService).getPage(route.paramMap.get('pageUrl') ?? '~')
+    }
+  }
 ];

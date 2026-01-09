@@ -2,12 +2,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
+using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
 using CandyKingdom.MarcyCms.Sample.Bones;
+using CandyKingdom.MarcyCms.Sample.Core;
+using CandyKingdom.MarcyCms.Settings;
 
 namespace CandyKingdom.MarcyCms.Sample.Serialization;
 
-public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
+public sealed class CmsSampleTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
     public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
@@ -26,6 +29,42 @@ public sealed class BoneTypeInfoResolver : DefaultJsonTypeInfoResolver
                     new JsonDerivedType(typeof(MediaBone), MediaBone.BoneType),
                     new JsonDerivedType(typeof(VimeoBone),VimeoBone.BoneType),
                     new JsonDerivedType(typeof(PageListBone), PageListBone.BoneType),
+                }
+            };
+        }
+
+        if (jsonTypeInfo.Type == typeof(PageData))
+        {
+            jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+            {
+                TypeDiscriminatorPropertyName = "$type",
+                IgnoreUnrecognizedTypeDiscriminators = false,
+                UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
+                DerivedTypes =
+                {
+                    new JsonDerivedType(typeof(ProjectPageData), ProjectPageData.PageDataType)
+                }
+            };
+        }
+
+        if (jsonTypeInfo.Type == typeof(SettingData))
+        {
+            jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+            {
+                TypeDiscriminatorPropertyName = "$type",
+                IgnoreUnrecognizedTypeDiscriminators = false,
+                UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
+                DerivedTypes =
+                {
+                    // Images
+                    new JsonDerivedType(typeof(SvgSettingData), SvgSettingData.SettingDataType),
+                    new JsonDerivedType(typeof(OneImageSettingData), OneImageSettingData.SettingDataType),
+                    // Files
+                    new JsonDerivedType(typeof(FileSettingData), FileSettingData.SettingDataType),
+                    new JsonDerivedType(typeof(LottieSettingData), LottieSettingData.SettingDataType),
+                    // Text
+                    new JsonDerivedType(typeof(TextSettingData), TextSettingData.SettingDataType),
+                    new JsonDerivedType(typeof(LocalizedTextSettingData), LocalizedTextSettingData.SettingDataType)
                 }
             };
         }

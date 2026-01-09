@@ -4,13 +4,12 @@ using CandyKingdom.Marcy;
 using CandyKingdom.Marcy.Immutables;
 using CandyKingdom.Marcy.Pages;
 using CandyKingdom.Marcy.Skeleton;
-using CandyKingdom.MarcyCms.Data;
 using CandyKingdom.MarcyCms.Settings;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CandyKingdom.MarcyCms;
+namespace CandyKingdom.MarcyCms.Data;
 
 public static class MarcyDbContextExtensions
 {
@@ -19,7 +18,7 @@ public static class MarcyDbContextExtensions
         propertyBuilder.HasJsonConversion(serializerOptions, LocalizedString.Empty);
     }
 
-    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions = null)
+    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions serializerOptions)
         where T : class, new()
     {
         propertyBuilder.HasConversion
@@ -29,7 +28,7 @@ public static class MarcyDbContextExtensions
         );
     }
 
-    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions, T defaultValue)
+    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions serializerOptions, T defaultValue)
     {
         propertyBuilder.HasConversion
         (
@@ -38,7 +37,7 @@ public static class MarcyDbContextExtensions
         );
     }
 
-    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? serializerOptions, Func<T> factory)
+    public static void HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions serializerOptions, Func<T> factory)
     {
         propertyBuilder.HasConversion
         (

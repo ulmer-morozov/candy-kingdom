@@ -1,0 +1,13 @@
+@use 'admin-variables.scss' as *;
+
+:host {
+  @include editor;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+
+  .title,
+  .title-2,
+  .text {
+    white-space: pre-line;
+  }
+}

@@ -1,12 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>CandyKingdom.MarcyCms</RootNamespace>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageVersion Condition="'$(PackageVersion)' == ''">$(Version)</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Ulmer-Morozov Dmitrii</Authors>
+    <Company>Company Name</Company>
+    <Product>Product Name</Product>
   </PropertyGroup>
 
   <PropertyGroup>

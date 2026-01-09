@@ -2,26 +2,35 @@
   "name": "bonnie-cms-sample",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "candy-kingdom",
+  "prefix": "app",
   "sourceRoot": "apps/bonnie-cms-sample/src",
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/bonnie-cms-sample/browser",
-        "index": "apps/bonnie-cms-sample/src/index.html",
-        "main": "apps/bonnie-cms-sample/src/main.ts",
-        "polyfills": ["zone.js"],
+        "outputPath": "dist/apps/bonnie-cms-sample",
+        "browser": "apps/bonnie-cms-sample/src/main.ts",
         "tsConfig": "apps/bonnie-cms-sample/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/bonnie-cms-sample/src/favicon.ico",
-          "apps/bonnie-cms-sample/src/assets"
+          {
+            "glob": "**/*",
+            "input": "apps/bonnie-cms-sample/public"
+          }
         ],
         "styles": ["apps/bonnie-cms-sample/src/styles.scss"],
-        "scripts": []
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/bonnie-cms/src/lib/styles"
+          ]
+        },
+        "server": "apps/bonnie-cms-sample/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/bonnie-cms-sample/src/server.ts"
+        },
+        "outputMode": "server"
       },
       "configurations": {
         "production": {
@@ -33,25 +42,23 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true
+          "sourceMap": true
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "bonnie-cms-sample:build:production"
@@ -62,81 +69,16 @@
       },
       "defaultConfiguration": "development"
     },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "bonnie-cms-sample:build"
-      }
-    },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
       "options": {
-        "jestConfig": "apps/bonnie-cms-sample/jest.config.ts"
-      }
-    },
-    "server": {
-      "dependsOn": ["build"],
-      "executor": "@angular-devkit/build-angular:server",
-      "options": {
-        "outputPath": "dist/apps/bonnie-cms-sample/server",
-        "main": "apps/bonnie-cms-sample/server.ts",
-        "tsConfig": "apps/bonnie-cms-sample/tsconfig.server.json",
-        "inlineStyleLanguage": "scss"
-      },
-      "configurations": {
-        "production": {
-          "outputHashing": "media"
-        },
-        "development": {
-          "buildOptimizer": false,
-          "optimization": false,
-          "sourceMap": true,
-          "extractLicenses": false,
-          "vendorChunk": true
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve-ssr": {
-      "executor": "@angular-devkit/build-angular:ssr-dev-server",
-      "configurations": {
-        "development": {
-          "browserTarget": "bonnie-cms-sample:build:development",
-          "serverTarget": "bonnie-cms-sample:server:development"
-        },
-        "production": {
-          "browserTarget": "bonnie-cms-sample:build:production",
-          "serverTarget": "bonnie-cms-sample:server:production"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "prerender": {
-      "executor": "@angular-devkit/build-angular:prerender",
-      "options": {
-        "routes": ["/"]
-      },
-      "configurations": {
-        "development": {
-          "browserTarget": "bonnie-cms-sample:build:development",
-          "serverTarget": "bonnie-cms-sample:server:development"
-        },
-        "production": {
-          "browserTarget": "bonnie-cms-sample:build:production",
-          "serverTarget": "bonnie-cms-sample:server:production"
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular"
+        "buildTarget": "bonnie-cms-sample:build",
+        "staticFilePath": "dist/apps/bonnie-cms-sample/browser",
+        "spa": true
       }
     }
   }

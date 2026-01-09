@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Type, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Type, ViewChild, inject } from '@angular/core';
 import { SkeletonAnchorDirective } from './skeleton-anchor.directive';
 import { IBoneComponent } from "./IBoneComponent";
 import { Bone } from '../generated';
@@ -6,6 +6,8 @@ import { UnknownBoneComponent } from './unknown-bone.component';
 
 @Component({
   selector: 'bon-skeleton',
+  standalone: true,
+  imports: [SkeletonAnchorDirective],
   templateUrl: './skeleton.component.html',
   styleUrls: ['./skeleton.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,8 +23,7 @@ export class SkeletonComponent implements OnInit {
 
   private iniailized = false;
 
-  constructor(private cd: ChangeDetectorRef) {
-  }
+  private readonly cd = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.iniailized = true;

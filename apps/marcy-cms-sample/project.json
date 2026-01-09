@@ -1,55 +1,11 @@
 {
   "name": "marcy-cms-sample",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "sourceRoot": "apps/marcy-cms-sample",
   "targets": {
-    "build": {
-      "executor": "@nx-dotnet/core:build",
-      "outputs": [
-        "{workspaceRoot}/dist/apps/marcy-cms-sample",
-        "{workspaceRoot}/dist/intermediates/apps/marcy-cms-sample"
-      ],
-      "options": {
-        "configuration": "Debug",
-        "noDependencies": true
-      },
-      "configurations": {
-        "production": {
-          "configuration": "Release"
-        }
-      }
-    },
     "serve": {
-      "executor": "@nx-dotnet/core:serve",
+      "command": "dotnet watch run",
       "options": {
-        "configuration": "Debug"
-      },
-      "configurations": {
-        "production": {
-          "configuration": "Release"
-        }
-      }
-    },
-    "lint": {
-      "executor": "@nx-dotnet/core:format"
-    },
-    "swagger": {
-      "executor": "@nx-dotnet/core:update-swagger",
-      "outputs": [
-        "{workspaceRoot}/libs/generated/marcy-cms-swagger/swagger.json"
-      ],
-      "options": {
-        "output": "libs/generated/marcy-cms-swagger/swagger.json"
-      },
-      "dependsOn": ["build"]
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular"
+        "cwd": "{projectRoot}"
       }
     }
-  },
-  "tags": []
+  }
 }

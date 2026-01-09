@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { Observable, tap } from 'rxjs';
 // is trying to access a protected route
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   intercept(
     req: HttpRequest<unknown>,

@@ -31,7 +31,7 @@ export function descendingT<T>(sel: (x: T) => number): (a: T, b: T) => number {
 export function generateSizesString(sizes: MCore.SizesItem[]): string {
     const sizesString = sizes
         .sort(x => x.width)
-        .map(x => `${x.mediaQuery} ${x.width}${x.unit}`)
+        .map(x => `${x.mediaQuery} ${x.width}${x.unit.toLowerCase()}`.trim())
         .join(',');
 
     return sizesString;

@@ -18,6 +18,15 @@ public sealed record Page<T> : Page, IPage<T>
     {
 
     }
+
+    public override Page<T> Clean(bool removeBones = false, bool removeChildren = false)
+    {
+        var initialPage = base.Clean(removeBones, removeChildren);
+        return new Page<T>(initialPage)
+        {
+            Data = Data
+        };
+    }
 }
 
 public record Page : IHaveSkeleton
@@ -32,7 +41,7 @@ public record Page : IHaveSkeleton
     public ImmutableList2<Bone> Bones { get; init; } = ImmutableList2<Bone>.Empty;
     public ImmutableList2<Page> Children { get; init; } = ImmutableList2<Page>.Empty;
 
-    public Page Clean(bool removeBones = false, bool removeChildren = false)
+    public virtual Page Clean(bool removeBones = false, bool removeChildren = false)
     {
         var result = this;
 
