@@ -26,6 +26,9 @@ public sealed class VideoManager : IVideoManager
             _ffmpegPath = string.IsNullOrEmpty(ffmpegPath) ? "ffmpeg" : ffmpegPath;
             _ffprobePath = string.IsNullOrEmpty(ffprobePath) ? "ffprobe" : ffprobePath;
         }
+
+        Console.WriteLine($"Using ffmpeg path: {_ffmpegPath}");
+        Console.WriteLine($"Using ffprobe path: {_ffprobePath}");
     }
 
     public async Task<TempVideoFile> AnalyseMp4(
@@ -171,7 +174,8 @@ public sealed class VideoManager : IVideoManager
     private async Task<FFProbeMeta> GetFfprobeMetaAsync(string videoFilePath, CancellationToken cancellationToken = default)
     {
         var ffprobeArgs = $"-v quiet -show_format -show_streams -print_format json \"{videoFilePath}\"";
-        // var ffprobeArgs = $"-v quiet -show_format -print_format json \"{videoFilePath}\"";
+
+        Console.WriteLine($"FFProbe input: {ffprobeArgs}");
 
         var procesStartInfo = new ProcessStartInfo(_ffprobePath, ffprobeArgs)
         {
@@ -193,7 +197,8 @@ public sealed class VideoManager : IVideoManager
 
         await process.WaitForExitAsync(cancellationToken);
 
-        // File.WriteAllText("temp.json", output);
+        Console.WriteLine($"FFProbe output: {output}");
+
         var videoMetadata = JsonSerializer.Deserialize<FFProbeMeta>(output) ?? throw new Exception($"Cannot deserialize {nameof(FFProbeMeta)} from {output}");
 
         return videoMetadata;
@@ -208,8 +213,13 @@ public sealed class VideoManager : IVideoManager
         return GetVideoFormat(format);
     }
 
-    private static VideoFormat GetVideoFormat(string format)
+    private static VideoFormat GetVideoFormat(string? format)
     {
+        if (string.IsNullOrEmpty(format))
+        {
+            throw new Exception("Video format can not be null or empty");
+        }
+
         if (format.StartsWith("h264") || format.Contains("mp4"))
         {
             return VideoFormat.Mp4;
