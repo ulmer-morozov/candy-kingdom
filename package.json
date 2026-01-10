@@ -18,6 +18,7 @@
     "cms-sample:dev": "nx run-many --parallel --target=serve --projects=\"marcy-cms-sample,bonnie-cms-sample\" --proxyConfig=\"apps/bonnie-cms-sample/proxy.conf.json\"",
     "dotnet:format": "dotnet format candy-kingdom.sln",
     "version-bump": "nx run bonnie:version --syncVersions --releaseAs=minor --allowEmptyRelease",
+    "push-tags": "git push --follow-tags",
     "prepare": "husky"
   },
   "private": true,
