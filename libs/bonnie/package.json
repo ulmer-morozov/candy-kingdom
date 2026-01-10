@@ -1,6 +1,6 @@
 {
   "name": "@candy-kingdom/bonnie",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0"
