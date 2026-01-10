@@ -13,3 +13,15 @@ jobs:
         nuget-api-key: ${{ secrets.NuGetAPIKey }}
         nuget-version: '5.x'
         run: nuget restore CandyKingdom.sln
+    - name: Verify commit exists in origin/main
+      run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git branch --remote --contains | grep origin/main
+    - name: Set VERSION variable from tag
+      run:  echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+    - name: Build
+      run:  dotnet build libs/marcy/ --configuration Release -p:GeneratePackageOnBuild=true /p:Version=${VERSION}
+    - name: LS
+      run:  cd libs/marcy/bin/Release/ && ls -la
+    # - name: Push NuGet Package
+    #   run:  dotnet nuget push libs/marcy/bin/Release/CandyKingdom.Marcy.${VERSION}.nupkg --api-key ${{ secrets.NuGetAPIKey }}  --source https://api.nuget.org/v3/index.json
