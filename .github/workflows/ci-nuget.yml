@@ -1,22 +1,23 @@
 name: Publish Package to NuGet
-on: [push, pull_request]
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write
+      id-token: write  # enable GitHub OIDC token issuance for this job
     steps:
     - uses: actions/checkout@master
-    - uses: nuget/setup-nuget@v2
+
+    # Get a short-lived NuGet API key
+    - name: NuGet login (OIDC → temp API key)
+      uses: NuGet/login@v1
+      id: login
       with:
-        nuget-api-key: ${{ secrets.NuGetAPIKey }}
-        nuget-version: '5.x'
-        run: nuget restore CandyKingdom.sln
-    - name: Set VERSION variable from tag
-      run:  echo "VERSION=$(git describe --tag --abbrev=0 | cut -c 2-)" >> $GITHUB_ENV
-
-
+        user: contoso-bot # Recommended: use a secret like ${{ secrets.NUGET_USER }} for your nuget.org username (profile name), NOT your email address
 
     - name: Get latest semver tag
       run: |
@@ -27,9 +28,18 @@ jobs:
     - name: echo version
       run:  echo "VERSION=${{ env.VERSION }}"
 
-    - name: Build
+    - name: Build Marcy
       run:  dotnet build libs/marcy/ --configuration Release -p:GeneratePackageOnBuild=true -p:Version=${{ env.VERSION }} -p:PackageVersion=${{ env.VERSION }}
-    - name: LS
+    - name: Marcy Package Contents LS
       run:  cd libs/marcy/bin/Release/ && ls -la
-    # - name: Push NuGet Package
-    #   run:  dotnet nuget push libs/marcy/bin/Release/CandyKingdom.Marcy.${VERSION}.nupkg --api-key ${{ secrets.NuGetAPIKey }}  --source https://api.nuget.org/v3/index.json
+
+    - name: Build Marcy-CMS
+      run:  dotnet build libs/marcy-cms/ --configuration Release -p:GeneratePackageOnBuild=true -p:Version=${{ env.VERSION }} -p:PackageVersion=${{ env.VERSION }}
+    - name: Marcy-CMS Package Contents LS
+      run:  cd libs/marcy-cms/bin/Release/ && ls -la
+
+    - name: Push Marcy NuGet Package
+      run:  dotnet nuget push libs/marcy/bin/Release/CandyKingdom.Marcy.${{ env.VERSION }}.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+
+    - name: Push MarcyCms NuGet Package
+      run:  dotnet nuget push libs/marcy-cms/bin/Release/CandyKingdom.MarcyCms.${{ env.VERSION }}.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
