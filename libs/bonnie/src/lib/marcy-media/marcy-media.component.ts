@@ -1,11 +1,10 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import * as MCore from '../generated';
 
 import { UnsubscriberService } from '../core/unsubscribe.service';
 import { MediaObjectFit } from '../core/MediaObjectFit';
-import { DeviceServiceBase } from '../core/device.service.base';
 import { MarcyImageComponent } from '../marcy-image/marcy-image.component';
 import { MarcyVideoComponent } from '../marcy-video/marcy-video.component';
 import { VideoSrcDirective } from '../marcy-video';
@@ -20,6 +19,8 @@ import { ImageSrcDirective } from '../marcy-image';
     providers: [UnsubscriberService]
 })
 export class MarcyMediaComponent implements OnInit {
+    private readonly cd = inject(ChangeDetectorRef);
+
     public readonly MarcyObjectFit = MediaObjectFit;
 
     @Output()
@@ -29,11 +30,9 @@ export class MarcyMediaComponent implements OnInit {
     private _src?: MCore.Video | MCore.Image;
 
     constructor
-        (
-            public readonly device: DeviceServiceBase,
-            public readonly cd: ChangeDetectorRef,
-            private readonly _u: UnsubscriberService
-        ) {
+        () {
+        const cd = this.cd;
+
 
         console.log('MarcyMediaComponent ctor');
 

@@ -48,3 +48,5 @@ Thumbs.db
 **/obj/
 /artifacts/
 publish.sh
+publish-bonnie.sh
+publish-marcy.sh

@@ -1,0 +1,25 @@
+name: Publish Package to npmjs
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.9'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npx nx run-many -t build -p bonnie bonnie-cms
+      - run: npm ci
+      - run: cd dist/libs/bonnie && npm publish --provenance --access public
+      - run: cd dist/libs/bonnie-cms && npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
