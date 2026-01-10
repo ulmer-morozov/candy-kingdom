@@ -13,6 +13,10 @@ jobs:
         nuget-api-key: ${{ secrets.NuGetAPIKey }}
         nuget-version: '5.x'
         run: nuget restore CandyKingdom.sln
+    - name: Set VERSION variable from tag
+      run:  echo "VERSION=$(git describe --tag --abbrev=0 | cut -c 2-)" >> $GITHUB_ENV
+
+
 
     - name: Get latest semver tag
       run: |
@@ -20,8 +24,11 @@ jobs:
         VERSION=${TAG#v}
         echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
+    - name: echo version
+      run:  echo "VERSION=${{ env.VERSION }}"
+
     - name: Build
-      run:  dotnet build libs/marcy/ --configuration Release -p:GeneratePackageOnBuild=true -p:Version=${VERSION} -p:PackageVersion=${VERSION}
+      run:  dotnet build libs/marcy/ --configuration Release -p:GeneratePackageOnBuild=true -p:Version=${{ env.VERSION }} -p:PackageVersion=${{ env.VERSION }}
     - name: LS
       run:  cd libs/marcy/bin/Release/ && ls -la
     # - name: Push NuGet Package
