@@ -16,7 +16,7 @@ jobs:
     - name: Set VERSION variable from tag
       run:  echo "VERSION=$(git describe --tag --abbrev=0 | cut -c 2-)" >> $GITHUB_ENV
     - name: echo version
-      run:  echo ${VERSION}
+      run:  echo ${VERSION} && git describe --tag --abbrev=0 | cut -c 2- && echo $VERSION
     - name: Build
       run:  dotnet build libs/marcy/ --configuration Release -p:GeneratePackageOnBuild=true -p:Version=${VERSION} -p:PackageVersion=${VERSION}
     - name: LS
