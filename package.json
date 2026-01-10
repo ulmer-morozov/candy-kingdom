@@ -2,6 +2,10 @@
   "name": "@candy-kingdom/source",
   "version": "0.26.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ulmer-morozov/candy-kingdom.git"
+  },
   "scripts": {
     "bonnie:build": "nx build bonnie",
     "bonnie-cms:build": "nx build bonnie-cms",

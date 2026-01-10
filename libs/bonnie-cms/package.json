@@ -1,6 +1,11 @@
 {
   "name": "@candy-kingdom/bonnie-cms",
   "version": "0.26.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ulmer-morozov/candy-kingdom.git",
+    "directory": "libs/bonnie-cms"
+  },
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0"
