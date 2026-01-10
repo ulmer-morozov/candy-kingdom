@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: '24.9'
           registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
       - run: npm ci
       - run: npx nx run-many -t build -p bonnie bonnie-cms
       - run: cd dist/libs/bonnie && npm publish --provenance --access public
