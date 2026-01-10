@@ -283,7 +283,7 @@ public sealed class VideoManager : IVideoManager
             };
 
             var size = string.IsNullOrWhiteSpace(probeMeta.Format.Size) ? 0 : long.Parse(probeMeta.Format.Size, CultureInfo.InvariantCulture);
-            var duration = string.IsNullOrWhiteSpace(videoSource.Duration) ? 0 : double.Parse(videoSource.Duration, CultureInfo.InvariantCulture);
+            var duration = string.IsNullOrWhiteSpace(probeMeta.Format.Duration) ? 0 : double.Parse(probeMeta.Format.Duration, CultureInfo.InvariantCulture);
 
             var meta = new VideoMeta
             {
