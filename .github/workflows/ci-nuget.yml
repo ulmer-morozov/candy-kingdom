@@ -13,10 +13,13 @@ jobs:
         nuget-api-key: ${{ secrets.NuGetAPIKey }}
         nuget-version: '5.x'
         run: nuget restore CandyKingdom.sln
-    - name: Set VERSION variable from tag
-      run:  echo "VERSION=$(git describe --tag --abbrev=0 | cut -c 2-)" >> $GITHUB_ENV
-    - name: echo version
-      run:  echo ${VERSION} && git describe --tag --abbrev=0 | cut -c 2- && echo $VERSION
+
+    - name: Get latest semver tag
+      run: |
+        TAG=$(git tag -l 'v*' | sort -V | tail -n 1)
+        VERSION=${TAG#v}
+        echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
     - name: Build
       run:  dotnet build libs/marcy/ --configuration Release -p:GeneratePackageOnBuild=true -p:Version=${VERSION} -p:PackageVersion=${VERSION}
     - name: LS
