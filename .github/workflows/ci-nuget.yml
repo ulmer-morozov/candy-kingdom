@@ -17,6 +17,7 @@ jobs:
       run:  echo "VERSION=$(git describe --tag --abbrev=0 | cut -c 2-)" >> $GITHUB_ENV
     - name: Build
       run:  dotnet build libs/marcy/ --configuration Release -p:GeneratePackageOnBuild=true -p:Version=${VERSION} -p:PackageVersion=${VERSION}
+    - name: LS
       run:  cd libs/marcy/bin/Release/ && ls -la
     # - name: Push NuGet Package
     #   run:  dotnet nuget push libs/marcy/bin/Release/CandyKingdom.Marcy.${VERSION}.nupkg --api-key ${{ secrets.NuGetAPIKey }}  --source https://api.nuget.org/v3/index.json
