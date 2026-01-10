@@ -209,7 +209,7 @@ public sealed class VideoManager : IVideoManager
         var videoSources = probeMeta.Streams.Where(x => x.CodecType == "video");
         var codecNames = videoSources.Select(x => x.CodecName).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
-        var formatName = codecNames.FirstOrDefault() ?? probeMeta.Format.FormatName;
+        var formatName = codecNames.Length > 0 ? codecNames.First() : probeMeta.Format.FormatName;
 
         try
         {
