@@ -149,21 +149,17 @@ public sealed class VideoManager : IVideoManager
 
             stopwatch.Stop();
 
-            Console.WriteLine($"VIDEO CONVERTED IN {stopwatch.Elapsed}");
+            Console.WriteLine($"VIDEO CONVERTED IN {stopwatch.Elapsed}. File: {outputData.FileInfo.FullName}");
 
-            var outputMetadata = await ffmpeg.GetMetaDataAsync(
-              new InputFile(outputData.FileInfo),
+            var outputMetadata = await GetFfprobeMetaAsync(
+              outputData.FileInfo.FullName,
               cancellationToken
             );
 
-
-            // if VideoData is null it could be because InvariantGlobalization is set to true
-            // issue with FFmpeg.NET
-
             var tempFileVideo = new TempVideoFile
             {
-                File = outputMetadata.FileInfo,
-                Format = GetVideoFormat(outputMetadata.VideoData.Format),
+                File = outputData.FileInfo,
+                Format = GetVideoFormat(outputMetadata),
                 Meta = ToVideoMeta(outputMetadata)
             };
 
@@ -244,7 +240,6 @@ public sealed class VideoManager : IVideoManager
 
         throw new NotImplementedException($"Unknown format {format}");
     }
-
 
     private static VideoMeta ToVideoMeta(MetaData metadata)
     {
