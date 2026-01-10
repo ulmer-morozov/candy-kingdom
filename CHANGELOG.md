@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.26.10](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.9...v0.26.10) (2026-01-10)
+
+
+### Bug Fixes
+
+* takes duration from format data ([28f7b66](https://github.com/ulmer-morozov/candy-kingdom/commit/28f7b66486ad22bb899b921216692d275a6aa97d))
+
+
+
 ## [0.26.9](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.8...v0.26.9) (2026-01-10)
 
 
