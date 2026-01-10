@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using CandyKingdom.Marcy.Utilities;
 
@@ -261,39 +262,48 @@ public sealed class VideoManager : IVideoManager
 
     private static VideoMeta ToVideoMeta(FFProbeMeta probeMeta)
     {
-        var videoSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "video");
-        var audioSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "audio");
-
-        if (videoSource == null)
+        try
         {
-            throw new Exception($"video stream can not be null {probeMeta}");
+            var videoSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "video");
+            var audioSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "audio");
+
+            if (videoSource == null)
+            {
+                throw new Exception($"video stream can not be null {probeMeta}");
+            }
+
+            var frameRateArr = videoSource.RFrameRate.Split('/').Where(static x => !string.IsNullOrWhiteSpace(x)).ToArray();
+
+            var frameRate = frameRateArr.Length switch
+            {
+                0 => 0,
+                1 => double.Parse(frameRateArr[0], CultureInfo.InvariantCulture),
+                2 => double.Parse(frameRateArr[0], CultureInfo.InvariantCulture) / double.Parse(frameRateArr[1], CultureInfo.InvariantCulture),
+                _ => 0,
+            };
+
+            var size = string.IsNullOrWhiteSpace(probeMeta.Format.Size) ? 0 : long.Parse(probeMeta.Format.Size, CultureInfo.InvariantCulture);
+            var duration = string.IsNullOrWhiteSpace(videoSource.Duration) ? 0 : double.Parse(videoSource.Duration, CultureInfo.InvariantCulture);
+
+            var meta = new VideoMeta
+            {
+                Width = videoSource.Width ?? 0,
+                Height = videoSource.Height ?? 0,
+                ByteCount = size,
+                FrameRate = frameRate,
+                Duration = TimeSpan.FromSeconds(duration),
+                FullFormat = videoSource.CodecLongName ?? probeMeta.Format.FormatLongName,
+                HasAudio = audioSource != null
+            };
+
+            return meta;
         }
 
-        var frameRateArr = videoSource.RFrameRate.Split('/');
-
-        var frameRate = frameRateArr.Length switch
+        catch (Exception e)
         {
-            0 => 0,
-            1 => double.Parse(frameRateArr[0], CultureInfo.InvariantCulture),
-            2 => double.Parse(frameRateArr[0], CultureInfo.InvariantCulture) / double.Parse(frameRateArr[1], CultureInfo.InvariantCulture),
-            _ => 0,
-        };
-
-        var size = long.Parse(probeMeta.Format.Size, CultureInfo.InvariantCulture);
-
-        var duration = double.Parse(videoSource.Duration, CultureInfo.InvariantCulture);
-
-        var meta = new VideoMeta
-        {
-            Width = videoSource.Width ?? 0,
-            Height = videoSource.Height ?? 0,
-            ByteCount = size,
-            FrameRate = frameRate,
-            Duration = TimeSpan.FromSeconds(duration),
-            FullFormat = videoSource.CodecLongName ?? probeMeta.Format.FormatLongName,
-            HasAudio = audioSource != null
-        };
-
-        return meta;
+            Console.WriteLine("Cannot create VideoMeta from FFProbeMeta: ");
+            Console.WriteLine(JsonSerializer.Serialize(probeMeta));
+            throw e;
+        }
     }
 }
