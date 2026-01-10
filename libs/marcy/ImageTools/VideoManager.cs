@@ -206,11 +206,23 @@ public sealed class VideoManager : IVideoManager
 
     private static VideoFormat GetVideoFormat(FFProbeMeta probeMeta)
     {
-        var videoSource = probeMeta.Streams.FirstOrDefault(x => x.CodecType == "video");
+        var videoSources = probeMeta.Streams.Where(x => x.CodecType == "video");
+        var codecNames = videoSources.Select(x => x.CodecName).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
-        var format = videoSource?.CodecName ?? probeMeta.Format.FormatName;
+        var formatName = codecNames.FirstOrDefault() ?? probeMeta.Format.FormatName;
 
-        return GetVideoFormat(format);
+        try
+        {
+            return GetVideoFormat(formatName);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine($"Unknown video format from ffprobe: {formatName}");
+            Console.WriteLine($"Probe format name: {probeMeta.Format.FormatName}");
+            Console.WriteLine($"Codec names from probe: {string.Join(", ", codecNames)}");
+            throw;
+        }
+
     }
 
     private static VideoFormat GetVideoFormat(string? format)
