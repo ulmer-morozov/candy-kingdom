@@ -7,15 +7,9 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@master
-      - uses: nuget/setup-nuget@v2
-        with:
-          nuget-version: '5.x'
-      - uses: actions/cache@v4
-        id: cache
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-      - name: NuGet Restore
-        if: steps.cache.outputs.cache-hit != 'true'
+    - uses: actions/checkout@master
+    - uses: nuget/setup-nuget@v2
+      with:
+        nuget-api-key: ${{ secrets.NuGetAPIKey }}
+        nuget-version: '5.x'
         run: nuget restore CandyKingdom.sln
