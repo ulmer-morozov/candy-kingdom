@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.26.7](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.6...v0.26.7) (2026-01-10)
+
+
+### Bug Fixes
+
+* empty string format detection ([6b7430c](https://github.com/ulmer-morozov/candy-kingdom/commit/6b7430c9ea322e9fc5922bee9011cfb5d4dbe971))
+
+
+
 ## [0.26.6](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.5...v0.26.6) (2026-01-10)
 
 
