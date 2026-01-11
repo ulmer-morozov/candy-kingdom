@@ -2,13 +2,13 @@ namespace CandyKingdom.Marcy.Storage;
 
 public sealed class LocalFileStorage : IFileStorage
 {
-    private readonly string _outputDir;
-    private readonly string _urlPrefix;
+    public string OutputDir { get; }
+    public string UrlPrefixutDir { get; }
 
     public LocalFileStorage(string urlPrefix, string outputDir)
     {
-        _urlPrefix = urlPrefix;
-        _outputDir = outputDir;
+        UrlPrefixutDir = urlPrefix;
+        OutputDir = outputDir;
     }
 
     public async Task<StoredFile> Store(
@@ -18,17 +18,23 @@ public sealed class LocalFileStorage : IFileStorage
       CancellationToken cancellationToken = default
     )
     {
-        if (!Directory.Exists(_outputDir))
-        {
-            Directory.CreateDirectory(_outputDir);
-        }
-
-        var filePath = Path.Combine(_outputDir, name);
+        var filePath = GetStoredFilePath(name);
 
         await using var fileStream = File.Create(filePath);
         await stream.CopyToAsync(fileStream, cancellationToken);
 
-        var file = new StoredFile { Url = $"{_urlPrefix}{name}" };
+        var file = new StoredFile { Url = $"{UrlPrefixutDir}{name}" };
         return file;
+    }
+
+    public string GetStoredFilePath(string fileName)
+    {
+        if (!Directory.Exists(OutputDir))
+        {
+            Directory.CreateDirectory(OutputDir);
+        }
+
+        var filePath = Path.Combine(OutputDir, fileName);
+        return filePath;
     }
 }

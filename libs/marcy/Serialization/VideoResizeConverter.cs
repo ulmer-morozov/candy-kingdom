@@ -19,6 +19,7 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
 
     public DirectoryInfo CacheDir { get; }
     private readonly VideoConvertParameters _videoConvertParameters;
+    private readonly IFileStorage _fileStorage;
 
     public VideoResizeConverter(
       IVideoManager videoManager,
@@ -28,6 +29,8 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
       VideoConvertParameters videoConvertParameters
     )
     {
+        _fileStorage = fileStorage;
+
         CacheDir = cacheDir;
         CacheDir.Create();
 
@@ -111,6 +114,19 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
                 if (cachedFile == null)
                 {
                     continue;
+                }
+
+                // check if file is in target Folder for local storage
+                if (_fileStorage is LocalFileStorage localStorage)
+                {
+                    var storedFileName = Path.GetFileName(cachedFileSrc.Url);
+                    var storedFilePath = localStorage.GetStoredFilePath(storedFileName);
+
+                    if (!File.Exists(storedFilePath))
+                    {
+                        Console.WriteLine($"Copying file from cache {cachedFile.FullName} --> {storedFilePath}");
+                        File.Copy(cachedFile.FullName, storedFilePath);
+                    }
                 }
 
                 srcDict[setup] = cachedFileSrc;

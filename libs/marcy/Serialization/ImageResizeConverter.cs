@@ -21,6 +21,8 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
 
     public DirectoryInfo CacheDir { get; }
 
+    private readonly IFileStorage _fileStorage;
+
     public ImageResizeConverter(
       IImageManager imageManager,
       IEnumerable<ImageSetup> imageSetups,
@@ -30,6 +32,8 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
       IFileStorage fileStorage
     )
     {
+        _fileStorage = fileStorage;
+
         CacheDir = cacheDir;
         CacheDir.Create();
 
@@ -111,9 +115,22 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
                   setup.Format.Extension
                 );
 
-                if (cachedFileSrc == null)
+                if (cachedFile == null)
                 {
                     continue;
+                }
+
+                // check if file is in target Folder for local storage
+                if (_fileStorage is LocalFileStorage localStorage)
+                {
+                    var storedFileName = Path.GetFileName(cachedFileSrc.Url);
+                    var storedFilePath = localStorage.GetStoredFilePath(storedFileName);
+
+                    if (!File.Exists(storedFilePath))
+                    {
+                        Console.WriteLine($"Copying file from cache {cachedFile.FullName} --> {storedFilePath}");
+                        File.Copy(cachedFile.FullName, storedFilePath);
+                    }
                 }
 
                 imageSrcDict[setup] = cachedFileSrc;
