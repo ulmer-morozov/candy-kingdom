@@ -28,7 +28,8 @@ public sealed class ImageUploader : MediaUploderBase, IImageUploader
           MemoryStream imageStream,
           ImmutableList<ImageSetup> setups,
           ImageConvertParameters convertParameters,
-          CancellationToken cancellationToken
+          Func<ImageSetup, FileInfo, FileSrc<ImageMeta>, string, Task>? action = null,
+          CancellationToken cancellationToken = default
         )
     {
         var filePaths = new List<(ImageSetup, FileInfo, ImageMeta)>();
@@ -103,6 +104,11 @@ public sealed class ImageUploader : MediaUploderBase, IImageUploader
                   Meta = x.meta,
                   MimeType = x.setup.Format.MimeType,
               };
+
+              if (action != null)
+              {
+                  await action(x.setup, x.file, fileSrc, x.hash);
+              }
 
               x.file.Delete();
 
@@ -217,7 +223,7 @@ public sealed class ImageUploader : MediaUploderBase, IImageUploader
     {
         var setups = ImmutableList.Create(setup);
 
-        var images = await ConvertAndStore(imageStream, setups, convertParameters, cancellationToken);
+        var images = await ConvertAndStore(imageStream, setups, convertParameters, null, cancellationToken);
 
         return images[setup];
     }

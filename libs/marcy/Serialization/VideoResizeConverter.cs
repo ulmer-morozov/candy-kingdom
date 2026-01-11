@@ -90,7 +90,7 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
             {
                 var srcKeys = GetVideoSrcKeys(fileCacheInfo, setup);
 
-                var cachedFileSrc = await this.ReadFromCache<FileSrc<VideoMeta>>(
+                var cachedFileSrc = await this.ReadJsonFromCache<FileSrc<VideoMeta>>(
                   VideoSrcPrefix,
                   srcKeys,
                   cancellationToken
@@ -112,7 +112,7 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
                 async Task SetCache(VideoSetup setup, TempVideoFile videoFile, FileSrc<VideoMeta> fileSrc)
                 {
                     var srcKeys = GetVideoSrcKeys(fileCacheInfo, setup);
-                    await this.StoreInCache(VideoSrcPrefix, srcKeys, fileSrc, cancellationToken);
+                    await this.StoreJsonInCache(VideoSrcPrefix, srcKeys, fileSrc, cancellationToken);
                 }
 
                 var fileSrcDict = await _videoUploader.ConvertAndStore(

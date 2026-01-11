@@ -8,7 +8,8 @@ public interface IImageUploader
           MemoryStream imageStream,
           ImmutableList<ImageSetup> setups,
           ImageConvertParameters convertParameters,
-          CancellationToken cancellationToken
+          Func<ImageSetup, FileInfo, FileSrc<ImageMeta>, string, Task>? action = null,
+          CancellationToken cancellationToken = default
     );
 
     public Task<FileSrc<ImageMeta>> ConvertAndStore(

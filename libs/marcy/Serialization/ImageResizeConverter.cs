@@ -93,7 +93,7 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
             {
                 var srcKeys = GetImgSrcKeys(fileCacheInfo, setup);
 
-                var cachedFileSrc = await this.ReadFromCache<FileSrc<ImageMeta>>(
+                var cachedFileSrc = await this.ReadJsonFromCache<FileSrc<ImageMeta>>(
                   ImgSrcPrefix,
                   srcKeys,
                   cancellationToken
@@ -111,21 +111,22 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
 
             if (!notCachedSetups.IsEmpty)
             {
+                async Task OnImageReady(ImageSetup imageSetup, FileInfo imageFile, FileSrc<ImageMeta> imageSrc, string imageHash)
+                {
+                    imageSrcDict[imageSetup] = imageSrc;
+
+                    var srcKeys = GetImgSrcKeys(fileCacheInfo, imageSetup);
+
+                    await this.StoreJsonInCache(ImgSrcPrefix, srcKeys, imageSrc, cancellationToken);
+                }
+
                 var fileSrcDict = await _imageUploader.ConvertAndStore(
                   imageStream.Value,
                   notCachedSetups,
                   _convertParameters,
+                  OnImageReady,
                   cancellationToken
                 );
-
-                foreach (var pair in fileSrcDict)
-                {
-                    imageSrcDict[pair.Key] = pair.Value;
-
-                    var srcKeys = GetImgSrcKeys(fileCacheInfo, pair.Key);
-
-                    await this.StoreInCache(ImgSrcPrefix, srcKeys, pair.Value, cancellationToken);
-                }
             }
 
             var imageSource = new ImageSource(imageSrcDict.Values) { MediaQuery = imageSourceM.MediaQuery ?? "" };

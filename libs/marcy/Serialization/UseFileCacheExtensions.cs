@@ -8,7 +8,7 @@ namespace CandyKingdom.Marcy.Serialization;
 
 public static class UseFileCacheExtensions
 {
-    public static Task<T?> ReadFromCache<T>(
+    public static Task<T?> ReadJsonFromCache<T>(
       this IUseFileCache instance,
       string prefix,
       ICollection<string> keys,
@@ -17,10 +17,10 @@ public static class UseFileCacheExtensions
     {
         var fileName = CombineToJsonName(prefix, keys);
 
-        return ReadFromCache<T>(instance, fileName, cancellationToken);
+        return ReadJsonFromCache<T>(instance, fileName, cancellationToken);
     }
 
-    public static async Task<T?> ReadFromCache<T>(
+    public static async Task<T?> ReadJsonFromCache<T>(
       this IUseFileCache instance,
       string fileName,
       CancellationToken cancellationToken = default
@@ -39,7 +39,7 @@ public static class UseFileCacheExtensions
         return data;
     }
 
-    public static Task StoreInCache<T>(
+    public static Task StoreJsonInCache<T>(
       this IUseFileCache instance,
       string prefix,
       ICollection<string> keys,
@@ -49,10 +49,10 @@ public static class UseFileCacheExtensions
     {
         var fileName = CombineToJsonName(prefix, keys);
 
-        return StoreInCache(instance, fileName, obj, cancellationToken);
+        return StoreJsonInCache(instance, fileName, obj, cancellationToken);
     }
 
-    public static async Task StoreInCache<T>(
+    public static async Task StoreJsonInCache<T>(
       this IUseFileCache instance,
       string fileName,
       T obj,
@@ -79,7 +79,7 @@ public static class UseFileCacheExtensions
 
         var keys = ImmutableList.Create(fileId);
 
-        var fileCacheInfo = await instance.ReadFromCache<FileCacheInfo>(
+        var fileCacheInfo = await instance.ReadJsonFromCache<FileCacheInfo>(
           infoPrefix,
           keys,
           cancellationToken
@@ -96,7 +96,7 @@ public static class UseFileCacheExtensions
 
         var info = new FileCacheInfo { Hash = imageHash };
 
-        await instance.StoreInCache(infoPrefix, keys, info, cancellationToken);
+        await instance.StoreJsonInCache(infoPrefix, keys, info, cancellationToken);
 
         return info;
     }
