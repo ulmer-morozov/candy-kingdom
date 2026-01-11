@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.26.15](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.14...v0.26.15) (2026-01-11)
+
+
+### Bug Fixes
+
+* video cache ([72cfb6f](https://github.com/ulmer-morozov/candy-kingdom/commit/72cfb6fb85ae05fd02d3f7d55b3e32cb35d79aa6))
+
+
+
 ## [0.26.14](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.13...v0.26.14) (2026-01-11)
 
 
