@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.26.12](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.11...v0.26.12) (2026-01-11)
+
+
+### Bug Fixes
+
+* mpeg4 codec type added ([ebfa670](https://github.com/ulmer-morozov/candy-kingdom/commit/ebfa6708efc7f0446e50bd417af7a55447d2513f))
+
+
+
 ## [0.26.11](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.10...v0.26.11) (2026-01-11)
 
 
