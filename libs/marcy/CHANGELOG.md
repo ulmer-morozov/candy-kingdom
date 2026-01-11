@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.26.16](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.15...v0.26.16) (2026-01-11)
+
+
+### Features
+
+* custom cache dir ([557c9e7](https://github.com/ulmer-morozov/candy-kingdom/commit/557c9e70d829e4e84e999ad948752df404d97f37))
+
+
+
 ## [0.26.15](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.14...v0.26.15) (2026-01-11)
 
 
