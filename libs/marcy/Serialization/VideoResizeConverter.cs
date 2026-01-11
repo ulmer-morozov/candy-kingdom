@@ -106,13 +106,14 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
                 }
 
                 var cachedFile = this.ReadFileFromCache(
-                  VideoSrcPrefix,
+                  VideoFilePrefix,
                   srcKeys,
                   setup.Format.Extension
                 );
 
                 if (cachedFile == null)
                 {
+                    Console.WriteLine("FileSrc was found, but cached video file wasn't.");
                     continue;
                 }
 

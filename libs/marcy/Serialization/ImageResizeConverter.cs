@@ -117,6 +117,7 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
 
                 if (cachedFile == null)
                 {
+                    Console.WriteLine("FileSrc was found, but cached video file wasn't.");
                     continue;
                 }
 
