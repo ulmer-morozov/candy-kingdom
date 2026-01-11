@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.26.11](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.10...v0.26.11) (2026-01-11)
+
+
+### Features
+
+* adds copying cached files to local storage ([32e9365](https://github.com/ulmer-morozov/candy-kingdom/commit/32e93650e00373474ffb955bebe239a1072aa5df))
+
+
+
 ## [0.26.10](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.9...v0.26.10) (2026-01-10)
 
 
