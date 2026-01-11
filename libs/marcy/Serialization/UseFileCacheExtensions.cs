@@ -65,6 +65,66 @@ public static class UseFileCacheExtensions
         await File.WriteAllTextAsync(filePath, json, cancellationToken);
     }
 
+    public static FileInfo? ReadFileFromCache(
+      this IUseFileCache instance,
+      string prefix,
+      ICollection<string> keys,
+      string extesion
+    )
+    {
+        var fileName = CombineToFileName(prefix, keys, extesion);
+
+        return ReadFileFromCache(instance, fileName);
+    }
+
+    public static FileInfo? ReadFileFromCache(
+      this IUseFileCache instance,
+      string fileName
+    )
+    {
+        var filePath = Path.Combine(instance.CacheDir.FullName, fileName);
+        var fileInfo = new FileInfo(filePath);
+
+        if (!fileInfo.Exists)
+        {
+            return default;
+        }
+
+        return fileInfo;
+    }
+
+    public static async Task<FileInfo> StoreFileInCache(
+      this IUseFileCache instance,
+      string prefix,
+      ICollection<string> keys,
+      FileInfo sourceFile,
+      CancellationToken cancellationToken = default
+    )
+    {
+        var fileName = CombineToFileName(prefix, keys, sourceFile.Extension);
+
+        return await StoreFileInCache(instance, fileName, sourceFile, cancellationToken);
+    }
+
+    public static async Task<FileInfo> StoreFileInCache(
+      this IUseFileCache instance,
+      string fileName,
+      FileInfo sourceFile,
+      CancellationToken cancellationToken = default
+    )
+    {
+        var filePath = Path.Combine(instance.CacheDir.FullName, fileName);
+
+        File.Copy(sourceFile.FullName, filePath);
+
+        await using var sourceFileStream = new FileStream(sourceFile.FullName, FileMode.Open);
+        await using var targetFileStream = new FileStream(filePath, FileMode.CreateNew);
+
+        await sourceFileStream.CopyToAsync(targetFileStream, cancellationToken);
+
+        return new FileInfo(filePath);
+    }
+
     [return: NotNull]
     public static async Task<FileCacheInfo> GetOrCreateFileCacheInfo(
       this IUseFileCache instance,
@@ -105,6 +165,14 @@ public static class UseFileCacheExtensions
     {
         var nameParts = keys.Prepend(prefix);
         var fileName = $"{string.Join('_', nameParts)}.json";
+
+        return fileName;
+    }
+
+    private static string CombineToFileName(string prefix, ICollection<string> keys, string extension)
+    {
+        var nameParts = keys.Prepend(prefix);
+        var fileName = $"{string.Join('_', nameParts)}{extension}";
 
         return fileName;
     }

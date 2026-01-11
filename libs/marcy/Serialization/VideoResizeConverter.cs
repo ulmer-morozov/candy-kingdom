@@ -11,6 +11,7 @@ namespace CandyKingdom.Marcy.Serialization;
 public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
 {
     public const string VideoSrcPrefix = "videosrc";
+    public const string VideoFilePrefix = "videofile";
 
     private readonly ImmutableList<VideoSetup> _setups;
     private readonly IVideoUploader _videoUploader;
@@ -101,6 +102,17 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
                     continue;
                 }
 
+                var cachedFile = this.ReadFileFromCache(
+                  VideoSrcPrefix,
+                  srcKeys,
+                  setup.Format.Extension
+                );
+
+                if (cachedFile == null)
+                {
+                    continue;
+                }
+
                 srcDict[setup] = cachedFileSrc;
             }
 
@@ -112,7 +124,9 @@ public sealed class VideoResizeConverter : JsonConverter<VideoM>, IUseFileCache
                 async Task SetCache(VideoSetup setup, TempVideoFile videoFile, FileSrc<VideoMeta> fileSrc)
                 {
                     var srcKeys = GetVideoSrcKeys(fileCacheInfo, setup);
+
                     await this.StoreJsonInCache(VideoSrcPrefix, srcKeys, fileSrc, cancellationToken);
+                    await this.StoreFileInCache(VideoFilePrefix, srcKeys, videoFile.File, cancellationToken);
                 }
 
                 var fileSrcDict = await _videoUploader.ConvertAndStore(

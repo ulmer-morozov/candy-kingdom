@@ -203,6 +203,7 @@ public sealed class AdminUploadImageController : ControllerBase
             imageStream: imageMemoryStream,
             setups: isTransparent ? DefaultTransparentSetups : DefaultNonTransparentSetups,
             convertParameters,
+            null,
             cancellationToken
         );
 

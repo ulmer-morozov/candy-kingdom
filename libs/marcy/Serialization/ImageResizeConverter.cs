@@ -12,6 +12,7 @@ namespace CandyKingdom.Marcy.Serialization;
 public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
 {
     public const string ImgSrcPrefix = "imgsrc";
+    public const string ImageFilePrefix = "imgfile";
 
     private readonly ImmutableList<ImageSetup> _setups;
     private readonly ImageConvertParameters _convertParameters;
@@ -104,6 +105,17 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
                     continue;
                 }
 
+                var cachedFile = this.ReadFileFromCache(
+                  ImageFilePrefix,
+                  srcKeys,
+                  setup.Format.Extension
+                );
+
+                if (cachedFileSrc == null)
+                {
+                    continue;
+                }
+
                 imageSrcDict[setup] = cachedFileSrc;
             }
 
@@ -111,13 +123,14 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
 
             if (!notCachedSetups.IsEmpty)
             {
-                async Task OnImageReady(ImageSetup imageSetup, FileInfo imageFile, FileSrc<ImageMeta> imageSrc, string imageHash)
+                async Task OnImageReady(ImageSetup imageSetup, FileInfo tempImageFile, FileSrc<ImageMeta> imageSrc, string imageHash)
                 {
                     imageSrcDict[imageSetup] = imageSrc;
 
                     var srcKeys = GetImgSrcKeys(fileCacheInfo, imageSetup);
 
                     await this.StoreJsonInCache(ImgSrcPrefix, srcKeys, imageSrc, cancellationToken);
+                    await this.StoreFileInCache(ImageFilePrefix, srcKeys, tempImageFile, cancellationToken);
                 }
 
                 var fileSrcDict = await _imageUploader.ConvertAndStore(
