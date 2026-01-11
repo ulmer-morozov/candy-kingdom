@@ -127,6 +127,7 @@ public static class UseFileCacheExtensions
 
         await sourceFileStream.CopyToAsync(targetFileStream, cancellationToken);
 
+        return file;
     }
 
     [return: NotNull]
