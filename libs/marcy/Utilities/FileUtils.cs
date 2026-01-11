@@ -23,6 +23,6 @@ public static class FileUtils
 
     private static string GetTempPath()
     {
-        return "";// return Path.GetTempPath();
+        return Path.GetTempPath();
     }
 }

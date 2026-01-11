@@ -13,18 +13,21 @@ public sealed class SmartJsonProducer : ISmartJsonProducer
     private readonly IVideoManager _videoManager;
     private readonly IImageMin _imageMin;
     private readonly IFileStorage _fileStorage;
+    private readonly DirectoryInfo _cacheDir;
 
     public SmartJsonProducer(
       IImageManager imageManager,
       IVideoManager videoManager,
       IImageMin imageMin,
-      IFileStorage fileStorage
+      IFileStorage fileStorage,
+      DirectoryInfo? cacheDir
     )
     {
         _imageManager = imageManager;
         _videoManager = videoManager;
         _imageMin = imageMin;
         _fileStorage = fileStorage;
+        _cacheDir = cacheDir ?? new DirectoryInfo(Path.Combine("marcy-cache"));
     }
 
     public string SerializeAndInject<T>(
@@ -47,13 +50,11 @@ public sealed class SmartJsonProducer : ISmartJsonProducer
       ImmutableList<VideoSetup> videoSetups
     )
     {
-        var cacheDir = new DirectoryInfo(Path.Combine("marcy-cache"));
-
         var imageResizeConverter = new ImageResizeConverter(
           _imageManager,
           imageSetups,
           convertParameters,
-          cacheDir,
+          _cacheDir,
           imageMin: _imageMin,
           fileStorage: _fileStorage
         );
@@ -61,7 +62,7 @@ public sealed class SmartJsonProducer : ISmartJsonProducer
         var videoConverter = new VideoResizeConverter(
           _videoManager,
           videoSetups,
-          cacheDir,
+          _cacheDir,
           _fileStorage,
           new VideoConvertParameters { RemoveAudio = true }
         );

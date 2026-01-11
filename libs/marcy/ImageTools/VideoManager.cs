@@ -27,9 +27,6 @@ public sealed class VideoManager : IVideoManager
             _ffmpegPath = string.IsNullOrEmpty(ffmpegPath) ? "ffmpeg" : ffmpegPath;
             _ffprobePath = string.IsNullOrEmpty(ffprobePath) ? "ffprobe" : ffprobePath;
         }
-
-        Console.WriteLine($"Using ffmpeg path: {_ffmpegPath}");
-        Console.WriteLine($"Using ffprobe path: {_ffprobePath}");
     }
 
     public async Task<TempVideoFile> AnalyseMp4(
