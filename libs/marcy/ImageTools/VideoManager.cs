@@ -229,7 +229,7 @@ public sealed class VideoManager : IVideoManager
             throw new Exception("Video format can not be null or empty");
         }
 
-        if (format.StartsWith("h264") || format.Contains("mp4") || format.Contains("mpeg4"`))
+        if (format.StartsWith("h264") || format.Contains("mp4") || format.Contains("mpeg4"))
         {
             return VideoFormat.Mp4;
         }

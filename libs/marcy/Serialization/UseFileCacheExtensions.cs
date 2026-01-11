@@ -97,11 +97,12 @@ public static class UseFileCacheExtensions
       this IUseFileCache instance,
       string prefix,
       ICollection<string> keys,
+      string extension,
       FileInfo sourceFile,
       CancellationToken cancellationToken = default
     )
     {
-        var fileName = CombineToFileName(prefix, keys, sourceFile.Extension);
+        var fileName = CombineToFileName(prefix, keys, extension);
 
         return await StoreFileInCache(instance, fileName, sourceFile, cancellationToken);
     }
@@ -114,15 +115,18 @@ public static class UseFileCacheExtensions
     )
     {
         var filePath = Path.Combine(instance.CacheDir.FullName, fileName);
+        var file = new FileInfo(filePath);
 
-        File.Copy(sourceFile.FullName, filePath);
+        if (file.Exists)
+        {
+            Console.WriteLine($"Overriding cache file: {file.FullName}");
+        }
 
         await using var sourceFileStream = new FileStream(sourceFile.FullName, FileMode.Open);
-        await using var targetFileStream = new FileStream(filePath, FileMode.Create);
+        await using var targetFileStream = new FileStream(file.FullName, FileMode.Create);
 
         await sourceFileStream.CopyToAsync(targetFileStream, cancellationToken);
 
-        return new FileInfo(filePath);
     }
 
     [return: NotNull]

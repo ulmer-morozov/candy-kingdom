@@ -140,14 +140,14 @@ public sealed class ImageResizeConverter : JsonConverter<ImageM>, IUseFileCache
 
             if (!notCachedSetups.IsEmpty)
             {
-                async Task OnImageReady(ImageSetup imageSetup, FileInfo tempImageFile, FileSrc<ImageMeta> imageSrc, string imageHash)
+                async Task OnImageReady(ImageSetup setup, FileInfo tempImageFile, FileSrc<ImageMeta> imageSrc, string imageHash)
                 {
-                    imageSrcDict[imageSetup] = imageSrc;
+                    imageSrcDict[setup] = imageSrc;
 
-                    var srcKeys = GetImgSrcKeys(fileCacheInfo, imageSetup);
+                    var srcKeys = GetImgSrcKeys(fileCacheInfo, setup);
 
                     await this.StoreJsonInCache(ImgSrcPrefix, srcKeys, imageSrc, cancellationToken);
-                    await this.StoreFileInCache(ImageFilePrefix, srcKeys, tempImageFile, cancellationToken);
+                    await this.StoreFileInCache(ImageFilePrefix, srcKeys, setup.Format.Extension, tempImageFile, cancellationToken);
                 }
 
                 var fileSrcDict = await _imageUploader.ConvertAndStore(
