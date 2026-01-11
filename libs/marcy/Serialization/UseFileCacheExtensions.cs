@@ -118,7 +118,7 @@ public static class UseFileCacheExtensions
         File.Copy(sourceFile.FullName, filePath);
 
         await using var sourceFileStream = new FileStream(sourceFile.FullName, FileMode.Open);
-        await using var targetFileStream = new FileStream(filePath, FileMode.CreateNew);
+        await using var targetFileStream = new FileStream(filePath, FileMode.Create);
 
         await sourceFileStream.CopyToAsync(targetFileStream, cancellationToken);
 
