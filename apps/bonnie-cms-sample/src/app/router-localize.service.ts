@@ -1,24 +1,21 @@
-import { Injectable, inject, signal, effect, Signal } from '@angular/core';
+import { Injectable, inject, signal, effect } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
 
 @Injectable()
 export class RouterLocalizeService extends LocalizeServiceBase {
-  private readonly _locale = signal<string>('');
-  public readonly locale: Signal<string>;
+  public readonly locale = signal<string>('');
+
   private readonly route = inject(ActivatedRoute);
 
   constructor() {
     super();
 
-    // Expose signal as read-only
-    this.locale = this._locale.asReadonly();
-
-    console.log(`new locale ${this._locale()}`);
+    console.log(`new locale ${this.locale()}`);
 
     // Watch locale changes for logging and emit to subject
     effect(() => {
-      console.log(`new locale ${this._locale()}`);
+      console.log(`new locale ${this.locale()}`);
     });
 
     const next = (newLocale?: string) => {
@@ -26,10 +23,10 @@ export class RouterLocalizeService extends LocalizeServiceBase {
 
       newLocale = newLocale?.toLowerCase() ?? defaultLocale;
 
-      if (newLocale.length === 0 || this._locale() === newLocale)
+      if (newLocale.length === 0 || this.locale() === newLocale)
         return;
 
-      this._locale.set(newLocale);
+      this.locale.set(newLocale);
     }
 
     this.route.params.subscribe
