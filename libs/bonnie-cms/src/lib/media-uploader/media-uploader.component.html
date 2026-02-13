@@ -1,9 +1,9 @@
-<bon-media [src]="src" [objectFit]="MediaObjectFit.Cover"></bon-media>
+<bon-media [src]="src()" [objectFit]="MediaObjectFit.Cover"></bon-media>
 
-<div *ngIf="src?.sources?.length===0">Upload media</div>
+<div *ngIf="src()?.sources?.length===0">Upload media</div>
 
 <div (click)="selectFile($event)" class="media-container">
-  <input #fileInput [accept]="fileTypeMask" (change)="onFileSelect(fileInput)" name="media" type="file" />
+  <input #fileInput [accept]="fileTypeMask()" (change)="onFileSelect(fileInput)" name="media" type="file" />
   <span *ngIf="isUploading"
         [style.clip-path]="clipStyle"
         [style.-webkit-clip-path]="clipStyle"

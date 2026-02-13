@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, QueryList, ViewChildren, inject } from '@angular/core';
+import { AfterViewInit, Component, effect, input, output, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { take } from 'rxjs/operators';
 
 import { LocalizedString } from '@candy-kingdom/bonnie';
 import { DeviceType } from '../core';
@@ -13,40 +12,43 @@ import { DeviceType } from '../core';
   templateUrl: './translation-textarea.component.html',
   styleUrls: ['./translation-textarea.component.scss']
 })
-export class TranslationTextareaComponent implements OnChanges, AfterViewInit {
+export class TranslationTextareaComponent implements AfterViewInit {
   @ViewChildren(CdkTextareaAutosize)
   public autosizeList!: QueryList<CdkTextareaAutosize>;
 
-  @Input()
-  public minRows?: number;
+  public readonly minRows = input<number>();
 
-  @Input()
-  public maxRows?: number;
+  public readonly maxRows = input<number>();
 
-  @Input({ required: true })
-  public text!: LocalizedString;
+  public readonly text = input.required<LocalizedString>();
 
-  @Input({ required: true })
-  public locale!: string;
+  public readonly locale = input.required<string>();
 
-  @Input()
-  public device: DeviceType = DeviceType.NotSet;
+  public readonly device = input<DeviceType>(DeviceType.NotSet);
 
-  @Output()
-  public startEditing: EventEmitter<void> = new EventEmitter();
+  public readonly startEditing = output<void>();
 
-  @Output()
-  public changed: EventEmitter<void> = new EventEmitter();
+  public readonly changed = output<void>();
 
-  @Output()
-  public blurred: EventEmitter<void> = new EventEmitter();
+  public readonly blurred = output<void>();
+
+  constructor() {
+    // todo: check if it still necessary
+    effect((onCleanup) => {
+      this.text();
+      this.locale();
+      this.minRows();
+      this.maxRows();
+      const timer = setTimeout(this.triggerResize.bind(this), 500);
+
+      onCleanup(() => {
+        clearTimeout(timer);
+      });
+    });
+  }
 
   ngAfterViewInit(): void {
     setTimeout(this.triggerResize.bind(this));
-  }
-
-  ngOnChanges(): void {
-    setTimeout(this.triggerResize.bind(this), 500);
   }
 
   public onClick() {

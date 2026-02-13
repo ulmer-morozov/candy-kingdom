@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Type, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, Type, ViewChild, inject } from '@angular/core';
 import { SkeletonAnchorDirective } from './skeleton-anchor.directive';
 import { IBoneComponent } from "./IBoneComponent";
 import { Bone } from '../generated';
@@ -16,8 +16,9 @@ export class SkeletonComponent implements OnInit {
   @ViewChild(SkeletonAnchorDirective, { static: true })
   public skeletonAnchor!: SkeletonAnchorDirective;
 
-  @Input({ required: true })
-  public map?: Map<string, Type<IBoneComponent>>;
+  public readonly map = input.required<Map<string, Type<IBoneComponent>>>();
+
+  public readonly bones = input.required<Bone[]>();
 
   private readonly _bones: Bone[] = [];
 
@@ -25,16 +26,19 @@ export class SkeletonComponent implements OnInit {
 
   private readonly cd = inject(ChangeDetectorRef);
 
-  ngOnInit(): void {
-    this.iniailized = true;
-    this.fillComponentFromBones();
+  constructor() {
+    effect(() => {
+      const newBones = this.bones();
+      this._bones.splice(0, this._bones.length);
+      this._bones.push(...newBones);
+      if (this.iniailized) {
+        this.fillComponentFromBones();
+      }
+    });
   }
 
-  @Input()
-  public set bones(newValue: Bone[] | undefined) {
-    this._bones.splice(0, this._bones.length);
-    this._bones.push(...newValue ?? []);
-
+  ngOnInit(): void {
+    this.iniailized = true;
     this.fillComponentFromBones();
   }
 
@@ -45,11 +49,12 @@ export class SkeletonComponent implements OnInit {
     const viewContainerRef = this.skeletonAnchor.viewContainerRef;
     viewContainerRef.clear();
 
-    if (this.map === undefined || this.map === null)
+    const mapVal = this.map();
+    if (mapVal === undefined || mapVal === null)
       throw new Error('add type map with input: [map]="..."');
 
     for (const bone of this._bones) {
-      let componentType = this.map.get(bone.type);
+      let componentType = mapVal.get(bone.type);
 
       if (componentType === undefined || componentType === null) {
         console.warn(`Mapping type for ${bone.type} not found`);

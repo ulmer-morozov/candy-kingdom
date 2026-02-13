@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, inject, signal, effect, EffectRef } from '@angular/core';
+import { Component, input, output, ChangeDetectorRef, OnInit, ElementRef, ViewChild, AfterViewInit, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import * as MCore from '../generated';
@@ -23,23 +23,21 @@ function isWebM(src: MCore.FileSrc<MCore.ImageMeta>): boolean {
   styleUrls: ['./marcy-video.component.scss'],
   providers: [UnsubscriberService]
 })
-export class MarcyVideoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MarcyVideoComponent implements OnInit, AfterViewInit {
   public readonly MediaStatus = MediaStatus;
   public readonly MarcyObjectFit = MediaObjectFit;
 
   @ViewChild('video')
   public readonly videoRef!: ElementRef<HTMLVideoElement>;
 
-  @Output()
-  public readonly isLoaded: EventEmitter<void> = new EventEmitter();
+  public readonly isLoaded = output<void>();
 
   public readonly $status = signal<MediaStatus>(MediaStatus.NotSet);
   public readonly src: VideoSrcDirective;
-  private readonly _effectCleanup?: EffectRef;
 
   public source?: MCore.FileSrc<MCore.VideoMeta>;
 
-  private _objectFit = MediaObjectFit.Original;
+  public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
   public readonly device = inject(DeviceServiceBase);
   public readonly cd = inject(ChangeDetectorRef);
@@ -56,10 +54,9 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.cd.detach();
 
-    // Watch for status changes and emit when loaded
-    this._effectCleanup = effect(() => {
+    effect(() => {
       if (this.$status() === MediaStatus.Loaded) {
-        this.isLoaded.next();
+        this.isLoaded.emit();
       }
     });
   }
@@ -120,17 +117,6 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.$status.set(MediaStatus.NotLoaded);
 
     this.cd.detectChanges();
-  }
-
-  @Input()
-  public set objectFit(val: MediaObjectFit | undefined) {
-    this._objectFit = val ?? MediaObjectFit.Original;
-
-    this.cd.detectChanges();
-  }
-
-  public get objectFit(): MediaObjectFit {
-    return this._objectFit;
   }
 
   public onLoad() {
@@ -213,7 +199,4 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit, OnDestroy {
     return undefined;
   }
 
-  public ngOnDestroy(): void {
-    this._effectCleanup?.destroy();
-  }
 }

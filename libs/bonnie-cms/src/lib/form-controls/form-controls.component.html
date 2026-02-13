@@ -1,11 +1,11 @@
-<div [class.edit]="editable.inEditMode" class="content">
+<div [class.edit]="editable().inEditMode" class="content">
     <ng-content></ng-content>
 </div>
 
-<div [class.hidden]="!editable.inEditMode" class="controls">
-    <a *ngIf="!editable.isDirty" (click)="editable.cancel()" class="close">close</a>
-    <ng-container *ngIf="editable.isDirty">
-        <a (click)="editable.cancel()">reset</a>
-        <a (click)="editable.requestSave()" class="apply">apply</a>
+<div [class.hidden]="!editable().inEditMode" class="controls">
+    <a *ngIf="!editable().isDirty" (click)="editable().cancel()" class="close">close</a>
+    <ng-container *ngIf="editable().isDirty">
+        <a (click)="editable().cancel()">reset</a>
+        <a (click)="editable().requestSave()" class="apply">apply</a>
     </ng-container>
 </div>

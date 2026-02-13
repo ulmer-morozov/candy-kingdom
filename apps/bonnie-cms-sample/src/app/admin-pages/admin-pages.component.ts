@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { RouterLink } from '@angular/router';
@@ -53,12 +53,11 @@ export default class AdminPagesComponent {
 
   private readonly _dataService = inject(AdminDataService);
 
-  @Input({ required: true })
-  public page!: Page<PageData>;
+  public readonly page = input.required<Page<PageData>>();
 
   public save(): void {
     try {
-      this._dataService.storePage(this.page).subscribe(() => {
+      this._dataService.storePage(this.page()).subscribe(() => {
         console.log('successfully stored data'); // todo: add toast
       });
     } catch (e: unknown) {

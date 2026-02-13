@@ -7,9 +7,9 @@
 <div class="editor-container"
      [class.disabled]="disabled"
      [style.width]="
-                      device === DeviceType.Desktop ? '75vw'
-                      : device === DeviceType.Tablet ? '55vw'
-                      : device === DeviceType.Mobile ? '35vw'
+                      device() === DeviceType.Desktop ? '75vw'
+                      : device() === DeviceType.Tablet ? '55vw'
+                      : device() === DeviceType.Mobile ? '35vw'
                       : '75vw' ">
   <ng-template boncSkeletonEditorAnchor>
   </ng-template>

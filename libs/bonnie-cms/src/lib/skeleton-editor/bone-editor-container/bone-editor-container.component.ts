@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, EventEmitter, Input, OnChanges, Output, ViewChild, inject } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnChanges, ViewChild, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -22,14 +22,11 @@ export class BoneEditorContainerComponent implements OnChanges {
   @ViewChild(SkeletonEditorAnchorDirective, { static: true })
   public anchor!: SkeletonEditorAnchorDirective;
 
-  @Output()
-  public removed: EventEmitter<void> = new EventEmitter<void>();
+  public readonly removed = output<void>();
 
-  @Output()
-  public saved: EventEmitter<Bone> = new EventEmitter<Bone>();
+  public readonly saved = output<Bone>();
 
-  @Output()
-  public editing: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public readonly editing = output<boolean>();
 
   public DeviceType = DeviceType;
 
@@ -43,11 +40,11 @@ export class BoneEditorContainerComponent implements OnChanges {
   private saveSubscription?: Subscription;
   private changedSubscription?: Subscription;
 
-  @Input({ required: true })
-  public locale!: string;
+  public readonly locale = input.required<string>();
 
-  @Input()
-  public device = DeviceType.NotSet;
+  public readonly device = input(DeviceType.NotSet);
+
+  public readonly map = input.required<BoneEditorMap>();
 
   private readonly componentFactoryResolver = inject(ComponentFactoryResolver);
 
@@ -55,12 +52,9 @@ export class BoneEditorContainerComponent implements OnChanges {
     if (this.editor === undefined || this.editor === null)
       return;
 
-    this.editor.locale = this.locale;
-    this.editor.device = this.device;
+    this.editor.locale = this.locale();
+    this.editor.device = this.device();
   }
-
-  @Input({ required: true })
-  public map!: BoneEditorMap
 
   public get bone(): Bone {
     return this._bone;
@@ -89,7 +83,7 @@ export class BoneEditorContainerComponent implements OnChanges {
 
     viewContainerRef.clear();
 
-    const componentType = this.map.get(newBone.type) ?? UnknownBoneEditorComponent;
+    const componentType = this.map().get(newBone.type) ?? UnknownBoneEditorComponent;
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
     const boneEditorRef = viewContainerRef.createComponent(componentFactory);
@@ -98,19 +92,19 @@ export class BoneEditorContainerComponent implements OnChanges {
     this.editor.bone = newBone;
 
     this.removeSubscription = this.editor.removed.subscribe(() => {
-      this.removed.next();
+      this.removed.emit();
     });
 
     this.changedSubscription = this.editor.editing.subscribe
       (
         (isEditing: boolean) => {
-          this.editing.next(isEditing);
+          this.editing.emit(isEditing);
         }
       );
 
     this.saveSubscription = this.editor.saved.subscribe(
       (newBoneValue: Bone) => {
-        this.saved.next(newBoneValue);
+        this.saved.emit(newBoneValue);
       }
     );
 

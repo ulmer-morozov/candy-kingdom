@@ -7,9 +7,8 @@ import {
   inject,
   signal,
   effect,
-  EffectRef,
   Signal,
-  OnDestroy,
+  output,
 } from '@angular/core';
 import { Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
 
@@ -24,10 +23,9 @@ import { UnsubscriberService } from './unsubscribe.service';
   providers: [UnsubscriberService],
 })
 export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
-  implements OnInit, OnDestroy
+  implements OnInit
 {
-  @Output()
-  public readonly ratioChange = new EventEmitter<number>();
+  public readonly ratioChange = output<number>();
 
   @Output()
   public readonly srcChange = new EventEmitter<T | undefined>();
@@ -41,22 +39,18 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
 
   private readonly _u = inject(UnsubscriberService);
   private readonly cd = inject(ChangeDetectorRef);
-  private readonly _effectCleanup?: EffectRef;
 
   constructor() {
-    console.log('SrcBaseDirective ctor');
     this.cd.detach();
 
-    // Watch for ratio changes and emit
-    this._effectCleanup = effect(() => {
+    effect(() => {
       const ratio = this._ratio();
-      this.ratioChange.next(ratio);
-      this.cd.detectChanges(); // todo: verify, do i need it here
+      this.ratioChange.emit(ratio);
+      this.cd.detectChanges();
     });
   }
 
   public ngOnInit(): void {
-    console.log('SrcBaseDirective ngOnInit');
     this.cd.detectChanges();
   }
 
@@ -82,7 +76,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
     // ratio
     this._ratio.set(0);
 
-    this.srcChange.next(this._data);
+    this.srcChange.emit(this._data);
 
     if (this._data === undefined || this._data.sources.length === 0) {
       return;
@@ -195,7 +189,4 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
     return combinedObservable;
   }
 
-  public ngOnDestroy(): void {
-    this._effectCleanup?.destroy();
-  }
 }

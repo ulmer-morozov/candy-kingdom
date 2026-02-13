@@ -1,8 +1,8 @@
 <div *ngIf="sources.length > 0"
-     [class.knownRatio]="src.ratio() > 0 && objectFit === MarcyObjectFit.Original"
-     [class.cover]="objectFit === MarcyObjectFit.Cover"
-     [class.contain]="objectFit === MarcyObjectFit.Contain"
-     [class.loaded]="($status | async) === MediaStatus.Loaded"
+     [class.knownRatio]="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original"
+     [class.cover]="objectFit() === MarcyObjectFit.Cover"
+     [class.contain]="objectFit() === MarcyObjectFit.Contain"
+     [class.loaded]="status() === MediaStatus.Loaded"
      class="picture-container">
 
   <ng-template #pictureTemplate>
@@ -29,5 +29,5 @@
 
   </bon-intersection>
 
-  <div *ngIf="src.ratio() > 0 && objectFit === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio() +'%'"></div>
+  <div *ngIf="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio() +'%'"></div>
 </div>

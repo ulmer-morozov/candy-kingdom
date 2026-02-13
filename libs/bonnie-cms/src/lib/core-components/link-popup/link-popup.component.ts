@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslationInputComponent } from '../../translation-input/translation-input.component';
@@ -16,42 +16,31 @@ import { TextEditorField } from '../../core';
 })
 export class LinkPopupComponent {
   public readonly TextEditorField = TextEditorField;
-  @Output()
-  public linkChange: EventEmitter<LocalizedString> = new EventEmitter();
+  public readonly LinkPopupField = TextEditorField;
 
-  @Output()
-  public startEditing: EventEmitter<void> = new EventEmitter();
+  public readonly linkChange = output<LocalizedString>();
 
-  @Output()
-  public changed: EventEmitter<void> = new EventEmitter();
+  public readonly startEditing = output<void>();
 
-  @Output()
-  public blurred: EventEmitter<void> = new EventEmitter();
+  public readonly changed = output<void>();
 
-  @Output()
-  public open: EventEmitter<void> = new EventEmitter();
+  public readonly blurred = output<void>();
 
-  @Output()
-  public closed: EventEmitter<void> = new EventEmitter();
+  public readonly open = output<void>();
 
-  @Input({ required: true })
-  public field!: TextEditorField;
-  public LinkPopupField = TextEditorField;
+  public readonly closed = output<void>();
 
-  @Input()
-  public maxRows?: number;
+  public readonly field = input.required<TextEditorField>();
 
-  @Input()
-  public minRows?: number;
+  public readonly maxRows = input<number>();
 
-  @Input({ required: true })
-  public linkTitle!: LocalizedString; // todo: allready in weblink
+  public readonly minRows = input<number>();
 
-  @Input({ required: true })
-  public locale!: string;
+  public readonly linkTitle = input.required<LocalizedString>();
 
-  @Input({ required: true })
-  public link!: LocalizedString;
+  public readonly locale = input.required<string>();
+
+  public readonly link = input.required<LocalizedString>();
 
   public popupIsShown = false;
 

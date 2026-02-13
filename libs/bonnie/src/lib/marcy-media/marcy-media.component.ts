@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, inject } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import * as MCore from '../generated';
@@ -23,56 +23,24 @@ export class MarcyMediaComponent implements OnInit {
 
     public readonly MarcyObjectFit = MediaObjectFit;
 
-    @Output()
-    public readonly isLoaded: EventEmitter<void> = new EventEmitter();
+    public readonly isLoaded = output<void>();
 
-    private _objectFit = MediaObjectFit.Original;
-    private _src?: MCore.Video | MCore.Image;
+    public readonly src = input<MCore.Video | MCore.Image | undefined>();
 
-    constructor
-        () {
-        const cd = this.cd;
+    public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
-
+    constructor() {
         console.log('MarcyMediaComponent ctor');
-
-        cd.detach();
+        this.cd.detach();
     }
-
 
     public ngOnInit(): void {
         console.log('MarcyMediaComponent ngOnInit');
-
         this.cd.detectChanges();
-    }
-
-
-    public get src(): MCore.Video | MCore.Image | undefined {
-        return this._src;
-    }
-
-    @Input()
-    public set src(val: MCore.Video | MCore.Image | undefined) {
-        console.log('set data', val);
-
-        this._src = val;
-
-        this.cd.detectChanges();
-    }
-
-    @Input()
-    public set objectFit(val: MediaObjectFit | undefined) {
-        this._objectFit = val ?? MediaObjectFit.Original;
-
-        this.cd.detectChanges();
-    }
-
-    public get objectFit(): MediaObjectFit {
-        return this._objectFit;
     }
 
     public onLoad() {
-        this.isLoaded.next();
+        this.isLoaded.emit();
     }
 
 }

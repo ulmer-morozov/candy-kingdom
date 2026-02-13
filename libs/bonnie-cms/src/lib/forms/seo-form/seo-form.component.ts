@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileMeta, FileSrc, ImageMeta, OpenGraphData } from '@candy-kingdom/bonnie';
 
@@ -8,8 +8,8 @@ import { TranslationInputComponent } from '../../translation-input/translation-i
 import { TranslationTextareaComponent } from '../../translation-textarea/translation-textarea.component';
 import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
 
-const uploadMap = new Map<string, string>();
-uploadMap.set('', `/api/admin/upload/image?width=${1200}&height=${630}&format=image/jpeg`);
+const defaultUploadMap = new Map<string, string>();
+defaultUploadMap.set('', `/api/admin/upload/image?width=${1200}&height=${630}&format=image/jpeg`);
 
 @Component({
   selector: 'bonc-seo-form',
@@ -20,28 +20,18 @@ uploadMap.set('', `/api/admin/upload/image?width=${1200}&height=${630}&format=im
   hostDirectives: [EditableDirective]
 })
 export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implements OnInit {
-  public readonly uploadMap = uploadMap;
+  public readonly uploadMap = defaultUploadMap;
 
-  private _pageId = '';
-  public ogImageUploadUrl = '';
+  public readonly label = input('');
 
-  @Input()
-  public label = '';
+  public readonly pageId = input('');
+
+  public readonly ogImageUploadUrl = computed(() => `/api/admin/page/Og-Image?pageId=${this.pageId()}`);
 
   public ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {
       this.editable.save();
     });
-  }
-
-  @Input()
-  public set pageId(value: string) {
-    this._pageId = value;
-    this.ogImageUploadUrl = `/api/admin/page/Og-Image?pageId=${this.pageId}`; // todo: replace with link to single image api
-  }
-
-  public get pageId(): string {
-    return this._pageId;
   }
 
   public ResToSrc(res: { url: string }): string {
@@ -52,7 +42,7 @@ export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implement
     this.editable.startEditing();
 
     if (this.editable.value !== undefined) {
-      this.editable.value.image[this.locale] = $event as FileSrc<ImageMeta>;
+      this.editable.value.image[this.locale()] = $event as FileSrc<ImageMeta>;
     }
 
     this.editable.updateDirty();

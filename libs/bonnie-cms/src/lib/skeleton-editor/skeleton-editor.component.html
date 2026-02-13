@@ -9,7 +9,7 @@
   </div>
 
   <div *ngIf="templatesAreShown[index]" class="templates">
-    <a *ngFor="let template of templates" (click)="templatesAreShown[index] = false; createBone(index,template);">{{template.title}}</a>
+    <a *ngFor="let template of templates()" (click)="templatesAreShown[index] = false; createBone(index,template);">{{template.title}}</a>
     <a (click)="templatesAreShown[index] = false">Close</a>
   </div>
 </ng-template>
@@ -21,10 +21,10 @@
   </ng-container>
 
   <bonc-bone-editor-container #boneEditorContainer
-                              [map]="map"
+                              [map]="map()"
                               [bone]="bone"
-                              [locale]="locale"
-                              [device]="device"
+                              [locale]="locale()"
+                              [device]="device()"
                               (removed)="removeBone(i)"
                               (editing)="boneEditHandler($event)"
                               (saved)="boneChangeHandler(i, $event)">

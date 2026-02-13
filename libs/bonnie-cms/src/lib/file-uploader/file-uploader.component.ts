@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, ElementRef, input, output, ViewChild, inject } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
@@ -17,11 +17,18 @@ export class FileUploaderComponent {
   @ViewChild('fileInput', { static: true })
   public fileInput!: ElementRef<HTMLInputElement>;
 
-  @Output()
-  public srcChange = new EventEmitter<FileSrc<FileMeta>>();
+  public readonly srcChange = output<FileSrc<FileMeta>>();
 
-  @Input({ required: true })
-  public uploadUrlMap!: ReadonlyMap<string, string>;
+  public readonly uploadUrlMap = input.required<ReadonlyMap<string, string>>();
+
+  public readonly src = input<FileSrc<FileMeta> | undefined>();
+
+  public readonly uploadTypes = input<string[]>([]);
+
+  public readonly fileTypeMask = computed(() => {
+    const types = this.uploadTypes();
+    return types.length === 0 ? undefined : types.join(',');
+  });
 
   public progress = 0;
   public isUploading = false;
@@ -29,41 +36,9 @@ export class FileUploaderComponent {
   public autoplay = true;
   public clipStyle?: SafeStyle;
 
-  public fileTypeMask?: string = undefined;
-
-  private _uploadTypes: string[] = [];
-  private _src?: FileSrc<FileMeta>;
-
   private readonly sanitizer = inject(DomSanitizer);
   private readonly http = inject(HttpClient);
   private readonly cd = inject(ChangeDetectorRef);
-
-  @Input()
-  public set src(newSrc: FileSrc<FileMeta> | undefined) {
-    if (this._src === newSrc)
-      return;
-
-    this._src = newSrc;
-  }
-
-  public get src(): FileSrc<FileMeta> | undefined {
-    return this._src;
-  }
-
-  @Input()
-  public set uploadTypes(newUploadType: string[]) {
-    this._uploadTypes.splice(0, this._uploadTypes.length);
-
-    this._uploadTypes.push(...newUploadType);
-
-    this.fileTypeMask = this._uploadTypes.length === 0 ? undefined : this._uploadTypes.join(',');
-
-    this.cd.detectChanges();
-  }
-
-  public get uploadTypes(): string[] {
-    return this._uploadTypes;
-  }
 
   public onFileSelect(fileInput: HTMLInputElement) {
     if (fileInput.files === undefined || fileInput.files === null || fileInput.files.length !== 1)
@@ -71,7 +46,7 @@ export class FileUploaderComponent {
 
     const file = fileInput.files[0];
 
-    const uploadUrl = this.uploadUrlMap.get(file.type) ?? this.uploadUrlMap.get("");
+    const uploadUrl = this.uploadUrlMap().get(file.type) ?? this.uploadUrlMap().get("");
 
     if (uploadUrl === undefined || uploadUrl === null) {
       console.error(`upload map doesn't have url for type '${file.type}'`);

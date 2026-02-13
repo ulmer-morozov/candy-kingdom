@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DeviceType } from '../core';
@@ -14,11 +14,9 @@ import { EditableGroupComponent } from '../core-components';
 export class AdminControlsComponent {
   public readonly DeviceType = DeviceType;
 
-  @Input({ required: true })
-  public editableGroup!: EditableGroupComponent;
+  public readonly editableGroup = input.required<EditableGroupComponent>();
 
-  @Input()
-  public deviceControls = false;
+  public readonly deviceControls = input(false);
 
   public locale = 'en';
   public device = this.DeviceType.Desktop;

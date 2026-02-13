@@ -1,6 +1,6 @@
-<div [class.knownRatio]="src.ratio() > 0 && objectFit === MarcyObjectFit.Original"
-     [class.cover]="objectFit === MarcyObjectFit.Cover"
-     [class.contain]="objectFit === MarcyObjectFit.Contain"
+<div [class.knownRatio]="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original"
+     [class.cover]="objectFit() === MarcyObjectFit.Cover"
+     [class.contain]="objectFit() === MarcyObjectFit.Contain"
      [class.loaded]="$status() === MediaStatus.Loaded"
      class="video-container">
 
@@ -29,5 +29,5 @@
     </bon-intersection>
   </ng-template>
 
-  <div *ngIf="src.ratio() > 0 && objectFit === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio() +'%'"></div>
+  <div *ngIf="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio() +'%'"></div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { Component, effect, inject, input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Bone } from '@candy-kingdom/bonnie';
@@ -17,19 +17,36 @@ import { BoneEditorMap } from './BoneEditorMap';
   styleUrls: ['./skeleton-editor.component.scss'],
   hostDirectives: [EditableDirective]
 })
-export class SkeletonEditorComponent implements OnInit, OnChanges {
+export class SkeletonEditorComponent implements OnInit {
   @ViewChildren('boneEditorContainer')
   public boneEditorContainerList!: QueryList<BoneEditorContainerComponent>;
 
-  @Input({ required: true })
-  public locale!: string;
+  public readonly locale = input.required<string>();
 
-  @Input()
-  public device = DeviceType.NotSet;
+  public readonly device = input(DeviceType.NotSet);
+
+  public readonly map = input.required<BoneEditorMap>();
+
+  public readonly templates = input.required<ReadonlyArray<IBoneTemplate>>();
 
   public readonly templatesAreShown: boolean[] = [];
 
   public readonly editable = inject(EditableDirective<Bone[]>, { host: true });
+
+  constructor() {
+    effect(() => {
+      this.map();
+      this.templates();
+      this.templatesAreShown.splice(0, this.templatesAreShown.length);
+      const bones = this.editable?.value ?? [];
+
+      if (bones === undefined)
+         return;
+
+      bones.forEach(() => this.templatesAreShown.push(false));
+      this.templatesAreShown.push(false);
+    });
+  }
 
   public ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {
@@ -50,22 +67,6 @@ export class SkeletonEditorComponent implements OnInit, OnChanges {
       this.editable.save();
     });
   }
-
-  @Input({ required: true })
-  public map!: BoneEditorMap;
-
-  public ngOnChanges(): void {
-    this.templatesAreShown.splice(0, this.templatesAreShown.length);
-    if (this.bones === undefined)
-      return;
-
-    this.bones.forEach(() => this.templatesAreShown.push(false));
-    this.templatesAreShown.push(false);
-  }
-
-  @Input({ required: true })
-  public templates!: ReadonlyArray<IBoneTemplate>;
-
 
   public get bones(): Bone[] {
     return this.editable?.value ?? [];

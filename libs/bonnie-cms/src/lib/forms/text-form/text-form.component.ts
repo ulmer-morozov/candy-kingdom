@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TextInputStyle } from './TextInputStyle';
@@ -17,11 +17,9 @@ import { FormControlsComponent } from '../../form-controls/form-controls.compone
 export class TextFormComponent extends FormBaseComponent<string> implements OnInit {
   public readonly TextInputStyle = TextInputStyle;
 
-  @Input()
-  public label = '';
+  public readonly label = input('');
 
-  @Input()
-  public type = TextInputStyle.SingleLine;
+  public readonly type = input(TextInputStyle.SingleLine);
 
   ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {

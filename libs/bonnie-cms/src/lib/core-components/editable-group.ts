@@ -1,4 +1,4 @@
-﻿import { QueryList, ContentChildren, AfterContentInit, OnDestroy, Output, EventEmitter, Component } from '@angular/core';
+import { QueryList, ContentChildren, AfterContentInit, OnDestroy, Component, output } from '@angular/core';
 import { Subscription, Subject, debounceTime } from 'rxjs';
 
 import { EditableDirective } from './editable.directive';
@@ -9,14 +9,11 @@ import { EditableDirective } from './editable.directive';
   template: '<ng-content></ng-content>'
 })
 export class EditableGroupComponent implements AfterContentInit, OnDestroy {
-  @Output()
-  public readonly editModeChange = new EventEmitter<boolean>();
+  public readonly editModeChange = output<boolean>();
 
-  @Output()
-  public readonly saved = new EventEmitter<void>();
+  public readonly saved = output<void>();
 
-  @Output()
-  public readonly requestEditorClose = new EventEmitter<boolean>();
+  public readonly requestEditorClose = output<boolean>();
 
   @ContentChildren(EditableDirective, { descendants: true })
   public editables!: QueryList<EditableDirective>;
@@ -30,7 +27,7 @@ export class EditableGroupComponent implements AfterContentInit, OnDestroy {
     this.saveSubject
       .asObservable()
       .pipe(debounceTime(100))
-      .subscribe(() => this.saved.emit());
+      .subscribe(() => this.saved.emit(undefined));
 
     this.updateSubscriptions();
 
@@ -100,7 +97,7 @@ export class EditableGroupComponent implements AfterContentInit, OnDestroy {
 
     this._inEditMode = newEditMode;
 
-    this.editModeChange.next(newEditMode);
+    this.editModeChange.emit(newEditMode);
   }
 
   public ngOnDestroy(): void {

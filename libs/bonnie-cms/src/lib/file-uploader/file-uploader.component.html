@@ -1,9 +1,9 @@
-<div *ngIf="src === undefined || src.url === undefined || src?.url?.length === 0">Upload file</div>
+<div *ngIf="src() === undefined || src()?.url === undefined || src()?.url?.length === 0">Upload file</div>
 
 <ng-content></ng-content>
 
 <div (click)="selectFile($event)" class="media-container">
-  <input #fileInput [accept]="fileTypeMask" (change)="onFileSelect(fileInput)" name="media" type="file" />
+  <input #fileInput [accept]="fileTypeMask()" (change)="onFileSelect(fileInput)" name="media" type="file" />
   <span *ngIf="isUploading"
         [style.clip-path]="clipStyle"
         [style.-webkit-clip-path]="clipStyle"

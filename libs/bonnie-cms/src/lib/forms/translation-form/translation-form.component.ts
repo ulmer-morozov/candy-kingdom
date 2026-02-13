@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LocalizedString } from '@candy-kingdom/bonnie';
 
@@ -19,10 +19,9 @@ import { TranslationTextareaComponent } from '../../translation-textarea/transla
 export class TranslationFormComponent extends FormBaseComponent<LocalizedString> implements OnInit {
   public readonly TextEditorField = TextEditorField;
 
-  @Input({ required: true })
-  public field!: TextEditorField;
+  public readonly field = input.required<TextEditorField>();
 
-  @Input() label?: string;
+  public readonly label = input<string | undefined>();
 
 
   ngOnInit(): void {

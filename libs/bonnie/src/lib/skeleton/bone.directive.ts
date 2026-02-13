@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, OnInit, inject, effect, EffectRef, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Directive, inject, effect } from '@angular/core';
 import { Bone } from '../generated';
 import { LocalizeServiceBase } from '../localization/LocalizeServiceBase';
 
@@ -6,28 +6,19 @@ import { LocalizeServiceBase } from '../localization/LocalizeServiceBase';
   selector: '[bonBoneDir]',
   standalone: true
 })
-export class BoneDirective<T extends Bone = Bone> implements OnInit, OnDestroy {
+export class BoneDirective<T extends Bone = Bone> {
   private _bone?: T;
 
   private readonly cd = inject(ChangeDetectorRef);
   private readonly localizationService = inject(LocalizeServiceBase);
-  private readonly _effectCleanup?: EffectRef
 
   constructor() {
     this.cd.detach();
 
-    // todo: check if this is needed
-
-    // Watch locale changes using signal
-    this._effectCleanup = effect(() => {
-      // Access the signal to track changes
+    effect(() => {
       this.localizationService.locale();
-      // need to detect changes in our detached components
       this.cd.detectChanges();
     });
-  }
-
-  public ngOnInit(): void {
   }
 
   public set bone(value: T) {
@@ -41,9 +32,5 @@ export class BoneDirective<T extends Bone = Bone> implements OnInit, OnDestroy {
       throw new Error('The property "bone" should be set at least once. For example in skeleton');
 
     return this._bone;
-  }
-
-  public ngOnDestroy(): void {
-    this._effectCleanup?.destroy();
   }
 }

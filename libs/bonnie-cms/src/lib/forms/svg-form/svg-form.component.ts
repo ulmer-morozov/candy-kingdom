@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { Component, computed, OnInit, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FileMeta, FileSrc, SvgMeta } from '@candy-kingdom/bonnie';
@@ -17,36 +17,22 @@ import { FileUploaderComponent } from '../../file-uploader/file-uploader.compone
   hostDirectives: [EditableDirective]
 })
 export class SvgFormComponent extends FormBaseComponent<FileSrc<SvgMeta>> implements OnInit {
-  private readonly cd = inject(ChangeDetectorRef);
-
   public readonly SvgMime = 'image/svg+xml';
 
-  @Input()
-  public label = '';
+  public readonly label = input('');
 
-  public uploadMap = new Map<string, string>();
+  public readonly uploadUrl = input('/api/admin/upload/image/svg');
 
-  private _uploadUrl = '/api/admin/upload/image/svg';
-
-  constructor() {
-    super()
-
-    this.uploadMap.set(this.SvgMime, this._uploadUrl);
-  }
+  public readonly uploadMap = computed(() => {
+    const m = new Map<string, string>();
+    m.set(this.SvgMime, this.uploadUrl());
+    return m;
+  });
 
   public ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {
       this.editable.save();
     });
-  }
-
-  @Input()
-  public set uploadUrl(newValue: string) {
-    this._uploadUrl = newValue;
-
-    this.uploadMap.set(this.SvgMime, this._uploadUrl);
-
-    this.cd.detectChanges();
   }
 
   public onFileUploaded(fileSrc: FileSrc<FileMeta>): void {

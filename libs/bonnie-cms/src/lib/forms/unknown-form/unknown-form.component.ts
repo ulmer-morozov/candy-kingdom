@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBaseComponent } from '../../core-components/form-base.component';
 import { EditableDirective } from '../../core-components/editable.directive';
@@ -12,8 +12,7 @@ import { EditableDirective } from '../../core-components/editable.directive';
   hostDirectives: [EditableDirective]
 })
 export class UnknownFormComponent extends FormBaseComponent<string> implements OnInit {
-  @Input()
-  public label = '';
+  public readonly label = input('');
 
   ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {

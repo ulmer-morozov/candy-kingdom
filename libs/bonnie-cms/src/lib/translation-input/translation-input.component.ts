@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DeviceType } from '../core';
 import { LocalizedString } from '@candy-kingdom/bonnie';
 import { FormsModule } from '@angular/forms';
@@ -11,23 +11,17 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./translation-input.component.scss']
 })
 export class TranslationInputComponent {
-  @Input({ required: true })
-  public text!: LocalizedString;
+  public readonly text = input.required<LocalizedString>();
 
-  @Input({ required: true })
-  public locale!: string;
+  public readonly locale = input.required<string>();
 
-  @Input()
-  public device: DeviceType = DeviceType.NotSet;
+  public readonly device = input<DeviceType>(DeviceType.NotSet);
 
-  @Output()
-  public startEditing: EventEmitter<void> = new EventEmitter();
+  public readonly startEditing = output<void>();
 
-  @Output()
-  public changed: EventEmitter<void> = new EventEmitter();
+  public readonly changed = output<void>();
 
-  @Output()
-  public blurred: EventEmitter<void> = new EventEmitter();
+  public readonly blurred = output<void>();
 
   public onClick() {
     this.startEditing.emit();

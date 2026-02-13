@@ -1,8 +1,8 @@
 <bonc-form-controls [editable]="editable">
-  <label *ngIf="label">{{label}}</label>
+  <label *ngIf="label()">{{label()}}</label>
   <bonc-file-uploader [src]="editable.value"
-                      [uploadTypes]="mimeTypes"
-                      [uploadUrlMap]="uploadMap"
+                      [uploadTypes]="mimeTypes()"
+                      [uploadUrlMap]="uploadMap()"
                       (srcChange)="onFileUploaded($event)">
     <img *ngIf="editable.value?.url?.length ?? 0 > 0" [src]="editable.value?.url" />
   </bonc-file-uploader>

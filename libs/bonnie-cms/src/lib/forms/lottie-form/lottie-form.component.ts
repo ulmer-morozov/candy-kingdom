@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
@@ -22,8 +22,9 @@ export class LottieFormComponent extends FormBaseComponent<FileSrc<FileMeta>> im
 
   public animOptions?: AnimationOptions;
 
-  @Input()
-  public label = '';
+  public readonly label = input('');
+
+  public readonly uploadMap = input.required<Map<string, string>>();
 
   public ngOnInit(): void {
     this.editable.externalSaveCall.subscribe(() => {
@@ -35,9 +36,6 @@ export class LottieFormComponent extends FormBaseComponent<FileSrc<FileMeta>> im
       this.animOptions = url.length === 0 ? undefined : { path: url };
     })
   }
-
-  @Input({ required: true })
-  public uploadMap = new Map<string, string>();;
 
   public onFileUploaded(fileSrc: FileSrc<FileMeta>): void {
     this.editable.startEditing();

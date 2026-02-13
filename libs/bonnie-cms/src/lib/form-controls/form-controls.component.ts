@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditableDirective } from '../core-components';
 
@@ -10,6 +10,5 @@ import { EditableDirective } from '../core-components';
   styleUrls: ['./form-controls.component.scss']
 })
 export class FormControlsComponent {
-  @Input({ required: true })
-  public editable!: EditableDirective<any>;
+  public readonly editable = input.required<EditableDirective<any>>();
 }

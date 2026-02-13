@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, ElementRef, input, output, ViewChild, inject } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
@@ -28,65 +28,36 @@ export class MediaUploaderComponent {
   @ViewChild('fileInput', { static: true })
   public fileInput!: ElementRef<HTMLInputElement>;
 
-  @Output()
-  public srcChange = new EventEmitter<PixMediaUnion>();
+  public readonly srcChange = output<PixMediaUnion>();
 
-  @Input({ required: true })
-  public uploadUrlMap!: ReadonlyMap<MediaType, string>;
+  public readonly uploadUrlMap = input.required<ReadonlyMap<MediaType, string>>();
 
-  @Input()
-  public forceRatio?: number;
+  public readonly forceRatio = input<number>();
+
+  public readonly src = input<PixMediaUnion | undefined>();
+
+  public readonly uploadType = input<MediaType | undefined>();
+
+  public readonly fileTypeMask = computed(() => {
+    switch (this.uploadType()) {
+      case 'image':
+        return imageFileTypes;
+      case 'video':
+        return videoFileTypes;
+      default:
+        return allMediaFileTypes;
+    }
+  });
 
   public progress = 0;
   public isUploading = false;
 
   public autoplay = true;
   public clipStyle?: SafeStyle;
-  public fileTypeMask = allMediaFileTypes;
-
-  private _uploadType?: MediaType;
-  private _src?: PixMediaUnion;
 
   private readonly sanitizer = inject(DomSanitizer);
   private readonly http = inject(HttpClient);
   private readonly cd = inject(ChangeDetectorRef);
-
-  @Input()
-  public set src(newSrc: PixMediaUnion | undefined) {
-    if (this._src === newSrc)
-      return;
-
-    this._src = newSrc;
-  }
-
-  public get src(): PixMediaUnion | undefined {
-    return this._src;
-  }
-
-  @Input()
-  public set uploadType(newUploadType: MediaType | undefined) {
-    switch (newUploadType) {
-      case "image":
-        this._uploadType = newUploadType;
-        this.fileTypeMask = imageFileTypes;
-        break;
-
-      case "video":
-        this._uploadType = newUploadType;
-        this.fileTypeMask = videoFileTypes;
-        break;
-
-      case undefined:
-      default:
-        this._uploadType = newUploadType;
-        this.fileTypeMask = allMediaFileTypes;
-        break;
-    }
-  }
-
-  public get uploadType(): MediaType | undefined {
-    return this._uploadType;
-  }
 
   public onFileSelect(fileInput: HTMLInputElement) {
     if (fileInput.files === undefined || fileInput.files === null || fileInput.files.length !== 1)
@@ -96,8 +67,10 @@ export class MediaUploaderComponent {
 
     let uploadingMediaType: MediaType;
 
-    if (this._uploadType !== undefined && this._uploadType !== null) {
-      uploadingMediaType = this._uploadType;
+    const uploadType = this.uploadType();
+
+    if (uploadType !== undefined && uploadType !== null) {
+      uploadingMediaType = uploadType;
     }
     else if (imageMimeTypes.includes(file.type)) {
       uploadingMediaType = 'image';
@@ -110,7 +83,7 @@ export class MediaUploaderComponent {
       return;
     }
 
-    const uploadUrl = this.uploadUrlMap.get(uploadingMediaType);
+    const uploadUrl = this.uploadUrlMap().get(uploadingMediaType);
 
     if (uploadUrl === undefined || uploadUrl === null) {
       console.error(`upload map doesn't have url for type ${uploadingMediaType}`);
@@ -120,7 +93,7 @@ export class MediaUploaderComponent {
     const formData: FormData = new FormData();
 
     formData.append('file', file);
-    formData.append('ratio', `${this.forceRatio ?? 0}`);
+    formData.append('ratio', `${this.forceRatio() ?? 0}`);
 
     this.progress = 0;
     this.isUploading = true;

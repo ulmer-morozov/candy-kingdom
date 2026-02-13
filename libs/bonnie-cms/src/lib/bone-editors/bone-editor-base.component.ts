@@ -8,6 +8,7 @@ import { DeviceType } from '../core';
 
 @Component({ template: '' })
 export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBoneEditor<TBone> {
+  // todo: remove event emitter
   public readonly editing: EventEmitter<boolean> = new EventEmitter<boolean>();
   public readonly saved: EventEmitter<Bone> = new EventEmitter<Bone>();
   public readonly removed: EventEmitter<void> = new EventEmitter<void>();

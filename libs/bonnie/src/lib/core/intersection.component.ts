@@ -1,4 +1,4 @@
-import { ElementRef, OnInit, OnDestroy, Component, Output, EventEmitter, Input, ChangeDetectorRef, inject, signal, effect, EffectRef, Signal } from '@angular/core';
+import { ElementRef, OnDestroy, Component, ChangeDetectorRef, inject, signal, effect, input, output } from '@angular/core';
 import { UnsubscriberService } from './unsubscribe.service';
 
 @Component({
@@ -8,9 +8,10 @@ import { UnsubscriberService } from './unsubscribe.service';
     styles: [':host{display:block}'],
     providers: [UnsubscriberService]
 })
-export class IntersectionComponent implements OnInit, OnDestroy {
-    @Output()
-    public readonly intersected = new EventEmitter<void>();
+export class IntersectionComponent implements OnDestroy {
+    public readonly intersected = output<void>();
+
+    public readonly session = input<any>();
 
     private readonly _hostRef = inject(ElementRef);
     private readonly _u = inject(UnsubscriberService);
@@ -21,42 +22,33 @@ export class IntersectionComponent implements OnInit, OnDestroy {
 
     public readonly intersectedOnce = this._intersected.asReadonly();
 
-    private _session: any;
-    private readonly _effectCleanup?: EffectRef;
+    private _session: any; // todo: add type
 
     constructor() {
         this._cd.detach();
-        // no template with variables, so we don't need to call changeDetection
 
         if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
-            // call intersection without any
             return;
         }
 
         this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this));
 
-        // Watch for intersection changes and emit when it becomes true
-        this._effectCleanup = effect(() => {
+        effect(() => {
             if (this._intersected()) {
-                this.intersected.next();
+                this.intersected.emit();
             }
         });
+
+        effect(() => {
+            const newSession = this.session();
+            if (this._session === newSession)
+                return;
+
+            console.log('reset intersection Observer');
+            this._session = newSession;
+            this.reset();
+        });
     }
-
-    public ngOnInit(): void {
-    }
-
-    @Input()
-    public set session(newSession: any) {
-        if (this._session === newSession)
-            return;
-
-        console.log('reset intersection Observer');
-
-        this._session = newSession;
-        this.reset();
-    }
-
 
     private reset(): void {
         if (this.intersectionObserver === undefined || this.intersectionObserver === null)
@@ -86,7 +78,6 @@ export class IntersectionComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this._effectCleanup?.destroy();
         this.intersectionObserver?.disconnect();
     }
 }

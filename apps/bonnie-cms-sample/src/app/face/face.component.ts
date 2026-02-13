@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 
 import { FaceBoneMap } from '../FaceBoneMap';
 import {
@@ -43,67 +43,61 @@ export default class FaceComponent {
   private readonly baseHref = inject(APP_BASE_HREF);
   public readonly localizeService = inject(LocalizeServiceBase);
 
-  private _page!: PageBase;
-  private _settings!: SettingDataDict;
+  public readonly faceView = input.required<View>();
 
-  @Input({ required: true })
-  public faceView!: View;
+  public readonly page = input.required<PageBase>();
 
+  public readonly settings = input.required<SettingDataDict>();
 
-  @Input({ required: true })
-  public set page(newPage: PageBase) {
-    this._page = newPage;
+  constructor() {
+    effect(() => {
+      const newPage = this.page();
+      const title = this.localizeService.getLocalizedText(newPage.title);
+      this.titleService.setTitle(title);
 
-    const title = this.localizeService.getLocalizedText(newPage.title);
-    this.titleService.setTitle(title);
+      const localizedOgImage = this.localizeService.getLocalized(newPage.openGraph.image, undefined);
 
-    const localizedOgImage = this.localizeService.getLocalized(newPage.openGraph.image, undefined);
+      if (localizedOgImage !== undefined) {
+        const ogImage = localizedOgImage.url.startsWith('http') || localizedOgImage.url.startsWith('//')
+          ? localizedOgImage.url
+          : `${this.baseHref}${localizedOgImage.url}`;
 
-    if (localizedOgImage !== undefined) {
-      const ogImage = localizedOgImage.url.startsWith('http') || localizedOgImage.url.startsWith('//')
-        ? localizedOgImage.url
-        : `${this.baseHref}${localizedOgImage.url}`;
+        this.metaService.updateTag({ property: 'og:image', content: ogImage });
+      }
 
-      this.metaService.updateTag({ property: 'og:image', content: ogImage });
-    }
+      const localizedOgTitle = this.localizeService.getLocalizedText(newPage.openGraph.title);
 
-    const localizedOgTitle = this.localizeService.getLocalizedText(newPage.openGraph.title);
-
-    if (localizedOgTitle.length > 0) {
-      this.metaService.updateTag({ property: 'og:title', content: localizedOgTitle });
-    }
+      if (localizedOgTitle.length > 0) {
+        this.metaService.updateTag({ property: 'og:title', content: localizedOgTitle });
+      }
 
     const localizedOgDescription = this.localizeService.getLocalizedText(newPage.openGraph.description);
 
-    if (localizedOgDescription.length > 0) {
-      this.metaService.updateTag({ property: 'og:description', content: localizedOgDescription });
-    }
+      if (localizedOgDescription.length > 0) {
+        this.metaService.updateTag({ property: 'og:description', content: localizedOgDescription });
+      }
+    });
 
-  }
+    effect(() => {
+      const newSettings = this.settings();
 
-  public get page(): PageBase {
-    return this._page;
-  }
+      if (newSettings[CmsSampleSettingIds.faviconIco]) {
+        this.appendIconLink("icon", "image/x-icon", (newSettings[CmsSampleSettingIds.faviconIco] as FileSettingData).src.url)
+      }
 
-  @Input({ required: true })
-  public set settings(newSettings: SettingDataDict) {
+      if (newSettings[CmsSampleSettingIds.faviconSvg]) {
+        this.appendIconLink("icon", "image/svg+xml", (newSettings[CmsSampleSettingIds.faviconSvg] as SvgSettingData).src.url)
+      }
 
-    if (newSettings[CmsSampleSettingIds.faviconIco]) {
-      this.appendIconLink("icon", "image/x-icon", (newSettings[CmsSampleSettingIds.faviconIco] as FileSettingData).src.url)
-    }
+      if (newSettings[CmsSampleSettingIds.faviconAppleTouch180]) {
+        this.appendIconLink("apple-touch-icon", "image/png", (newSettings[CmsSampleSettingIds.faviconAppleTouch180] as OneImageSettingData).src.url)
+      }
 
-    if (newSettings[CmsSampleSettingIds.faviconSvg]) {
-      this.appendIconLink("icon", "image/svg+xml", (newSettings[CmsSampleSettingIds.faviconSvg] as SvgSettingData).src.url)
-    }
-
-    if (newSettings[CmsSampleSettingIds.faviconAppleTouch180]) {
-      this.appendIconLink("apple-touch-icon", "image/png", (newSettings[CmsSampleSettingIds.faviconAppleTouch180] as OneImageSettingData).src.url)
-    }
-
-    if (newSettings[CmsSampleSettingIds.description]) {
-      const localizedDescription = this.localizeService.getLocalizedText((newSettings[CmsSampleSettingIds.description] as LocalizedTextSettingData).text);
-      this.metaService.updateTag({ property: 'description', content: localizedDescription });
-    }
+      if (newSettings[CmsSampleSettingIds.description]) {
+        const localizedDescription = this.localizeService.getLocalizedText((newSettings[CmsSampleSettingIds.description] as LocalizedTextSettingData).text);
+        this.metaService.updateTag({ property: 'description', content: localizedDescription });
+      }
+    });
   }
 
   private appendIconLink(rel: string, type: string, href: string, sizes: string = ''): void {
