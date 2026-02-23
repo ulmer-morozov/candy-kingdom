@@ -47,9 +47,7 @@ export class MarcyImageComponent {
 
     this.src = this._srcDir;
 
-    this.src.srcChange
-      .pipe(this._u.takeUntilDestroy)
-      .subscribe(this.onSrcChange.bind(this));
+    this.src.srcChange.subscribe(this.onSrcChange.bind(this));
 
     this.cd.detach();
 

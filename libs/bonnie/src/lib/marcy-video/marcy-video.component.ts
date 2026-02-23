@@ -71,7 +71,6 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
 
     // bind src changes
     this.src.srcChange
-      .pipe(this._u.takeUntilDestroy)
       .subscribe((val) => {
         console.log('MarcyVideoComponent onSrcChange', val);
 

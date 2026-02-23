@@ -1,13 +1,10 @@
 import {
   ChangeDetectorRef,
   Directive,
-  EventEmitter,
   OnInit,
-  Output,
   inject,
   signal,
   effect,
-  Signal,
   output,
 } from '@angular/core';
 import { Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
@@ -26,9 +23,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
   implements OnInit
 {
   public readonly ratioChange = output<number>();
-
-  @Output()
-  public readonly srcChange = new EventEmitter<T | undefined>();
+  public readonly srcChange = output<T | undefined>();
 
   private readonly _ratio = signal<number>(0);
   public readonly ratio = this._ratio.asReadonly();
