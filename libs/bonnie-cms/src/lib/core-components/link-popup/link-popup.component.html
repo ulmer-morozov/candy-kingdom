@@ -1,33 +1,38 @@
-<bonc-translation-input *ngIf="field() === TextEditorField.Input"
-                        (click)="showPopup()"
-                        [text]="linkTitle()"
-                        [locale]="locale()"
-                        (startEditing)="onClick()"
-                        (changed)="onChange()"
-                        (blurred)="onBlur()">
-</bonc-translation-input>
+@switch (field()) {
+  @case (TextEditorField.Input) {
+    <bonc-translation-input (click)="showPopup()"
+                            [text]="linkTitle()"
+                            [locale]="locale()"
+                            (startEditing)="onClick()"
+                            (changed)="onChange()"
+                            (blurred)="onBlur()">
+    </bonc-translation-input>
+  }
+  @case (TextEditorField.Textarea) {
+    <bonc-translation-textarea (click)="showPopup()"
+                               [text]="linkTitle()"
+                               [locale]="locale()"
+                               [minRows]="minRows()"
+                               [maxRows]="maxRows()"
+                               (startEditing)="onClick()"
+                               (changed)="onChange()"
+                               (blurred)="onBlur()">
+    </bonc-translation-textarea>
+  }
+}
 
-<bonc-translation-textarea *ngIf="field() === TextEditorField.Textarea"
-                           (click)="showPopup()"
-                           [text]="linkTitle()"
-                           [locale]="locale()"
-                           [minRows]="minRows()"
-                           [maxRows]="maxRows()"
-                           (startEditing)="onClick()"
-                           (changed)="onChange()"
-                           (blurred)="onBlur()">
-</bonc-translation-textarea>
+@if (popupIsShown) {
+  <div>
+    <div class="popup">
+      <a (click)="hidePopup()" class="close">close</a>
 
-<div *ngIf="popupIsShown">
-  <div class="popup">
-    <a (click)="hidePopup()" class="close">close</a>
+      <label>Link
+        <input [(ngModel)]="link()[locale()]"
+               (click)="onClick()"
+               (keyup)="onChange()"
+               (blur)="onBlur()">
+      </label>
 
-    <label>Link
-      <input [(ngModel)]="link()[locale()]"
-             (click)="onClick()"
-             (keyup)="onChange()"
-             (blur)="onBlur()">
-    </label>
-
+    </div>
   </div>
-</div>
+}

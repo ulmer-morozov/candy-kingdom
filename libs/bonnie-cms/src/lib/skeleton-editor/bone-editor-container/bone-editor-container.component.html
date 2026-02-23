@@ -1,8 +1,12 @@
-<div *ngIf="editor" class="left bar" [class.inactive]="editor.noPresets">
-  <!-- <a *ngFor="let control of editor.controls" (click)="control.activate()">{{control.label}}</a> -->
-  <!-- <a (click)="setDisabled(!disabled)" class="disabled">block {{disabled ? 'disabled' : 'enabled'}} ({{editor.bone.visibility}})</a> -->
-  <a *ngIf="editor.currentPreset && !editor.noPresets" (click)="nextPreset()" class="preset">style:<br />{{editor.currentPreset.title}}</a>
-</div>
+@if (editor) {
+  <div class="left bar" [class.inactive]="editor.noPresets">
+    <!-- <a *ngFor="let control of editor.controls" (click)="control.activate()">{{control.label}}</a> -->
+    <!-- <a (click)="setDisabled(!disabled)" class="disabled">block {{disabled ? 'disabled' : 'enabled'}} ({{editor.bone.visibility}})</a> -->
+    @if (editor.currentPreset && !editor.noPresets) {
+      <a (click)="nextPreset()" class="preset">style:<br />{{editor.currentPreset.title}}</a>
+    }
+  </div>
+}
 
 <div class="editor-container"
      [class.disabled]="disabled"
@@ -15,9 +19,14 @@
   </ng-template>
 </div>
 
-<div *ngIf="editor" [class.active]="editor.isEditing || editor.isDirty" class="right bar">
-  <!-- <a *ngIf="!editor.isEditing" (click)="editor.remove()" class="delete">!!! remove</a> -->
-  <a *ngIf="editor.isDirty" (click)="editor.resetData()" class="reset">reset</a>
-  <a *ngIf="editor.isEditing && !editor.isDirty" (click)="editor.finishEditing()" class="close">close</a>
-  <a *ngIf="editor.isDirty" (click)="editor.save()" class="save">apply</a>
-</div>
+@if (editor) {
+  <div [class.active]="editor.isEditing || editor.isDirty" class="right bar">
+    <!-- <a *ngIf="!editor.isEditing" (click)="editor.remove()" class="delete">!!! remove</a> -->
+    @if (editor.isDirty) {
+      <a (click)="editor.resetData()" class="reset">reset</a>
+      <a (click)="editor.save()" class="save">apply</a>
+    } @else if (editor.isEditing) {
+      <a (click)="editor.finishEditing()" class="close">close</a>
+    }
+  </div>
+}

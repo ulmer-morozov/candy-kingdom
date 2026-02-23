@@ -2,11 +2,15 @@
                      [deviceControls]="true"
                      [editableGroup]="pageEditorGroup" />
 
-<nav *ngIf="page().children.length > 0" class="pages-nav">
-  <ul>
-    <li *ngFor="let childPage of page().children"><a [routerLink]="['../', ('~' + childPage.url) | encodeURIComponent]">{{childPage.title | localize:controls.locale}}</a></li>
-  </ul>
-</nav>
+@if (page().children.length > 0) {
+  <nav class="pages-nav">
+    <ul>
+      @for (childPage of page().children; track childPage.url) {
+        <li><a [routerLink]="['../', ('~' + childPage.url) | encodeURIComponent]">{{childPage.title | localize:controls.locale}}</a></li>
+      }
+    </ul>
+  </nav>
+}
 
 <bonc-editable-group #pageEditorGroup
                      [class.hidden]="page().url === '~'"

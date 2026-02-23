@@ -1,23 +1,33 @@
 <ng-template #controls let-index='index'>
   <div [class.appearable]="index > 0 && index < bones.length" class="controls">
-    <div *ngIf="index < bones.length" class="up-down">
-      <a *ngIf="index > 0" (click)="moveDown(index - 1)" class="down">move down</a>
-      <a *ngIf="index > 0" (click)="moveUp(index)" class="up">move up</a>
-    </div>
+    @if (index < bones.length) {
+      <div class="up-down">
+        @if (index > 0) {
+          <a (click)="moveDown(index - 1)" class="down">move down</a>
+          <a (click)="moveUp(index)" class="up">move up</a>
+        }
+      </div>
+    }
     <a (click)="templatesAreShown[index] = true" class="add">create</a>
-    <a *ngIf="index < bones.length" (click)="removeBone(index)" class="remove">remove</a>
+    @if (index < bones.length) {
+      <a (click)="removeBone(index)" class="remove">remove</a>
+    }
   </div>
 
-  <div *ngIf="templatesAreShown[index]" class="templates">
-    <a *ngFor="let template of templates()" (click)="templatesAreShown[index] = false; createBone(index,template);">{{template.title}}</a>
-    <a (click)="templatesAreShown[index] = false">Close</a>
-  </div>
+  @if (templatesAreShown[index]) {
+    <div class="templates">
+      @for (template of templates(); track template.title) {
+        <a (click)="templatesAreShown[index] = false; createBone(index,template);">{{template.title}}</a>
+      }
+      <a (click)="templatesAreShown[index] = false">Close</a>
+    </div>
+  }
 </ng-template>
 
 <!-- todo: add trackby -->
-<ng-container *ngFor="let bone of bones; let i = index">
+@for (bone of bones; track $index) {
   <ng-container>
-    <ng-container *ngTemplateOutlet="controls; context: {index: i}"></ng-container>
+    <ng-container *ngTemplateOutlet="controls; context: {index: $index}"></ng-container>
   </ng-container>
 
   <bonc-bone-editor-container #boneEditorContainer
@@ -25,11 +35,10 @@
                               [bone]="bone"
                               [locale]="locale()"
                               [device]="device()"
-                              (removed)="removeBone(i)"
+                              (removed)="removeBone($index)"
                               (editing)="boneEditHandler($event)"
-                              (saved)="boneChangeHandler(i, $event)">
+                              (saved)="boneChangeHandler($index, $event)">
   </bonc-bone-editor-container>
-
-</ng-container>
+}
 
 <ng-container *ngTemplateOutlet="controls; context: {index: bones.length}"></ng-container>

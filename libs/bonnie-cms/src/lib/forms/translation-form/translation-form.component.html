@@ -1,23 +1,29 @@
-<bonc-form-controls *ngIf="editable.value" [editable]="editable">
-  <label *ngIf="label()">{{label()}}</label>
+@if (editable.value) {
+  <bonc-form-controls [editable]="editable">
+    @if (label()) {
+      <label>{{label()}}</label>
+    }
 
-  <bonc-translation-input *ngIf="field() === TextEditorField.Input"
-                          [text]="editable.value"
-                          [locale]="locale()"
-                          (startEditing)="editable.startEditing()"
-                          (changed)="editable.updateDirty()"
-                          (blurred)="editable.updateDirty()">
-  </bonc-translation-input>
-
-
-  <bonc-translation-textarea *ngIf="field() === TextEditorField.Textarea"
-                             [text]="editable.value"
-                             [minRows]="2"
-                             [locale]="locale()"
-                             (startEditing)="editable.startEditing()"
-                             (changed)="editable.updateDirty()"
-                             (blurred)="editable.updateDirty()">
-  </bonc-translation-textarea>
-</bonc-form-controls>
-
-<div *ngIf="editable.value===undefined">Editable value canot be undefined</div>
+    @switch (field()) {
+      @case (TextEditorField.Input) {
+        <bonc-translation-input [text]="editable.value"
+                                [locale]="locale()"
+                                (startEditing)="editable.startEditing()"
+                                (changed)="editable.updateDirty()"
+                                (blurred)="editable.updateDirty()">
+        </bonc-translation-input>
+      }
+      @case (TextEditorField.Textarea) {
+        <bonc-translation-textarea [text]="editable.value"
+                                   [minRows]="2"
+                                   [locale]="locale()"
+                                   (startEditing)="editable.startEditing()"
+                                   (changed)="editable.updateDirty()"
+                                   (blurred)="editable.updateDirty()">
+        </bonc-translation-textarea>
+      }
+    }
+  </bonc-form-controls>
+} @else {
+  <div>Editable value canot be undefined</div>
+}

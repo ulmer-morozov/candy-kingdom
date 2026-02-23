@@ -4,7 +4,11 @@
      [class.loaded]="$status() === MediaStatus.Loaded"
      class="video-container">
 
-  <ng-container *ngIf="device.isSSR ; then ssrTemplate else browserTemplate"></ng-container>
+  @if (device.isSSR) {
+    <ng-container *ngTemplateOutlet="ssrTemplate"></ng-container>
+  } @else {
+    <ng-container *ngTemplateOutlet="browserTemplate"></ng-container>
+  }
 
   <ng-template #videoTemplate>
     <video #video
@@ -18,9 +22,11 @@
   </ng-template>
 
   <ng-template #ssrTemplate>
-    <noscript *ngIf="device.isSSR">
-      <ng-container *ngTemplateOutlet="videoTemplate"></ng-container>
-    </noscript>
+    @if (device.isSSR) {
+      <noscript>
+        <ng-container *ngTemplateOutlet="videoTemplate"></ng-container>
+      </noscript>
+    }
   </ng-template>
 
   <ng-template #browserTemplate>
@@ -29,5 +35,7 @@
     </bon-intersection>
   </ng-template>
 
-  <div *ngIf="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio() +'%'"></div>
+  @if (src.ratio() > 0 && objectFit() === MarcyObjectFit.Original) {
+    <div [style.padding-top]="100 / src.ratio() +'%'"></div>
+  }
 </div>

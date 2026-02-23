@@ -5,72 +5,63 @@
 
 <bonc-editable-group #siteDataEditorGroup (saved)="save()" class="page-editor">
 
-  <section *ngFor="let group of settingGroups">
-    <h2>{{group.title}}</h2>
+  @for (group of settingGroups; track group.title) {
+    <section>
+      <h2>{{group.title}}</h2>
 
-    <ng-container *ngFor="let record of group.records">
-
-      <ng-container [ngSwitch]="record.data.type">
-
-        <!-- text -->
-        <bonc-text-form *ngSwitchCase="'marcy-text'"
-                        [(ngModel)]="record.data.text"
-                        [label]="record.title"
-                        [locale]="controls.locale"
-                        [type]="TextInputStyle.SingleLine"
-                        class="form-item email">...</bonc-text-form>
-
-        <!-- translation -->
-        <bonc-translation-form *ngSwitchCase="'marcy-localized-text'"
-                               [(ngModel)]="record.data.text"
-                               [label]="record.title"
-                               [field]="record.data.type === TextSettingType.SingleLine ? TextEditorField.Input : TextEditorField.Textarea"
-                               [locale]="controls.locale">
-        </bonc-translation-form>
-
-        <!-- svg -->
-        <bonc-svg-form *ngSwitchCase="'marcy-svg'"
-                       [(ngModel)]="record.data.src"
-                       [label]="record.title"
-                       [locale]="controls.locale">
-        </bonc-svg-form>
-
-        <!-- one image -->
-        <bonc-one-image-form *ngSwitchCase="'marcy-one-image'"
-                             [(ngModel)]="record.data.src"
-                             [mimeTypes]="record.data.allowedMimeTypes"
-                             [uploadUrl]="'/api/admin/upload/image?width=' + record.data.width + '&height='+record.data.height + '&format=' + record.data.format.mimeType"
+      @for (record of group.records; track record.title) {
+        @switch (record.data.type) {
+            @case ('marcy-text') {
+              <bonc-text-form [(ngModel)]="record.data.text"
+                              [label]="record.title"
+                              [locale]="controls.locale"
+                              [type]="TextInputStyle.SingleLine"
+                              class="form-item email">...</bonc-text-form>
+            }
+            @case ('marcy-localized-text') {
+              <bonc-translation-form [(ngModel)]="record.data.text"
+                                     [label]="record.title"
+                                     [field]="record.data.type === TextSettingType.SingleLine ? TextEditorField.Input : TextEditorField.Textarea"
+                                     [locale]="controls.locale">
+              </bonc-translation-form>
+            }
+            @case ('marcy-svg') {
+              <bonc-svg-form [(ngModel)]="record.data.src"
                              [label]="record.title"
                              [locale]="controls.locale">
-        </bonc-one-image-form>
-
-        <!-- file -->
-        <bonc-file-form *ngSwitchCase="'marcy-file'"
-                        [(ngModel)]="record.data.src"
-                        [uploadTypes]="record.data.allowedMimeTypes"
-                        [uploadMap]="genericFileUploadMap"
-                        [label]="record.title"
-                        [locale]="controls.locale">
-        </bonc-file-form>
-
-        <!-- file -->
-        <bonc-lottie-form *ngSwitchCase="'marcy-lottie'"
-                          [(ngModel)]="record.data.src"
-                          [uploadMap]="genericFileUploadMap"
-                          [label]="record.title"
-                          [locale]="controls.locale">
-        </bonc-lottie-form>
-
-        <!-- unknown -->
-        <bonc-unknown-form *ngSwitchDefault boncEditable [label]="record.data.type + ' (' + record.title + ')'">
-          <pre>{{record.data | json}}</pre>
-        </bonc-unknown-form>
-
-      </ng-container>
-
-    </ng-container>
-
-
-  </section>
+              </bonc-svg-form>
+            }
+            @case ('marcy-one-image') {
+              <bonc-one-image-form [(ngModel)]="record.data.src"
+                                  [mimeTypes]="record.data.allowedMimeTypes"
+                                  [uploadUrl]="'/api/admin/upload/image?width=' + record.data.width + '&height='+record.data.height + '&format=' + record.data.format.mimeType"
+                                  [label]="record.title"
+                                  [locale]="controls.locale">
+              </bonc-one-image-form>
+            }
+            @case ('marcy-file') {
+              <bonc-file-form [(ngModel)]="record.data.src"
+                              [uploadTypes]="record.data.allowedMimeTypes"
+                              [uploadMap]="genericFileUploadMap"
+                              [label]="record.title"
+                              [locale]="controls.locale">
+              </bonc-file-form>
+            }
+            @case ('marcy-lottie') {
+              <bonc-lottie-form [(ngModel)]="record.data.src"
+                                [uploadMap]="genericFileUploadMap"
+                                [label]="record.title"
+                                [locale]="controls.locale">
+              </bonc-lottie-form>
+            }
+            @default {
+              <bonc-unknown-form boncEditable [label]="record.data.type + ' (' + record.title + ')'">
+                <pre>{{record.data | json}}</pre>
+              </bonc-unknown-form>
+            }
+          }
+      }
+    </section>
+  }
 
 </bonc-editable-group>

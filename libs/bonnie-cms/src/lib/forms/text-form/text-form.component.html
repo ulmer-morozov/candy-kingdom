@@ -1,16 +1,22 @@
 <bonc-form-controls [editable]="editable">
-    <label *ngIf="label()">{{label()}}</label>
-
-    <input *ngIf="editable && type() === TextInputStyle.SingleLine"
-           [(ngModel)]="editable.value"
-           (click)="editable.startEditing()"
-           (keyup)="editable.updateDirty()"
-           (blur)="editable.updateDirty()" />
-
-    <textarea *ngIf="editable && type() === TextInputStyle.MultiLine"
-              [(ngModel)]="editable.value"
-              (click)="editable.startEditing()"
-              (keyup)="editable.updateDirty()"
-              (blur)="editable.updateDirty()">
-    </textarea>
+  @if (label()) {
+    <label>{{label()}}</label>
+  }
+  @if (editable) {
+    @switch (type()) {
+      @case (TextInputStyle.SingleLine) {
+          <input [(ngModel)]="editable.value"
+                (click)="editable.startEditing()"
+                (keyup)="editable.updateDirty()"
+                (blur)="editable.updateDirty()" />
+      }
+      @case (TextInputStyle.MultiLine) {
+          <textarea [(ngModel)]="editable.value"
+                    (click)="editable.startEditing()"
+                    (keyup)="editable.updateDirty()"
+                    (blur)="editable.updateDirty()">
+          </textarea>
+      }
+    }
+  }
 </bonc-form-controls>

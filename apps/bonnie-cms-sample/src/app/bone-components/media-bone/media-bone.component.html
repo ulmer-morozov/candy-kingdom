@@ -1,5 +1,9 @@
-<div *ngIf="bd.bone.title | localizationIsNotEmpty" class="title" [innerHTML]="bd.bone.title | localize"></div>
-<div *ngIf="bd.bone.text | localizationIsNotEmpty" class="text" [innerHTML]="bd.bone.text | localize"></div>
+@if (bd.bone.title | localizationIsNotEmpty) {
+  <div class="title" [innerHTML]="bd.bone.title | localize"></div>
+}
+@if (bd.bone.text | localizationIsNotEmpty) {
+  <div class="text" [innerHTML]="bd.bone.text | localize"></div>
+}
 <!-- todo: add link -->
 
 <!-- todo: pass img.alt -->

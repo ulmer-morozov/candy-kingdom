@@ -1,15 +1,20 @@
 <bonc-form-controls [editable]="editable">
-  <label *ngIf="label()">{{label()}}</label>
+  @if (label()) {
+    <label>{{label()}}</label>
+  }
   <bonc-file-uploader [src]="editable.value"
                       [uploadTypes]="[LottieMimeType]"
                       [uploadUrlMap]="uploadMap()"
                       (srcChange)="onFileUploaded($event)">
 
-    <ng-lottie *ngIf="animOptions"
-               [options]="animOptions"></ng-lottie>
+    @if (animOptions) {
+      <ng-lottie [options]="animOptions"></ng-lottie>
+    }
 
 
   </bonc-file-uploader>
 
-  <a *ngIf="editable.value?.url?.length ?? 0 > 0" [href]="editable.value!.url" download target="_blank">Download</a>
+  @if (editable.value?.url?.length ?? 0 > 0) {
+    <a [href]="editable.value!.url" download target="_blank">Download</a>
+  }
 </bonc-form-controls>

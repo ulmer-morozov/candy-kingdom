@@ -1,9 +1,11 @@
-<bon-image *ngIf="src() && src()?.type==='image'"
-           [imgsrc]="src()"
-           [objectFit]="objectFit()"
-           (isLoaded)="onLoad()"></bon-image>
-
-<bon-video *ngIf="src() && src()?.type==='video'"
-           [vidsrc]="src()"
-           [objectFit]="objectFit()"
-           (isLoaded)="onLoad()"></bon-video>
+@if (src(); as mediaSrc) {
+  @if (mediaSrc.type === 'image') {
+    <bon-image [imgsrc]="mediaSrc"
+               [objectFit]="objectFit()"
+               (isLoaded)="onLoad()"></bon-image>
+  } @else if (mediaSrc.type === 'video') {
+    <bon-video [vidsrc]="mediaSrc"
+               [objectFit]="objectFit()"
+               (isLoaded)="onLoad()"></bon-video>
+  }
+}

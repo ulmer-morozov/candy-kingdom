@@ -1,33 +1,36 @@
-<div *ngIf="sources.length > 0"
-     [class.knownRatio]="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original"
-     [class.cover]="objectFit() === MarcyObjectFit.Cover"
-     [class.contain]="objectFit() === MarcyObjectFit.Contain"
-     [class.loaded]="status() === MediaStatus.Loaded"
-     class="picture-container">
+@if (sources.length > 0) {
+  <div [class.knownRatio]="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original"
+       [class.cover]="objectFit() === MarcyObjectFit.Cover"
+       [class.contain]="objectFit() === MarcyObjectFit.Contain"
+       [class.loaded]="status() === MediaStatus.Loaded"
+       class="picture-container">
 
-  <ng-template #pictureTemplate>
-    <picture>
-      <source *ngFor="let source of sources"
-              [srcset]="source.srcSet"
-              [attr.media]="source.media.length > 0 ? source.media : undefined"
-              [attr.type]="source.mime.length > 0 ? source.mime : undefined"
-              [attr.sizes]="source.sizes.length > 0 ? source.sizes : undefined" />
+    <ng-template #pictureTemplate>
+      <picture>
+        @for (source of sources; track $index) {
+          <source [srcset]="source.srcSet"
+                  [attr.media]="source.media.length > 0 ? source.media : undefined"
+                  [attr.type]="source.mime.length > 0 ? source.mime : undefined"
+                  [attr.sizes]="source.sizes.length > 0 ? source.sizes : undefined" />
+        }
+        <img [src]="defaultSrc" (load)="onLoad()" />
+      </picture>
+    </ng-template>
 
-      <img [src]="defaultSrc" (load)="onLoad()" />
-    </picture>
-  </ng-template>
+    @if (device.isSSR) {
+      <noscript>
+        <ng-container *ngTemplateOutlet="pictureTemplate"></ng-container>
+      </noscript>
+    } @else {
+      <bon-intersection #intersectionZone [session]="src" (intersected)="cd.detectChanges()">
+        @if (intersectionZone.intersectedOnce()) {
+          <ng-container *ngTemplateOutlet="pictureTemplate"></ng-container>
+        }
+      </bon-intersection>
+    }
 
-  <noscript *ngIf="device.isSSR">
-    <ng-container *ngTemplateOutlet="pictureTemplate"></ng-container>
-  </noscript>
-
-  <bon-intersection #intersectionZone *ngIf="!device.isSSR" [session]="src" (intersected)="cd.detectChanges()">
-
-    <ng-container *ngIf="intersectionZone.intersectedOnce()">
-      <ng-container *ngTemplateOutlet="pictureTemplate"></ng-container>
-    </ng-container>
-
-  </bon-intersection>
-
-  <div *ngIf="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original" [style.padding-top]="100 / src.ratio() +'%'"></div>
-</div>
+    @if (src.ratio() > 0 && objectFit() === MarcyObjectFit.Original) {
+      <div [style.padding-top]="100 / src.ratio() +'%'"></div>
+    }
+  </div>
+}
