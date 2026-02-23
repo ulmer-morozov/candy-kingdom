@@ -1,23 +1,24 @@
-﻿import { EventEmitter } from '@angular/core';
+import { OutputEmitterRef, ModelSignal, Signal, InputSignal } from '@angular/core';
 import { Bone } from '@candy-kingdom/bonnie';
 import { DeviceType } from '../core';
 import { ContentPreset } from './ContentPreset';
 
 // todo: may be those shouldnt be generic?
-export interface IBoneEditor<out TBone extends Bone = Bone> {
-  bone: TBone;
-  locale: string;
-  device: DeviceType;
+export interface IBoneEditor<TBone extends Bone = Bone> {
+  boneEtalon: ModelSignal<TBone>;
 
-  readonly saved: EventEmitter<Bone>;
-  readonly removed: EventEmitter<void>;
-  readonly editing: EventEmitter<boolean>;
+  locale: InputSignal<string>;
+  device: InputSignal<DeviceType>;
 
-  readonly isDirty: boolean;
-  readonly isEditing: boolean;
+  currentPreset: Signal<ContentPreset<TBone>|undefined>;
+  noPresets: Signal<boolean>;
 
-  currentPreset?: ContentPreset<TBone>;
-  noPresets: boolean;
+  readonly saved: OutputEmitterRef<Bone>;
+  readonly removed: OutputEmitterRef<void>;
+  readonly editing: OutputEmitterRef<boolean>;
+
+  readonly isDirty: Signal<boolean>;
+  readonly isEditing: Signal<boolean>;
 
   save(): void;
   remove(): void;

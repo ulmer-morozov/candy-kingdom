@@ -1,5 +1,5 @@
 import { QueryList, ContentChildren, AfterContentInit, OnDestroy, Component, output } from '@angular/core';
-import { Subscription, Subject, debounceTime } from 'rxjs';
+import { Subject, Unsubscribable, debounceTime } from 'rxjs';
 
 import { EditableDirective } from './editable.directive';
 
@@ -18,7 +18,7 @@ export class EditableGroupComponent implements AfterContentInit, OnDestroy {
   @ContentChildren(EditableDirective, { descendants: true })
   public editables!: QueryList<EditableDirective>;
 
-  private readonly subscriptions: Subscription[] = [];
+  private readonly subscriptions: Unsubscribable[] = [];
   private _inEditMode = false;
 
   private readonly saveSubject = new Subject<void>();

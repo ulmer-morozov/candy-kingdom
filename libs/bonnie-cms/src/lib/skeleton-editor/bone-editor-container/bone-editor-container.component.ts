@@ -1,6 +1,16 @@
-import { Component, ComponentFactoryResolver, Input, OnChanges, ViewChild, inject, input, output } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  signal,
+  ViewChild,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
 
 import { Bone } from '@candy-kingdom/bonnie';
 
@@ -9,6 +19,7 @@ import { DeviceType } from '../../core';
 import { IBoneEditor } from '../IBoneEditor';
 import { BoneEditorMap } from '../BoneEditorMap';
 import { UnknownBoneEditorComponent } from '../../bone-editors/unknown-bone-editor/unknown-bone-editor.component';
+import { Unsubscribable } from 'rxjs';
 
 // todo: rename class
 @Component({
@@ -16,16 +27,14 @@ import { UnknownBoneEditorComponent } from '../../bone-editors/unknown-bone-edit
   standalone: true,
   imports: [CommonModule, SkeletonEditorAnchorDirective],
   templateUrl: './bone-editor-container.component.html',
-  styleUrls: ['./bone-editor-container.component.scss']
+  styleUrls: ['./bone-editor-container.component.scss'],
 })
-export class BoneEditorContainerComponent implements OnChanges {
+export class BoneEditorContainerComponent {
   @ViewChild(SkeletonEditorAnchorDirective, { static: true })
   public anchor!: SkeletonEditorAnchorDirective;
 
   public readonly removed = output<void>();
-
   public readonly saved = output<Bone>();
-
   public readonly editing = output<boolean>();
 
   public DeviceType = DeviceType;
@@ -34,81 +43,78 @@ export class BoneEditorContainerComponent implements OnChanges {
 
   public themePopupIsShown = false;
 
-  private _bone!: Bone;
-
-  private removeSubscription?: Subscription;
-  private saveSubscription?: Subscription;
-  private changedSubscription?: Subscription;
-
+  public readonly bone = input.required<Bone>();
   public readonly locale = input.required<string>();
-
   public readonly device = input(DeviceType.NotSet);
-
   public readonly map = input.required<BoneEditorMap>();
 
   private readonly componentFactoryResolver = inject(ComponentFactoryResolver);
 
-  ngOnChanges(): void {
-    if (this.editor === undefined || this.editor === null)
-      return;
+  private boneEditorRef?: ComponentRef<IBoneEditor<Bone>>;
+  private removeSubscription?: Unsubscribable;
+  private saveSubscription?: Unsubscribable;
+  private changedSubscription?: Unsubscribable;
 
-    this.editor.locale = this.locale();
-    this.editor.device = this.device();
-  }
+  private readonly viewReady = signal(false);
 
-  public get bone(): Bone {
-    return this._bone;
-  }
+  constructor() {
+    afterNextRender(() => this.viewReady.set(true));
 
-  @Input({ required: true })
-  public set bone(newBone: Bone) {
-    this._bone = newBone;
+    effect(() => {
+      if (!this.viewReady()){
+        return;
+      }
 
-    if (this.removeSubscription) {
-      this.removeSubscription.unsubscribe();
-      this.removeSubscription = undefined;
-    }
+      const newBone = this.bone();
+      const editorMap = this.map();
 
-    if (this.saveSubscription) {
-      this.saveSubscription.unsubscribe();
-      this.saveSubscription = undefined;
-    }
+      if (this.anchor === undefined) return;
 
-    if (this.changedSubscription) {
-      this.changedSubscription.unsubscribe();
-      this.changedSubscription = undefined;
-    }
+      if (this.removeSubscription) {
+        this.removeSubscription.unsubscribe();
+        this.removeSubscription = undefined;
+      }
+      if (this.saveSubscription) {
+        this.saveSubscription.unsubscribe();
+        this.saveSubscription = undefined;
+      }
+      if (this.changedSubscription) {
+        this.changedSubscription.unsubscribe();
+        this.changedSubscription = undefined;
+      }
 
-    const viewContainerRef = this.anchor.viewContainerRef;
+      const viewContainerRef = this.anchor.viewContainerRef;
+      viewContainerRef.clear();
 
-    viewContainerRef.clear();
+      const componentType = editorMap.get(newBone.type) ?? UnknownBoneEditorComponent;
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+      this.boneEditorRef = viewContainerRef.createComponent(componentFactory);
 
-    const componentType = this.map().get(newBone.type) ?? UnknownBoneEditorComponent;
+      this.editor = this.boneEditorRef.instance;
 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-    const boneEditorRef = viewContainerRef.createComponent(componentFactory);
+      this.boneEditorRef.setInput('boneEtalon', newBone);
+      this.boneEditorRef.setInput('locale', this.locale());
+      this.boneEditorRef.setInput('device', this.device());
 
-    this.editor = boneEditorRef.instance;
-    this.editor.bone = newBone;
-
-    this.removeSubscription = this.editor.removed.subscribe(() => {
-      this.removed.emit();
+      this.removeSubscription = this.editor.removed.subscribe(() => {
+        this.removed.emit();
+      });
+      this.changedSubscription = this.editor.editing.subscribe(
+        (isEditing: boolean) => this.editing.emit(isEditing)
+      );
+      this.saveSubscription = this.editor.saved.subscribe((newBoneValue: Bone) =>
+        this.saved.emit(newBoneValue)
+      );
     });
 
-    this.changedSubscription = this.editor.editing.subscribe
-      (
-        (isEditing: boolean) => {
-          this.editing.emit(isEditing);
-        }
-      );
-
-    this.saveSubscription = this.editor.saved.subscribe(
-      (newBoneValue: Bone) => {
-        this.saved.emit(newBoneValue);
+    effect(() => {
+      const locale = this.locale();
+      const device = this.device();
+      if (this.boneEditorRef) {
+        this.boneEditorRef.setInput('locale', locale);
+        this.boneEditorRef.setInput('device', device);
       }
-    );
-
-    this.ngOnChanges();
+    });
   }
 
   public nextPreset = (): void => {

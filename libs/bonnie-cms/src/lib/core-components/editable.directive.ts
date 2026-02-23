@@ -1,6 +1,6 @@
-import { Directive, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Directive, forwardRef, output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Unsubscribable } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -8,20 +8,11 @@ import { Subscription } from 'rxjs';
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => EditableDirective), multi: true }]
 })
 export class EditableDirective<T = unknown> {
-  @Output()
-  public readonly saved = new EventEmitter<T>();
-
-  @Output()
-  public readonly editModeChange = new EventEmitter<boolean>();
-
-  @Output()
-  public readonly externalSaveCall = new EventEmitter<void>();
-
-  @Output()
-  public readonly canceled = new EventEmitter<void>();
-
-  @Output()
-  public readonly valueChange = new EventEmitter<T>();
+  public readonly saved = output<T>();
+  public readonly editModeChange = output<boolean>();
+  public readonly externalSaveCall = output<void>();
+  public readonly canceled = output<void>();
+  public readonly valueChange = output<T | undefined>();
 
   private propagateChange: (newValue: T) => void = () => { };
 
@@ -36,45 +27,37 @@ export class EditableDirective<T = unknown> {
     return this._inEditMode;
   }
 
-  public subscribe
-    (
-      params: {
-        readonly onValueChange?: (x: T) => void,
-        readonly onEditModeChange?: (x: boolean) => void,
-        readonly onSaveRequest?: () => void
-      }
-    ): Subscription[] {
-
-    const subscriptions: Subscription[] = [];
+  public subscribe(
+    params: {
+      readonly onValueChange?: (x: T | undefined) => void;
+      readonly onEditModeChange?: (x: boolean) => void;
+      readonly onSaveRequest?: () => void;
+    }
+  ): Unsubscribable[] {
+    const subscriptions: Unsubscribable[] = [];
 
     if (params.onValueChange !== undefined && params.onValueChange !== null) {
-      subscriptions.push
-        (
-          this.valueChange.subscribe((x: T) => {
-            if (params.onValueChange)
-              params.onValueChange(x);
-          })
-        );
+      subscriptions.push(
+        this.valueChange.subscribe((x) => {
+          if (params.onValueChange) params.onValueChange(x);
+        })
+      );
     }
 
     if (params.onEditModeChange !== undefined) {
-      subscriptions.push
-        (
-          this.editModeChange.subscribe((x: boolean) => {
-            if (params.onEditModeChange)
-              params.onEditModeChange(x);
-          })
-        );
+      subscriptions.push(
+        this.editModeChange.subscribe((x) => {
+          if (params.onEditModeChange) params.onEditModeChange(x);
+        })
+      );
     }
 
     if (params.onSaveRequest !== undefined) {
-      subscriptions.push
-        (
-          this.externalSaveCall.subscribe(() => {
-            if (params.onSaveRequest)
-              params.onSaveRequest();
-          })
-        );
+      subscriptions.push(
+        this.externalSaveCall.subscribe(() => {
+          if (params.onSaveRequest) params.onSaveRequest();
+        })
+      );
     }
 
     return subscriptions;
