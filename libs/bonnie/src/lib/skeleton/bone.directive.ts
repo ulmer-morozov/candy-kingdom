@@ -1,4 +1,5 @@
 import { Directive, model } from "@angular/core";
+
 import type { Bone } from "../generated";
 
 @Directive({

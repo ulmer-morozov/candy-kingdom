@@ -1,12 +1,12 @@
 import {
-	ElementRef,
-	type OnDestroy,
 	Component,
-	inject,
-	signal,
+	ElementRef,
 	effect,
+	inject,
 	input,
+	type OnDestroy,
 	output,
+	signal,
 } from "@angular/core";
 
 @Component({

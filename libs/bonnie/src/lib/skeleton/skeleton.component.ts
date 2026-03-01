@@ -7,9 +7,10 @@ import {
 	type Type,
 	ViewChild,
 } from "@angular/core";
-import { SkeletonAnchorDirective } from "./skeleton-anchor.directive";
-import type { IBoneComponent } from "./IBoneComponent";
+
 import type { Bone } from "../generated";
+import type { IBoneComponent } from "./IBoneComponent";
+import { SkeletonAnchorDirective } from "./skeleton-anchor.directive";
 import { UnknownBoneComponent } from "./unknown-bone.component";
 
 @Component({

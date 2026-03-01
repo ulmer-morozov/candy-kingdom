@@ -3,11 +3,11 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import type { PageData } from "./page-data";
-import type { PageBase } from "./page-base";
-import { IHaveSkeleton } from "./i-have-skeleton";
 import { IEquatable } from "./i-equatable";
+import { IHaveSkeleton } from "./i-have-skeleton";
 import { IPage } from "./i-page";
+import type { PageBase } from "./page-base";
+import type { PageData } from "./page-data";
 
 export interface Page<T extends PageData> extends PageBase {
 	data: T;

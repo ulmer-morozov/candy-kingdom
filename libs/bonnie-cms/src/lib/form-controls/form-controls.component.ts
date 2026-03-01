@@ -1,5 +1,6 @@
-import { Component, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, input } from "@angular/core";
+
 import type { EditableDirective } from "../core-components";
 
 @Component({

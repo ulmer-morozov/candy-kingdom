@@ -1,6 +1,5 @@
-import type * as M_CORE from "../generated";
 import * as utils from "../core/utils";
-
+import type * as M_CORE from "../generated";
 import type { IHtmlPictureSource } from "./IHtmlPictureSource";
 
 export function toHtmlPictureSources(imageSource: M_CORE.ImageSource): IHtmlPictureSource[] {

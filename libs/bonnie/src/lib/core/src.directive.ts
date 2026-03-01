@@ -1,6 +1,7 @@
-import { DestroyRef, Directive, inject, signal, effect, output } from "@angular/core";
+import { DestroyRef, Directive, effect, inject, output, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { type Observable, fromEvent, NEVER, merge, Subject, takeUntil } from "rxjs";
+
+import { fromEvent, merge, NEVER, type Observable, Subject, takeUntil } from "rxjs";
 
 import type * as M_CORE from "../generated";
 import * as utils from "./utils";

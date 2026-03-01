@@ -1,12 +1,12 @@
-import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-
-import { FormBaseComponent } from "../../core-components/form-base.component";
-import { EditableDirective } from "../../core-components";
+import { Component, input, type OnInit } from "@angular/core";
 
 import type { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
-import { FormControlsComponent } from "../../form-controls/form-controls.component";
+
+import { EditableDirective } from "../../core-components";
+import { FormBaseComponent } from "../../core-components/form-base.component";
 import { FileUploaderComponent } from "../../file-uploader/file-uploader.component";
+import { FormControlsComponent } from "../../form-controls/form-controls.component";
 
 @Component({
 	selector: "bonc-file-form",

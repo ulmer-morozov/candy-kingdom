@@ -1,7 +1,8 @@
-import { Pipe, type PipeTransform, inject } from "@angular/core";
+import { inject, Pipe, type PipeTransform } from "@angular/core";
 import { DomSanitizer, type SafeResourceUrl } from "@angular/platform-browser";
-import { LocalizeServiceBase } from "./LocalizeServiceBase";
+
 import type { LocalizedObject, LocalizedString } from "../generated";
+import { LocalizeServiceBase } from "./LocalizeServiceBase";
 
 @Pipe({ name: "localize", standalone: true, pure: false })
 export class LocalizePipe implements PipeTransform {

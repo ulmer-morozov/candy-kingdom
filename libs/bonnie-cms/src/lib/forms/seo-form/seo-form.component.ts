@@ -1,12 +1,13 @@
-import { Component, type OnInit, input, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, computed, input, type OnInit } from "@angular/core";
+
 import type { FileMeta, FileSrc, ImageMeta, OpenGraphData } from "@candy-kingdom/bonnie";
 
 import { EditableDirective, FormBaseComponent } from "../../core-components";
+import { FileUploaderComponent } from "../../file-uploader/file-uploader.component";
 import { FormControlsComponent } from "../../form-controls/form-controls.component";
 import { TranslationInputComponent } from "../../translation-input/translation-input.component";
 import { TranslationTextareaComponent } from "../../translation-textarea/translation-textarea.component";
-import { FileUploaderComponent } from "../../file-uploader/file-uploader.component";
 
 const defaultUploadMap = new Map<string, string>();
 defaultUploadMap.set("", `/api/admin/upload/image?width=${1200}&height=${630}&format=image/jpeg`);

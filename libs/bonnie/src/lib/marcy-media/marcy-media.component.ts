@@ -1,13 +1,12 @@
-import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-
-import type * as M_CORE from "../generated";
+import { Component, input, output } from "@angular/core";
 
 import { MediaObjectFit } from "../core/MediaObjectFit";
-import { MarcyImageComponent } from "../marcy-image/marcy-image.component";
-import { MarcyVideoComponent } from "../marcy-video/marcy-video.component";
-import { VideoSrcDirective } from "../marcy-video";
+import type * as M_CORE from "../generated";
 import { ImageSrcDirective } from "../marcy-image";
+import { MarcyImageComponent } from "../marcy-image/marcy-image.component";
+import { VideoSrcDirective } from "../marcy-video";
+import { MarcyVideoComponent } from "../marcy-video/marcy-video.component";
 
 @Component({
 	selector: "bon-media",

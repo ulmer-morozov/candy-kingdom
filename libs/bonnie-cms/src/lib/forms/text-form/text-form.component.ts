@@ -1,10 +1,11 @@
-import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, input, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TextInputStyle } from "./TextInputStyle";
-import { FormBaseComponent } from "../../core-components/form-base.component";
+
 import { EditableDirective } from "../../core-components";
+import { FormBaseComponent } from "../../core-components/form-base.component";
 import { FormControlsComponent } from "../../form-controls/form-controls.component";
+import { TextInputStyle } from "./TextInputStyle";
 
 @Component({
 	selector: "bonc-text-form",

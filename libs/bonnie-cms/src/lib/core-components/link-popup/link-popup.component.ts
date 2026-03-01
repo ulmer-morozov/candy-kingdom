@@ -1,11 +1,12 @@
-import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, input, output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { TranslationInputComponent } from "../../translation-input/translation-input.component";
-import { TranslationTextareaComponent } from "../../translation-textarea/translation-textarea.component";
 
 import type { LocalizedString } from "@candy-kingdom/bonnie";
+
 import { TextEditorField } from "../../core";
+import { TranslationInputComponent } from "../../translation-input/translation-input.component";
+import { TranslationTextareaComponent } from "../../translation-textarea/translation-textarea.component";
 
 @Component({
 	selector: "bonc-link-popup",

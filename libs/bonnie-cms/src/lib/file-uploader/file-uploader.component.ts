@@ -1,16 +1,17 @@
+import { CommonModule, DecimalPipe } from "@angular/common";
+import { HttpClient, type HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
 import {
 	Component,
 	computed,
 	type ElementRef,
+	inject,
 	input,
 	output,
 	signal,
 	ViewChild,
-	inject,
 } from "@angular/core";
-import { CommonModule, DecimalPipe } from "@angular/common";
 import { DomSanitizer, type SafeStyle } from "@angular/platform-browser";
-import { HttpClient, type HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
+
 import { catchError, last, map, Observable } from "rxjs";
 
 import type { FileMeta, FileSrc } from "@candy-kingdom/bonnie";

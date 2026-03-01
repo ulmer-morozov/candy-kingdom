@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+
 import type { DeviceServiceBase } from "./device.service.base";
 
 @Injectable()

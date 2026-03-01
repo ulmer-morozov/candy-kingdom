@@ -1,6 +1,7 @@
 import type { Signal } from "@angular/core";
-import type { LocalizedObject, LocalizedString } from "../generated";
+
 import { isLocalUrlString } from "../core/utils";
+import type { LocalizedObject, LocalizedString } from "../generated";
 
 export abstract class LocalizeServiceBase {
 	public abstract get locale(): Signal<string>;

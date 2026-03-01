@@ -1,4 +1,5 @@
 import type { Type } from "@angular/core";
+
 import type { IBoneComponent } from "./IBoneComponent";
 
 export class BoneMap extends Map<string, Type<any>> {

@@ -1,24 +1,23 @@
+import { CommonModule } from "@angular/common";
 import {
+	type AfterViewInit,
 	Component,
+	type ElementRef,
+	effect,
+	inject,
 	input,
 	output,
-	type ElementRef,
-	ViewChild,
-	type AfterViewInit,
-	inject,
 	signal,
-	effect,
+	ViewChild,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
 
-import type * as M_CORE from "../generated";
-
-import { MediaStatus } from "../core/MediaStatus";
-import { MediaObjectFit } from "../core/MediaObjectFit";
 import { DeviceServiceBase } from "../core/device.service.base";
-import { VideoSrcDirective } from "./vidsrc.directive";
-import { matchesMediaQuery, descendingT } from "../core/utils";
 import { IntersectionComponent } from "../core/intersection.component";
+import { MediaObjectFit } from "../core/MediaObjectFit";
+import { MediaStatus } from "../core/MediaStatus";
+import { descendingT, matchesMediaQuery } from "../core/utils";
+import type * as M_CORE from "../generated";
+import { VideoSrcDirective } from "./vidsrc.directive";
 
 function isWebM(src: M_CORE.FileSrc<M_CORE.ImageMeta>): boolean {
 	return src.mimeType === "video/webm";

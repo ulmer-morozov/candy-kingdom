@@ -1,7 +1,9 @@
 import { Component, input, output } from "@angular/core";
-import { DeviceType } from "../core";
-import type { LocalizedString } from "@candy-kingdom/bonnie";
 import { FormsModule } from "@angular/forms";
+
+import type { LocalizedString } from "@candy-kingdom/bonnie";
+
+import { DeviceType } from "../core";
 
 @Component({
 	selector: "bonc-translation-input",

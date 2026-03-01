@@ -1,19 +1,19 @@
 import {
-	HostBinding,
 	Component,
-	effect,
-	output,
-	model,
-	signal,
-	input,
 	computed,
+	effect,
+	HostBinding,
+	input,
+	model,
+	output,
+	signal,
 } from "@angular/core";
 
 import type { Bone } from "@candy-kingdom/bonnie";
 
+import { DeviceType } from "../core";
 import type { ContentPreset } from "../skeleton-editor/ContentPreset";
 import type { IBoneEditor } from "../skeleton-editor/IBoneEditor";
-import { DeviceType } from "../core";
 
 @Component({ template: "" })
 export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBoneEditor<TBone> {

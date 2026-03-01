@@ -3,10 +3,10 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import type { SettingData } from "./setting-data";
+import type { FileFormat, FileSrcImageMeta } from "@candy-kingdom/bonnie";
+
 import { IEquatable } from "./i-equatable";
-import type { FileFormat } from "@candy-kingdom/bonnie";
-import type { FileSrcImageMeta } from "@candy-kingdom/bonnie";
+import type { SettingData } from "./setting-data";
 
 export interface OneImageSettingData extends SettingData {
 	width: number;

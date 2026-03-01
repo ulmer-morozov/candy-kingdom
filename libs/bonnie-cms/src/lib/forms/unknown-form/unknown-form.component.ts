@@ -1,7 +1,8 @@
-import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormBaseComponent } from "../../core-components/form-base.component";
+import { Component, input, type OnInit } from "@angular/core";
+
 import { EditableDirective } from "../../core-components/editable.directive";
+import { FormBaseComponent } from "../../core-components/form-base.component";
 
 @Component({
 	selector: "bonc-unknown-form",

@@ -1,8 +1,9 @@
-import { Component, inject } from "@angular/core";
 import { CommonModule, JsonPipe } from "@angular/common";
-import type { IBoneComponent } from "./IBoneComponent";
+import { Component, inject } from "@angular/core";
+
 import type { Bone } from "../generated";
 import { BoneDirective } from "./bone.directive";
+import type { IBoneComponent } from "./IBoneComponent";
 
 @Component({
 	selector: "bon-unknown-bone",

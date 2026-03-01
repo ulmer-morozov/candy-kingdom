@@ -1,5 +1,7 @@
-import type { OutputEmitterRef, ModelSignal, Signal, InputSignal } from "@angular/core";
+import type { InputSignal, ModelSignal, OutputEmitterRef, Signal } from "@angular/core";
+
 import type { Bone } from "@candy-kingdom/bonnie";
+
 import type { DeviceType } from "../core";
 import type { ContentPreset } from "./ContentPreset";
 

@@ -1,12 +1,21 @@
-import { Component, effect, inject, input, type OnInit, type QueryList, ViewChildren } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import {
+	Component,
+	effect,
+	inject,
+	input,
+	type OnInit,
+	type QueryList,
+	ViewChildren,
+} from "@angular/core";
 
 import type { Bone } from "@candy-kingdom/bonnie";
-import { BoneEditorContainerComponent } from "./bone-editor-container/bone-editor-container.component";
-import { EditableDirective } from "../core-components/editable.directive";
+
 import { DeviceType } from "../core";
-import type { IBoneTemplate } from "./IBoneTemplate";
+import { EditableDirective } from "../core-components/editable.directive";
 import type { BoneEditorMap } from "./BoneEditorMap";
+import { BoneEditorContainerComponent } from "./bone-editor-container/bone-editor-container.component";
+import type { IBoneTemplate } from "./IBoneTemplate";
 
 // todo: rename class
 @Component({

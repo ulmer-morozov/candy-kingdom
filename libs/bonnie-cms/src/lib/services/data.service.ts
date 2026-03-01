@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { type Observable, combineLatest, map, merge, mergeMap, of } from "rxjs";
+
+import { combineLatest, map, merge, mergeMap, type Observable, of } from "rxjs";
 
 import type { PageBase, View } from "@candy-kingdom/bonnie";
 

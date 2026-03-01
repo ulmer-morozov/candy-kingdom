@@ -1,3 +1,4 @@
+import { CdkTextareaAutosize } from "@angular/cdk/text-field";
 import {
 	type AfterViewInit,
 	Component,
@@ -8,9 +9,9 @@ import {
 	ViewChildren,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { CdkTextareaAutosize } from "@angular/cdk/text-field";
 
 import type { LocalizedString } from "@candy-kingdom/bonnie";
+
 import { DeviceType } from "../core";
 
 @Component({

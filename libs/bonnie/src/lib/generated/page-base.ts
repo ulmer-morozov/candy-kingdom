@@ -3,12 +3,12 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { IHaveSkeleton } from "./i-have-skeleton";
+import type { Bone } from "./bone";
 import { IEquatable } from "./i-equatable";
-import type { PublishStatus } from "./publish-status";
+import { IHaveSkeleton } from "./i-have-skeleton";
 import type { LocalizedString } from "./localized-string";
 import type { OpenGraphData } from "./open-graph-data";
-import type { Bone } from "./bone";
+import type { PublishStatus } from "./publish-status";
 
 export interface PageBase {
 	id: string;

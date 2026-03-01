@@ -1,9 +1,10 @@
-import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, input, type OnInit } from "@angular/core";
+
 import type { LocalizedString } from "@candy-kingdom/bonnie";
 
-import { EditableDirective, FormBaseComponent } from "../../core-components";
 import { TextEditorField } from "../../core";
+import { EditableDirective, FormBaseComponent } from "../../core-components";
 import { FormControlsComponent } from "../../form-controls/form-controls.component";
 import { TranslationInputComponent } from "../../translation-input/translation-input.component";
 import { TranslationTextareaComponent } from "../../translation-textarea/translation-textarea.component";

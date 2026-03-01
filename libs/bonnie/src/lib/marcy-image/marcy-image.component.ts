@@ -1,16 +1,15 @@
-import { Component, input, output, inject, signal, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, effect, inject, input, output, signal } from "@angular/core";
 
-import type * as M_CORE from "../generated";
-
-import { MediaStatus } from "../core/MediaStatus";
-import { MediaObjectFit } from "../core/MediaObjectFit";
-import { ImageSrcDirective } from "./imgsrc.directive";
-import type { IHtmlPictureSource } from "./IHtmlPictureSource";
-import { toHtmlPictureSources } from "./toHtmlSources";
-import { getDefaultSrc } from "./getDefaultSrc";
 import { DeviceServiceBase } from "../core/device.service.base";
 import { IntersectionComponent } from "../core/intersection.component";
+import { MediaObjectFit } from "../core/MediaObjectFit";
+import { MediaStatus } from "../core/MediaStatus";
+import type * as M_CORE from "../generated";
+import { getDefaultSrc } from "./getDefaultSrc";
+import type { IHtmlPictureSource } from "./IHtmlPictureSource";
+import { ImageSrcDirective } from "./imgsrc.directive";
+import { toHtmlPictureSources } from "./toHtmlSources";
 
 @Component({
 	selector: "bon-image",

@@ -1,6 +1,7 @@
 import { Directive, effect, input } from "@angular/core";
-import type * as M_CORE from "../generated";
+
 import { SrcBaseDirective } from "../core/src.directive";
+import type * as M_CORE from "../generated";
 
 @Directive({
 	standalone: true,

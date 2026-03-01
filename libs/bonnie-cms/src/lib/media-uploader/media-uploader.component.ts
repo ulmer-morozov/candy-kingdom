@@ -1,19 +1,21 @@
+import { CommonModule, DecimalPipe } from "@angular/common";
+import { HttpClient, type HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
 import {
 	Component,
 	computed,
 	type ElementRef,
+	inject,
 	input,
 	output,
 	signal,
 	ViewChild,
-	inject,
 } from "@angular/core";
-import { CommonModule, DecimalPipe } from "@angular/common";
 import { DomSanitizer, type SafeStyle } from "@angular/platform-browser";
-import { HttpClient, type HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
+
 import { catchError, last, map, Observable } from "rxjs";
 
-import { MediaObjectFit, type PixMediaUnion, MarcyMediaComponent } from "@candy-kingdom/bonnie";
+import { MarcyMediaComponent, MediaObjectFit, type PixMediaUnion } from "@candy-kingdom/bonnie";
+
 import type { MediaType } from "../core";
 
 const imageMimeTypes = ["image/png", "image/jpeg"];
