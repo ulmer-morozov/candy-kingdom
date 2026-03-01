@@ -1,4 +1,4 @@
-@if (sources.length > 0) {
+@if (sources().length > 0) {
   <div [class.knownRatio]="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original"
        [class.cover]="objectFit() === MarcyObjectFit.Cover"
        [class.contain]="objectFit() === MarcyObjectFit.Contain"
@@ -7,13 +7,13 @@
 
     <ng-template #pictureTemplate>
       <picture>
-        @for (source of sources; track $index) {
+        @for (source of sources(); track $index) {
           <source [srcset]="source.srcSet"
                   [attr.media]="source.media.length > 0 ? source.media : undefined"
                   [attr.type]="source.mime.length > 0 ? source.mime : undefined"
                   [attr.sizes]="source.sizes.length > 0 ? source.sizes : undefined" />
         }
-        <img [src]="defaultSrc" (load)="onLoad()" />
+        <img [src]="defaultSrc()" (load)="onLoad()" />
       </picture>
     </ng-template>
 

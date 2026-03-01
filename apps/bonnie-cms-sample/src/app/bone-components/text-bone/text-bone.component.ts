@@ -10,7 +10,7 @@ import { TextBone } from '../../generated';
   imports: [CommonModule, LocalizePipe, LocalizationIsNotEmptyPipe],
   templateUrl: './text-bone.component.html',
   styleUrls: ['./text-bone.component.scss'],
-  hostDirectives: [BoneDirective]
+  hostDirectives: [{ directive: BoneDirective, inputs: ['bone'], outputs: ['boneChange'] }]
 })
 export class TextBoneComponent {
   public readonly bd = inject(BoneDirective<TextBone>, { host: true });

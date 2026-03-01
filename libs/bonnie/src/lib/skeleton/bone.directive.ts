@@ -1,36 +1,10 @@
-import { ChangeDetectorRef, Directive, inject, effect } from '@angular/core';
+import { Directive, model } from '@angular/core';
 import { Bone } from '../generated';
-import { LocalizeServiceBase } from '../localization/LocalizeServiceBase';
 
 @Directive({
   selector: '[bonBoneDir]',
   standalone: true
 })
 export class BoneDirective<T extends Bone = Bone> {
-  private _bone?: T;
-
-  private readonly cd = inject(ChangeDetectorRef);
-  private readonly localizationService = inject(LocalizeServiceBase);
-
-  constructor() {
-    this.cd.detach();
-
-    effect(() => {
-      this.localizationService.locale();
-      this.cd.detectChanges();
-    });
-  }
-
-  public set bone(value: T) {
-    this._bone = value;
-
-    this.cd.detectChanges();
-  }
-
-  public get bone(): T {
-    if (this._bone === undefined || this._bone === null)
-      throw new Error('The property "bone" should be set at least once. For example in skeleton');
-
-    return this._bone;
-  }
+  public readonly bone = model.required<T>();
 }

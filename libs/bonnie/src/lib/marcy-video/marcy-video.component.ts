@@ -33,7 +33,7 @@ export class MarcyVideoComponent implements AfterViewInit {
   public readonly $status = signal<MediaStatus>(MediaStatus.NotSet);
   public readonly src: VideoSrcDirective;
 
-  public source?: MCore.FileSrc<MCore.VideoMeta>;
+  public readonly source = signal<MCore.FileSrc<MCore.VideoMeta> | undefined>(undefined);
 
   public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
@@ -87,15 +87,17 @@ export class MarcyVideoComponent implements AfterViewInit {
   private updateSources() {
     console.log('MarcyVideoComponent updateSources');
 
-    this.source = this.findMoreSuitableSource();
+    this.source.set(this.findMoreSuitableSource());
 
-    console.log('MarcyVideoComponent new source', this.source);
+    console.log('MarcyVideoComponent new source', this.source());
 
-    if (this.$status() === MediaStatus.NotSet && this.source === undefined) {
+    const src = this.source();
+
+    if (this.$status() === MediaStatus.NotSet && src === undefined) {
       return;
     }
 
-    if (this.source === undefined) {
+    if (src === undefined) {
       this.$status.set(MediaStatus.NotSet);
       return;
     }
@@ -113,7 +115,7 @@ export class MarcyVideoComponent implements AfterViewInit {
       return;
     }
 
-    const videoSources = this.src.data?.sources ?? [];
+    const videoSources = this.src.data()?.sources ?? [];
 
     const currentVideoWidth = this.videoRef.nativeElement.clientWidth;
     const realPixelsVideoWidth = this.device.devicePixelRatio * currentVideoWidth;

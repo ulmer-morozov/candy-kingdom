@@ -14,11 +14,9 @@ export class VideoSrcDirective
   public readonly vidsrc = input<MCore.Video | undefined>();
 
   constructor() {
-    super(); // todo: replace this with more appropriate code
+    super();
     effect(() => {
-      const value = this.vidsrc();
-      this.data = value;
-      console.log('set vidsrc', value);
+      this.data.set(this.vidsrc());
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, input, output, ViewChild, inject } from '@angular/core';
+import { Component, computed, ElementRef, input, output, signal, ViewChild, inject } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
@@ -49,11 +49,9 @@ export class MediaUploaderComponent {
     }
   });
 
-  public progress = 0;
-  public isUploading = false;
-
-  public autoplay = true;
-  public clipStyle?: SafeStyle;
+  public readonly progress = signal(0);
+  public readonly isUploading = signal(false);
+  public readonly clipStyle = signal<SafeStyle | undefined>(undefined);
 
   private readonly sanitizer = inject(DomSanitizer);
   private readonly http = inject(HttpClient);
@@ -94,8 +92,8 @@ export class MediaUploaderComponent {
     formData.append('file', file);
     formData.append('ratio', `${this.forceRatio() ?? 0}`);
 
-    this.progress = 0;
-    this.isUploading = true;
+    this.progress.set(0);
+    this.isUploading.set(true);
 
     this.updateClip();
 
@@ -113,7 +111,7 @@ export class MediaUploaderComponent {
         catchError(this.handleError(file))
       ).subscribe
       (
-        () => { this.isUploading = false; }
+        () => { this.isUploading.set(false); }
       );
   }
 
@@ -131,7 +129,7 @@ export class MediaUploaderComponent {
         break;
 
       case HttpEventType.UploadProgress:
-        this.progress = event.total === undefined ? 0.5 : event.loaded / event.total;
+        this.progress.set(event.total === undefined ? 0.5 : event.loaded / event.total);
         this.updateClip();
         break;
 
@@ -157,7 +155,7 @@ export class MediaUploaderComponent {
   }
 
   private updateClip(): void {
-    this.clipStyle = this.sanitizer.bypassSecurityTrustStyle(`inset(0px 100% 0px 0%)`);
+    this.clipStyle.set(this.sanitizer.bypassSecurityTrustStyle(`inset(0px 100% 0px 0%)`));
   }
 
   private handleError(file: File): (p1: unknown, p2: Observable<unknown>) => Observable<unknown> {

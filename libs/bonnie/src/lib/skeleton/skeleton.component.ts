@@ -59,9 +59,7 @@ export class SkeletonComponent implements OnInit {
         componentType = UnknownBoneComponent;
       }
 
-      const boneComponentRef = viewContainerRef.createComponent(componentType);
-
-      boneComponentRef.instance.bd.bone = bone;
+      viewContainerRef.createComponent(componentType).setInput("bone", bone);
     }
   }
 

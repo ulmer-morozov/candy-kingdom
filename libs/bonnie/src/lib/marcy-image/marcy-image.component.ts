@@ -24,11 +24,11 @@ export class MarcyImageComponent {
   public readonly MarcyObjectFit = MediaObjectFit;
 
   public readonly isLoaded = output<void>();
-  public readonly sources: IHtmlPictureSource[] = [];
+  public readonly sources = signal<IHtmlPictureSource[]>([]);
 
   public readonly status = signal<MediaStatus>(MediaStatus.NotSet);
 
-  public defaultSrc = '';
+  public readonly defaultSrc = signal('');
 
   public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
@@ -53,17 +53,16 @@ export class MarcyImageComponent {
   }
 
   private onSrcChange(val: MCore.Image | undefined) {
-    this.defaultSrc = getDefaultSrc(val)?.url ?? '';
-
-    this.sources.splice(0, this.sources.length);
+    this.defaultSrc.set(getDefaultSrc(val)?.url ?? '');
 
     if (val === undefined || val === null || val.sources.length === 0) {
+      this.sources.set([]);
       this.status.set(MediaStatus.NotSet);
       return;
     }
 
     const newSources = val.sources.flatMap(toHtmlPictureSources);
-    this.sources.push(...newSources);
+    this.sources.set(newSources);
     this.status.set(MediaStatus.NotLoaded);
   }
 

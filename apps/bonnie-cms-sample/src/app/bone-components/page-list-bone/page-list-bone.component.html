@@ -1,22 +1,24 @@
-@if (bd.bone.style===PageListBoneStyle.mainNav) {
-  <nav>
-    <div [innerHTML]="bd.bone.title | localize"></div>
+@if (bd.bone(); as bone) {
+  @if (bone.style === PageListBoneStyle.mainNav) {
+    <nav>
+      <div [innerHTML]="bone.title | localize"></div>
 
+      <ul>
+        @for (link of bone.data; track link.url) {
+          <li>
+            <a [routerLink]="link.url">{{link.title | localize}}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  } @else {
+    <h6 [innerHTML]="bone.title | localize"></h6>
     <ul>
-      @for (link of bd.bone.data; track link.url) {
+      @for (link of bone.data; track link.url) {
         <li>
           <a [routerLink]="link.url">{{link.title | localize}}</a>
         </li>
       }
     </ul>
-  </nav>
-} @else {
-  <h6 [innerHTML]="bd.bone.title | localize"></h6>
-  <ul>
-    @for (link of bd.bone.data; track link.url) {
-      <li>
-        <a [routerLink]="link.url">{{link.title | localize}}</a>
-      </li>
-    }
-  </ul>
+  }
 }

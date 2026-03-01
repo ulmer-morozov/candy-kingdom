@@ -8,9 +8,13 @@ import { BoneDirective } from './bone.directive';
   selector: 'bon-unknown-bone',
   standalone: true,
   imports: [CommonModule, JsonPipe],
-  hostDirectives: [BoneDirective],
-  template: `<h2>unknown bone {{bd.bone.type}}</h2>
-             <div>{{bd.bone | json}}</div>`,
+  hostDirectives: [{ directive: BoneDirective, inputs: ['bone'], outputs: ['boneChange'] }],
+  template: `@if (bd.bone(); as bone) {
+               <h2>unknown bone {{bone.type}}</h2>
+               <div>{{bone | json}}</div>
+             } @else{
+              bone is undefined
+             }`,
   styles: [
     `:host{
         display: block;

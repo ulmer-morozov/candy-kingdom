@@ -1,6 +1,8 @@
-@if (bd.bone.title | localizationIsNotEmpty) {
-  <h2 class="title" [innerHTML]="bd.bone.title | localize"></h2>
-}
-@if (bd.bone.text | localizationIsNotEmpty) {
-  <div class="text" [innerHTML]="bd.bone.text | localize"></div>
+@if (bd.bone(); as bone) {
+  @if (bone.title | localizationIsNotEmpty) {
+    <h2 class="title" [innerHTML]="bone.title | localize"></h2>
+  }
+  @if (bone.text | localizationIsNotEmpty) {
+    <div class="text" [innerHTML]="bone.text | localize"></div>
+  }
 }

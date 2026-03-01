@@ -14,9 +14,7 @@ export class ImageSrcDirective
   constructor() {
     super();
     effect(() => {
-      const value = this.imgsrc();
-      console.log('set imgsrc', value);
-      this.data = value;
+      this.data.set(this.imgsrc());
     });
   }
 }

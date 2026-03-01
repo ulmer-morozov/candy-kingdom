@@ -10,7 +10,7 @@ import { PageListBone, PageListBoneStyle } from '../../generated';
   imports: [CommonModule, RouterLink, LocalizePipe],
   templateUrl: './page-list-bone.component.html',
   styleUrls: ['./page-list-bone.component.scss'],
-  hostDirectives: [BoneDirective]
+  hostDirectives: [{ directive: BoneDirective, inputs: ['bone'], outputs: ['boneChange'] }]
 })
 export class PageListBoneComponent {
   public readonly PageListBoneStyle = PageListBoneStyle;
@@ -19,6 +19,6 @@ export class PageListBoneComponent {
 
   @HostBinding('class')
   public get hostStyle(): string {
-    return this.bd.bone.style;
+    return this.bd.bone().style;
   }
 }

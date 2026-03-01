@@ -2,7 +2,7 @@ import { Type } from "@angular/core";
 import { IBoneComponent } from "./IBoneComponent";
 
 
-export class BoneMap extends Map<string, Type<IBoneComponent>>
+export class BoneMap extends Map<string, Type<any>>
 {
   public getRequired(key: string): Type<IBoneComponent> {
     const value = this.get(key);

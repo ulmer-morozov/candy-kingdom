@@ -12,7 +12,7 @@
 
   <ng-template #videoTemplate>
     <video #video
-           [src]="source !== undefined ? source.url :'' "
+           [src]="source()?.url ?? ''">
            (load)="onLoad()"
            (canplay)="video.muted=true;video.play();"
            playsInline

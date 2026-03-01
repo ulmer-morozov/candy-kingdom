@@ -25,33 +25,28 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>{
 
   private readonly _queryChangeClearSubject = new Subject<void>();
 
-  private _data?: T;
+  public readonly data = signal<T | undefined>(undefined);
 
   private readonly _destroyRef = inject(DestroyRef);
 
   constructor() {
-
     effect(() => {
       const ratio = this._ratio();
       this.ratioChange.emit(ratio);
     });
+
+    effect(() => {
+      const val = this.data();
+      this.onDataChange(val);
+    });
   }
 
-  public get data(): T | undefined {
-    return this._data;
-  }
-
-  public set data(val: T | undefined) {
-    console.log('set data', val);
-
+  private onDataChange(val: T | undefined): void {
     if (val !== undefined && val !== null && val.sources.length === 0) {
       console.warn(`image should have sources!`);
-      val = undefined;
+      this.data.set(undefined);
+      return;
     }
-
-    this._data = val;
-
-    console.log('calling src change ', this._data);
 
     // clear mediaQuery subscriptions
     this._queryChangeClearSubject.next();
@@ -59,13 +54,13 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>{
     // ratio
     this._ratio.set(0);
 
-    this.srcChange.emit(this._data);
+    this.srcChange.emit(val);
 
-    if (this._data === undefined || this._data.sources.length === 0) {
+    if (val === undefined || val.sources.length === 0) {
       return;
     }
 
-    const allRatios = this._data.sources
+    const allRatios = val.sources
       .flatMap((x) => x.srcSet)
       .map((x) => x.meta.ratio)
       .filter(utils.distinct);
@@ -85,22 +80,22 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>{
   }
 
   private calcRatio(): void {
+    const data = this.data();
     if (
-      this._data === undefined ||
-      this._data === null ||
-      this._data.sources.length === 0
+      data === undefined ||
+      data === null ||
+      data.sources.length === 0
     )
       return;
 
-    for (let i = 0; i < this._data.sources.length; i++) {
-      const source = this._data.sources[i];
+    for (let i = 0; i < data.sources.length; i++) {
+      const source = data.sources[i];
       const srcRatios = source.srcSet
         .sort(utils.descendingT((x) => x.meta.width))
         .map((x) => x.meta.ratio)
         .filter(utils.distinct);
 
       if (srcRatios.length === 0) {
-        // console.warn(`each source should have srcSet with same ratio. founded: ${srcRatios.join(', ')}`);
         return;
       }
 
@@ -136,10 +131,11 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>{
 
   public watchMediaQueries(): Observable<MediaQueryListEvent> {
     console.log('watchMediaQueries');
+    const data = this.data();
 
     if (
-      this._data === undefined ||
-      this._data === null ||
+      data === undefined ||
+      data === null ||
       typeof window === 'undefined' ||
       typeof window.matchMedia === 'undefined'
     )
@@ -148,13 +144,12 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>{
         takeUntil(this._queryChangeClearSubject)
       );
 
-    const mediaQueries = this._data.sources
+    const mediaQueries = data.sources
       .map((x) => x.mediaQuery)
       .filter(utils.distinct)
       .filter((x) => x.length > 0);
 
     console.log('watchMediaQueries mediaQueries', mediaQueries);
-
     const queryObservables = mediaQueries.map((media) => {
       const queryList = window.matchMedia(media);
       const observable = fromEvent<MediaQueryListEvent>(
