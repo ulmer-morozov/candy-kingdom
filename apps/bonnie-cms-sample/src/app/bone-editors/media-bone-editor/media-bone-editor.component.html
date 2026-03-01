@@ -1,6 +1,6 @@
 <div class="container">
   <div class="image-container">
-    <bonc-media-uploader [(src)]="bone.media"
+    <bonc-media-uploader [(src)]="bone().media"
                          [uploadUrlMap]="MediaUploadMap"
                          (srcChange)="startEditing()"
                          (updated)="startEditing()"
@@ -8,9 +8,9 @@
   </div>
 
   <div class="title">
-    <bonc-translation-input [text]="bone.title"
-                            [device]="device"
-                            [locale]="locale"
+    <bonc-translation-input [text]="bone().title"
+                            [device]="device()"
+                            [locale]="locale()"
                             (startEditing)="startEditing()"
                             (changed)="markAsDirty()"
                             (blurred)="updateDirty()">
@@ -19,10 +19,10 @@
 
   <div class="text">
     <bonc-link-popup #linkPopup
-                     [(link)]="bone.link"
+                     [(link)]="bone().link"
                      [field]="LinkPopupField.Input"
-                     [locale]="locale"
-                     [linkTitle]="bone.text"
+                     [locale]="locale()"
+                     [linkTitle]="bone().text"
                      (startEditing)="startEditing()"
                      (changed)="markAsDirty()"
                      (blurred)="updateDirty()"

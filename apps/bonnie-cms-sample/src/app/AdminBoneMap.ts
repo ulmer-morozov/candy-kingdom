@@ -4,7 +4,7 @@ import { PageListBoneEditorComponent } from './bone-editors/page-list-bone-edito
 import { Type } from '@angular/core';
 import { MediaBoneEditorComponent } from './bone-editors';
 
-const map = new Map<string, Type<IBoneEditor>>();
+const map = new Map<string, Type<IBoneEditor<any>>>();
 
 map.set('text', TextBoneEditorComponent);
 map.set('media', MediaBoneEditorComponent);

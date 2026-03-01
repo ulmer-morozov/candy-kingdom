@@ -1,7 +1,7 @@
 <label>Title</label>
-<bonc-translation-textarea [text]="bone.title"
-                           [device]="device"
-                           [locale]="locale"
+<bonc-translation-textarea [text]="bone().title"
+                           [device]="device()"
+                           [locale]="locale()"
                            (startEditing)="startEditing()"
                            (changed)="markAsDirty()"
                            (blurred)="updateDirty()"
@@ -9,9 +9,9 @@
 </bonc-translation-textarea>
 
 <label>Text</label>
-<bonc-translation-textarea [text]="bone.text"
-                           [device]="device"
-                           [locale]="locale"
+<bonc-translation-textarea [text]="bone().text"
+                           [device]="device()"
+                           [locale]="locale()"
                            (startEditing)="startEditing()"
                            (changed)="markAsDirty()"
                            (blurred)="updateDirty()"

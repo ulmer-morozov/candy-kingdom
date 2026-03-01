@@ -30,7 +30,7 @@ export class TextBoneEditorComponent extends BoneEditorBaseComponent<TextBone> {
   }
 
   @HostBinding('class') get styleFromBone(): string {
-    return this.bone.style;
+    return this.bone().style;
   }
 
   public onReset(): void {
