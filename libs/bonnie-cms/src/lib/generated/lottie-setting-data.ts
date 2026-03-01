@@ -5,7 +5,6 @@
 
 import type { FileSrcFileMeta } from "@candy-kingdom/bonnie";
 
-import { IEquatable } from "./i-equatable";
 import type { SettingData } from "./setting-data";
 
 export interface LottieSettingData extends SettingData {

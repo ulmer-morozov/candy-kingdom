@@ -40,7 +40,8 @@
 				"useIterableCallbackReturn": "off"
 			},
 			"correctness": {
-				"useImportExtensions": "off"
+				"useImportExtensions": "off",
+				"noUnusedImports": "warn"
 			},
 			"style": {
 				"useNamingConvention": {

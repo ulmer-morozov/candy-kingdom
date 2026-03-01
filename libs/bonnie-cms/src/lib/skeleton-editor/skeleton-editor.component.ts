@@ -80,7 +80,7 @@ export class SkeletonEditorComponent implements OnInit {
 		if (isEditing) this.editable.startEditing();
 		else {
 			const allClosed =
-				this.boneEditorContainerList.filter((x) => x.editor !== undefined && x.editor.isEditing)
+				this.boneEditorContainerList.filter((x) => x.editor?.isEditing)
 					.length === 0;
 
 			this.editable.updateDirty();

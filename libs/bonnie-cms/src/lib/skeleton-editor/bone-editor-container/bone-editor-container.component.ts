@@ -4,7 +4,6 @@ import {
 	Component,
 	type ComponentRef,
 	effect,
-	inject,
 	input,
 	output,
 	signal,

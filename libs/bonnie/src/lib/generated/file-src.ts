@@ -5,7 +5,6 @@
 
 import type { FileMeta } from "./file-meta";
 import type { FileSrcBase } from "./file-src-base";
-import { IEquatable } from "./i-equatable";
 
 export interface FileSrc<T extends FileMeta> extends FileSrcBase {
 	meta: T;

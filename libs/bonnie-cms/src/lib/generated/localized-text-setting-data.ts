@@ -5,7 +5,6 @@
 
 import type { LocalizedString } from "@candy-kingdom/bonnie";
 
-import { IEquatable } from "./i-equatable";
 import type { SettingData } from "./setting-data";
 import type { TextSettingType } from "./text-setting-type";
 

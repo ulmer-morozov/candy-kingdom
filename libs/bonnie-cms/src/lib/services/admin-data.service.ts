@@ -14,7 +14,7 @@ export class AdminDataService {
 	private readonly baseHref = inject(API_BASE_URL);
 
 	constructor() {
-		console.log("baseHref: " + this.baseHref);
+		console.log(`baseHref: ${this.baseHref}`);
 	}
 
 	public getSettingGroups(): Observable<SettingGroup[]> {

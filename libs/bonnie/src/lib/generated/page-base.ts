@@ -4,8 +4,6 @@
  */
 
 import type { Bone } from "./bone";
-import { IEquatable } from "./i-equatable";
-import { IHaveSkeleton } from "./i-have-skeleton";
 import type { LocalizedString } from "./localized-string";
 import type { OpenGraphData } from "./open-graph-data";
 import type { PublishStatus } from "./publish-status";
