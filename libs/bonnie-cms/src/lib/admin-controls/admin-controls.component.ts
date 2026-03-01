@@ -2,7 +2,7 @@ import { Component, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { DeviceType } from "../core";
-import { EditableGroupComponent } from "../core-components";
+import type { EditableGroupComponent } from "../core-components";
 
 @Component({
 	selector: "bonc-admin-controls",

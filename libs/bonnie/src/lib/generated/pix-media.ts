@@ -4,7 +4,7 @@
  */
 
 import { IEquatable } from "./i-equatable";
-import { MediaSourceBase } from "./media-source-base";
+import type { MediaSourceBase } from "./media-source-base";
 
 export interface PixMedia {
 	sources: MediaSourceBase[];

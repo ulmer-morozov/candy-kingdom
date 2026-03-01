@@ -1,9 +1,9 @@
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 import * as utils from "../core/utils";
 
-import { IHtmlPictureSource } from "./IHtmlPictureSource";
+import type { IHtmlPictureSource } from "./IHtmlPictureSource";
 
-export function toHtmlPictureSources(imageSource: MCore.ImageSource): IHtmlPictureSource[] {
+export function toHtmlPictureSources(imageSource: M_CORE.ImageSource): IHtmlPictureSource[] {
 	const sizes = utils.generateSizesString(imageSource.sizes);
 	const groupedByMime = utils.groupBy(imageSource.srcSet, (x) => x.mimeType);
 

@@ -1,9 +1,9 @@
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 import * as utils from "../core/utils";
 
 export function getDefaultSrc(
-	image: MCore.Image | undefined,
-): MCore.FileSrc<MCore.ImageMeta> | undefined {
+	image: M_CORE.Image | undefined,
+): M_CORE.FileSrc<M_CORE.ImageMeta> | undefined {
 	if (image === undefined || image === null) return undefined;
 
 	const files = image.sources.flatMap((x) => x.srcSet).sort(utils.descendingT((x) => x.meta.width));

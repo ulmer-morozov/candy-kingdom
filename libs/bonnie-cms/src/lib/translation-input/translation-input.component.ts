@@ -1,6 +1,6 @@
 import { Component, input, output } from "@angular/core";
 import { DeviceType } from "../core";
-import { LocalizedString } from "@candy-kingdom/bonnie";
+import type { LocalizedString } from "@candy-kingdom/bonnie";
 import { FormsModule } from "@angular/forms";
 
 @Component({

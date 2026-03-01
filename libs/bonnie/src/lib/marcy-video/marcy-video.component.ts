@@ -2,16 +2,16 @@ import {
 	Component,
 	input,
 	output,
-	ElementRef,
+	type ElementRef,
 	ViewChild,
-	AfterViewInit,
+	type AfterViewInit,
 	inject,
 	signal,
 	effect,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 
 import { MediaStatus } from "../core/MediaStatus";
 import { MediaObjectFit } from "../core/MediaObjectFit";
@@ -20,7 +20,7 @@ import { VideoSrcDirective } from "./vidsrc.directive";
 import { matchesMediaQuery, descendingT } from "../core/utils";
 import { IntersectionComponent } from "../core/intersection.component";
 
-function isWebM(src: MCore.FileSrc<MCore.ImageMeta>): boolean {
+function isWebM(src: M_CORE.FileSrc<M_CORE.ImageMeta>): boolean {
 	return src.mimeType === "video/webm";
 }
 
@@ -43,7 +43,7 @@ export class MarcyVideoComponent implements AfterViewInit {
 	public readonly $status = signal<MediaStatus>(MediaStatus.NotSet);
 	public readonly src: VideoSrcDirective;
 
-	public readonly source = signal<MCore.FileSrc<MCore.VideoMeta> | undefined>(undefined);
+	public readonly source = signal<M_CORE.FileSrc<M_CORE.VideoMeta> | undefined>(undefined);
 
 	public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
@@ -118,7 +118,7 @@ export class MarcyVideoComponent implements AfterViewInit {
 		this.$status.set(MediaStatus.Loaded);
 	}
 
-	private findMoreSuitableSource(): MCore.FileSrc<MCore.VideoMeta> | undefined {
+	private findMoreSuitableSource(): M_CORE.FileSrc<M_CORE.VideoMeta> | undefined {
 		if (this.videoRef === undefined) {
 			console.log("skipping findMoreSuitableSource. videoRef is empty still");
 			return;

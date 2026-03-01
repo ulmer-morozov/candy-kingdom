@@ -1,12 +1,12 @@
 import {
-	QueryList,
+	type QueryList,
 	ContentChildren,
-	AfterContentInit,
-	OnDestroy,
+	type AfterContentInit,
+	type OnDestroy,
 	Component,
 	output,
 } from "@angular/core";
-import { Subject, Unsubscribable, debounceTime } from "rxjs";
+import { Subject, type Unsubscribable, debounceTime } from "rxjs";
 
 import { EditableDirective } from "./editable.directive";
 

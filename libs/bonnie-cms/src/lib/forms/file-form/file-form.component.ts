@@ -1,10 +1,10 @@
-import { Component, OnInit, input } from "@angular/core";
+import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { FormBaseComponent } from "../../core-components/form-base.component";
 import { EditableDirective } from "../../core-components";
 
-import { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
+import type { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
 import { FormControlsComponent } from "../../form-controls/form-controls.component";
 import { FileUploaderComponent } from "../../file-uploader/file-uploader.component";
 

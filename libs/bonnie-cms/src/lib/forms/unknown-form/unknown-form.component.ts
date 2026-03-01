@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from "@angular/core";
+import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormBaseComponent } from "../../core-components/form-base.component";
 import { EditableDirective } from "../../core-components/editable.directive";

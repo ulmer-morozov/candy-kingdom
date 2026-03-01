@@ -1,7 +1,7 @@
-import { Component, computed, OnInit, input } from "@angular/core";
+import { Component, computed, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
+import type { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
 
 import { FormBaseComponent } from "../../core-components/form-base.component";
 import { EditableDirective } from "../../core-components/editable.directive";

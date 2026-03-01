@@ -1,4 +1,4 @@
-import { Video } from "../generated";
+import type { Video } from "../generated";
 
 export function emptyVideo(): Video {
 	return {

@@ -1,4 +1,4 @@
-import { Bone } from "../generated";
+import type { Bone } from "../generated";
 
 export function emptyBone(): Bone {
 	return {

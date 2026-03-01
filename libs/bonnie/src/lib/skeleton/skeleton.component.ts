@@ -3,13 +3,13 @@ import {
 	Component,
 	effect,
 	input,
-	OnInit,
-	Type,
+	type OnInit,
+	type Type,
 	ViewChild,
 } from "@angular/core";
 import { SkeletonAnchorDirective } from "./skeleton-anchor.directive";
-import { IBoneComponent } from "./IBoneComponent";
-import { Bone } from "../generated";
+import type { IBoneComponent } from "./IBoneComponent";
+import type { Bone } from "../generated";
 import { UnknownBoneComponent } from "./unknown-bone.component";
 
 @Component({

@@ -1,7 +1,7 @@
-import { OutputEmitterRef, ModelSignal, Signal, InputSignal } from "@angular/core";
-import { Bone } from "@candy-kingdom/bonnie";
-import { DeviceType } from "../core";
-import { ContentPreset } from "./ContentPreset";
+import type { OutputEmitterRef, ModelSignal, Signal, InputSignal } from "@angular/core";
+import type { Bone } from "@candy-kingdom/bonnie";
+import type { DeviceType } from "../core";
+import type { ContentPreset } from "./ContentPreset";
 
 // todo: may be those shouldnt be generic?
 export interface IBoneEditor<TBone extends Bone = Bone> {

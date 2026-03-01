@@ -4,7 +4,7 @@
  */
 
 import { IEquatable } from "./i-equatable";
-import { FileSrcBase } from "./file-src-base";
+import type { FileSrcBase } from "./file-src-base";
 
 export interface MediaSourceBase {
 	srcSet: FileSrcBase[];

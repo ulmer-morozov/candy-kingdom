@@ -4,7 +4,7 @@
  */
 
 import { IEquatable } from "./i-equatable";
-import { SizesWidthUnit } from "./sizes-width-unit";
+import type { SizesWidthUnit } from "./sizes-width-unit";
 
 export interface SizesItem {
 	width: number;

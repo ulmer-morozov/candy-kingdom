@@ -3,8 +3,8 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { SettingData } from "./setting-data";
-import { SettingBase } from "./setting-base";
+import type { SettingData } from "./setting-data";
+import type { SettingBase } from "./setting-base";
 import { IEquatable } from "./i-equatable";
 import { ISetting } from "./i-setting";
 

@@ -1,4 +1,4 @@
-import { Bone } from "@candy-kingdom/bonnie";
+import type { Bone } from "@candy-kingdom/bonnie";
 
 export interface IBoneTemplate {
 	readonly title: string;

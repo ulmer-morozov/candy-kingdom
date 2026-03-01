@@ -1,7 +1,7 @@
 import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 
 import { MediaObjectFit } from "../core/MediaObjectFit";
 import { MarcyImageComponent } from "../marcy-image/marcy-image.component";
@@ -27,7 +27,7 @@ export class MarcyMediaComponent {
 
 	public readonly isLoaded = output<void>();
 
-	public readonly src = input<MCore.Video | MCore.Image | undefined>();
+	public readonly src = input<M_CORE.Video | M_CORE.Image | undefined>();
 
 	public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 

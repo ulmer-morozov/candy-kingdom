@@ -3,7 +3,7 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { Bone } from "./bone";
+import type { Bone } from "./bone";
 
 export interface IHaveSkeleton {
 	bones: Bone[];

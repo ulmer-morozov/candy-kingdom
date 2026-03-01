@@ -3,9 +3,9 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { PixMedia } from "./pix-media";
+import type { PixMedia } from "./pix-media";
 import { IEquatable } from "./i-equatable";
-import { ImageSource } from "./image-source";
+import type { ImageSource } from "./image-source";
 
 export interface Image extends PixMedia {
 	readonly $type: "image";

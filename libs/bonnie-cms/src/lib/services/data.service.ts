@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable, combineLatest, map, merge, mergeMap, of } from "rxjs";
+import { type Observable, combineLatest, map, merge, mergeMap, of } from "rxjs";
 
-import { PageBase, View } from "@candy-kingdom/bonnie";
+import type { PageBase, View } from "@candy-kingdom/bonnie";
 
-import { SettingData } from "../generated";
+import type { SettingData } from "../generated";
 import { API_BASE_URL } from "./API_BASE_URL";
 
 type DataDictionary = { [n: string]: Observable<unknown> };

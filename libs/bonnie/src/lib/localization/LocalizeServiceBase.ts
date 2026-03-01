@@ -1,5 +1,5 @@
-import { Signal } from "@angular/core";
-import { LocalizedObject, LocalizedString } from "../generated";
+import type { Signal } from "@angular/core";
+import type { LocalizedObject, LocalizedString } from "../generated";
 import { isLocalUrlString } from "../core/utils";
 
 export abstract class LocalizeServiceBase {

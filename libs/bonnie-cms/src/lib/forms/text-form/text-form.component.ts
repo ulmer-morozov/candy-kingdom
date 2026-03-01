@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from "@angular/core";
+import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { TextInputStyle } from "./TextInputStyle";

@@ -1,6 +1,6 @@
 import {
 	ElementRef,
-	OnDestroy,
+	type OnDestroy,
 	Component,
 	inject,
 	signal,

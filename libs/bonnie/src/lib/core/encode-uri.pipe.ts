@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, type PipeTransform } from "@angular/core";
 
 @Pipe({ name: "encodeURIComponent", standalone: true, pure: true })
 export class EncodeURIComponentPipe implements PipeTransform {

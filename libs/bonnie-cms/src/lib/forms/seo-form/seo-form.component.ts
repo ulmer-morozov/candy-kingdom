@@ -1,6 +1,6 @@
-import { Component, OnInit, input, computed } from "@angular/core";
+import { Component, type OnInit, input, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FileMeta, FileSrc, ImageMeta, OpenGraphData } from "@candy-kingdom/bonnie";
+import type { FileMeta, FileSrc, ImageMeta, OpenGraphData } from "@candy-kingdom/bonnie";
 
 import { EditableDirective, FormBaseComponent } from "../../core-components";
 import { FormControlsComponent } from "../../form-controls/form-controls.component";

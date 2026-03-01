@@ -1,5 +1,5 @@
 import { Directive, model } from "@angular/core";
-import { Bone } from "../generated";
+import type { Bone } from "../generated";
 
 @Directive({
 	selector: "[bonBoneDir]",

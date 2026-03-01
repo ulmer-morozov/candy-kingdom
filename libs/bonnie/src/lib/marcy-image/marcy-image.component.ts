@@ -1,12 +1,12 @@
 import { Component, input, output, inject, signal, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 
 import { MediaStatus } from "../core/MediaStatus";
 import { MediaObjectFit } from "../core/MediaObjectFit";
 import { ImageSrcDirective } from "./imgsrc.directive";
-import { IHtmlPictureSource } from "./IHtmlPictureSource";
+import type { IHtmlPictureSource } from "./IHtmlPictureSource";
 import { toHtmlPictureSources } from "./toHtmlSources";
 import { getDefaultSrc } from "./getDefaultSrc";
 import { DeviceServiceBase } from "../core/device.service.base";
@@ -54,7 +54,7 @@ export class MarcyImageComponent {
 		});
 	}
 
-	private onSrcChange(val: MCore.Image | undefined) {
+	private onSrcChange(val: M_CORE.Image | undefined) {
 		this.defaultSrc.set(getDefaultSrc(val)?.url ?? "");
 
 		if (val === undefined || val === null || val.sources.length === 0) {

@@ -1,7 +1,7 @@
 import {
 	Component,
 	computed,
-	ElementRef,
+	type ElementRef,
 	input,
 	output,
 	signal,
@@ -9,12 +9,12 @@ import {
 	inject,
 } from "@angular/core";
 import { CommonModule, DecimalPipe } from "@angular/common";
-import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
-import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
+import { DomSanitizer, type SafeStyle } from "@angular/platform-browser";
+import { HttpClient, type HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
 import { catchError, last, map, Observable } from "rxjs";
 
-import { MediaObjectFit, PixMediaUnion, MarcyMediaComponent } from "@candy-kingdom/bonnie";
-import { MediaType } from "../core";
+import { MediaObjectFit, type PixMediaUnion, MarcyMediaComponent } from "@candy-kingdom/bonnie";
+import type { MediaType } from "../core";
 
 const imageMimeTypes = ["image/png", "image/jpeg"];
 const videoMimeTypes = ["video/mp4"];

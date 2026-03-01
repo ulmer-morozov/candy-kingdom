@@ -9,10 +9,10 @@ import {
 	computed,
 } from "@angular/core";
 
-import { Bone } from "@candy-kingdom/bonnie";
+import type { Bone } from "@candy-kingdom/bonnie";
 
-import { ContentPreset } from "../skeleton-editor/ContentPreset";
-import { IBoneEditor } from "../skeleton-editor/IBoneEditor";
+import type { ContentPreset } from "../skeleton-editor/ContentPreset";
+import type { IBoneEditor } from "../skeleton-editor/IBoneEditor";
 import { DeviceType } from "../core";
 
 @Component({ template: "" })

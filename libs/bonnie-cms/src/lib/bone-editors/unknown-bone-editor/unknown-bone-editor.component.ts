@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { CommonModule, JsonPipe } from "@angular/common";
-import { Bone } from "@candy-kingdom/bonnie";
+import type { Bone } from "@candy-kingdom/bonnie";
 
-import { ContentPreset } from "../../skeleton-editor/ContentPreset";
+import type { ContentPreset } from "../../skeleton-editor/ContentPreset";
 import { BoneEditorBaseComponent } from "../bone-editor-base.component";
 
 @Component({

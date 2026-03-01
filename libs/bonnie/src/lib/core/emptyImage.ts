@@ -1,4 +1,4 @@
-import { Image } from "../generated";
+import type { Image } from "../generated";
 
 export function emptyImage(): Image {
 	return {

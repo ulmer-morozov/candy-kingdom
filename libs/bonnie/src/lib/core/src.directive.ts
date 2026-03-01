@@ -1,15 +1,15 @@
 import { DestroyRef, Directive, inject, signal, effect, output } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Observable, fromEvent, NEVER, merge, Subject, takeUntil } from "rxjs";
+import { type Observable, fromEvent, NEVER, merge, Subject, takeUntil } from "rxjs";
 
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 import * as utils from "./utils";
 
 @Directive({
 	standalone: true,
 	selector: "[bonSrcBase]",
 })
-export class SrcBaseDirective<T extends MCore.Image | MCore.Video> {
+export class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 	public readonly ratioChange = output<number>();
 	public readonly srcChange = output<T | undefined>();
 

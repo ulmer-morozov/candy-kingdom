@@ -4,10 +4,10 @@
  */
 
 import { IEquatable } from "./i-equatable";
-import { LocalizedString } from "./localized-string";
-import { LocalizedObject } from "./localized-object";
-import { FileSrc } from "./file-src";
-import { ImageMeta } from "./image-meta";
+import type { LocalizedString } from "./localized-string";
+import type { LocalizedObject } from "./localized-object";
+import type { FileSrc } from "./file-src";
+import type { ImageMeta } from "./image-meta";
 
 export interface OpenGraphData {
 	title: LocalizedString;

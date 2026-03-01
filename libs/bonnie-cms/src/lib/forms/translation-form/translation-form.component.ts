@@ -1,6 +1,6 @@
-import { Component, OnInit, input } from "@angular/core";
+import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { LocalizedString } from "@candy-kingdom/bonnie";
+import type { LocalizedString } from "@candy-kingdom/bonnie";
 
 import { EditableDirective, FormBaseComponent } from "../../core-components";
 import { TextEditorField } from "../../core";

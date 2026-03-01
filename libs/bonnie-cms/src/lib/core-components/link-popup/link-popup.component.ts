@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { TranslationInputComponent } from "../../translation-input/translation-input.component";
 import { TranslationTextareaComponent } from "../../translation-textarea/translation-textarea.component";
 
-import { LocalizedString } from "@candy-kingdom/bonnie";
+import type { LocalizedString } from "@candy-kingdom/bonnie";
 import { TextEditorField } from "../../core";
 
 @Component({

@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable } from "rxjs";
+import type { Observable } from "rxjs";
 
-import { PageBase } from "@candy-kingdom/bonnie";
+import type { PageBase } from "@candy-kingdom/bonnie";
 
-import { SettingBase, SettingGroup } from "../generated";
+import type { SettingBase, SettingGroup } from "../generated";
 import { API_BASE_URL } from "./API_BASE_URL";
 
 @Injectable()

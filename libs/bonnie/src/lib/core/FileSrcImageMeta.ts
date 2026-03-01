@@ -1,3 +1,3 @@
-import { FileSrc, ImageMeta } from "../generated";
+import type { FileSrc, ImageMeta } from "../generated";
 
 export type FileSrcImageMeta = FileSrc<ImageMeta>;

@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { EditableDirective } from "../core-components";
+import type { EditableDirective } from "../core-components";
 
 @Component({
 	selector: "bonc-form-controls",

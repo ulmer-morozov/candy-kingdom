@@ -1,6 +1,6 @@
 import { Directive, effect, input } from "@angular/core";
 
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 
 import { SrcBaseDirective } from "../core/src.directive";
 
@@ -8,8 +8,8 @@ import { SrcBaseDirective } from "../core/src.directive";
 	standalone: true,
 	selector: "[vidsrc]",
 })
-export class VideoSrcDirective extends SrcBaseDirective<MCore.Video> {
-	public readonly vidsrc = input<MCore.Video | undefined>();
+export class VideoSrcDirective extends SrcBaseDirective<M_CORE.Video> {
+	public readonly vidsrc = input<M_CORE.Video | undefined>();
 
 	constructor() {
 		super();

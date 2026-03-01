@@ -1,7 +1,7 @@
 import {
 	afterNextRender,
 	Component,
-	ComponentRef,
+	type ComponentRef,
 	signal,
 	ViewChild,
 	effect,
@@ -11,14 +11,14 @@ import {
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { Bone } from "@candy-kingdom/bonnie";
+import type { Bone } from "@candy-kingdom/bonnie";
 
 import { SkeletonEditorAnchorDirective } from "../skeleton-editor-anchor.directive";
 import { DeviceType } from "../../core";
-import { IBoneEditor } from "../IBoneEditor";
-import { BoneEditorMap } from "../BoneEditorMap";
+import type { IBoneEditor } from "../IBoneEditor";
+import type { BoneEditorMap } from "../BoneEditorMap";
 import { UnknownBoneEditorComponent } from "../../bone-editors/unknown-bone-editor/unknown-bone-editor.component";
-import { Unsubscribable } from "rxjs";
+import type { Unsubscribable } from "rxjs";
 
 // todo: rename class
 @Component({

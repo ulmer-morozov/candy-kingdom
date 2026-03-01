@@ -5,7 +5,7 @@
 
 import { IHaveSkeleton } from "./i-have-skeleton";
 import { IEquatable } from "./i-equatable";
-import { Bone } from "./bone";
+import type { Bone } from "./bone";
 
 export interface View {
 	id: string;

@@ -1,8 +1,8 @@
-import { Component, OnInit, input } from "@angular/core";
+import { Component, type OnInit, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AnimationOptions, LottieComponent } from "ngx-lottie";
+import { type AnimationOptions, LottieComponent } from "ngx-lottie";
 
-import { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
+import type { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
 
 import { FormBaseComponent } from "../../core-components/form-base.component";
 import { EditableDirective } from "../../core-components/editable.directive";

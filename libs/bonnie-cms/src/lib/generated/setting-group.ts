@@ -4,7 +4,7 @@
  */
 
 import { IEquatable } from "./i-equatable";
-import { Setting } from "./setting";
+import type { Setting } from "./setting";
 
 export interface SettingGroup {
 	id: string;

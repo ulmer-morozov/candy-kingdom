@@ -1,4 +1,4 @@
-import * as MCore from "../generated";
+import type * as M_CORE from "../generated";
 
 // https://stackoverflow.com/questions/42136098/array-groupby-in-typescript
 
@@ -20,9 +20,7 @@ export function ascending(a: number, b: number) {
 }
 
 export function ascendingT<T>(sel: (x: T) => number): (a: T, b: T) => number {
-	return function (a: T, b: T) {
-		return ascending(sel(a), sel(b));
-	};
+	return (a: T, b: T) => ascending(sel(a), sel(b));
 }
 
 export function descending(a: number, b: number) {
@@ -30,12 +28,10 @@ export function descending(a: number, b: number) {
 }
 
 export function descendingT<T>(sel: (x: T) => number): (a: T, b: T) => number {
-	return function (a: T, b: T) {
-		return descending(sel(a), sel(b));
-	};
+	return (a: T, b: T) => descending(sel(a), sel(b));
 }
 
-export function generateSizesString(sizes: MCore.SizesItem[]): string {
+export function generateSizesString(sizes: M_CORE.SizesItem[]): string {
 	const sizesString = sizes
 		.sort((x) => x.width)
 		.map((x) => `${x.mediaQuery} ${x.width}${x.unit.toLowerCase()}`.trim())

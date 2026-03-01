@@ -1,6 +1,6 @@
 import { Directive, forwardRef, output } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Unsubscribable } from "rxjs";
+import type { Unsubscribable } from "rxjs";
 
 @Directive({
 	standalone: true,
@@ -120,7 +120,7 @@ export class EditableDirective<T = unknown> {
 	public silentPatch(dict: Partial<T>): void {
 		for (const key in dict) {
 			// eslint-disable-next-line no-prototype-builtins
-			if (!dict.hasOwnProperty(key)) continue;
+			if (!Object.hasOwn(dict, key)) continue;
 
 			const propVal = dict[key];
 
