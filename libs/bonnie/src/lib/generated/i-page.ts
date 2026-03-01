@@ -6,5 +6,5 @@
 import { PageData } from "./page-data";
 
 export interface IPage<TData extends PageData> {
-    data: TData;
+	data: TData;
 }

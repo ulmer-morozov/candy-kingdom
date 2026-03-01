@@ -10,7 +10,7 @@ import { FileSrc } from "./file-src";
 import { ImageMeta } from "./image-meta";
 
 export interface OpenGraphData {
-    title: LocalizedString;
-    description: LocalizedString;
-    image: LocalizedObject<FileSrc<ImageMeta>>;
+	title: LocalizedString;
+	description: LocalizedString;
+	image: LocalizedObject<FileSrc<ImageMeta>>;
 }

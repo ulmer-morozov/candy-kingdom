@@ -8,6 +8,6 @@ import { IEquatable } from "./i-equatable";
 import { FileSrcFileMeta } from "@candy-kingdom/bonnie";
 
 export interface FileSettingData extends SettingData {
-    allowedMimeTypes: string[];
-    src: FileSrcFileMeta;
+	allowedMimeTypes: string[];
+	src: FileSrcFileMeta;
 }

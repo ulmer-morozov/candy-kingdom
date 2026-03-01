@@ -6,5 +6,5 @@
 import { Bone } from "./bone";
 
 export interface IHaveSkeleton {
-    bones: Bone[];
+	bones: Bone[];
 }

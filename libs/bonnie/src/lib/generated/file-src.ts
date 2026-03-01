@@ -8,5 +8,5 @@ import { FileSrcBase } from "./file-src-base";
 import { IEquatable } from "./i-equatable";
 
 export interface FileSrc<T extends FileMeta> extends FileSrcBase {
-    meta: T;
+	meta: T;
 }

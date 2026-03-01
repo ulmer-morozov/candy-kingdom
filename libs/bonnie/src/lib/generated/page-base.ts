@@ -11,13 +11,13 @@ import { OpenGraphData } from "./open-graph-data";
 import { Bone } from "./bone";
 
 export interface PageBase {
-    id: string;
-    url: string;
-    route: string;
-    order: number;
-    publishStatus: PublishStatus;
-    title: LocalizedString;
-    openGraph: OpenGraphData;
-    bones: Bone[];
-    children: PageBase[];
+	id: string;
+	url: string;
+	route: string;
+	order: number;
+	publishStatus: PublishStatus;
+	title: LocalizedString;
+	openGraph: OpenGraphData;
+	bones: Bone[];
+	children: PageBase[];
 }

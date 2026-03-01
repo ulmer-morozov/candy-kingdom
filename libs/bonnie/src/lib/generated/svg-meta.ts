@@ -8,6 +8,6 @@ import { IEquatable } from "./i-equatable";
 import { FileMeta } from "./file-meta";
 
 export interface SvgMeta extends PixMeta {
-    preciseWidth: number;
-    preciseHeight: number;
+	preciseWidth: number;
+	preciseHeight: number;
 }

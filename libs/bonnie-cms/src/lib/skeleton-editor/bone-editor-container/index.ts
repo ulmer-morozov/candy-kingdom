@@ -1,1 +1,1 @@
-export * from './bone-editor-container.component';
+export * from "./bone-editor-container.component";

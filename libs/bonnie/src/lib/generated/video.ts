@@ -8,7 +8,7 @@ import { IEquatable } from "./i-equatable";
 import { VideoSource } from "./video-source";
 
 export interface Video extends PixMedia {
-    readonly $type: 'video';
-    sources: VideoSource[];
-    type: 'video';
+	readonly $type: "video";
+	sources: VideoSource[];
+	type: "video";
 }

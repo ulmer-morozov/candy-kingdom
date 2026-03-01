@@ -7,7 +7,7 @@ import { FileMeta } from "./file-meta";
 import { IEquatable } from "./i-equatable";
 
 export interface PixMeta extends FileMeta {
-    width: number;
-    height: number;
-    ratio: number;
+	width: number;
+	height: number;
+	ratio: number;
 }

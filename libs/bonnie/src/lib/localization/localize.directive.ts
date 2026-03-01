@@ -29,7 +29,6 @@
 //         (param: Params) => {
 //           this._routeLocale = param[localeQueryParamName] as string;
 
-
 //           this.updateForcedLocale(localeFromParams);
 //         }
 //       );

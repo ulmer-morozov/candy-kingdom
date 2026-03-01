@@ -7,6 +7,6 @@ import { IEquatable } from "./i-equatable";
 import { MediaSourceBase } from "./media-source-base";
 
 export interface PixMedia {
-    sources: MediaSourceBase[];
-    type: 'image' | 'video';
+	sources: MediaSourceBase[];
+	type: "image" | "video";
 }

@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable, combineLatest, map, merge, mergeMap, of } from 'rxjs';
+import { Observable, combineLatest, map, merge, mergeMap, of } from "rxjs";
 
-import { PageBase, View } from '@candy-kingdom/bonnie';
+import { PageBase, View } from "@candy-kingdom/bonnie";
 
 import { SettingData } from "../generated";
 import { API_BASE_URL } from "./API_BASE_URL";
@@ -13,91 +13,87 @@ export type SettingDataDict = { [id: string]: SettingData };
 
 @Injectable()
 export class DataService {
-  private readonly http = inject(HttpClient);
-  private readonly baseHref = inject(API_BASE_URL);
+	private readonly http = inject(HttpClient);
+	private readonly baseHref = inject(API_BASE_URL);
 
-  public getView(viewCode: string): Observable<Readonly<PageBase>> {
-    const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/views/${viewCode}`);
-    return pageOb;
-  }
+	public getView(viewCode: string): Observable<Readonly<PageBase>> {
+		const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/views/${viewCode}`);
+		return pageOb;
+	}
 
-  public getPage(pageRoute: string): Observable<Readonly<PageBase>> {
-    const pageUrl = `/${pageRoute}`
+	public getPage(pageRoute: string): Observable<Readonly<PageBase>> {
+		const pageUrl = `/${pageRoute}`;
 
-    const pageOb = this.getSkeleton<PageBase>(`${this.baseHref}api/pages/?url=${encodeURIComponent(pageUrl)}`);
-    return pageOb;
-  }
+		const pageOb = this.getSkeleton<PageBase>(
+			`${this.baseHref}api/pages/?url=${encodeURIComponent(pageUrl)}`,
+		);
+		return pageOb;
+	}
 
-  public getSettings(ids: string[]): Observable<Readonly<SettingDataDict>> {
-    const pageOb = this.http.get<SettingDataDict>(`${this.baseHref}api/settings`, {
-      params: { ids: ids }
-    });
+	public getSettings(ids: string[]): Observable<Readonly<SettingDataDict>> {
+		const pageOb = this.http.get<SettingDataDict>(`${this.baseHref}api/settings`, {
+			params: { ids: ids },
+		});
 
-    return pageOb;
-  }
+		return pageOb;
+	}
 
-  private getSkeleton<T extends (PageBase | View)>(url: string): Observable<Readonly<T>> {
-    const skeletonOb = this.http.get<T>(url);
+	private getSkeleton<T extends PageBase | View>(url: string): Observable<Readonly<T>> {
+		const skeletonOb = this.http.get<T>(url);
 
-    const routeDataObs = skeletonOb
-      .pipe
-      (
-        map(
-          x => {
-            const notEmptyDataRoutes = x.bones
-              .map(b => ('dataRoute' in b) && typeof (b.dataRoute) === 'string' ? b.dataRoute : '')
-              .filter(x => x.length > 0);
+		const routeDataObs = skeletonOb.pipe(
+			map((x) => {
+				const notEmptyDataRoutes = x.bones
+					.map((b) => ("dataRoute" in b && typeof b.dataRoute === "string" ? b.dataRoute : ""))
+					.filter((x) => x.length > 0);
 
-            if (notEmptyDataRoutes.length === 0) {
-              const emptyData: DataDictionary = {};
-              return { page: of(x), data: of(emptyData) };
-            }
+				if (notEmptyDataRoutes.length === 0) {
+					const emptyData: DataDictionary = {};
+					return { page: of(x), data: of(emptyData) };
+				}
 
-            return {
-              page: of(x),
-              data: combineLatest
-                (
-                  notEmptyDataRoutes
-                    .map(dataRoute => {
-                      const url = `${this.baseHref}api/Pages/Children/?url=${dataRoute}`;
+				return {
+					page: of(x),
+					data: combineLatest(
+						notEmptyDataRoutes
+							.map((dataRoute) => {
+								const url = `${this.baseHref}api/Pages/Children/?url=${dataRoute}`;
 
-                      return {
-                        route: dataRoute,
-                        json: this.http.get(url)
-                      }
-                    })
-                    .reduce(
-                      (prev, curr) => {
-                        prev[curr.route] = curr.json;
-                        return prev;
-                      }, {} as DataDictionary
-                    )
-                )
-            }
-          }
+								return {
+									route: dataRoute,
+									json: this.http.get(url),
+								};
+							})
+							.reduce((prev, curr) => {
+								prev[curr.route] = curr.json;
+								return prev;
+							}, {} as DataDictionary),
+					),
+				};
+			}),
+			map((x) => combineLatest(x)),
+			mergeMap((res) => merge(res)),
+			map((x) => {
+				for (const bone of x.page.bones) {
+					if (
+						!("dataRoute" in bone) ||
+						typeof bone.dataRoute !== "string" ||
+						bone.dataRoute.length === 0
+					)
+						continue;
 
-        ),
-        map(x => combineLatest(x)),
-        mergeMap(res => merge(res)),
-        map(x => {
+					const data = x.data[bone.dataRoute];
 
-          for (const bone of x.page.bones) {
-            if (!('dataRoute' in bone) || typeof bone.dataRoute !== 'string' || bone.dataRoute.length === 0)
-              continue;
+					if (data === undefined || data === null)
+						throw new Error(`Data ${bone.dataRoute} have not been preloaded`);
 
-            const data = x.data[bone.dataRoute];
+					(bone as any).data = data; // todo: fix
+				}
 
-            if (data === undefined || data === null)
-              throw new Error(`Data ${bone.dataRoute} have not been preloaded`);
+				return x.page;
+			}),
+		);
 
-            (bone as any).data = data; // todo: fix
-          }
-
-          return x.page;
-        })
-      );
-
-    return routeDataObs;
-  }
+		return routeDataObs;
+	}
 }
-

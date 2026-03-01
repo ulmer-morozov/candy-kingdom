@@ -6,7 +6,7 @@
 import { SettingData } from "./setting-data";
 
 export interface ISetting<T extends SettingData> {
-    id: string;
-    title: string;
-    data: T;
+	id: string;
+	title: string;
+	data: T;
 }

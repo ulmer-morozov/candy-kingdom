@@ -7,5 +7,5 @@ import { PageData } from "@candy-kingdom/bonnie";
 import { LocalizedString } from "@candy-kingdom/bonnie";
 
 export interface ProjectPageData extends PageData {
-    specialTitle: LocalizedString;
+	specialTitle: LocalizedString;
 }

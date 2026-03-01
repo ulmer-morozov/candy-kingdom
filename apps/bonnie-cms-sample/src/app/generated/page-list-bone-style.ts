@@ -4,6 +4,6 @@
  */
 
 export class PageListBoneStyle {
-    static readonly default: string = "";
-    static readonly mainNav: string = "main-nav";
+	static readonly default: string = "";
+	static readonly mainNav: string = "main-nav";
 }

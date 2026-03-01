@@ -10,5 +10,5 @@ import { IEquatable } from "./i-equatable";
 import { IPage } from "./i-page";
 
 export interface Page<T extends PageData> extends PageBase {
-    data: T;
+	data: T;
 }

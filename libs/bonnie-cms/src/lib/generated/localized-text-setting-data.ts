@@ -9,6 +9,6 @@ import { TextSettingType } from "./text-setting-type";
 import { LocalizedString } from "@candy-kingdom/bonnie";
 
 export interface LocalizedTextSettingData extends SettingData {
-    text: LocalizedString;
-    textType: TextSettingType;
+	text: LocalizedString;
+	textType: TextSettingType;
 }

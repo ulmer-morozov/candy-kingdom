@@ -1,164 +1,159 @@
 import {
-  afterNextRender,
-  Component,
-  ComponentFactoryResolver,
-  ComponentRef,
-  signal,
-  ViewChild,
-  effect,
-  inject,
-  input,
-  output,
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+	afterNextRender,
+	Component,
+	ComponentRef,
+	signal,
+	ViewChild,
+	effect,
+	inject,
+	input,
+	output,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { Bone } from '@candy-kingdom/bonnie';
+import { Bone } from "@candy-kingdom/bonnie";
 
-import { SkeletonEditorAnchorDirective } from '../skeleton-editor-anchor.directive';
-import { DeviceType } from '../../core';
-import { IBoneEditor } from '../IBoneEditor';
-import { BoneEditorMap } from '../BoneEditorMap';
-import { UnknownBoneEditorComponent } from '../../bone-editors/unknown-bone-editor/unknown-bone-editor.component';
-import { Unsubscribable } from 'rxjs';
+import { SkeletonEditorAnchorDirective } from "../skeleton-editor-anchor.directive";
+import { DeviceType } from "../../core";
+import { IBoneEditor } from "../IBoneEditor";
+import { BoneEditorMap } from "../BoneEditorMap";
+import { UnknownBoneEditorComponent } from "../../bone-editors/unknown-bone-editor/unknown-bone-editor.component";
+import { Unsubscribable } from "rxjs";
 
 // todo: rename class
 @Component({
-  selector: 'bonc-bone-editor-container',
-  standalone: true,
-  imports: [CommonModule, SkeletonEditorAnchorDirective],
-  templateUrl: './bone-editor-container.component.html',
-  styleUrls: ['./bone-editor-container.component.scss'],
+	selector: "bonc-bone-editor-container",
+	standalone: true,
+	imports: [CommonModule, SkeletonEditorAnchorDirective],
+	templateUrl: "./bone-editor-container.component.html",
+	styleUrls: ["./bone-editor-container.component.scss"],
 })
 export class BoneEditorContainerComponent {
-  @ViewChild(SkeletonEditorAnchorDirective, { static: true })
-  public anchor!: SkeletonEditorAnchorDirective;
+	@ViewChild(SkeletonEditorAnchorDirective, { static: true })
+	public anchor!: SkeletonEditorAnchorDirective;
 
-  public readonly removed = output<void>();
-  public readonly saved = output<Bone>();
-  public readonly editing = output<boolean>();
+	public readonly removed = output<void>();
+	public readonly saved = output<Bone>();
+	public readonly editing = output<boolean>();
 
-  public DeviceType = DeviceType;
+	public DeviceType = DeviceType;
 
-  public editor!: IBoneEditor;
+	public editor!: IBoneEditor;
 
-  public themePopupIsShown = false;
+	public themePopupIsShown = false;
 
-  public readonly bone = input.required<Bone>();
-  public readonly locale = input.required<string>();
-  public readonly device = input(DeviceType.NotSet);
-  public readonly map = input.required<BoneEditorMap>();
+	public readonly bone = input.required<Bone>();
+	public readonly locale = input.required<string>();
+	public readonly device = input(DeviceType.NotSet);
+	public readonly map = input.required<BoneEditorMap>();
 
-  private readonly componentFactoryResolver = inject(ComponentFactoryResolver);
+	private boneEditorRef?: ComponentRef<IBoneEditor<Bone>>;
+	private removeSubscription?: Unsubscribable;
+	private saveSubscription?: Unsubscribable;
+	private changedSubscription?: Unsubscribable;
 
-  private boneEditorRef?: ComponentRef<IBoneEditor<Bone>>;
-  private removeSubscription?: Unsubscribable;
-  private saveSubscription?: Unsubscribable;
-  private changedSubscription?: Unsubscribable;
+	private readonly viewReady = signal(false);
 
-  private readonly viewReady = signal(false);
+	constructor() {
+		afterNextRender(() => this.viewReady.set(true));
 
-  constructor() {
-    afterNextRender(() => this.viewReady.set(true));
+		effect(() => {
+			if (!this.viewReady()) {
+				return;
+			}
 
-    effect(() => {
-      if (!this.viewReady()){
-        return;
-      }
+			const newBone = this.bone();
+			const editorMap = this.map();
 
-      const newBone = this.bone();
-      const editorMap = this.map();
+			if (this.anchor === undefined) return;
 
-      if (this.anchor === undefined) return;
+			if (this.removeSubscription) {
+				this.removeSubscription.unsubscribe();
+				this.removeSubscription = undefined;
+			}
+			if (this.saveSubscription) {
+				this.saveSubscription.unsubscribe();
+				this.saveSubscription = undefined;
+			}
+			if (this.changedSubscription) {
+				this.changedSubscription.unsubscribe();
+				this.changedSubscription = undefined;
+			}
 
-      if (this.removeSubscription) {
-        this.removeSubscription.unsubscribe();
-        this.removeSubscription = undefined;
-      }
-      if (this.saveSubscription) {
-        this.saveSubscription.unsubscribe();
-        this.saveSubscription = undefined;
-      }
-      if (this.changedSubscription) {
-        this.changedSubscription.unsubscribe();
-        this.changedSubscription = undefined;
-      }
+			const viewContainerRef = this.anchor.viewContainerRef;
+			viewContainerRef.clear();
 
-      const viewContainerRef = this.anchor.viewContainerRef;
-      viewContainerRef.clear();
+			const componentType = editorMap.get(newBone.type) ?? UnknownBoneEditorComponent;
+			this.boneEditorRef = viewContainerRef.createComponent(componentType);
 
-      const componentType = editorMap.get(newBone.type) ?? UnknownBoneEditorComponent;
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-      this.boneEditorRef = viewContainerRef.createComponent(componentFactory);
+			this.editor = this.boneEditorRef.instance;
 
-      this.editor = this.boneEditorRef.instance;
+			this.boneEditorRef.setInput("boneEtalon", newBone);
+			this.boneEditorRef.setInput("locale", this.locale());
+			this.boneEditorRef.setInput("device", this.device());
 
-      this.boneEditorRef.setInput('boneEtalon', newBone);
-      this.boneEditorRef.setInput('locale', this.locale());
-      this.boneEditorRef.setInput('device', this.device());
+			this.removeSubscription = this.editor.removed.subscribe(() => {
+				this.removed.emit();
+			});
+			this.changedSubscription = this.editor.editing.subscribe((isEditing: boolean) =>
+				this.editing.emit(isEditing),
+			);
+			this.saveSubscription = this.editor.saved.subscribe((newBoneValue: Bone) =>
+				this.saved.emit(newBoneValue),
+			);
+		});
 
-      this.removeSubscription = this.editor.removed.subscribe(() => {
-        this.removed.emit();
-      });
-      this.changedSubscription = this.editor.editing.subscribe(
-        (isEditing: boolean) => this.editing.emit(isEditing)
-      );
-      this.saveSubscription = this.editor.saved.subscribe((newBoneValue: Bone) =>
-        this.saved.emit(newBoneValue)
-      );
-    });
+		effect(() => {
+			const locale = this.locale();
+			const device = this.device();
+			if (this.boneEditorRef) {
+				this.boneEditorRef.setInput("locale", locale);
+				this.boneEditorRef.setInput("device", device);
+			}
+		});
+	}
 
-    effect(() => {
-      const locale = this.locale();
-      const device = this.device();
-      if (this.boneEditorRef) {
-        this.boneEditorRef.setInput('locale', locale);
-        this.boneEditorRef.setInput('device', device);
-      }
-    });
-  }
+	public nextPreset = (): void => {
+		if (this.editor === undefined || this.editor === null) return;
 
-  public nextPreset = (): void => {
-    if (this.editor === undefined || this.editor === null)
-      return;
+		this.editor.nextPreset();
+	};
 
-    this.editor.nextPreset();
-  }
+	// todo: add or remove visibility feature
 
-  // todo: add or remove visibility feature
+	// public setDisabled = (disabled: boolean): void => {
+	//   if (this.editor === undefined || this.editor === null)
+	//     return;
 
-  // public setDisabled = (disabled: boolean): void => {
-  //   if (this.editor === undefined || this.editor === null)
-  //     return;
+	//   this.editor.startEditing();
 
-  //   this.editor.startEditing();
+	//   if (this.device === DeviceType.Desktop)
+	//     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Desktop, !disabled);
+	//   else if (this.device === DeviceType.Tablet)
+	//     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Tablet, !disabled);
+	//   else if (this.device === DeviceType.Mobile)
+	//     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Mobile, !disabled);
 
-  //   if (this.device === DeviceType.Desktop)
-  //     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Desktop, !disabled);
-  //   else if (this.device === DeviceType.Tablet)
-  //     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Tablet, !disabled);
-  //   else if (this.device === DeviceType.Mobile)
-  //     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Mobile, !disabled);
+	//   this.editor.updateDirty();
+	// }
 
-  //   this.editor.updateDirty();
-  // }
+	public get disabled(): boolean {
+		if (this.editor === undefined || this.editor === null)
+			throw new Error("editor should have been set");
 
-  public get disabled(): boolean {
-    if (this.editor === undefined || this.editor === null)
-      throw new Error('editor should have been set');
+		return false;
+		// todo: add or remove visibility feature
+		// const visibility = this.editor.bone.visibility;
 
-    return false;
-    // todo: add or remove visibility feature
-    // const visibility = this.editor.bone.visibility;
+		// if (this.device === DeviceType.Desktop && hasFlag(visibility, DeviceVisibility.Desktop))
+		//   return false;
 
-    // if (this.device === DeviceType.Desktop && hasFlag(visibility, DeviceVisibility.Desktop))
-    //   return false;
+		// if (this.device === DeviceType.Tablet && hasFlag(visibility, DeviceVisibility.Tablet))
+		//   return false;
 
-    // if (this.device === DeviceType.Tablet && hasFlag(visibility, DeviceVisibility.Tablet))
-    //   return false;
+		// if (this.device === DeviceType.Mobile && hasFlag(visibility, DeviceVisibility.Mobile))
+		//   return false;
 
-    // if (this.device === DeviceType.Mobile && hasFlag(visibility, DeviceVisibility.Mobile))
-    //   return false;
-
-    // return true;
-  }
+		// return true;
+	}
 }

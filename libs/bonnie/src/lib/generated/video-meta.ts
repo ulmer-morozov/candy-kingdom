@@ -8,8 +8,8 @@ import { IEquatable } from "./i-equatable";
 import { FileMeta } from "./file-meta";
 
 export interface VideoMeta extends PixMeta {
-    duration: number;
-    fullFormat: string;
-    hasAudio: boolean;
-    frameRate: number;
+	duration: number;
+	fullFormat: string;
+	hasAudio: boolean;
+	frameRate: number;
 }

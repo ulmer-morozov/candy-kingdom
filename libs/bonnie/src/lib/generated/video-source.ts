@@ -8,6 +8,4 @@ import { VideoMeta } from "./video-meta";
 import { IEquatable } from "./i-equatable";
 import { MediaSourceBase } from "./media-source-base";
 
-export interface VideoSource extends MediaSource<VideoMeta> {
-
-}
+export interface VideoSource extends MediaSource<VideoMeta> {}

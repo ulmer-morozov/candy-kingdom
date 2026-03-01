@@ -6,5 +6,5 @@
 import { IEquatable } from "./i-equatable";
 
 export interface LocalizedObject<T> {
-    [locale: string]: T;
+	[locale: string]: T;
 }

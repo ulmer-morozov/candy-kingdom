@@ -8,5 +8,5 @@ import { IEquatable } from "./i-equatable";
 import { FileSrcImageMeta } from "@candy-kingdom/bonnie";
 
 export interface SvgSettingData extends SettingData {
-    src: FileSrcImageMeta;
+	src: FileSrcImageMeta;
 }

@@ -9,5 +9,5 @@ import { IEquatable } from "./i-equatable";
 import { ISetting } from "./i-setting";
 
 export interface Setting<T extends SettingData> extends SettingBase {
-    data: T;
+	data: T;
 }

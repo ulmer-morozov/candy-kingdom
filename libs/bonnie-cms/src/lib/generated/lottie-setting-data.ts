@@ -8,5 +8,5 @@ import { IEquatable } from "./i-equatable";
 import { FileSrcFileMeta } from "@candy-kingdom/bonnie";
 
 export interface LottieSettingData extends SettingData {
-    src: FileSrcFileMeta;
+	src: FileSrcFileMeta;
 }

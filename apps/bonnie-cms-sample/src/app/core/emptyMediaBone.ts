@@ -2,16 +2,14 @@ import { emptyBone, emptyImage, emptyLocalizedString } from "@candy-kingdom/bonn
 import { MediaBone } from "../generated";
 
 export function emptyMediaBone(): MediaBone {
-  return {
-    $type: 'media', // todo: remove
-    ...emptyBone(),
-    type: 'media',
-    media: emptyImage(),
-    title: emptyLocalizedString(),
-    text: emptyLocalizedString(),
-    link: emptyLocalizedString(),
-    alt: emptyLocalizedString()
-  };
+	return {
+		$type: "media", // todo: remove
+		...emptyBone(),
+		type: "media",
+		media: emptyImage(),
+		title: emptyLocalizedString(),
+		text: emptyLocalizedString(),
+		link: emptyLocalizedString(),
+		alt: emptyLocalizedString(),
+	};
 }
-
-

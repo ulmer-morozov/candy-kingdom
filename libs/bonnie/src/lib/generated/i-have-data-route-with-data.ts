@@ -6,5 +6,5 @@
 import { IHaveDataRoute } from "./i-have-data-route";
 
 export interface IHaveDataRouteWithData<T> extends IHaveDataRoute {
-    data: T;
+	data: T;
 }

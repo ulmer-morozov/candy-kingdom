@@ -1,1 +1,1 @@
-export * from './lottie-form.component';
+export * from "./lottie-form.component";

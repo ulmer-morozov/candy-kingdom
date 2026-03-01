@@ -1,5 +1,5 @@
 export enum MediaObjectFit {
-  Original = 'Original',
-  Cover = 'Cover',
-  Contain = 'Contain'
+	Original = "Original",
+	Cover = "Cover",
+	Contain = "Contain",
 }

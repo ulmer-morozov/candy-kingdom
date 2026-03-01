@@ -1,44 +1,42 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding } from "@angular/core";
 import {
-  BoneEditorBaseComponent,
-  ContentPreset,
-  createPreset,
-  TranslationTextareaComponent,
-} from '@candy-kingdom/bonnie-cms';
-import { TextBone, TextBoneStyle } from '../../generated';
+	BoneEditorBaseComponent,
+	ContentPreset,
+	createPreset,
+	TranslationTextareaComponent,
+} from "@candy-kingdom/bonnie-cms";
+import { TextBone, TextBoneStyle } from "../../generated";
 
 @Component({
-  standalone: true,
-  selector: 'app-text-bone-editor',
-  templateUrl: './text-bone-editor.component.html',
-  styleUrls: ['./text-bone-editor.component.scss'],
-  imports: [TranslationTextareaComponent]
+	standalone: true,
+	selector: "app-text-bone-editor",
+	templateUrl: "./text-bone-editor.component.html",
+	styleUrls: ["./text-bone-editor.component.scss"],
+	imports: [TranslationTextareaComponent],
 })
 export class TextBoneEditorComponent extends BoneEditorBaseComponent<TextBone> {
-  protected getPresets(): ContentPreset<TextBone>[] {
-    return [
-      createPreset<TextBone>({
-        title: 'Default',
-        style: TextBoneStyle.default
-      }),
+	protected getPresets(): ContentPreset<TextBone>[] {
+		return [
+			createPreset<TextBone>({
+				title: "Default",
+				style: TextBoneStyle.default,
+			}),
 
-      createPreset<TextBone>({
-        title: 'Decorated',
-        style: TextBoneStyle.decorated
-      })
-    ];
-  }
+			createPreset<TextBone>({
+				title: "Decorated",
+				style: TextBoneStyle.decorated,
+			}),
+		];
+	}
 
-  @HostBinding('class') get styleFromBone(): string {
-    return this.bone().style;
-  }
+	@HostBinding("class") get styleFromBone(): string {
+		return this.bone().style;
+	}
 
-  public onReset(): void {
-  }
+	public onReset(): void {}
 
-  public onFinishEditing(): void {
-    // todo: remove?
-    // this.data.elements.splice(this.mediaCount, this.data.elements.length - this.mediaCount);
-  }
+	public onFinishEditing(): void {
+		// todo: remove?
+		// this.data.elements.splice(this.mediaCount, this.data.elements.length - this.mediaCount);
+	}
 }
-

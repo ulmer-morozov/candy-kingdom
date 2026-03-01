@@ -9,6 +9,6 @@ import { IEquatable } from "./i-equatable";
 import { FileSrc } from "./file-src";
 
 export interface MediaSource<TMeta extends FileMeta> extends MediaSourceBase {
-    srcSet: FileSrc<TMeta>[];
-    mediaQuery: string;
+	srcSet: FileSrc<TMeta>[];
+	mediaQuery: string;
 }

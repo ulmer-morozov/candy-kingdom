@@ -6,6 +6,6 @@
 import { IEquatable } from "./i-equatable";
 
 export interface SettingData {
-    type: string;
-    empty: SettingData;
+	type: string;
+	empty: SettingData;
 }

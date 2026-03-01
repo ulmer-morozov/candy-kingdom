@@ -9,9 +9,9 @@ import { FileFormat } from "@candy-kingdom/bonnie";
 import { FileSrcImageMeta } from "@candy-kingdom/bonnie";
 
 export interface OneImageSettingData extends SettingData {
-    width: number;
-    height: number;
-    format: FileFormat;
-    allowedMimeTypes: string[];
-    src: FileSrcImageMeta;
+	width: number;
+	height: number;
+	format: FileFormat;
+	allowedMimeTypes: string[];
+	src: FileSrcImageMeta;
 }

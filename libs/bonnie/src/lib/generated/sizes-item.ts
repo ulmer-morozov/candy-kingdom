@@ -7,7 +7,7 @@ import { IEquatable } from "./i-equatable";
 import { SizesWidthUnit } from "./sizes-width-unit";
 
 export interface SizesItem {
-    width: number;
-    unit: SizesWidthUnit;
-    mediaQuery: string;
+	width: number;
+	unit: SizesWidthUnit;
+	mediaQuery: string;
 }

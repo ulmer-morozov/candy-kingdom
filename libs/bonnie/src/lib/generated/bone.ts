@@ -6,8 +6,8 @@
 import { IEquatable } from "./i-equatable";
 
 export interface Bone {
-    style: string;
-    mediaQuery: string;
-    enabled: boolean;
-    type: string;
+	style: string;
+	mediaQuery: string;
+	enabled: boolean;
+	type: string;
 }

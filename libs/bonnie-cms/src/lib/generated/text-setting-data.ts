@@ -8,6 +8,6 @@ import { IEquatable } from "./i-equatable";
 import { TextSettingType } from "./text-setting-type";
 
 export interface TextSettingData extends SettingData {
-    text: string;
-    textType: TextSettingType;
+	text: string;
+	textType: TextSettingType;
 }

@@ -1,1 +1,1 @@
-export * from './media-bone.component';
+export * from "./media-bone.component";

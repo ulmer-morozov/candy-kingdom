@@ -4,6 +4,6 @@
  */
 
 export class TextBoneStyle {
-    static readonly default: string = "";
-    static readonly decorated: string = "decorated";
+	static readonly default: string = "";
+	static readonly decorated: string = "decorated";
 }

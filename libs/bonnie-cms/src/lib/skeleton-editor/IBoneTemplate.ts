@@ -1,6 +1,6 @@
-import { Bone } from '@candy-kingdom/bonnie';
+import { Bone } from "@candy-kingdom/bonnie";
 
 export interface IBoneTemplate {
-  readonly title: string;
-  readonly boneFactory: () => Bone;
+	readonly title: string;
+	readonly boneFactory: () => Bone;
 }

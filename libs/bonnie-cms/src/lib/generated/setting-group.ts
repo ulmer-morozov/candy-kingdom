@@ -7,8 +7,8 @@ import { IEquatable } from "./i-equatable";
 import { Setting } from "./setting";
 
 export interface SettingGroup {
-    id: string;
-    order: number;
-    title: string;
-    records: Setting<any>[];
+	id: string;
+	order: number;
+	title: string;
+	records: Setting<any>[];
 }

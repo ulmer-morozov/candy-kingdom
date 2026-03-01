@@ -6,5 +6,5 @@
 import { IEquatable } from "./i-equatable";
 
 export interface FileMeta {
-    byteCount: number;
+	byteCount: number;
 }

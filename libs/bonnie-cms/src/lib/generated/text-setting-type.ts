@@ -4,6 +4,6 @@
  */
 
 export enum TextSettingType {
-    SingleLine = 0,
-    MultiLine = 1,
+	SingleLine = 0,
+	MultiLine = 1,
 }

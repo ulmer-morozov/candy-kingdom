@@ -7,6 +7,4 @@ import { PixMeta } from "./pix-meta";
 import { IEquatable } from "./i-equatable";
 import { FileMeta } from "./file-meta";
 
-export interface ImageMeta extends PixMeta {
-
-}
+export interface ImageMeta extends PixMeta {}

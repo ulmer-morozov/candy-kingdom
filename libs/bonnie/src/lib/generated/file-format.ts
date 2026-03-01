@@ -6,6 +6,6 @@
 import { IEquatable } from "./i-equatable";
 
 export interface FileFormat {
-    extension: string;
-    mimeType: string;
+	extension: string;
+	mimeType: string;
 }

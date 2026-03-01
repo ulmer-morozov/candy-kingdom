@@ -6,6 +6,4 @@
 import { LocalizedObject } from "./localized-object";
 import { IEquatable } from "./i-equatable";
 
-export interface LocalizedString extends LocalizedObject<string> {
-
-}
+export interface LocalizedString extends LocalizedObject<string> {}
