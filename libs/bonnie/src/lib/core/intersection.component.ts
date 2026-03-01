@@ -1,12 +1,10 @@
-import { ElementRef, OnDestroy, Component, ChangeDetectorRef, inject, signal, effect, input, output } from '@angular/core';
-import { UnsubscriberService } from './unsubscribe.service';
+import { ElementRef, OnDestroy, Component, inject, signal, effect, input, output } from '@angular/core';
 
 @Component({
     selector: 'bon-intersection',
     standalone: true,
     template: '<ng-content></ng-content>',
-    styles: [':host{display:block}'],
-    providers: [UnsubscriberService]
+    styles: [':host{display:block}']
 })
 export class IntersectionComponent implements OnDestroy {
     public readonly intersected = output<void>();
@@ -14,8 +12,6 @@ export class IntersectionComponent implements OnDestroy {
     public readonly session = input<any>();
 
     private readonly _hostRef = inject(ElementRef);
-    private readonly _u = inject(UnsubscriberService);
-    private readonly _cd = inject(ChangeDetectorRef);
 
     private readonly intersectionObserver?: IntersectionObserver;
     private readonly _intersected = signal<boolean>(false);
@@ -25,8 +21,6 @@ export class IntersectionComponent implements OnDestroy {
     private _session: any; // todo: add type
 
     constructor() {
-        this._cd.detach();
-
         if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
             return;
         }

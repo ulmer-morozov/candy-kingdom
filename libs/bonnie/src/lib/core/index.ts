@@ -4,7 +4,6 @@ export * from './MediaObjectFit';
 export * from './device.service';
 export * from './device.service.base';
 export * from './intersection.component';
-export * from './unsubscribe.service';
 export * from './encode-uri.pipe';
 export * from './pix-media-union';
 export * from './emptyImage';

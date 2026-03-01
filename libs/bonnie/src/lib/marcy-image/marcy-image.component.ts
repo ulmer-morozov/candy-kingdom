@@ -1,9 +1,8 @@
-import { Component, input, output, ChangeDetectorRef, inject, signal, effect } from '@angular/core';
+import { Component, input, output, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import * as MCore from '../generated';
 
-import { UnsubscriberService } from '../core/unsubscribe.service';
 import { MediaStatus } from '../core/MediaStatus';
 import { MediaObjectFit } from '../core/MediaObjectFit';
 import { ImageSrcDirective } from './imgsrc.directive';
@@ -18,8 +17,7 @@ import { IntersectionComponent } from '../core/intersection.component';
   standalone: true,
   imports: [CommonModule, IntersectionComponent],
   templateUrl: './marcy-image.component.html',
-  styleUrls: ['./marcy-image.component.scss'],
-  providers: [UnsubscriberService]
+  styleUrls: ['./marcy-image.component.scss']
 })
 export class MarcyImageComponent {
   public readonly MediaStatus = MediaStatus;
@@ -37,8 +35,6 @@ export class MarcyImageComponent {
   public readonly src: ImageSrcDirective;
 
   public readonly device = inject(DeviceServiceBase);
-  public readonly cd = inject(ChangeDetectorRef);
-  private readonly _u = inject(UnsubscriberService);
   private readonly _srcDir = inject(ImageSrcDirective, { optional: true });
 
   constructor() {
@@ -49,15 +45,11 @@ export class MarcyImageComponent {
 
     this.src.srcChange.subscribe(this.onSrcChange.bind(this));
 
-    this.cd.detach();
-
     effect(() => {
       if (this.status() === MediaStatus.Loaded) {
         this.isLoaded.emit();
       }
     });
-
-    this.cd.detectChanges();
   }
 
   private onSrcChange(val: MCore.Image | undefined) {
@@ -67,14 +59,12 @@ export class MarcyImageComponent {
 
     if (val === undefined || val === null || val.sources.length === 0) {
       this.status.set(MediaStatus.NotSet);
-      this.cd.detectChanges();
       return;
     }
 
     const newSources = val.sources.flatMap(toHtmlPictureSources);
     this.sources.push(...newSources);
     this.status.set(MediaStatus.NotLoaded);
-    this.cd.detectChanges();
   }
 
   public onLoad() {

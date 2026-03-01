@@ -1,4 +1,4 @@
-import { Directive, OnInit, effect, input } from '@angular/core';
+import { Directive, effect, input } from '@angular/core';
 
 import * as MCore from '../generated';
 
@@ -10,7 +10,6 @@ import { SrcBaseDirective } from '../core/src.directive';
 })
 export class VideoSrcDirective
   extends SrcBaseDirective<MCore.Video>
-  implements OnInit
 {
   public readonly vidsrc = input<MCore.Video | undefined>();
 

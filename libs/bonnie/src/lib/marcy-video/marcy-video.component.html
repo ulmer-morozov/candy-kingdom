@@ -30,7 +30,7 @@
   </ng-template>
 
   <ng-template #browserTemplate>
-    <bon-intersection #intersectionZone [session]="src" (intersected)="cd.detectChanges()">
+    <bon-intersection #intersectionZone [session]="src">
       <ng-container *ngTemplateOutlet="videoTemplate"></ng-container>
     </bon-intersection>
   </ng-template>

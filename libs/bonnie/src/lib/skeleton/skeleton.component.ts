@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, Type, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, OnInit, Type, ViewChild } from '@angular/core';
 import { SkeletonAnchorDirective } from './skeleton-anchor.directive';
 import { IBoneComponent } from "./IBoneComponent";
 import { Bone } from '../generated';
@@ -23,8 +23,6 @@ export class SkeletonComponent implements OnInit {
   private readonly _bones: Bone[] = [];
 
   private iniailized = false;
-
-  private readonly cd = inject(ChangeDetectorRef);
 
   constructor() {
     effect(() => {

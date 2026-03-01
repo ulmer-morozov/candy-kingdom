@@ -1,4 +1,4 @@
-import { Directive, OnInit, effect, input } from '@angular/core';
+import { Directive, effect, input } from '@angular/core';
 import * as MCore from '../generated';
 import { SrcBaseDirective } from '../core/src.directive';
 
@@ -8,7 +8,6 @@ import { SrcBaseDirective } from '../core/src.directive';
 })
 export class ImageSrcDirective
   extends SrcBaseDirective<MCore.Image>
-  implements OnInit
 { // todo: do not use effect for passing data
   public readonly imgsrc = input<MCore.Image | undefined>();
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, computed, ElementRef, input, output, ViewChild, inject } from '@angular/core';
+import { Component, computed, ElementRef, input, output, ViewChild, inject } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
@@ -38,7 +38,6 @@ export class FileUploaderComponent {
 
   private readonly sanitizer = inject(DomSanitizer);
   private readonly http = inject(HttpClient);
-  private readonly cd = inject(ChangeDetectorRef);
 
   public onFileSelect(fileInput: HTMLInputElement) {
     if (fileInput.files === undefined || fileInput.files === null || fileInput.files.length !== 1)
@@ -111,7 +110,6 @@ export class FileUploaderComponent {
         break;
     }
 
-    this.cd.detectChanges()
   }
 
   private updateClip(): void {

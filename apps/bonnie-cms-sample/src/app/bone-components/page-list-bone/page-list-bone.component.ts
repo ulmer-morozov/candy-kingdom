@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { BoneDirective, LocalizePipe } from '@candy-kingdom/bonnie';
@@ -12,23 +12,13 @@ import { PageListBone, PageListBoneStyle } from '../../generated';
   styleUrls: ['./page-list-bone.component.scss'],
   hostDirectives: [BoneDirective]
 })
-export class PageListBoneComponent implements OnInit {
+export class PageListBoneComponent {
   public readonly PageListBoneStyle = PageListBoneStyle;
 
-  private readonly cd = inject(ChangeDetectorRef);
   public readonly bd = inject(BoneDirective<PageListBone>, { host: true });
-
-  constructor() {
-    this.cd.detach();
-  }
 
   @HostBinding('class')
   public get hostStyle(): string {
     return this.bd.bone.style;
-  }
-
-
-  public ngOnInit(): void {
-    this.cd.detectChanges();
   }
 }

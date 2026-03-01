@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BoneDirective, MarcyMediaComponent, LocalizePipe, LocalizationIsNotEmptyPipe } from '@candy-kingdom/bonnie';
@@ -12,19 +12,10 @@ import { MediaBone, MediaBoneStyle } from '../../generated';
   styleUrls: ['./media-bone.component.scss'],
   hostDirectives: [BoneDirective]
 })
-export class MediaBoneComponent implements OnInit {
+export class MediaBoneComponent {
   public readonly MediaBoneStyle = MediaBoneStyle;
 
-  private readonly cd = inject(ChangeDetectorRef);
   public readonly bd = inject(BoneDirective<MediaBone>, { host: true });
-
-  constructor() {
-    this.cd.detach();
-  }
-
-  public ngOnInit(): void {
-    this.cd.detectChanges();
-  }
 
   @HostBinding('class')
   public get hostStyle(): string {

@@ -1,27 +1,22 @@
 import {
-  ChangeDetectorRef,
+  DestroyRef,
   Directive,
-  OnInit,
   inject,
   signal,
   effect,
   output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, fromEvent, NEVER, merge, Subject, takeUntil } from 'rxjs';
 
 import * as MCore from '../generated';
 import * as utils from './utils';
 
-import { UnsubscriberService } from './unsubscribe.service';
-
 @Directive({
   standalone: true,
   selector: '[bonSrcBase]',
-  providers: [UnsubscriberService],
 })
-export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
-  implements OnInit
-{
+export class SrcBaseDirective<T extends MCore.Image | MCore.Video>{
   public readonly ratioChange = output<number>();
   public readonly srcChange = output<T | undefined>();
 
@@ -32,21 +27,14 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
 
   private _data?: T;
 
-  private readonly _u = inject(UnsubscriberService);
-  private readonly cd = inject(ChangeDetectorRef);
+  private readonly _destroyRef = inject(DestroyRef);
 
   constructor() {
-    this.cd.detach();
 
     effect(() => {
       const ratio = this._ratio();
       this.ratioChange.emit(ratio);
-      this.cd.detectChanges();
     });
-  }
-
-  public ngOnInit(): void {
-    this.cd.detectChanges();
   }
 
   public get data(): T | undefined {
@@ -156,7 +144,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
       typeof window.matchMedia === 'undefined'
     )
       return NEVER.pipe(
-        this._u.takeUntilDestroy,
+        takeUntilDestroyed(this._destroyRef),
         takeUntil(this._queryChangeClearSubject)
       );
 
@@ -173,7 +161,7 @@ export class SrcBaseDirective<T extends MCore.Image | MCore.Video>
         queryList,
         'change'
       ).pipe(
-        this._u.takeUntilDestroy,
+        takeUntilDestroyed(this._destroyRef),
         takeUntil(this._queryChangeClearSubject)
       );
 

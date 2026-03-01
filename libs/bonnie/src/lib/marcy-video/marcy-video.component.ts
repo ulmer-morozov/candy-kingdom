@@ -1,9 +1,8 @@
-import { Component, input, output, ChangeDetectorRef, OnInit, ElementRef, ViewChild, AfterViewInit, inject, signal, effect } from '@angular/core';
+import { Component, input, output, ElementRef, ViewChild, AfterViewInit, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import * as MCore from '../generated';
 
-import { UnsubscriberService } from '../core/unsubscribe.service';
 import { MediaStatus } from '../core/MediaStatus';
 import { MediaObjectFit } from '../core/MediaObjectFit';
 import { DeviceServiceBase } from '../core/device.service.base';
@@ -20,10 +19,9 @@ function isWebM(src: MCore.FileSrc<MCore.ImageMeta>): boolean {
   standalone: true,
   imports: [CommonModule, IntersectionComponent],
   templateUrl: './marcy-video.component.html',
-  styleUrls: ['./marcy-video.component.scss'],
-  providers: [UnsubscriberService]
+  styleUrls: ['./marcy-video.component.scss']
 })
-export class MarcyVideoComponent implements OnInit, AfterViewInit {
+export class MarcyVideoComponent implements AfterViewInit {
   public readonly MediaStatus = MediaStatus;
   public readonly MarcyObjectFit = MediaObjectFit;
 
@@ -40,8 +38,6 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
   public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
   public readonly device = inject(DeviceServiceBase);
-  public readonly cd = inject(ChangeDetectorRef);
-  private readonly _u = inject(UnsubscriberService);
   private readonly _srcDir = inject(VideoSrcDirective, { optional: true });
 
   constructor() {
@@ -52,18 +48,11 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
 
     this.src = this._srcDir;
 
-    this.cd.detach();
-
     effect(() => {
       if (this.$status() === MediaStatus.Loaded) {
         this.isLoaded.emit();
       }
     });
-  }
-
-  public ngOnInit(): void {
-    console.log('MarcyVideoComponent ngOnInit');
-    this.cd.detectChanges();
   }
 
   public ngAfterViewInit() {
@@ -108,14 +97,10 @@ export class MarcyVideoComponent implements OnInit, AfterViewInit {
 
     if (this.source === undefined) {
       this.$status.set(MediaStatus.NotSet);
-
-      this.cd.detectChanges();
       return;
     }
 
     this.$status.set(MediaStatus.NotLoaded);
-
-    this.cd.detectChanges();
   }
 
   public onLoad() {

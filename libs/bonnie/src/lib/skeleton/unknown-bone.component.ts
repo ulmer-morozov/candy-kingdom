@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { IBoneComponent } from "./IBoneComponent";
 import { Bone } from '../generated';
@@ -20,15 +20,5 @@ import { BoneDirective } from './bone.directive';
   ]
 })
 export class UnknownBoneComponent implements IBoneComponent {
-  private readonly cd = inject(ChangeDetectorRef);
   public readonly bd = inject(BoneDirective<Bone>, { host: true });
-
-  constructor() {
-    console.log('BoneDirective', this.bd);
-    this.cd.detach();
-  }
-
-  ngOnInit(): void {
-    this.cd.detectChanges();
-  }
 }
