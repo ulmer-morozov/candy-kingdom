@@ -2,7 +2,7 @@
 	"name": "bonnie-cms",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "libs/bonnie-cms/src",
-	"prefix": "lib",
+	"prefix": "bonc",
 	"projectType": "library",
 	"release": {
 		"version": {

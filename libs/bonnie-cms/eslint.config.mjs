@@ -27,7 +27,7 @@ export default [
 				"error",
 				{
 					type: "attribute",
-					prefix: "bonc",
+					prefix: "",
 					style: "camelCase",
 				},
 			],

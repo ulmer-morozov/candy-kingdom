@@ -60,6 +60,12 @@ export class MarcyVideoComponent implements AfterViewInit {
 		this.src = this._srcDir;
 
 		effect(() => {
+			this.src.data();
+			this.updateSources();
+			this.subscribeToMediaQueryChange();
+		});
+
+		effect(() => {
 			if (this.$status() === MediaStatus.Loaded) {
 				this.isLoaded.emit();
 			}
@@ -68,16 +74,6 @@ export class MarcyVideoComponent implements AfterViewInit {
 
 	public ngAfterViewInit() {
 		console.log("MarcyVideoComponent ngAfterViewInit");
-
-		// bind src changes
-		this.src.srcChange.subscribe((val) => {
-			console.log("MarcyVideoComponent onSrcChange", val);
-
-			this.updateSources();
-
-			// resubscribe because its updated with src
-			this.subscribeToMediaQueryChange();
-		});
 
 		this.updateSources();
 

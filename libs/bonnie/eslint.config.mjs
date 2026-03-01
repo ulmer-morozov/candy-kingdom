@@ -27,7 +27,7 @@ export default [
 				"error",
 				{
 					type: "attribute",
-					prefix: "bon",
+					prefix: "",
 					style: "camelCase",
 				},
 			],

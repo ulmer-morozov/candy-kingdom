@@ -1,4 +1,12 @@
-import { DestroyRef, Directive, effect, inject, output, signal } from "@angular/core";
+import {
+	DestroyRef,
+	Directive,
+	effect,
+	inject,
+	type ModelSignal,
+	output,
+	signal,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 import { fromEvent, merge, NEVER, type Observable, Subject, takeUntil } from "rxjs";
@@ -6,20 +14,16 @@ import { fromEvent, merge, NEVER, type Observable, Subject, takeUntil } from "rx
 import type * as M_CORE from "../generated";
 import * as utils from "./utils";
 
-@Directive({
-	standalone: true,
-	selector: "[bonSrcBase]",
-})
-export class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
+@Directive()
+export abstract class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 	public readonly ratioChange = output<number>();
-	public readonly srcChange = output<T | undefined>();
 
 	private readonly _ratio = signal<number>(0);
 	public readonly ratio = this._ratio.asReadonly();
 
 	private readonly _queryChangeClearSubject = new Subject<void>();
 
-	public readonly data = signal<T | undefined>(undefined);
+	public abstract readonly data: ModelSignal<T | undefined>;
 
 	private readonly _destroyRef = inject(DestroyRef);
 
@@ -31,11 +35,11 @@ export class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 
 		effect(() => {
 			const val = this.data();
-			this.onDataChange(val);
+			this.onSrcChange(val);
 		});
 	}
 
-	private onDataChange(val: T | undefined): void {
+	private onSrcChange(val: T | undefined): void {
 		if (val !== undefined && val !== null && val.sources.length === 0) {
 			console.warn(`image should have sources!`);
 			this.data.set(undefined);
@@ -47,8 +51,6 @@ export class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 
 		// ratio
 		this._ratio.set(0);
-
-		this.srcChange.emit(val);
 
 		if (val === undefined || val.sources.length === 0) {
 			return;
@@ -65,6 +67,7 @@ export class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 			return;
 		}
 
+    // todo: check if this needed to be unsubscribed
 		this.watchMediaQueries().subscribe(() => {
 			this.calcRatio();
 			console.log("watchMediaQueries calcRatio");
@@ -114,11 +117,11 @@ export class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 
 	public watchMediaQueries(): Observable<MediaQueryListEvent> {
 		console.log("watchMediaQueries");
-		const data = this.data();
+		const src = this.data();
 
 		if (
-			data === undefined ||
-			data === null ||
+			src === undefined ||
+			src === null ||
 			typeof window === "undefined" ||
 			typeof window.matchMedia === "undefined"
 		)
@@ -127,7 +130,7 @@ export class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 				takeUntil(this._queryChangeClearSubject),
 			);
 
-		const mediaQueries = data.sources
+		const mediaQueries = src.sources
 			.map((x) => x.mediaQuery)
 			.filter(utils.distinct)
 			.filter((x) => x.length > 0);

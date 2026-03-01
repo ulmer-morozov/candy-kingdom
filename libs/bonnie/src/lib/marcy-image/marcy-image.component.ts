@@ -34,17 +34,19 @@ export class MarcyImageComponent {
 	public readonly src: ImageSrcDirective;
 
 	public readonly device = inject(DeviceServiceBase);
-	private readonly _srcDir = inject(ImageSrcDirective, { optional: true });
 
 	constructor() {
-		if (this._srcDir === undefined || this._srcDir === null)
+		const src = inject(ImageSrcDirective, { optional: true });
+		if (src === undefined || src === null)
 			throw new Error(
 				`${MarcyImageComponent.name} should have [imgsrc] directive as source object`,
 			);
 
-		this.src = this._srcDir;
+		this.src = src;
 
-		this.src.srcChange.subscribe(this.onSrcChange.bind(this));
+		effect(() => {
+			this.onSrcChange(this.src.data());
+		});
 
 		effect(() => {
 			if (this.status() === MediaStatus.Loaded) {
