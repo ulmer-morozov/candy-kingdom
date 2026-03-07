@@ -11,7 +11,7 @@ import { MediaBone, MediaBoneStyle } from "../../generated";
 
 @Component({
 	selector: "app-media-bone",
-	standalone: true,
+
 	imports: [CommonModule, MarcyMediaComponent, LocalizePipe, LocalizationIsNotEmptyPipe],
 	templateUrl: "./media-bone.component.html",
 	styleUrls: ["./media-bone.component.scss"],

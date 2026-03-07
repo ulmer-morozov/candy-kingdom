@@ -1,12 +1,10 @@
 import { CdkTextareaAutosize } from "@angular/cdk/text-field";
 import {
-	type AfterViewInit,
 	Component,
 	effect,
 	input,
 	output,
-	type QueryList,
-	ViewChildren,
+	viewChildren,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
@@ -16,14 +14,13 @@ import { DeviceType } from "../core";
 
 @Component({
 	selector: "bonc-translation-textarea",
-	standalone: true,
+
 	imports: [FormsModule, CdkTextareaAutosize],
 	templateUrl: "./translation-textarea.component.html",
-	styleUrls: ["./translation-textarea.component.scss"],
+	styleUrl: "./translation-textarea.component.scss",
 })
-export class TranslationTextareaComponent implements AfterViewInit {
-	@ViewChildren(CdkTextareaAutosize)
-	public autosizeList!: QueryList<CdkTextareaAutosize>;
+export class TranslationTextareaComponent {
+	public readonly autosizeList = viewChildren(CdkTextareaAutosize);
 
 	public readonly minRows = input<number>();
 
@@ -42,22 +39,18 @@ export class TranslationTextareaComponent implements AfterViewInit {
 	public readonly blurred = output<void>();
 
 	constructor() {
-		// todo: check if it still necessary
+    // todo: check if it still necessary
 		effect((onCleanup) => {
 			this.text();
 			this.locale();
 			this.minRows();
 			this.maxRows();
-			const timer = setTimeout(this.triggerResize.bind(this), 500);
+			const timer = setTimeout(() => this.triggerResize(), 500);
 
 			onCleanup(() => {
 				clearTimeout(timer);
 			});
 		});
-	}
-
-	ngAfterViewInit(): void {
-		setTimeout(this.triggerResize.bind(this));
 	}
 
 	public onClick() {
@@ -73,11 +66,6 @@ export class TranslationTextareaComponent implements AfterViewInit {
 	}
 
 	private triggerResize() {
-		// console.log('trigger resize!');
-		// todo: investigate is it working or not
-		// this.ngZone.onStable.pipe(take(1))
-		//   .subscribe(() => {
-		//     this.autosizeList.forEach(x => x.resizeToFitContent(true));
-		//   });
+		this.autosizeList().forEach((x) => x.resizeToFitContent(true));
 	}
 }

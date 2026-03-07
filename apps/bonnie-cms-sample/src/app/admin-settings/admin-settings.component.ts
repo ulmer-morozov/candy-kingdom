@@ -24,7 +24,7 @@ const genericFileUploadMap = new Map<string, string>();
 genericFileUploadMap.set("", "/api/admin/upload/file");
 
 @Component({
-	standalone: true,
+
 	imports: [
 		FormsModule,
 		CommonModule,

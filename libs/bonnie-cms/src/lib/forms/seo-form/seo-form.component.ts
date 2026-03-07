@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { Component, computed, input, type OnInit } from "@angular/core";
+import { Component, computed, input } from "@angular/core";
 
 import type { FileMeta, FileSrc, ImageMeta, OpenGraphData } from "@candy-kingdom/bonnie";
 
@@ -14,19 +13,18 @@ defaultUploadMap.set("", `/api/admin/upload/image?width=${1200}&height=${630}&fo
 
 @Component({
 	selector: "bonc-seo-form",
-	standalone: true,
+
 	imports: [
-		CommonModule,
 		FormControlsComponent,
 		TranslationInputComponent,
 		TranslationTextareaComponent,
 		FileUploaderComponent,
 	],
 	templateUrl: "./seo-form.component.html",
-	styleUrls: ["./seo-form.component.scss"],
+	styleUrl: "./seo-form.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implements OnInit {
+export class SeoFormComponent extends FormBaseComponent<OpenGraphData> {
 	public readonly uploadMap = defaultUploadMap;
 
 	public readonly label = input("");
@@ -37,8 +35,10 @@ export class SeoFormComponent extends FormBaseComponent<OpenGraphData> implement
 		() => `/api/admin/page/Og-Image?pageId=${this.pageId()}`,
 	);
 
-	public ngOnInit(): void {
-		this.editable.externalSaveCall.subscribe(() => {
+	constructor() {
+		super();
+
+    this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});
 	}

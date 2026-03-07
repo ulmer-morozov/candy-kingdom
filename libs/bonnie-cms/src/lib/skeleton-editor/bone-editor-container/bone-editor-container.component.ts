@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import {
 	afterNextRender,
 	Component,
@@ -7,7 +6,7 @@ import {
 	input,
 	output,
 	signal,
-	ViewChild,
+	viewChild,
 } from "@angular/core";
 
 import type { Unsubscribable } from "rxjs";
@@ -20,17 +19,15 @@ import type { BoneEditorMap } from "../BoneEditorMap";
 import type { IBoneEditor } from "../IBoneEditor";
 import { SkeletonEditorAnchorDirective } from "../skeleton-editor-anchor.directive";
 
-// todo: rename class
 @Component({
 	selector: "bonc-bone-editor-container",
-	standalone: true,
-	imports: [CommonModule, SkeletonEditorAnchorDirective],
+
+	imports: [SkeletonEditorAnchorDirective],
 	templateUrl: "./bone-editor-container.component.html",
-	styleUrls: ["./bone-editor-container.component.scss"],
+	styleUrl: "./bone-editor-container.component.scss",
 })
 export class BoneEditorContainerComponent {
-	@ViewChild(SkeletonEditorAnchorDirective, { static: true })
-	public anchor!: SkeletonEditorAnchorDirective;
+	public readonly anchor = viewChild.required(SkeletonEditorAnchorDirective);
 
 	public readonly removed = output<void>();
 	public readonly saved = output<Bone>();
@@ -65,8 +62,6 @@ export class BoneEditorContainerComponent {
 			const newBone = this.bone();
 			const editorMap = this.map();
 
-			if (this.anchor === undefined) return;
-
 			if (this.removeSubscription) {
 				this.removeSubscription.unsubscribe();
 				this.removeSubscription = undefined;
@@ -80,7 +75,7 @@ export class BoneEditorContainerComponent {
 				this.changedSubscription = undefined;
 			}
 
-			const viewContainerRef = this.anchor.viewContainerRef;
+			const viewContainerRef = this.anchor().viewContainerRef;
 			viewContainerRef.clear();
 
 			const componentType = editorMap.get(newBone.type) ?? UnknownBoneEditorComponent;

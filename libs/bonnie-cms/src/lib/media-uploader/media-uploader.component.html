@@ -4,7 +4,7 @@
   <div>Upload media</div>
 }
 
-<div (click)="selectFile($event)" class="media-container">
+<div (click)="selectFile($event)" (keydown.enter)="selectFile($event)" role="button" tabindex="0" class="media-container">
   <input #fileInput [accept]="fileTypeMask()" (change)="onFileSelect(fileInput)" name="media" type="file" />
   @if (isUploading()) {
     <span [style.clip-path]="clipStyle()"

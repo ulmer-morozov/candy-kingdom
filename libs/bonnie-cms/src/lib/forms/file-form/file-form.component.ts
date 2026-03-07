@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { Component, input, type OnInit } from "@angular/core";
+import { Component, input } from "@angular/core";
 
 import type { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
 
@@ -10,20 +9,22 @@ import { FormControlsComponent } from "../../form-controls/form-controls.compone
 
 @Component({
 	selector: "bonc-file-form",
-	standalone: true,
-	imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
+
+	imports: [FormControlsComponent, FileUploaderComponent],
 	templateUrl: "./file-form.component.html",
-	styleUrls: ["./file-form.component.scss"],
+	styleUrl: "./file-form.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class FileFormComponent extends FormBaseComponent<FileSrc<FileMeta>> implements OnInit {
+export class FileFormComponent extends FormBaseComponent<FileSrc<FileMeta>> {
 	public readonly label = input("");
 
 	public readonly uploadTypes = input.required<string[]>();
 
 	public readonly uploadMap = input.required<Map<string, string>>();
 
-	public ngOnInit(): void {
+	constructor() {
+		super();
+
 		this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});

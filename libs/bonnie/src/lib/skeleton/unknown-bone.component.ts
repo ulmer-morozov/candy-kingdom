@@ -1,4 +1,4 @@
-import { CommonModule, JsonPipe } from "@angular/common";
+import { JsonPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 
 import type { Bone } from "../generated";
@@ -7,8 +7,8 @@ import type { IBoneComponent } from "./IBoneComponent";
 
 @Component({
 	selector: "bon-unknown-bone",
-	standalone: true,
-	imports: [CommonModule, JsonPipe],
+
+	imports: [JsonPipe],
 	hostDirectives: [{ directive: BoneDirective, inputs: ["bone"], outputs: ["boneChange"] }],
 	template: `@if (bd.bone(); as bone) {
                <h2>unknown bone {{bone.type}}</h2>

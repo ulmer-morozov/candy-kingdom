@@ -10,7 +10,7 @@ import { FormsModule } from "@angular/forms";
 
 @Component({
 	selector: "app-page-list-bone-editor",
-	standalone: true,
+
 	templateUrl: "./page-list-bone-editor.component.html",
 	styleUrls: ["./page-list-bone-editor.component.scss"],
 	imports: [FormsModule, TranslationInputComponent],

@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { Component, input, type OnInit } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
 import { EditableDirective } from "../../core-components";
@@ -9,21 +8,23 @@ import { TextInputStyle } from "./TextInputStyle";
 
 @Component({
 	selector: "bonc-text-form",
-	standalone: true,
-	imports: [CommonModule, FormsModule, FormControlsComponent],
+
+	imports: [FormsModule, FormControlsComponent],
 	templateUrl: "./text-form.component.html",
-	styleUrls: ["./text-form.component.scss"],
+	styleUrl: "./text-form.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class TextFormComponent extends FormBaseComponent<string> implements OnInit {
+export class TextFormComponent extends FormBaseComponent<string> {
 	public readonly TextInputStyle = TextInputStyle;
 
 	public readonly label = input("");
 
 	public readonly type = input(TextInputStyle.SingleLine);
 
-	ngOnInit(): void {
-		this.editable.externalSaveCall.subscribe(() => {
+	constructor() {
+		super();
+
+    this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});
 	}

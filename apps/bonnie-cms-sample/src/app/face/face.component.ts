@@ -16,7 +16,7 @@ import { CmsSampleSettingIds } from "../generated/cms-sample-setting-ids";
 import { DOCUMENT, APP_BASE_HREF } from "@angular/common";
 
 @Component({
-	standalone: true,
+
 	selector: "app-face",
 	templateUrl: "./face.component.html",
 	styleUrl: "./face.component.scss",

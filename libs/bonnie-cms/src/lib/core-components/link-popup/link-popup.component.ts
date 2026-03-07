@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component, input, output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
@@ -10,8 +9,8 @@ import { TranslationTextareaComponent } from "../../translation-textarea/transla
 
 @Component({
 	selector: "bonc-link-popup",
-	standalone: true,
-	imports: [CommonModule, FormsModule, TranslationInputComponent, TranslationTextareaComponent],
+
+	imports: [FormsModule, TranslationInputComponent, TranslationTextareaComponent],
 	templateUrl: "./link-popup.component.html",
 	styleUrl: "./link-popup.component.scss",
 })
@@ -50,7 +49,6 @@ export class LinkPopupComponent {
 	}
 
 	public onChange() {
-		console.log("change link pop up");
 		this.changed.emit();
 	}
 

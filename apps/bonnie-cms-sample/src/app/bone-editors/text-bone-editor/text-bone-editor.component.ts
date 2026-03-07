@@ -8,7 +8,7 @@ import {
 import { TextBone, TextBoneStyle } from "../../generated";
 
 @Component({
-	standalone: true,
+
 	selector: "app-text-bone-editor",
 	templateUrl: "./text-bone-editor.component.html",
 	styleUrls: ["./text-bone-editor.component.scss"],

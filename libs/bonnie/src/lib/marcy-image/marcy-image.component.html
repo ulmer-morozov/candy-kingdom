@@ -13,7 +13,7 @@
                   [attr.type]="source.mime.length > 0 ? source.mime : undefined"
                   [attr.sizes]="source.sizes.length > 0 ? source.sizes : undefined" />
         }
-        <img [src]="defaultSrc()" (load)="onLoad()" />
+        <img [src]="defaultSrc()" (load)="onLoad()" alt="" />
       </picture>
     </ng-template>
 

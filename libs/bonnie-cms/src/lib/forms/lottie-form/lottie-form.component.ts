@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { Component, input, type OnInit } from "@angular/core";
+import { Component, input } from "@angular/core";
 
 import { type AnimationOptions, LottieComponent } from "ngx-lottie";
 
@@ -12,22 +11,25 @@ import { FormControlsComponent } from "../../form-controls/form-controls.compone
 
 @Component({
 	selector: "bonc-lottie-form",
-	standalone: true,
-	imports: [CommonModule, FormControlsComponent, FileUploaderComponent, LottieComponent],
+
+	imports: [FormControlsComponent, FileUploaderComponent, LottieComponent],
 	templateUrl: "./lottie-form.component.html",
-	styleUrls: ["./lottie-form.component.scss"],
+	styleUrl: "./lottie-form.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class LottieFormComponent extends FormBaseComponent<FileSrc<FileMeta>> implements OnInit {
+export class LottieFormComponent extends FormBaseComponent<FileSrc<FileMeta>> {
 	public readonly LottieMimeType = "application/json";
 
+  // todo: convert to signal
 	public animOptions?: AnimationOptions;
 
 	public readonly label = input("");
 
 	public readonly uploadMap = input.required<Map<string, string>>();
 
-	public ngOnInit(): void {
+	constructor() {
+		super();
+
 		this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});

@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { Component, input, type OnInit } from "@angular/core";
+import { Component, input } from "@angular/core";
 
 import type { LocalizedString } from "@candy-kingdom/bonnie";
 
@@ -11,25 +10,26 @@ import { TranslationTextareaComponent } from "../../translation-textarea/transla
 
 @Component({
 	selector: "bonc-translation-form",
-	standalone: true,
+
 	imports: [
-		CommonModule,
 		FormControlsComponent,
 		TranslationInputComponent,
 		TranslationTextareaComponent,
 	],
 	templateUrl: "./translation-form.component.html",
-	styleUrls: ["./translation-form.component.scss"],
+	styleUrl: "./translation-form.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class TranslationFormComponent extends FormBaseComponent<LocalizedString> implements OnInit {
+export class TranslationFormComponent extends FormBaseComponent<LocalizedString> {
 	public readonly TextEditorField = TextEditorField;
 
 	public readonly field = input.required<TextEditorField>();
 
 	public readonly label = input<string | undefined>();
 
-	ngOnInit(): void {
+	constructor() {
+		super();
+
 		this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});

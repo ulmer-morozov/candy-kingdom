@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgTemplateOutlet } from "@angular/common";
 import { Component, effect, inject, input, output, signal } from "@angular/core";
 
 import { DeviceServiceBase } from "../core/device.service.base";
@@ -13,10 +13,10 @@ import { toHtmlPictureSources } from "./toHtmlSources";
 
 @Component({
 	selector: "bon-image",
-	standalone: true,
-	imports: [CommonModule, IntersectionComponent],
+
+	imports: [NgTemplateOutlet, IntersectionComponent],
 	templateUrl: "./marcy-image.component.html",
-	styleUrls: ["./marcy-image.component.scss"],
+	styleUrl: "./marcy-image.component.scss",
 })
 export class MarcyImageComponent {
 	public readonly MediaStatus = MediaStatus;

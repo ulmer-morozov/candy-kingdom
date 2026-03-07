@@ -6,12 +6,14 @@
     @switch (type()) {
       @case (TextInputStyle.SingleLine) {
           <input [(ngModel)]="editable.value"
+                [attr.aria-label]="label()"
                 (click)="editable.startEditing()"
                 (keyup)="editable.updateDirty()"
                 (blur)="editable.updateDirty()" />
       }
       @case (TextInputStyle.MultiLine) {
           <textarea [(ngModel)]="editable.value"
+                    [attr.aria-label]="label()"
                     (click)="editable.startEditing()"
                     (keyup)="editable.updateDirty()"
                     (blur)="editable.updateDirty()">

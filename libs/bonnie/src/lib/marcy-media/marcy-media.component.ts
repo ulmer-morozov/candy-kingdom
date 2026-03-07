@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component, input, output } from "@angular/core";
 
 import { MediaObjectFit } from "../core/MediaObjectFit";
@@ -10,16 +9,15 @@ import { MarcyVideoComponent } from "../marcy-video/marcy-video.component";
 
 @Component({
 	selector: "bon-media",
-	standalone: true,
+
 	imports: [
-		CommonModule,
 		MarcyImageComponent,
 		MarcyVideoComponent,
 		VideoSrcDirective,
 		ImageSrcDirective,
 	],
 	templateUrl: "./marcy-media.component.html",
-	styleUrls: ["./marcy-media.component.scss"],
+	styleUrl: "./marcy-media.component.scss",
 })
 export class MarcyMediaComponent {
 	public readonly MarcyObjectFit = MediaObjectFit;

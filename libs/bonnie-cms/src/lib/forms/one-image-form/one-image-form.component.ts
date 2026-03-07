@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { Component, computed, input, type OnInit } from "@angular/core";
+import { Component, computed, DestroyRef, inject, input } from "@angular/core";
 
 import type { FileMeta, FileSrc, ImageMeta } from "@candy-kingdom/bonnie";
 
@@ -12,13 +11,13 @@ const DefaultImageMimeTypes = ["image/png", "image/jpeg"];
 
 @Component({
 	selector: "bonc-one-image-form",
-	standalone: true,
-	imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
+
+	imports: [FormControlsComponent, FileUploaderComponent],
 	templateUrl: "./one-image-form.component.html",
-	styleUrls: ["./one-image-form.component.scss"],
+	styleUrl: "./one-image-form.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>> implements OnInit {
+export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>> {
 	public readonly label = input("");
 
 	public readonly uploadUrl = input("/api/admin/upload/image");
@@ -31,10 +30,15 @@ export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>>
 		return m;
 	});
 
-	public ngOnInit(): void {
-		this.editable.externalSaveCall.subscribe(() => {
+	private readonly destroyRef = inject(DestroyRef);
+
+	constructor() {
+		super();
+
+		const sub = this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});
+		this.destroyRef.onDestroy(() => sub.unsubscribe());
 	}
 
 	public onFileUploaded(fileSrc: FileSrc<FileMeta>): void {

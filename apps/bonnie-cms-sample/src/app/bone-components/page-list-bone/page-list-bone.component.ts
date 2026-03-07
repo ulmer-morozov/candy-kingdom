@@ -6,7 +6,7 @@ import { PageListBone, PageListBoneStyle } from "../../generated";
 
 @Component({
 	selector: "app-page-list",
-	standalone: true,
+
 	imports: [CommonModule, RouterLink, LocalizePipe],
 	templateUrl: "./page-list-bone.component.html",
 	styleUrls: ["./page-list-bone.component.scss"],

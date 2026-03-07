@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { Component, computed, input, type OnInit } from "@angular/core";
+import { Component, computed, input } from "@angular/core";
 
 import type { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
 
@@ -10,13 +9,13 @@ import { FormControlsComponent } from "../../form-controls/form-controls.compone
 
 @Component({
 	selector: "bonc-svg-form",
-	standalone: true,
-	imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
+
+	imports: [FormControlsComponent, FileUploaderComponent],
 	templateUrl: "./svg-form.component.html",
-	styleUrls: ["./svg-form.component.scss"],
+	styleUrl: "./svg-form.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class SvgFormComponent extends FormBaseComponent<FileSrc<SvgMeta>> implements OnInit {
+export class SvgFormComponent extends FormBaseComponent<FileSrc<SvgMeta>> {
 	public readonly SvgMime = "image/svg+xml";
 
 	public readonly label = input("");
@@ -29,8 +28,10 @@ export class SvgFormComponent extends FormBaseComponent<FileSrc<SvgMeta>> implem
 		return m;
 	});
 
-	public ngOnInit(): void {
-		this.editable.externalSaveCall.subscribe(() => {
+	constructor() {
+		super();
+
+    this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});
 	}

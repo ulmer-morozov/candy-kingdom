@@ -1,4 +1,4 @@
-import { CommonModule, DecimalPipe } from "@angular/common";
+import { DecimalPipe } from "@angular/common";
 import { HttpClient, type HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
 import {
 	Component,
@@ -8,7 +8,7 @@ import {
 	input,
 	output,
 	signal,
-	ViewChild,
+	viewChild,
 } from "@angular/core";
 import { DomSanitizer, type SafeStyle } from "@angular/platform-browser";
 
@@ -18,14 +18,13 @@ import type { FileMeta, FileSrc } from "@candy-kingdom/bonnie";
 
 @Component({
 	selector: "bonc-file-uploader",
-	standalone: true,
-	imports: [CommonModule, DecimalPipe],
+
+	imports: [DecimalPipe],
 	templateUrl: "./file-uploader.component.html",
-	styleUrls: ["./file-uploader.component.scss"],
+	styleUrl: "./file-uploader.component.scss",
 })
 export class FileUploaderComponent {
-	@ViewChild("fileInput", { static: true })
-	public fileInput!: ElementRef<HTMLInputElement>;
+	public readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>("fileInput");
 
 	public readonly srcChange = output<FileSrc<FileMeta>>();
 
@@ -87,10 +86,9 @@ export class FileUploaderComponent {
 	}
 
 	public selectFile(event: Event): void {
-		// ignore buble click on file picker
-		if (event.target === this.fileInput.nativeElement) return;
+		if (event.target === this.fileInput().nativeElement) return;
 
-		this.fileInput.nativeElement.click();
+		this.fileInput().nativeElement.click();
 	}
 
 	private getEventMessage(event: HttpEvent<FileSrc<FileMeta>>): void {

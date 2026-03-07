@@ -3,7 +3,7 @@ import { AuthService } from "../service";
 import { CommonModule } from "@angular/common";
 
 @Component({
-	standalone: true,
+
 	imports: [CommonModule],
 	selector: "app-admin-home",
 	templateUrl: "./admin-home.component.html",

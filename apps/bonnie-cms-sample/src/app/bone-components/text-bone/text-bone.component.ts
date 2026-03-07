@@ -6,7 +6,7 @@ import { TextBone } from "../../generated";
 
 @Component({
 	selector: "app-text-bone",
-	standalone: true,
+
 	imports: [CommonModule, LocalizePipe, LocalizationIsNotEmptyPipe],
 	templateUrl: "./text-bone.component.html",
 	styleUrls: ["./text-bone.component.scss"],

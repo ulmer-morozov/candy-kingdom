@@ -7,10 +7,10 @@ import { DeviceType } from "../core";
 
 @Component({
 	selector: "bonc-translation-input",
-	standalone: true,
+
 	imports: [FormsModule],
 	templateUrl: "./translation-input.component.html",
-	styleUrls: ["./translation-input.component.scss"],
+	styleUrl: "./translation-input.component.scss",
 })
 export class TranslationInputComponent {
 	public readonly text = input.required<LocalizedString>();

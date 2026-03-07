@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component, input } from "@angular/core";
 
 import { DeviceType } from "../core";
@@ -6,10 +5,9 @@ import type { EditableGroupComponent } from "../core-components";
 
 @Component({
 	selector: "bonc-admin-controls",
-	standalone: true,
-	imports: [CommonModule],
+
 	templateUrl: "./admin-controls.component.html",
-	styleUrls: ["./admin-controls.component.scss"],
+	styleUrl: "./admin-controls.component.scss",
 })
 export class AdminControlsComponent {
 	public readonly DeviceType = DeviceType;

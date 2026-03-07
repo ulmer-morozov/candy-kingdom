@@ -29,7 +29,7 @@ import { emptyPageListBone } from "../core/emptyPageListBone";
 import { FormsModule } from "@angular/forms";
 
 @Component({
-	standalone: true,
+
 	imports: [
 		FormsModule,
 		CommonModule,

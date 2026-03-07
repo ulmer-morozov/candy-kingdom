@@ -1,4 +1,4 @@
-import { CommonModule, DecimalPipe } from "@angular/common";
+import { DecimalPipe } from "@angular/common";
 import { HttpClient, type HttpEvent, HttpEventType, HttpRequest } from "@angular/common/http";
 import {
 	Component,
@@ -8,7 +8,7 @@ import {
 	input,
 	output,
 	signal,
-	ViewChild,
+	viewChild,
 } from "@angular/core";
 import { DomSanitizer, type SafeStyle } from "@angular/platform-browser";
 
@@ -28,16 +28,15 @@ const allMediaFileTypes = `${imageFileTypes},${videoFileTypes}`;
 
 @Component({
 	selector: "bonc-media-uploader",
-	standalone: true,
-	imports: [CommonModule, DecimalPipe, MarcyMediaComponent],
+
+	imports: [DecimalPipe, MarcyMediaComponent],
 	templateUrl: "./media-uploader.component.html",
-	styleUrls: ["./media-uploader.component.scss"],
+	styleUrl: "./media-uploader.component.scss",
 })
 export class MediaUploaderComponent {
 	public readonly MediaObjectFit = MediaObjectFit;
 
-	@ViewChild("fileInput", { static: true })
-	public fileInput!: ElementRef<HTMLInputElement>;
+	public readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>("fileInput");
 
 	public readonly srcChange = output<PixMediaUnion>();
 
@@ -123,10 +122,9 @@ export class MediaUploaderComponent {
 	}
 
 	public selectFile(event: Event): void {
-		// ignore buble click on file picker
-		if (event.target === this.fileInput.nativeElement) return;
+		if (event.target === this.fileInput().nativeElement) return;
 
-		this.fileInput.nativeElement.click();
+		this.fileInput().nativeElement.click();
 	}
 
 	private getEventMessage(event: HttpEvent<PixMediaUnion>): void {

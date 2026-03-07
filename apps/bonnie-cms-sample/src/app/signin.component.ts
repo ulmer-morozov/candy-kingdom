@@ -5,7 +5,7 @@ import { AuthService } from "./service";
 import { CommonModule } from "@angular/common";
 
 @Component({
-	standalone: true,
+
 	imports: [CommonModule, ReactiveFormsModule, RouterLink],
 	selector: "app-signin-component",
 	templateUrl: "./signin.component.html",

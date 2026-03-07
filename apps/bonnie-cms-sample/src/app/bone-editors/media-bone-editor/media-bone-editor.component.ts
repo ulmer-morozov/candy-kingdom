@@ -13,7 +13,7 @@ import { MediaBone, MediaBoneStyle } from "../../generated";
 import { MediaUploadMap } from "../../core";
 
 @Component({
-	standalone: true,
+
 	selector: "app-media-bone-editor",
 	templateUrl: "./media-bone-editor.component.html",
 	styleUrls: ["./media-bone-editor.component.scss"],

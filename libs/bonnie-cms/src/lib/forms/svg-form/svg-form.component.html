@@ -7,7 +7,7 @@
                       [uploadUrlMap]="uploadMap()"
                       (srcChange)="onFileUploaded($event)">
     @if (editable.value?.url?.length ?? 0 > 0) {
-      <img [src]="editable.value?.url" />
+      <img [src]="editable.value?.url" alt="" />
     }
   </bonc-file-uploader>
 
