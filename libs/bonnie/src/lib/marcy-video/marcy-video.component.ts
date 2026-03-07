@@ -1,6 +1,5 @@
-import { CommonModule } from "@angular/common";
+import { NgTemplateOutlet } from "@angular/common";
 import {
-	type AfterViewInit,
 	Component,
 	type ElementRef,
 	effect,
@@ -8,7 +7,7 @@ import {
 	input,
 	output,
 	signal,
-	ViewChild,
+	viewChild,
 } from "@angular/core";
 
 import { DeviceServiceBase } from "../core/device.service.base";
@@ -25,17 +24,16 @@ function isWebM(src: M_CORE.FileSrc<M_CORE.ImageMeta>): boolean {
 
 @Component({
 	selector: "bon-video",
-	standalone: true,
-	imports: [CommonModule, IntersectionComponent],
+
+	imports: [NgTemplateOutlet, IntersectionComponent],
 	templateUrl: "./marcy-video.component.html",
-	styleUrls: ["./marcy-video.component.scss"],
+	styleUrl: "./marcy-video.component.scss",
 })
-export class MarcyVideoComponent implements AfterViewInit {
+export class MarcyVideoComponent {
 	public readonly MediaStatus = MediaStatus;
 	public readonly MarcyObjectFit = MediaObjectFit;
 
-	@ViewChild("video")
-	public readonly videoRef!: ElementRef<HTMLVideoElement>;
+	public readonly videoRef = viewChild<ElementRef<HTMLVideoElement>>("video");
 
 	public readonly isLoaded = output<void>();
 
@@ -50,8 +48,6 @@ export class MarcyVideoComponent implements AfterViewInit {
 	private readonly _srcDir = inject(VideoSrcDirective, { optional: true });
 
 	constructor() {
-		console.log("MarcyVideoComponent ctor");
-
 		if (this._srcDir === undefined || this._srcDir === null)
 			throw new Error(
 				`${MarcyVideoComponent.name} should have [vidsrc] directive as source object`,
@@ -61,6 +57,7 @@ export class MarcyVideoComponent implements AfterViewInit {
 
 		effect(() => {
 			this.src.data();
+			this.videoRef();
 			this.updateSources();
 			this.subscribeToMediaQueryChange();
 		});
@@ -72,28 +69,19 @@ export class MarcyVideoComponent implements AfterViewInit {
 		});
 	}
 
-	public ngAfterViewInit() {
-		console.log("MarcyVideoComponent ngAfterViewInit");
-
-		this.updateSources();
-
-		// initial, for src added before init
-		this.subscribeToMediaQueryChange();
-	}
-
 	private subscribeToMediaQueryChange(): void {
 		this.src.watchMediaQueries().subscribe(() => {
-			console.log("MarcyVideoComponent watchMediaQueries");
+      console.log("MarcyVideoComponent watchMediaQueries");
 			this.updateSources();
 		});
 	}
 
 	private updateSources() {
-		console.log("MarcyVideoComponent updateSources");
+    console.log("MarcyVideoComponent updateSources");
 
 		this.source.set(this.findMoreSuitableSource());
 
-		console.log("MarcyVideoComponent new source", this.source());
+    console.log("MarcyVideoComponent new source", this.source());
 
 		const src = this.source();
 
@@ -114,17 +102,18 @@ export class MarcyVideoComponent implements AfterViewInit {
 	}
 
 	private findMoreSuitableSource(): M_CORE.FileSrc<M_CORE.VideoMeta> | undefined {
-		if (this.videoRef === undefined) {
-			console.log("skipping findMoreSuitableSource. videoRef is empty still");
+		const ref = this.videoRef();
+		if (ref === undefined) {
+      console.log("skipping findMoreSuitableSource. videoRef is empty still");
 			return;
 		}
 
 		const videoSources = this.src.data()?.sources ?? [];
 
-		const currentVideoWidth = this.videoRef.nativeElement.clientWidth;
+		const currentVideoWidth = ref.nativeElement.clientWidth;
 		const realPixelsVideoWidth = this.device.devicePixelRatio * currentVideoWidth;
 
-		console.log(`MarcyVideoComponent currentVideoWidth ${currentVideoWidth}`);
+    console.log(`MarcyVideoComponent currentVideoWidth ${currentVideoWidth}`);
 		console.log(`MarcyVideoComponent realPixelsVideoWidth ${realPixelsVideoWidth}`);
 
 		for (let i = 0; i < videoSources.length; i++) {
@@ -133,32 +122,28 @@ export class MarcyVideoComponent implements AfterViewInit {
 			if (!matchesMediaQuery(videoSource.mediaQuery)) continue;
 
 			// SSR
-			if (typeof this.videoRef.nativeElement?.canPlayType !== "function") {
-				// return first mp4, because all players can play them
+			if (typeof ref.nativeElement.canPlayType !== "function") {
 				const mp4Srcs = videoSource.srcSet
 					.filter((x) => x.mimeType === "video/mp4")
-					.sort(descendingT((x) => x.meta.width)); // bigest video
+					.sort(descendingT((x) => x.meta.width));
 
-				// console.log(`ssr found video ${mp4Srcs[0].url}`)
-
-				// element or undefined
 				return mp4Srcs[0];
 			}
 
 			const fileSrcs = videoSource.srcSet
-				.filter((x) => this.videoRef.nativeElement.canPlayType(x.mimeType))
+				.filter((x) => ref.nativeElement.canPlayType(x.mimeType))
 				.sort((a, b) => {
 					if (a.meta.width === b.meta.width) {
 						return isWebM(a) ? -1 : 1; // if same width prefer webM
 					}
 
 					// else prefer smallest
-					return a.meta.width <= b.meta.width ? -1 : 1;
+          return a.meta.width <= b.meta.width ? -1 : 1;
 				}); // smallest video
 
 			if (fileSrcs.length === 0) continue;
 
-			// console.log('sources ', fileSrcs);
+      // console.log('sources ', fileSrcs);
 
 			let bestSrc = fileSrcs[0];
 
@@ -167,10 +152,10 @@ export class MarcyVideoComponent implements AfterViewInit {
 
 				const currentDiff = fileSrc.meta.width - realPixelsVideoWidth;
 
-				// console.log(`browser video currentDiff ${currentDiff}`)
+        // console.log(`browser video currentDiff ${currentDiff}`)
 
 				// too big video source width
-				if (currentDiff > 0) break;
+        if (currentDiff > 0) break;
 
 				bestSrc = fileSrc;
 			}

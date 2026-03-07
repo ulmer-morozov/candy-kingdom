@@ -1,24 +1,23 @@
 import {
 	Component,
+	DestroyRef,
 	ElementRef,
 	effect,
 	inject,
 	input,
-	type OnDestroy,
 	output,
 	signal,
 } from "@angular/core";
 
 @Component({
 	selector: "bon-intersection",
-	standalone: true,
 	template: "<ng-content></ng-content>",
 	styles: [":host{display:block}"],
 })
-export class IntersectionComponent implements OnDestroy {
+export class IntersectionComponent {
 	public readonly intersected = output<void>();
 
-	public readonly session = input<any>();
+	public readonly session = input<unknown>();
 
 	private readonly _hostRef = inject(ElementRef);
 
@@ -27,7 +26,7 @@ export class IntersectionComponent implements OnDestroy {
 
 	public readonly intersectedOnce = this._intersected.asReadonly();
 
-	private _session: any; // todo: add type
+	private _session: unknown; // todo: remove
 
 	constructor() {
 		if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") {
@@ -47,9 +46,11 @@ export class IntersectionComponent implements OnDestroy {
 			if (this._session === newSession) return;
 
 			console.log("reset intersection Observer");
-			this._session = newSession;
+      this._session = newSession;
 			this.reset();
 		});
+
+		inject(DestroyRef).onDestroy(() => this.intersectionObserver?.disconnect());
 	}
 
 	private reset(): void {
@@ -66,7 +67,7 @@ export class IntersectionComponent implements OnDestroy {
 		entries: IntersectionObserverEntry[],
 		observer: IntersectionObserver,
 	): void {
-		if (entries.length > 1) {
+    if (entries.length > 1) {
 			console.warn("multi entries!");
 		}
 
@@ -79,9 +80,5 @@ export class IntersectionComponent implements OnDestroy {
 		if (isIntersecting) {
 			observer.unobserve(this._hostRef.nativeElement);
 		}
-	}
-
-	public ngOnDestroy(): void {
-		this.intersectionObserver?.disconnect();
 	}
 }

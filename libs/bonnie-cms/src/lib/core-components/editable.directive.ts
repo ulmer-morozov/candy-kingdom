@@ -4,7 +4,6 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import type { Unsubscribable } from "rxjs";
 
 @Directive({
-	standalone: true,
 	selector: "[boncEditable]",
 	providers: [
 		{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => EditableDirective), multi: true },
@@ -17,6 +16,7 @@ export class EditableDirective<T = unknown> {
 	public readonly canceled = output<void>();
 	public readonly valueChange = output<T | undefined>();
 
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	private propagateChange: (newValue: T) => void = () => {};
 
 	private _inEditMode = false;
@@ -120,8 +120,7 @@ export class EditableDirective<T = unknown> {
 
 	public silentPatch(dict: Partial<T>): void {
 		for (const key in dict) {
-			// eslint-disable-next-line no-prototype-builtins
-			if (!Object.hasOwn(dict, key)) continue;
+		if (!Object.prototype.hasOwnProperty.call(dict, key)) continue;
 
 			const propVal = dict[key];
 
@@ -203,7 +202,9 @@ export class EditableDirective<T = unknown> {
 		this.setValue(newValue);
 	}
 
-	setDisabledState?(): void {}
+	setDisabledState?(): void {
+		// required by ControlValueAccessor
+	}
 
 	registerOnChange(tellAngularThatSomethingIsChanged: (newValue: T) => void): void {
 		this.propagateChange = (newValue: T): void => {
@@ -211,7 +212,9 @@ export class EditableDirective<T = unknown> {
 		};
 	}
 
-	registerOnTouched(): void {}
+	registerOnTouched(): void {
+		// required by ControlValueAccessor
+	}
 
 	// #endregion
 }

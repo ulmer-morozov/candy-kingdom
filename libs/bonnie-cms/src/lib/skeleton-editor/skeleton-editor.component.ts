@@ -1,12 +1,10 @@
-import { CommonModule } from "@angular/common";
+import { NgTemplateOutlet } from "@angular/common";
 import {
 	Component,
 	effect,
 	inject,
 	input,
-	type OnInit,
-	type QueryList,
-	ViewChildren,
+	viewChildren,
 } from "@angular/core";
 
 import type { Bone } from "@candy-kingdom/bonnie";
@@ -17,18 +15,16 @@ import type { BoneEditorMap } from "./BoneEditorMap";
 import { BoneEditorContainerComponent } from "./bone-editor-container/bone-editor-container.component";
 import type { IBoneTemplate } from "./IBoneTemplate";
 
-// todo: rename class
 @Component({
 	selector: "bonc-skeleton-editor",
-	standalone: true,
-	imports: [CommonModule, BoneEditorContainerComponent],
+
+	imports: [NgTemplateOutlet, BoneEditorContainerComponent],
 	templateUrl: "./skeleton-editor.component.html",
-	styleUrls: ["./skeleton-editor.component.scss"],
+	styleUrl: "./skeleton-editor.component.scss",
 	hostDirectives: [EditableDirective],
 })
-export class SkeletonEditorComponent implements OnInit {
-	@ViewChildren("boneEditorContainer")
-	public boneEditorContainerList!: QueryList<BoneEditorContainerComponent>;
+export class SkeletonEditorComponent {
+	public readonly boneEditorContainerList = viewChildren<BoneEditorContainerComponent>("boneEditorContainer");
 
 	public readonly locale = input.required<string>();
 
@@ -40,31 +36,31 @@ export class SkeletonEditorComponent implements OnInit {
 
 	public readonly templatesAreShown: boolean[] = [];
 
-	public readonly editable = inject(EditableDirective<Bone[]>, { host: true });
+	public readonly editable = inject(EditableDirective<Bone[]>, { host: true});
 
 	constructor() {
 		effect(() => {
 			this.map();
 			this.templates();
 			this.templatesAreShown.splice(0, this.templatesAreShown.length);
-			const bones = this.editable?.value ?? [];
+			const bones = this.editable.value ?? [];
 
-			if (bones === undefined) return;
+			if (bones === undefined){
+         return;
+      }
 
 			bones.forEach(() => this.templatesAreShown.push(false));
 			this.templatesAreShown.push(false);
 		});
-	}
 
-	public ngOnInit(): void {
 		this.editable.externalSaveCall.subscribe(() => {
-			this.boneEditorContainerList.forEach((editorContainer) => editorContainer.editor?.save());
+			this.boneEditorContainerList().forEach((editorContainer) => editorContainer.editor?.save());
 
 			this.editable.save();
 		});
 
 		this.editable.canceled.subscribe(() => {
-			this.boneEditorContainerList.forEach((editorContainer) =>
+			this.boneEditorContainerList().forEach((editorContainer) =>
 				editorContainer.editor?.resetData(),
 			);
 
@@ -80,7 +76,7 @@ export class SkeletonEditorComponent implements OnInit {
 		if (isEditing) this.editable.startEditing();
 		else {
 			const allClosed =
-				this.boneEditorContainerList.filter((x) => x.editor?.isEditing)
+				this.boneEditorContainerList().filter((x) => x.editor?.isEditing)
 					.length === 0;
 
 			this.editable.updateDirty();
