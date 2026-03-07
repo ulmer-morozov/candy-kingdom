@@ -11,11 +11,7 @@ import { TranslationTextareaComponent } from "../../translation-textarea/transla
 @Component({
 	selector: "bonc-translation-form",
 
-	imports: [
-		FormControlsComponent,
-		TranslationInputComponent,
-		TranslationTextareaComponent,
-	],
+	imports: [FormControlsComponent, TranslationInputComponent, TranslationTextareaComponent],
 	templateUrl: "./translation-form.component.html",
 	styleUrl: "./translation-form.component.scss",
 	hostDirectives: [EditableDirective],

@@ -46,7 +46,7 @@ export class IntersectionComponent {
 			if (this._session === newSession) return;
 
 			console.log("reset intersection Observer");
-      this._session = newSession;
+			this._session = newSession;
 			this.reset();
 		});
 
@@ -67,7 +67,7 @@ export class IntersectionComponent {
 		entries: IntersectionObserverEntry[],
 		observer: IntersectionObserver,
 	): void {
-    if (entries.length > 1) {
+		if (entries.length > 1) {
 			console.warn("multi entries!");
 		}
 

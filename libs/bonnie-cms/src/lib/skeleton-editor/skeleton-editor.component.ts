@@ -1,11 +1,5 @@
 import { NgTemplateOutlet } from "@angular/common";
-import {
-	Component,
-	effect,
-	inject,
-	input,
-	viewChildren,
-} from "@angular/core";
+import { Component, effect, inject, input, viewChildren } from "@angular/core";
 
 import type { Bone } from "@candy-kingdom/bonnie";
 
@@ -24,7 +18,8 @@ import type { IBoneTemplate } from "./IBoneTemplate";
 	hostDirectives: [EditableDirective],
 })
 export class SkeletonEditorComponent {
-	public readonly boneEditorContainerList = viewChildren<BoneEditorContainerComponent>("boneEditorContainer");
+	public readonly boneEditorContainerList =
+		viewChildren<BoneEditorContainerComponent>("boneEditorContainer");
 
 	public readonly locale = input.required<string>();
 
@@ -36,7 +31,7 @@ export class SkeletonEditorComponent {
 
 	public readonly templatesAreShown: boolean[] = [];
 
-	public readonly editable = inject(EditableDirective<Bone[]>, { host: true});
+	public readonly editable = inject(EditableDirective<Bone[]>, { host: true });
 
 	constructor() {
 		effect(() => {
@@ -45,9 +40,9 @@ export class SkeletonEditorComponent {
 			this.templatesAreShown.splice(0, this.templatesAreShown.length);
 			const bones = this.editable.value ?? [];
 
-			if (bones === undefined){
-         return;
-      }
+			if (bones === undefined) {
+				return;
+			}
 
 			bones.forEach(() => this.templatesAreShown.push(false));
 			this.templatesAreShown.push(false);
@@ -76,8 +71,7 @@ export class SkeletonEditorComponent {
 		if (isEditing) this.editable.startEditing();
 		else {
 			const allClosed =
-				this.boneEditorContainerList().filter((x) => x.editor?.isEditing)
-					.length === 0;
+				this.boneEditorContainerList().filter((x) => x.editor?.isEditing).length === 0;
 
 			this.editable.updateDirty();
 

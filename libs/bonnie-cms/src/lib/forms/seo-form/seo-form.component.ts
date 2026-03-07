@@ -38,7 +38,7 @@ export class SeoFormComponent extends FormBaseComponent<OpenGraphData> {
 	constructor() {
 		super();
 
-    this.editable.externalSaveCall.subscribe(() => {
+		this.editable.externalSaveCall.subscribe(() => {
 			this.editable.save();
 		});
 	}

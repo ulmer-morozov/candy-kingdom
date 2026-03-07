@@ -10,6 +10,6 @@
 		"@angular/common": "^21.0.0",
 		"@angular/core": "^21.0.0",
 		"@angular/platform-browser": "^21.0.0"
-  },
+	},
 	"sideEffects": false
 }

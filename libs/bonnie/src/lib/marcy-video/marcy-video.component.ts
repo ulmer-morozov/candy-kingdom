@@ -71,17 +71,17 @@ export class MarcyVideoComponent {
 
 	private subscribeToMediaQueryChange(): void {
 		this.src.watchMediaQueries().subscribe(() => {
-      console.log("MarcyVideoComponent watchMediaQueries");
+			console.log("MarcyVideoComponent watchMediaQueries");
 			this.updateSources();
 		});
 	}
 
 	private updateSources() {
-    console.log("MarcyVideoComponent updateSources");
+		console.log("MarcyVideoComponent updateSources");
 
 		this.source.set(this.findMoreSuitableSource());
 
-    console.log("MarcyVideoComponent new source", this.source());
+		console.log("MarcyVideoComponent new source", this.source());
 
 		const src = this.source();
 
@@ -104,7 +104,7 @@ export class MarcyVideoComponent {
 	private findMoreSuitableSource(): M_CORE.FileSrc<M_CORE.VideoMeta> | undefined {
 		const ref = this.videoRef();
 		if (ref === undefined) {
-      console.log("skipping findMoreSuitableSource. videoRef is empty still");
+			console.log("skipping findMoreSuitableSource. videoRef is empty still");
 			return;
 		}
 
@@ -113,7 +113,7 @@ export class MarcyVideoComponent {
 		const currentVideoWidth = ref.nativeElement.clientWidth;
 		const realPixelsVideoWidth = this.device.devicePixelRatio * currentVideoWidth;
 
-    console.log(`MarcyVideoComponent currentVideoWidth ${currentVideoWidth}`);
+		console.log(`MarcyVideoComponent currentVideoWidth ${currentVideoWidth}`);
 		console.log(`MarcyVideoComponent realPixelsVideoWidth ${realPixelsVideoWidth}`);
 
 		for (let i = 0; i < videoSources.length; i++) {
@@ -138,12 +138,12 @@ export class MarcyVideoComponent {
 					}
 
 					// else prefer smallest
-          return a.meta.width <= b.meta.width ? -1 : 1;
+					return a.meta.width <= b.meta.width ? -1 : 1;
 				}); // smallest video
 
 			if (fileSrcs.length === 0) continue;
 
-      // console.log('sources ', fileSrcs);
+			// console.log('sources ', fileSrcs);
 
 			let bestSrc = fileSrcs[0];
 
@@ -152,10 +152,10 @@ export class MarcyVideoComponent {
 
 				const currentDiff = fileSrc.meta.width - realPixelsVideoWidth;
 
-        // console.log(`browser video currentDiff ${currentDiff}`)
+				// console.log(`browser video currentDiff ${currentDiff}`)
 
 				// too big video source width
-        if (currentDiff > 0) break;
+				if (currentDiff > 0) break;
 
 				bestSrc = fileSrc;
 			}

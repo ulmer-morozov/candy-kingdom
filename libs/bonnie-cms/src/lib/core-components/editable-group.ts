@@ -1,11 +1,4 @@
-import {
-	Component,
-	contentChildren,
-	DestroyRef,
-	effect,
-	inject,
-	output,
-} from "@angular/core";
+import { Component, contentChildren, DestroyRef, effect, inject, output } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 import { debounceTime, Subject, type Unsubscribable } from "rxjs";

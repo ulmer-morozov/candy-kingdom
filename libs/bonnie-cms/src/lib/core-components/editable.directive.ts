@@ -120,7 +120,7 @@ export class EditableDirective<T = unknown> {
 
 	public silentPatch(dict: Partial<T>): void {
 		for (const key in dict) {
-		if (!Object.prototype.hasOwnProperty.call(dict, key)) continue;
+			if (!Object.hasOwn(dict, key)) continue;
 
 			const propVal = dict[key];
 

@@ -67,7 +67,7 @@ export abstract class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 			return;
 		}
 
-    // todo: check if this needed to be unsubscribed
+		// todo: check if this needed to be unsubscribed
 		this.watchMediaQueries().subscribe(() => {
 			this.calcRatio();
 			console.log("watchMediaQueries calcRatio");

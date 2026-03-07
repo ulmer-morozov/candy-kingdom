@@ -10,12 +10,7 @@ import { MarcyVideoComponent } from "../marcy-video/marcy-video.component";
 @Component({
 	selector: "bon-media",
 
-	imports: [
-		MarcyImageComponent,
-		MarcyVideoComponent,
-		VideoSrcDirective,
-		ImageSrcDirective,
-	],
+	imports: [MarcyImageComponent, MarcyVideoComponent, VideoSrcDirective, ImageSrcDirective],
 	templateUrl: "./marcy-media.component.html",
 	styleUrl: "./marcy-media.component.scss",
 })

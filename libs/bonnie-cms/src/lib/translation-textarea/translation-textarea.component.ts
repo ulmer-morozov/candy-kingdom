@@ -1,11 +1,5 @@
 import { CdkTextareaAutosize } from "@angular/cdk/text-field";
-import {
-	Component,
-	effect,
-	input,
-	output,
-	viewChildren,
-} from "@angular/core";
+import { Component, effect, input, output, viewChildren } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
 import type { LocalizedString } from "@candy-kingdom/bonnie";
@@ -39,7 +33,7 @@ export class TranslationTextareaComponent {
 	public readonly blurred = output<void>();
 
 	constructor() {
-    // todo: check if it still necessary
+		// todo: check if it still necessary
 		effect((onCleanup) => {
 			this.text();
 			this.locale();

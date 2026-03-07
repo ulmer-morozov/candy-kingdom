@@ -20,7 +20,7 @@ import { FormControlsComponent } from "../../form-controls/form-controls.compone
 export class LottieFormComponent extends FormBaseComponent<FileSrc<FileMeta>> {
 	public readonly LottieMimeType = "application/json";
 
-  // todo: convert to signal
+	// todo: convert to signal
 	public animOptions?: AnimationOptions;
 
 	public readonly label = input("");
