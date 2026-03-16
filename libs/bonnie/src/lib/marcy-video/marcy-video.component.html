@@ -1,9 +1,12 @@
-<div [class.knownRatio]="src.ratio() > 0 && objectFit() === MarcyObjectFit.Original"
-     [class.cover]="objectFit() === MarcyObjectFit.Cover"
-     [class.contain]="objectFit() === MarcyObjectFit.Contain"
-     [class.loaded]="$status() === MediaStatus.Loaded"
-     class="video-container">
-
+<div
+  [class.knownRatio]="
+    src.ratio() > 0 && objectFit() === MarcyObjectFit.Original
+  "
+  [class.cover]="objectFit() === MarcyObjectFit.Cover"
+  [class.contain]="objectFit() === MarcyObjectFit.Contain"
+  [class.loaded]="status() === MediaStatus.Loaded"
+  class="video-container"
+>
   @if (device.isSSR) {
     <ng-container *ngTemplateOutlet="ssrTemplate"></ng-container>
   } @else {
@@ -11,14 +14,16 @@
   }
 
   <ng-template #videoTemplate>
-    <video #video
-           [src]="source()?.url ?? ''">
-           (load)="onLoad()"
-           (canplay)="video.muted=true;video.play();"
-           playsInline
-           autoplay
-           loop
-           muted> </video>
+    <video
+      #video
+      [src]="source()?.url ?? ''"
+      (load)="onLoad()"
+      (canplay)="video.muted = true; video.play()"
+      playsInline
+      autoplay
+      loop
+      muted
+    ></video>
   </ng-template>
 
   <ng-template #ssrTemplate>
@@ -36,6 +41,6 @@
   </ng-template>
 
   @if (src.ratio() > 0 && objectFit() === MarcyObjectFit.Original) {
-    <div [style.padding-top]="100 / src.ratio() +'%'"></div>
+    <div [style.padding-top]="100 / src.ratio() + '%'"></div>
   }
 </div>

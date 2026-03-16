@@ -20,7 +20,6 @@ export class MarcyMediaComponent {
 	public readonly isLoaded = output<void>();
 
 	public readonly src = input<M_CORE.Video | M_CORE.Image | undefined>();
-
 	public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
 	public onLoad() {

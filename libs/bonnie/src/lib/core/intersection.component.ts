@@ -21,10 +21,10 @@ export class IntersectionComponent {
 
 	private readonly _hostRef = inject(ElementRef);
 
-	private readonly intersectionObserver?: IntersectionObserver;
-	private readonly _intersected = signal<boolean>(false);
+	private readonly _intersectionObserver?: IntersectionObserver;
+	private readonly _isIntersected = signal<boolean>(false);
 
-	public readonly intersectedOnce = this._intersected.asReadonly();
+	public readonly isIntersected = this._isIntersected.asReadonly();
 
 	private _session: unknown; // todo: remove
 
@@ -33,16 +33,17 @@ export class IntersectionComponent {
 			return;
 		}
 
-		this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this));
+		this._intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this));
 
 		effect(() => {
-			if (this._intersected()) {
+			if (this._isIntersected()) {
 				this.intersected.emit();
 			}
 		});
 
 		effect(() => {
 			const newSession = this.session();
+
 			if (this._session === newSession) return;
 
 			console.log("reset intersection Observer");
@@ -50,17 +51,17 @@ export class IntersectionComponent {
 			this.reset();
 		});
 
-		inject(DestroyRef).onDestroy(() => this.intersectionObserver?.disconnect());
+		inject(DestroyRef).onDestroy(() => this._intersectionObserver?.disconnect());
 	}
 
 	private reset(): void {
-		if (this.intersectionObserver === undefined || this.intersectionObserver === null) return;
+		if (this._intersectionObserver === undefined || this._intersectionObserver === null) return;
 
-		this.intersectionObserver.unobserve(this._hostRef.nativeElement);
+		this._intersectionObserver.unobserve(this._hostRef.nativeElement);
 
-		this._intersected.set(false);
+		this._isIntersected.set(false);
 
-		this.intersectionObserver.observe(this._hostRef.nativeElement);
+		this._intersectionObserver.observe(this._hostRef.nativeElement);
 	}
 
 	private onIntersection(
@@ -72,7 +73,7 @@ export class IntersectionComponent {
 		}
 
 		const isIntersecting = entries[0].isIntersecting;
-		this._intersected.set(isIntersecting);
+		this._isIntersected.set(isIntersecting);
 
 		console.log(`intersected ${isIntersecting}`, this._hostRef.nativeElement);
 

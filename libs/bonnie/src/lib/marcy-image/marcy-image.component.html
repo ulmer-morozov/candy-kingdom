@@ -23,7 +23,7 @@
       </noscript>
     } @else {
       <bon-intersection #intersectionZone [session]="src">
-        @if (intersectionZone.intersectedOnce()) {
+        @if (intersectionZone.isIntersected()) {
           <ng-container *ngTemplateOutlet="pictureTemplate"></ng-container>
         }
       </bon-intersection>

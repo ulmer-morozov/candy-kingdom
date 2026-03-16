@@ -22,21 +22,20 @@ export class MarcyImageComponent {
 	public readonly MediaStatus = MediaStatus;
 	public readonly MarcyObjectFit = MediaObjectFit;
 
+	public readonly src: ImageSrcDirective;
+
 	public readonly isLoaded = output<void>();
-	public readonly sources = signal<IHtmlPictureSource[]>([]);
-
-	public readonly status = signal<MediaStatus>(MediaStatus.NotSet);
-
-	public readonly defaultSrc = signal("");
-
 	public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
-	public readonly src: ImageSrcDirective;
+	public readonly sources = signal<IHtmlPictureSource[]>([]);
+	public readonly status = signal<MediaStatus>(MediaStatus.NotSet);
+	public readonly defaultSrc = signal("");
 
 	public readonly device = inject(DeviceServiceBase);
 
 	constructor() {
 		const src = inject(ImageSrcDirective, { optional: true });
+
 		if (src === undefined || src === null)
 			throw new Error(
 				`${MarcyImageComponent.name} should have [imgsrc] directive as source object`,

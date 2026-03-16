@@ -33,18 +33,19 @@ export class MarcyVideoComponent {
 	public readonly MediaStatus = MediaStatus;
 	public readonly MarcyObjectFit = MediaObjectFit;
 
-	public readonly videoRef = viewChild<ElementRef<HTMLVideoElement>>("video");
+	public readonly src: VideoSrcDirective;
 
 	public readonly isLoaded = output<void>();
 
-	public readonly $status = signal<MediaStatus>(MediaStatus.NotSet);
-	public readonly src: VideoSrcDirective;
-
-	public readonly source = signal<M_CORE.FileSrc<M_CORE.VideoMeta> | undefined>(undefined);
-
 	public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
+	public readonly videoRef = viewChild<ElementRef<HTMLVideoElement>>("video");
+
+	public readonly status = signal<MediaStatus>(MediaStatus.NotSet);
+	public readonly source = signal<M_CORE.FileSrc<M_CORE.VideoMeta> | undefined>(undefined);
+
 	public readonly device = inject(DeviceServiceBase);
+
 	private readonly _srcDir = inject(VideoSrcDirective, { optional: true });
 
 	constructor() {
@@ -63,7 +64,7 @@ export class MarcyVideoComponent {
 		});
 
 		effect(() => {
-			if (this.$status() === MediaStatus.Loaded) {
+			if (this.status() === MediaStatus.Loaded) {
 				this.isLoaded.emit();
 			}
 		});
@@ -85,20 +86,20 @@ export class MarcyVideoComponent {
 
 		const src = this.source();
 
-		if (this.$status() === MediaStatus.NotSet && src === undefined) {
+		if (this.status() === MediaStatus.NotSet && src === undefined) {
 			return;
 		}
 
 		if (src === undefined) {
-			this.$status.set(MediaStatus.NotSet);
+			this.status.set(MediaStatus.NotSet);
 			return;
 		}
 
-		this.$status.set(MediaStatus.NotLoaded);
+		this.status.set(MediaStatus.NotLoaded);
 	}
 
 	public onLoad() {
-		this.$status.set(MediaStatus.Loaded);
+		this.status.set(MediaStatus.Loaded);
 	}
 
 	private findMoreSuitableSource(): M_CORE.FileSrc<M_CORE.VideoMeta> | undefined {

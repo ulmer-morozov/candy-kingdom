@@ -1,11 +1,15 @@
 @if (src(); as mediaSrc) {
   @if (mediaSrc.type === 'image') {
-    <bon-image [imgsrc]="mediaSrc"
-               [objectFit]="objectFit()"
-               (isLoaded)="onLoad()"></bon-image>
+    <bon-image
+      [imgsrc]="mediaSrc"
+      [objectFit]="objectFit()"
+      (isLoaded)="onLoad()"
+    ></bon-image>
   } @else if (mediaSrc.type === 'video') {
-    <bon-video [vidsrc]="mediaSrc"
-               [objectFit]="objectFit()"
-               (isLoaded)="onLoad()"></bon-video>
+    <bon-video
+      [vidsrc]="mediaSrc"
+      [objectFit]="objectFit()"
+      (isLoaded)="onLoad()"
+    ></bon-video>
   }
 }
