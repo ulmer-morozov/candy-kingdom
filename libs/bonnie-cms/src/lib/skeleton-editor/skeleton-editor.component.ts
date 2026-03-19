@@ -75,7 +75,7 @@ export class SkeletonEditorComponent {
 
 			this.editable.updateDirty();
 
-			if (!this.editable.isDirty && allClosed) this.editable.close();
+			if (!this.editable.isDirty() && allClosed) this.editable.close();
 		}
 	}
 
@@ -94,7 +94,7 @@ export class SkeletonEditorComponent {
 
 		this.bones.splice(boneIndex, 1);
 
-		if (!this.editable.inEditMode) this.editable.startEditing();
+		if (!this.editable.inEditMode()) this.editable.startEditing();
 
 		this.editable.save();
 	}

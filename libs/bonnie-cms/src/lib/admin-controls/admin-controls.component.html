@@ -8,7 +8,7 @@
     <span *ngIf="device === DeviceType.Mobile">MOBILE</span>
   </a> -->
 
-  @if (editableGroup() && editableGroup().inEditMode) {
+  @if (editableGroup() && editableGroup().inEditMode()) {
     <a (click)="editableGroup().saveAll()"
        class="save">Save all</a>
 

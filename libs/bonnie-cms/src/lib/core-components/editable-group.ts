@@ -1,4 +1,12 @@
-import { Component, contentChildren, DestroyRef, effect, inject, output } from "@angular/core";
+import {
+	Component,
+	contentChildren,
+	DestroyRef,
+	effect,
+	inject,
+	output,
+	signal,
+} from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 import { debounceTime, Subject, type Unsubscribable } from "rxjs";
@@ -11,15 +19,13 @@ import { EditableDirective } from "./editable.directive";
 })
 export class EditableGroupComponent {
 	public readonly editModeChange = output<boolean>();
-
 	public readonly saved = output<void>();
-
 	public readonly requestEditorClose = output<boolean>();
 
 	public readonly editables = contentChildren(EditableDirective, { descendants: true });
 
 	private readonly _subscriptions: Unsubscribable[] = [];
-	private _inEditMode = false;
+	public readonly inEditMode = signal(false);
 
 	private readonly _saveSubject = new Subject<void>(); // todo: use signal
 
@@ -38,10 +44,6 @@ export class EditableGroupComponent {
 			saveSubscription.unsubscribe();
 			this.clearSubscriptions();
 		});
-	}
-
-	public get inEditMode(): boolean {
-		return this._inEditMode;
 	}
 
 	public saveAll(): void {
@@ -76,11 +78,11 @@ export class EditableGroupComponent {
 	}
 
 	private updateEditMode(): void {
-		const newEditMode = this.editables().filter((x) => x.inEditMode).length > 0;
+		const newEditMode = this.editables().filter((x) => x.inEditMode()).length > 0;
 
-		if (newEditMode === this._inEditMode) return;
+		if (newEditMode === this.inEditMode()) return;
 
-		this._inEditMode = newEditMode;
+		this.inEditMode.set(newEditMode);
 
 		this.editModeChange.emit(newEditMode);
 	}

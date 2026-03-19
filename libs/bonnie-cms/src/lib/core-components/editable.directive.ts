@@ -1,4 +1,4 @@
-import { Directive, forwardRef, output } from "@angular/core";
+import { Directive, forwardRef, output, signal } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Directive({
@@ -17,34 +17,33 @@ export class EditableDirective<T = unknown> {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	private propagateChange: (newValue: T) => void = () => {};
 
-	private _inEditMode = false;
-	private _isDirty = false;
+	private readonly _inEditMode = signal(false);
+	public readonly inEditMode = this._inEditMode.asReadonly();
+
+	private readonly _isDirty = signal(false);
+	public readonly isDirty = this._isDirty.asReadonly();
 
 	private _value?: T;
 	private _originalValue?: T;
 	private _storedData?: string;
-
-	public get inEditMode(): boolean {
-		return this._inEditMode;
-	}
 
 	public requestSave() {
 		this.externalSaveCall.emit();
 	}
 
 	public startEditing = (): void => {
-		if (this._inEditMode) {
+		if (this.inEditMode()) {
 			this.updateDirty();
 			return;
 		}
 
-		this._inEditMode = true;
+		this._inEditMode.set(true);
 		this.updateDirty();
 		this.editModeChange.emit(true);
 	};
 
 	public save(newData?: T): void {
-		if (!this._inEditMode) {
+		if (!this.inEditMode()) {
 			console.warn("save before edit mode"); //todo: fix that
 		}
 
@@ -77,7 +76,7 @@ export class EditableDirective<T = unknown> {
 
 		this.updateDirty();
 
-		if (!this.isDirty) this.close();
+		if (!this.isDirty()) this.close();
 	}
 
 	// change model without opening or closing the editor
@@ -100,7 +99,7 @@ export class EditableDirective<T = unknown> {
 	}
 
 	public cancel(): void {
-		if (!this._inEditMode) return;
+		if (!this.inEditMode()) return;
 
 		this.finishEditing();
 
@@ -115,9 +114,9 @@ export class EditableDirective<T = unknown> {
 	}
 
 	private finishEditing(): void {
-		if (!this._inEditMode) return;
+		if (!this.inEditMode()) return;
 
-		this._inEditMode = false;
+		this._inEditMode.set(false);
 		this.editModeChange.emit(false);
 	}
 
@@ -139,15 +138,11 @@ export class EditableDirective<T = unknown> {
 	}
 
 	public updateDirty(): void {
-		this._isDirty = JSON.stringify(this._value) !== this._storedData;
+		this._isDirty.set(JSON.stringify(this._value) !== this._storedData);
 	}
 
 	public markAsDirty(): void {
-		this._isDirty = true;
-	}
-
-	public get isDirty(): boolean {
-		return this._isDirty;
+		this._isDirty.set(true);
 	}
 
 	private setOriginal(newOriginalValue: T) {
@@ -161,7 +156,7 @@ export class EditableDirective<T = unknown> {
 		this.finishEditing();
 
 		this.setOriginal(newValue);
-		this._isDirty = false;
+		this._isDirty.set(false);
 
 		this.setValue(newValue);
 	}
