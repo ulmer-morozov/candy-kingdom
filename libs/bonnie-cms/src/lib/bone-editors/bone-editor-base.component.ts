@@ -26,7 +26,7 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 	public readonly locale = input.required<string>();
 	public readonly device = input<DeviceType>(DeviceType.NotSet);
 
-	public readonly _presets = signal<ContentPreset<TBone>[]>([]);
+	private readonly _presets = signal<ContentPreset<TBone>[]>([]);
 	public readonly presets = this._presets.asReadonly();
 
 	private readonly _currentPreset = signal<ContentPreset<TBone> | undefined>(undefined);

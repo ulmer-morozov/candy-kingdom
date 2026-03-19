@@ -1,8 +1,6 @@
 import { Directive, forwardRef, output } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import type { Unsubscribable } from "rxjs";
-
 @Directive({
 	selector: "[boncEditable]",
 	providers: [
@@ -28,40 +26,6 @@ export class EditableDirective<T = unknown> {
 
 	public get inEditMode(): boolean {
 		return this._inEditMode;
-	}
-
-	public subscribe(params: {
-		readonly onValueChange?: (x: T | undefined) => void;
-		readonly onEditModeChange?: (x: boolean) => void;
-		readonly onSaveRequest?: () => void;
-	}): Unsubscribable[] {
-		const subscriptions: Unsubscribable[] = [];
-
-		if (params.onValueChange !== undefined && params.onValueChange !== null) {
-			subscriptions.push(
-				this.valueChange.subscribe((x) => {
-					if (params.onValueChange) params.onValueChange(x);
-				}),
-			);
-		}
-
-		if (params.onEditModeChange !== undefined) {
-			subscriptions.push(
-				this.editModeChange.subscribe((x) => {
-					if (params.onEditModeChange) params.onEditModeChange(x);
-				}),
-			);
-		}
-
-		if (params.onSaveRequest !== undefined) {
-			subscriptions.push(
-				this.externalSaveCall.subscribe(() => {
-					if (params.onSaveRequest) params.onSaveRequest();
-				}),
-			);
-		}
-
-		return subscriptions;
 	}
 
 	public requestSave() {

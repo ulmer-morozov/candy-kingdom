@@ -1,18 +1,21 @@
 <bonc-form-controls [editable]="editable">
   @if (label()) {
-    <label>{{label()}}</label>
+    <label>{{ label() }}</label>
   }
-  <bonc-file-uploader [src]="editable.value"
-                      [uploadTypes]="mimeTypes()"
-                      [uploadUrlMap]="uploadMap()"
-                      (srcChange)="onFileUploaded($event)">
-    @if (editable.value?.url?.length ?? 0 > 0) {
-      <img [src]="editable.value?.url" />
+  <bonc-file-uploader
+    [src]="editable.value"
+    [uploadTypes]="mimeTypes()"
+    [uploadUrlMap]="uploadMap()"
+    (srcChange)="onFileUploaded($event)"
+  >
+    @let url = editable.value?.url;
+    @if (url) {
+      <img [src]="url" />
     }
   </bonc-file-uploader>
 
-  @if (editable.value?.url?.length ?? 0 > 0) {
-    <a [href]="editable.value!.url" download target="_blank">Download</a>
+  @let downloadUrl = editable.value?.url;
+  @if (downloadUrl) {
+    <a [href]="downloadUrl" download target="_blank">Download</a>
   }
-
 </bonc-form-controls>

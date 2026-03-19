@@ -31,13 +31,15 @@
                           [uploadTypes]="['image/png', 'image/jpeg']"
                           [uploadUrlMap]="uploadMap"
                           (srcChange)="replaceImage($event)">
-        @if (editable.value.image[locale()]?.url?.length ?? 0 > 0) {
-          <img [src]="editable.value.image[locale()].url" />
+        @let imageUrl = editable.value.image[locale()]?.url;
+        @if (imageUrl) {
+          <img [src]="imageUrl" />
         }
       </bonc-file-uploader>
 
-      @if (editable.value.image[locale()]?.url?.length ?? 0 > 0) {
-        <a [href]="editable.value.image[locale()].url" download target="_blank">Download</a>
+      @let downloadUrl = editable.value.image[locale()]?.url;
+      @if (downloadUrl) {
+        <a [href]="downloadUrl" download target="_blank">Download</a>
       }
     </div>
 
