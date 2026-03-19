@@ -1,14 +1,15 @@
 import { Component, HostBinding } from "@angular/core";
+
 import {
 	BoneEditorBaseComponent,
-	ContentPreset,
+	type ContentPreset,
 	createPreset,
 	TranslationTextareaComponent,
 } from "@candy-kingdom/bonnie-cms";
-import { TextBone, TextBoneStyle } from "../../generated";
+
+import { type TextBone, TextBoneStyle } from "../../generated";
 
 @Component({
-
 	selector: "app-text-bone-editor",
 	templateUrl: "./text-bone-editor.component.html",
 	styleUrls: ["./text-bone-editor.component.scss"],

@@ -1,22 +1,27 @@
+import { APP_BASE_HREF, DOCUMENT } from "@angular/common";
 import { Component, effect, inject, input } from "@angular/core";
-
-import { FaceBoneMap } from "../FaceBoneMap";
-import { LocalizeServiceBase, PageBase, SkeletonComponent, View } from "@candy-kingdom/bonnie";
-import { RouterLocalizeService } from "../router-localize.service";
+import { Meta, Title } from "@angular/platform-browser";
 import { RouterLink } from "@angular/router";
+
 import {
+	LocalizeServiceBase,
+	type PageBase,
+	SkeletonComponent,
+	type View,
+} from "@candy-kingdom/bonnie";
+import type {
 	FileSettingData,
 	LocalizedTextSettingData,
 	OneImageSettingData,
 	SettingDataDict,
 	SvgSettingData,
 } from "@candy-kingdom/bonnie-cms";
-import { Meta, Title } from "@angular/platform-browser";
+
+import { FaceBoneMap } from "../FaceBoneMap";
 import { CmsSampleSettingIds } from "../generated/cms-sample-setting-ids";
-import { DOCUMENT, APP_BASE_HREF } from "@angular/common";
+import { RouterLocalizeService } from "../router-localize.service";
 
 @Component({
-
 	selector: "app-face",
 	templateUrl: "./face.component.html",
 	styleUrl: "./face.component.scss",

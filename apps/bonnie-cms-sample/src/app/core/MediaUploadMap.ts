@@ -1,4 +1,4 @@
-import { MediaType } from "@candy-kingdom/bonnie-cms";
+import type { MediaType } from "@candy-kingdom/bonnie-cms";
 
 const mediaUploadMap = new Map<MediaType, string>();
 mediaUploadMap.set("image", "/api/admin/upload/image/complex");

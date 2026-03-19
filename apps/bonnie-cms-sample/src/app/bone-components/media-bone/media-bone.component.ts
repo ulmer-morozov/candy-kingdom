@@ -1,13 +1,14 @@
-import { Component, HostBinding, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, HostBinding, inject } from "@angular/core";
 
 import {
 	BoneDirective,
-	MarcyMediaComponent,
-	LocalizePipe,
 	LocalizationIsNotEmptyPipe,
+	LocalizePipe,
+	MarcyMediaComponent,
 } from "@candy-kingdom/bonnie";
-import { MediaBone, MediaBoneStyle } from "../../generated";
+
+import { type MediaBone, MediaBoneStyle } from "../../generated";
 
 @Component({
 	selector: "app-media-bone",

@@ -1,5 +1,5 @@
-import { IBoneTemplate } from "@candy-kingdom/bonnie-cms";
-import { Bone } from "@candy-kingdom/bonnie";
+import type { Bone } from "@candy-kingdom/bonnie";
+import type { IBoneTemplate } from "@candy-kingdom/bonnie-cms";
 
 export function template<T extends Bone = Bone>(
 	title: string,

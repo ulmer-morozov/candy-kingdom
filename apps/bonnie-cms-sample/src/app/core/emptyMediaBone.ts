@@ -1,5 +1,6 @@
 import { emptyBone, emptyImage, emptyLocalizedString } from "@candy-kingdom/bonnie";
-import { MediaBone } from "../generated";
+
+import type { MediaBone } from "../generated";
 
 export function emptyMediaBone(): MediaBone {
 	return {

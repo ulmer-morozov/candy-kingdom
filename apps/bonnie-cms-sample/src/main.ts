@@ -1,10 +1,12 @@
-import { bootstrapApplication } from "@angular/platform-browser";
-import { appConfig } from "./app/app.config";
-import { App } from "./app/app";
-import { ApplicationConfig, mergeApplicationConfig } from "@angular/core";
 import { APP_BASE_HREF } from "@angular/common";
-import { API_BASE_URL } from "@candy-kingdom/bonnie-cms";
+import { type ApplicationConfig, mergeApplicationConfig } from "@angular/core";
+import { bootstrapApplication } from "@angular/platform-browser";
+
 import { DeviceService, DeviceServiceBase } from "@candy-kingdom/bonnie";
+import { API_BASE_URL } from "@candy-kingdom/bonnie-cms";
+
+import { App } from "./app/app";
+import { appConfig } from "./app/app.config";
 
 function getBaseHref() {
 	return document.getElementsByTagName("base")[0].href;

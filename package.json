@@ -20,7 +20,7 @@
 		"dotnet:format": "dotnet format candy-kingdom.sln",
 		"version-bump": "nx run bonnie:version --syncVersions --releaseAs=patch --allowEmptyRelease && git push --follow-tags",
 		"prepare": "husky",
-		"biome-check": "npx @biomejs/biome check --write ./src"
+		"biome-check": "npx @biomejs/biome check --write ."
 	},
 	"private": true,
 	"dependencies": {

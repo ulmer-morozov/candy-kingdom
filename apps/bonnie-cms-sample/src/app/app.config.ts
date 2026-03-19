@@ -1,18 +1,18 @@
+import { HTTP_INTERCEPTORS, provideHttpClient } from "@angular/common/http";
 import {
-	ApplicationConfig,
+	type ApplicationConfig,
 	provideBrowserGlobalErrorListeners,
 	provideZonelessChangeDetection,
 } from "@angular/core";
-import { provideRouter, withComponentInputBinding } from "@angular/router";
-import { appRoutes } from "./app.routes";
 import { provideClientHydration, withEventReplay } from "@angular/platform-browser";
+import { provideRouter, withComponentInputBinding } from "@angular/router";
 
 import { provideLottieOptions } from "ngx-lottie";
-import { HTTP_INTERCEPTORS, provideHttpClient } from "@angular/common/http";
 
+import { appRoutes } from "./app.routes";
 import { AuthGuard } from "./guard";
-import { AuthService } from "./service";
 import { AuthInterceptor } from "./interceptor";
+import { AuthService } from "./service";
 
 export const appConfig: ApplicationConfig = {
 	providers: [

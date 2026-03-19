@@ -1,30 +1,29 @@
-import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, inject, type OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 import {
+	AdminControlsComponent,
 	AdminDataService,
-	SettingGroup,
-	TextEditorField,
-	TextInputStyle,
-	TextSettingType,
-	TextFormComponent,
-	TranslationFormComponent,
-	SvgFormComponent,
-	OneImageFormComponent,
+	EditableGroupComponent,
 	FileFormComponent,
 	LottieFormComponent,
-	AdminControlsComponent,
-	EditableGroupComponent,
+	OneImageFormComponent,
+	type SettingGroup,
+	SvgFormComponent,
+	TextEditorField,
+	TextFormComponent,
+	TextInputStyle,
+	TextSettingType,
+	TranslationFormComponent,
 	UnknownFormComponent,
 } from "@candy-kingdom/bonnie-cms";
-import { FormsModule } from "@angular/forms";
 
 const genericFileUploadMap = new Map<string, string>();
 
 genericFileUploadMap.set("", "/api/admin/upload/file");
 
 @Component({
-
 	imports: [
 		FormsModule,
 		CommonModule,

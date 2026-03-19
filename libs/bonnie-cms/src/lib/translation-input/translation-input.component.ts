@@ -14,15 +14,12 @@ import { DeviceType } from "../core";
 })
 export class TranslationInputComponent {
 	public readonly text = input.required<LocalizedString>();
-
 	public readonly locale = input.required<string>();
 
 	public readonly device = input<DeviceType>(DeviceType.NotSet);
 
 	public readonly startEditing = output<void>();
-
 	public readonly changed = output<void>();
-
 	public readonly blurred = output<void>();
 
 	public onClick() {

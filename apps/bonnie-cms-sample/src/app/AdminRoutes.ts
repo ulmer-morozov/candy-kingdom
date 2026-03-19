@@ -1,5 +1,5 @@
-import { Route, ActivatedRouteSnapshot } from "@angular/router";
 import { inject } from "@angular/core";
+import type { ActivatedRouteSnapshot, Route } from "@angular/router";
 
 import { AdminDataService } from "@candy-kingdom/bonnie-cms";
 

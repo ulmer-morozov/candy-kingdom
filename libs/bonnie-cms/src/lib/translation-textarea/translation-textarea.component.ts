@@ -16,20 +16,15 @@ import { DeviceType } from "../core";
 export class TranslationTextareaComponent {
 	public readonly autosizeList = viewChildren(CdkTextareaAutosize);
 
-	public readonly minRows = input<number>();
-
-	public readonly maxRows = input<number>();
-
 	public readonly text = input.required<LocalizedString>();
-
 	public readonly locale = input.required<string>();
 
+	public readonly minRows = input<number>();
+	public readonly maxRows = input<number>();
 	public readonly device = input<DeviceType>(DeviceType.NotSet);
 
 	public readonly startEditing = output<void>();
-
 	public readonly changed = output<void>();
-
 	public readonly blurred = output<void>();
 
 	constructor() {

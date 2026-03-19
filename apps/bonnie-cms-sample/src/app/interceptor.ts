@@ -1,13 +1,14 @@
 import {
 	HttpErrorResponse,
-	HttpEvent,
-	HttpHandler,
-	HttpInterceptor,
-	HttpRequest,
+	type HttpEvent,
+	type HttpHandler,
+	type HttpInterceptor,
+	type HttpRequest,
 } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, tap } from "rxjs";
+
+import { type Observable, tap } from "rxjs";
 
 // this will intercept all http requests and redirect to signin if the user is not authenticated and
 // is trying to access a protected route

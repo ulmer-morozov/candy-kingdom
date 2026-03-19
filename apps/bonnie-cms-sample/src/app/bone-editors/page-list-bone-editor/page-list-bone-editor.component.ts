@@ -1,12 +1,14 @@
 import { Component, HostBinding } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+
 import {
 	BoneEditorBaseComponent,
-	ContentPreset,
-	TranslationInputComponent,
+	type ContentPreset,
 	createPreset,
+	TranslationInputComponent,
 } from "@candy-kingdom/bonnie-cms";
-import { PageListBone, PageListBoneStyle } from "../../generated";
-import { FormsModule } from "@angular/forms";
+
+import { type PageListBone, PageListBoneStyle } from "../../generated";
 
 @Component({
 	selector: "app-page-list-bone-editor",

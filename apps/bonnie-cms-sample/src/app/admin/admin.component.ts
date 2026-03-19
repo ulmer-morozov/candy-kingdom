@@ -1,13 +1,14 @@
-import { Component, ViewEncapsulation, effect, inject } from "@angular/core";
-import { Router, RouterModule } from "@angular/router";
-import { AuthService } from "../service";
 import { CommonModule } from "@angular/common";
-import { AuthGuard } from "../guard";
-import { RouterLocalizeService } from "../router-localize.service";
+import { Component, effect, inject, ViewEncapsulation } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+
 import { LocalizeServiceBase } from "@candy-kingdom/bonnie";
 
-@Component({
+import { AuthGuard } from "../guard";
+import { RouterLocalizeService } from "../router-localize.service";
+import { AuthService } from "../service";
 
+@Component({
 	imports: [CommonModule, RouterModule],
 	providers: [
 		AuthGuard,

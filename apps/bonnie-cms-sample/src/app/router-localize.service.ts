@@ -1,5 +1,6 @@
-import { Injectable, inject, signal, effect } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { effect, Injectable, inject, signal } from "@angular/core";
+import { ActivatedRoute, type Params } from "@angular/router";
+
 import { LocalizeServiceBase } from "@candy-kingdom/bonnie";
 
 @Injectable()

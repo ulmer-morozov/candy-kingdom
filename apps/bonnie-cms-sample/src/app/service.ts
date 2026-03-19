@@ -1,7 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpResponse } from "@angular/common/http";
+import { HttpClient, type HttpErrorResponse, type HttpResponse } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
-import { UserInfo } from "./dto";
-import { Observable, catchError, map, of } from "rxjs";
+
+import { catchError, map, type Observable, of } from "rxjs";
+
+import type { UserInfo } from "./dto";
 
 @Injectable({
 	providedIn: "root",

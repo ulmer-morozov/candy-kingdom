@@ -1,8 +1,10 @@
-import { BoneEditorMap, IBoneEditor } from "@candy-kingdom/bonnie-cms";
-import { TextBoneEditorComponent } from "./bone-editors/text-bone-editor/text-bone-editor.component";
-import { PageListBoneEditorComponent } from "./bone-editors/page-list-bone-editor/page-list-bone-editor.component";
-import { Type } from "@angular/core";
+import type { Type } from "@angular/core";
+
+import type { BoneEditorMap, IBoneEditor } from "@candy-kingdom/bonnie-cms";
+
 import { MediaBoneEditorComponent } from "./bone-editors";
+import { PageListBoneEditorComponent } from "./bone-editors/page-list-bone-editor/page-list-bone-editor.component";
+import { TextBoneEditorComponent } from "./bone-editors/text-bone-editor/text-bone-editor.component";
 
 const map = new Map<string, Type<IBoneEditor<any>>>();
 

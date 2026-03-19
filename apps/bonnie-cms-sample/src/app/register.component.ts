@@ -1,11 +1,11 @@
-import { Component, OnInit, inject } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { AuthService } from "./service";
 import { CommonModule } from "@angular/common";
+import { Component, inject, type OnInit } from "@angular/core";
+import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 
-@Component({
+import { AuthService } from "./service";
 
+@Component({
 	imports: [CommonModule, ReactiveFormsModule, RouterLink],
 	selector: "app-register-component",
 	templateUrl: "./register.component.html",

@@ -1,35 +1,33 @@
-import { Component, inject, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-
+import { Component, inject, input } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 
 import {
-	Page,
-	PageData,
-	LocalizePipe,
-	EncodeURIComponentPipe,
-	DeviceServiceBase,
 	DeviceService,
+	DeviceServiceBase,
+	EncodeURIComponentPipe,
+	LocalizePipe,
+	type Page,
+	type PageData,
 } from "@candy-kingdom/bonnie";
 import {
-	AdminDataService,
-	IBoneTemplate,
-	TextEditorField,
-	SeoFormComponent,
-	TranslationFormComponent,
 	AdminControlsComponent,
+	AdminDataService,
 	EditableGroupComponent,
+	type IBoneTemplate,
+	SeoFormComponent,
 	SkeletonEditorComponent,
+	TextEditorField,
+	TranslationFormComponent,
 } from "@candy-kingdom/bonnie-cms";
 
 import { AdminBoneMap } from "../AdminBoneMap";
-import { emptyMediaBone } from "../core/emptyMediaBone";
 import { emptyTextBone } from "../core";
+import { emptyMediaBone } from "../core/emptyMediaBone";
 import { emptyPageListBone } from "../core/emptyPageListBone";
-import { FormsModule } from "@angular/forms";
 
 @Component({
-
 	imports: [
 		FormsModule,
 		CommonModule,

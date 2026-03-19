@@ -1,7 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
+
+import { map, type Observable } from "rxjs";
+
 import { AuthService } from "./service";
-import { Observable, map } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 // protects routes from unauthenticated users

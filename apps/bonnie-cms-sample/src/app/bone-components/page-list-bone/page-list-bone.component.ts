@@ -1,8 +1,10 @@
-import { Component, HostBinding, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, HostBinding, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
+
 import { BoneDirective, LocalizePipe } from "@candy-kingdom/bonnie";
-import { PageListBone, PageListBoneStyle } from "../../generated";
+
+import { type PageListBone, PageListBoneStyle } from "../../generated";
 
 @Component({
 	selector: "app-page-list",

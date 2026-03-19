@@ -1,5 +1,6 @@
 import { emptyBone, emptyLocalizedString } from "@candy-kingdom/bonnie";
-import { TextBone } from "../generated";
+
+import type { TextBone } from "../generated";
 
 export function emptyTextBone(): TextBone {
 	return {

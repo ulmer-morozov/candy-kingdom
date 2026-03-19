@@ -1,5 +1,6 @@
 import { emptyBone, emptyLocalizedString } from "@candy-kingdom/bonnie";
-import { PageListBone } from "../generated";
+
+import type { PageListBone } from "../generated";
 
 export function emptyPageListBone(): PageListBone {
 	return {

@@ -1,19 +1,19 @@
 import { Component } from "@angular/core";
+
 import {
 	BoneEditorBaseComponent,
-	ContentPreset,
+	type ContentPreset,
+	createPreset,
 	LinkPopupComponent,
+	MediaUploaderComponent,
 	TextEditorField,
 	TranslationInputComponent,
-	MediaUploaderComponent,
-	createPreset,
 } from "@candy-kingdom/bonnie-cms";
 
-import { MediaBone, MediaBoneStyle } from "../../generated";
 import { MediaUploadMap } from "../../core";
+import { type MediaBone, MediaBoneStyle } from "../../generated";
 
 @Component({
-
 	selector: "app-media-bone-editor",
 	templateUrl: "./media-bone-editor.component.html",
 	styleUrls: ["./media-bone-editor.component.scss"],

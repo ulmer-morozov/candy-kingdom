@@ -1,9 +1,9 @@
-import { Component, effect, inject } from "@angular/core";
-import { AuthService } from "../service";
 import { CommonModule } from "@angular/common";
+import { Component, effect, inject } from "@angular/core";
+
+import { AuthService } from "../service";
 
 @Component({
-
 	imports: [CommonModule],
 	selector: "app-admin-home",
 	templateUrl: "./admin-home.component.html",

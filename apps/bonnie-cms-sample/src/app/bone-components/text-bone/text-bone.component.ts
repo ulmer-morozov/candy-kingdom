@@ -1,8 +1,9 @@
-import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { BoneDirective, LocalizePipe, LocalizationIsNotEmptyPipe } from "@candy-kingdom/bonnie";
+import { Component, inject } from "@angular/core";
 
-import { TextBone } from "../../generated";
+import { BoneDirective, LocalizationIsNotEmptyPipe, LocalizePipe } from "@candy-kingdom/bonnie";
+
+import type { TextBone } from "../../generated";
 
 @Component({
 	selector: "app-text-bone",
