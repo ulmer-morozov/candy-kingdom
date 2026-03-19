@@ -20,7 +20,7 @@ export class AdminControlsComponent {
 	public device = this.DeviceType.Desktop;
 
 	public changeLocale(): void {
-		this.locale = this.locale === "en" ? "ru" : "en";
+		this.locale = this.locale === "en" ? "ru" : "en"; // move locales to CMS config
 	}
 
 	public changeDevice(): void {
