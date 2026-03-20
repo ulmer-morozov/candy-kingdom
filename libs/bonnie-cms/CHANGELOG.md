@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.27.0](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.16...v0.27.0) (2026-03-20)
+
+
+### Bug Fixes
+
+* bone editor ([e293a0b](https://github.com/ulmer-morozov/candy-kingdom/commit/e293a0b36cfbbce7e209a7716eb98c5cce895b62))
+* settings page error ([0f2df72](https://github.com/ulmer-morozov/candy-kingdom/commit/0f2df7228e1add204e1343e01725f0ed5a7a2d8a))
+* signals and change detection ([a7c954f](https://github.com/ulmer-morozov/candy-kingdom/commit/a7c954f33136854b6c05af5b2abccdacfe1e843a))
+
+
+
 ## [0.26.16](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.26.15...v0.26.16) (2026-01-11)
 
 
