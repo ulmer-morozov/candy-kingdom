@@ -9,6 +9,8 @@ public sealed class LocalFileStorage : IFileStorage
     {
         UrlPrefixutDir = urlPrefix;
         OutputDir = outputDir;
+
+        Console.WriteLine($"FILE STORAGE\n prefix – {urlPrefix}\n OutputDir – {OutputDir}");
     }
 
     public async Task<StoredFile> Store(

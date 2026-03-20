@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var contratsDir = Path.Combine("..", "..", "apps", "bonnie-cms-sample", "src", "app", "generated");
 SpecGenerator.GenerateTsFiles<MarcyCmsSampleGenerationSpec>(contratsDir);
@@ -59,9 +60,11 @@ builder.Services
 // services.AddSingleton<IFileStorage, LocalFileStorage>();
 // services.AddSingleton<IEmailSender, FakeEmailSender>();
 // config.MinificationVendors.Add(new ImageMinWebp(new ImageMinWebpOptions(quality: 90)));
+var filesPath = Path.Combine(builder.Environment.ContentRootPath, "files");
+
 builder.Services.AddMarcyCms<CmsSampleDbContext>(config =>
 {
-    config.FileStorage = new LocalFileStorage("/files/", Path.Combine(builder.Environment.WebRootPath ?? "", "files"));
+    config.FileStorage = new LocalFileStorage("/files/", filesPath);
 });
 
 builder.Services.AddSingleton<InitialDataFiller>();
@@ -88,6 +91,11 @@ app.MapCustomIdentityApi<ApplicationUser>();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(filesPath),
+    RequestPath = "/files"
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

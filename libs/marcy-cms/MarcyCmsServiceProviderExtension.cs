@@ -30,7 +30,7 @@ public static class MarcyCmsServiceCollectionExtension
         {
             ImageUploaderConfig = new ImageUploaderConfig { CacheDir = DefaultCacheDir },
             VideoUploaderConfig = new VideoUploaderConfig { CacheDir = DefaultCacheDir },
-            FileStorage = new LocalFileStorage("/storage/", Path.Combine(Directory.GetCurrentDirectory(), "storage")),
+            FileStorage = new LocalFileStorage("/files/", Path.Combine(Directory.GetCurrentDirectory(), "files")),
             MinificationVendors = [
                   new ImageMinJpegtran(new ImageMinJpegtranOptions()),
             new ImageMinMozJpeg(new ImageMinMozJpegOptions(quality: DefaultImageMinQuality)),
