@@ -132,9 +132,13 @@ export class BoneEditorContainerComponent {
 	//   this.editor.updateDirty();
 	// }
 
+  // todo: use this feature
+  // its not working now
 	public get disabled(): boolean {
-		if (this.editor === undefined || this.editor === null)
-			throw new Error("editor should have been set");
+		if (this.editor === undefined || this.editor === null) {
+			console.warn("editor should have been set before disabled is called");
+			return false;
+		}
 
 		return false;
 		// todo: add or remove visibility feature
