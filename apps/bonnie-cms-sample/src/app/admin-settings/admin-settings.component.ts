@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, type OnInit } from "@angular/core";
+import { Component, inject, signal, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
 import {
@@ -50,17 +50,17 @@ export default class AdminSettingsComponent implements OnInit {
 
 	private readonly _dataService = inject(AdminDataService);
 
-	public settingGroups: SettingGroup[] = [];
+	public settingGroups = signal<SettingGroup[]>([]);
 
 	public ngOnInit(): void {
 		this._dataService.getSettingGroups().subscribe((x) => {
-			this.settingGroups = x;
+			this.settingGroups.set(x);
 		});
 	}
 
 	public save(): void {
 		try {
-			const settings = this.settingGroups.flatMap((x) => x.records);
+			const settings = this.settingGroups().flatMap((x) => x.records);
 
 			this._dataService.updateSettings(settings).subscribe(() => {
 				console.log("successfully updated settings"); // todo: add toast

@@ -10,30 +10,30 @@ import { API_BASE_URL } from "./API_BASE_URL";
 
 @Injectable()
 export class AdminDataService {
-	private readonly http = inject(HttpClient);
-	private readonly baseHref = inject(API_BASE_URL);
+	private readonly _http = inject(HttpClient);
+	private readonly _baseHref = inject(API_BASE_URL);
 
 	constructor() {
-		console.log(`baseHref: ${this.baseHref}`);
+		console.log(`baseHref: ${this._baseHref}`);
 	}
 
 	public getSettingGroups(): Observable<SettingGroup[]> {
-		const pageOb = this.http.get<SettingGroup[]>(`${this.baseHref}api/admin/settings`);
+		const pageOb = this._http.get<SettingGroup[]>(`${this._baseHref}api/admin/settings`);
 		return pageOb;
 	}
 
 	public getPage(url: string): Observable<SettingGroup[]> {
-		const pageOb = this.http.get<SettingGroup[]>(`${this.baseHref}api/admin/pages/${url}`);
+		const pageOb = this._http.get<SettingGroup[]>(`${this._baseHref}api/admin/pages/${url}`);
 		return pageOb;
 	}
 
 	public storePage(page: PageBase): Observable<void> {
-		const ob = this.http.post<void>(`${this.baseHref}api/admin/pages`, page);
+		const ob = this._http.post<void>(`${this._baseHref}api/admin/pages`, page);
 		return ob;
 	}
 
 	public updateSettings(settings: SettingBase[]): Observable<void> {
-		const ob = this.http.post<void>(`${this.baseHref}api/admin/settings`, settings);
+		const ob = this._http.post<void>(`${this._baseHref}api/admin/settings`, settings);
 		return ob;
 	}
 }
