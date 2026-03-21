@@ -58,7 +58,9 @@ export class MediaBoneEditorComponent extends BoneEditorBaseComponent<MediaBone>
 	}
 
 	private closePopUpIfExists(): void {
-		if (this.currentOpenLinkPopup === undefined) return;
+		if (this.currentOpenLinkPopup === undefined) {
+			return;
+		}
 
 		this.currentOpenLinkPopup.hidePopup();
 		this.currentOpenLinkPopup = undefined;

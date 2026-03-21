@@ -80,7 +80,9 @@ export class EditableGroupComponent {
 	private updateEditMode(): void {
 		const newEditMode = this.editables().filter((x) => x.inEditMode()).length > 0;
 
-		if (newEditMode === this.inEditMode()) return;
+		if (newEditMode === this.inEditMode()) {
+			return;
+		}
 
 		this.inEditMode.set(newEditMode);
 

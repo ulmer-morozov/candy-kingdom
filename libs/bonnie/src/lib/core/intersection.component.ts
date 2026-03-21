@@ -44,7 +44,9 @@ export class IntersectionComponent {
 		effect(() => {
 			const newSession = this.session();
 
-			if (this._session === newSession) return;
+			if (this._session === newSession) {
+				return;
+			}
 
 			console.log("reset intersection Observer");
 			this._session = newSession;
@@ -55,7 +57,9 @@ export class IntersectionComponent {
 	}
 
 	private reset(): void {
-		if (this._intersectionObserver === undefined || this._intersectionObserver === null) return;
+		if (this._intersectionObserver === undefined || this._intersectionObserver === null) {
+			return;
+		}
 
 		this._intersectionObserver.unobserve(this._hostRef.nativeElement);
 

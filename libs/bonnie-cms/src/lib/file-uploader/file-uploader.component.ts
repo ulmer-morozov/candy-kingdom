@@ -47,8 +47,9 @@ export class FileUploaderComponent {
 	private readonly http = inject(HttpClient);
 
 	public onFileSelect(fileInput: HTMLInputElement) {
-		if (fileInput.files === undefined || fileInput.files === null || fileInput.files.length !== 1)
+		if (fileInput.files === undefined || fileInput.files === null || fileInput.files.length !== 1) {
 			return;
+		}
 
 		const file = fileInput.files[0];
 
@@ -86,7 +87,9 @@ export class FileUploaderComponent {
 	}
 
 	public selectFile(event: Event): void {
-		if (event.target === this.fileInput().nativeElement) return;
+		if (event.target === this.fileInput().nativeElement) {
+			return;
+		}
 
 		this.fileInput().nativeElement.click();
 	}
@@ -103,7 +106,7 @@ export class FileUploaderComponent {
 
 			case HttpEventType.Response:
 				if (event.body === null || event.body === undefined) {
-					console.warn(`empty body from uploader`);
+					console.warn("empty body from uploader");
 					break;
 				}
 
@@ -116,7 +119,7 @@ export class FileUploaderComponent {
 	}
 
 	private updateClip(): void {
-		this.clipStyle.set(this.sanitizer.bypassSecurityTrustStyle(`inset(0px 100% 0px 0%)`));
+		this.clipStyle.set(this.sanitizer.bypassSecurityTrustStyle("inset(0px 100% 0px 0%)"));
 	}
 
 	private handleError(file: File): (p1: unknown, p2: Observable<unknown>) => Observable<unknown> {

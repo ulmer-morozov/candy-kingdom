@@ -9,7 +9,7 @@ import { AuthService } from "../service";
 	templateUrl: "./admin-home.component.html",
 })
 export default class AdminHomeComponent {
-	public isSignedIn: boolean = false;
+	public isSignedIn = false;
 
 	private readonly authService = inject(AuthService);
 

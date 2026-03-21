@@ -67,8 +67,9 @@ export class MediaUploaderComponent {
 	private readonly http = inject(HttpClient);
 
 	public onFileSelect(fileInput: HTMLInputElement) {
-		if (fileInput.files === undefined || fileInput.files === null || fileInput.files.length !== 1)
+		if (fileInput.files === undefined || fileInput.files === null || fileInput.files.length !== 1) {
 			return;
+		}
 
 		const file = fileInput.files[0];
 
@@ -122,7 +123,9 @@ export class MediaUploaderComponent {
 	}
 
 	public selectFile(event: Event): void {
-		if (event.target === this.fileInput().nativeElement) return;
+		if (event.target === this.fileInput().nativeElement) {
+			return;
+		}
 
 		this.fileInput().nativeElement.click();
 	}
@@ -158,7 +161,7 @@ export class MediaUploaderComponent {
 	}
 
 	private updateClip(): void {
-		this.clipStyle.set(this.sanitizer.bypassSecurityTrustStyle(`inset(0px 100% 0px 0%)`));
+		this.clipStyle.set(this.sanitizer.bypassSecurityTrustStyle("inset(0px 100% 0px 0%)"));
 	}
 
 	private handleError(file: File): (p1: unknown, p2: Observable<unknown>) => Observable<unknown> {

@@ -7,7 +7,9 @@ export abstract class LocalizeServiceBase {
 	public abstract get locale(): Signal<string>;
 
 	public getLocalized<T>(value: LocalizedObject<T>, defaultValue: T, locale?: string): T {
-		if (value === undefined) return defaultValue;
+		if (value === undefined) {
+			return defaultValue;
+		}
 
 		locale = locale ?? this.locale();
 

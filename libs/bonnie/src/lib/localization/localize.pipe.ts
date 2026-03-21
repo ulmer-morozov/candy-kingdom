@@ -9,7 +9,9 @@ export class LocalizePipe implements PipeTransform {
 	private readonly _localizeService = inject(LocalizeServiceBase);
 
 	public transform(value: LocalizedString, locale?: string): string {
-		if (value === undefined || value === null) return "";
+		if (value === undefined || value === null) {
+			return "";
+		}
 
 		return this._localizeService.getLocalizedText(value, locale);
 	}
@@ -20,7 +22,9 @@ export class LocalizeObjectPipe implements PipeTransform {
 	private readonly _localizeService = inject(LocalizeServiceBase);
 
 	public transform<T>(object: LocalizedObject<T>, locale?: string): T | undefined {
-		if (object === undefined || object === null) return undefined;
+		if (object === undefined || object === null) {
+			return undefined;
+		}
 
 		return this._localizeService.getLocalized<T | undefined>(object, undefined, locale);
 	}
@@ -31,7 +35,9 @@ export class LocalizationIsNotEmptyPipe implements PipeTransform {
 	private readonly _localizeService = inject(LocalizeServiceBase);
 
 	public transform(value: LocalizedString, locale?: string): boolean {
-		if (value === undefined || value === null) return false;
+		if (value === undefined || value === null) {
+			return false;
+		}
 
 		const text = this._localizeService.getLocalizedText(value, locale);
 
@@ -45,7 +51,9 @@ export class LocalizationIsEmptyPipe implements PipeTransform {
 	private readonly _localizeService = inject(LocalizeServiceBase);
 
 	public transform(value: LocalizedString, locale?: string): boolean {
-		if (value === undefined || value === null) return true;
+		if (value === undefined || value === null) {
+			return true;
+		}
 
 		const text = this._localizeService.getLocalizedText(value, locale);
 
@@ -60,7 +68,9 @@ export class LocalizeUrlPipe implements PipeTransform {
 	private readonly _domSanitizer = inject(DomSanitizer);
 
 	public transform(value: LocalizedString, locale?: string): SafeResourceUrl {
-		if (value === undefined || value === null) return "";
+		if (value === undefined || value === null) {
+			return "";
+		}
 
 		const urlString = this._localizeService.getLocalizedText(value, locale);
 		const safeUrl = this._domSanitizer.bypassSecurityTrustResourceUrl(urlString);
@@ -73,7 +83,9 @@ export class IsLocalUrlPipe implements PipeTransform {
 	private readonly _localizeService = inject(LocalizeServiceBase);
 
 	public transform(value: LocalizedString, locale?: string): boolean {
-		if (value === undefined || value === null) return false;
+		if (value === undefined || value === null) {
+			return false;
+		}
 
 		const isLocal = this._localizeService.isLocalUrl(value, locale);
 		return isLocal;
@@ -85,7 +97,9 @@ export class IsNotLocalUrlPipe implements PipeTransform {
 	private readonly _localizeService = inject(LocalizeServiceBase);
 
 	public transform(value: LocalizedString, locale?: string): boolean {
-		if (value === undefined || value === null) return false;
+		if (value === undefined || value === null) {
+			return false;
+		}
 
 		const isLocal = this._localizeService.isLocalUrl(value, locale);
 		return !isLocal;

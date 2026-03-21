@@ -49,10 +49,11 @@ export class MarcyVideoComponent {
 	private readonly _srcDir = inject(VideoSrcDirective, { optional: true });
 
 	constructor() {
-		if (this._srcDir === undefined || this._srcDir === null)
+		if (this._srcDir === undefined || this._srcDir === null) {
 			throw new Error(
 				`${MarcyVideoComponent.name} should have [vidsrc] directive as source object`,
 			);
+		}
 
 		this.src = this._srcDir;
 
@@ -120,7 +121,9 @@ export class MarcyVideoComponent {
 		for (let i = 0; i < videoSources.length; i++) {
 			const videoSource = videoSources[i];
 
-			if (!matchesMediaQuery(videoSource.mediaQuery)) continue;
+			if (!matchesMediaQuery(videoSource.mediaQuery)) {
+				continue;
+			}
 
 			// SSR
 			if (typeof ref.nativeElement.canPlayType !== "function") {
@@ -142,7 +145,9 @@ export class MarcyVideoComponent {
 					return a.meta.width <= b.meta.width ? -1 : 1;
 				}); // smallest video
 
-			if (fileSrcs.length === 0) continue;
+			if (fileSrcs.length === 0) {
+				continue;
+			}
 
 			// console.log('sources ', fileSrcs);
 
@@ -156,7 +161,9 @@ export class MarcyVideoComponent {
 				// console.log(`browser video currentDiff ${currentDiff}`)
 
 				// too big video source width
-				if (currentDiff > 0) break;
+				if (currentDiff > 0) {
+					break;
+				}
 
 				bestSrc = fileSrc;
 			}

@@ -13,9 +13,9 @@ import { AuthService } from "./service";
 export default class RegisterComponent implements OnInit {
 	errors: string[] = [];
 	registerForm!: FormGroup;
-	registerFailed: boolean = false;
-	registerSucceeded: boolean = false;
-	signedIn: boolean = false;
+	registerFailed = false;
+	registerSucceeded = false;
+	signedIn = false;
 
 	private readonly authService = inject(AuthService);
 	private readonly formBuilder = inject(FormBuilder);

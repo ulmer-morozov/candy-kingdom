@@ -114,15 +114,16 @@ export default class FaceComponent {
 		});
 	}
 
-	private appendIconLink(rel: string, type: string, href: string, sizes: string = ""): void {
+	private appendIconLink(rel: string, type: string, href: string, sizes = ""): void {
 		const link: HTMLLinkElement = this.doc.createElement("link");
 
 		link.setAttribute("rel", rel);
 		link.setAttribute("type", type);
 		link.setAttribute("href", href);
 
-		if (sizes !== undefined && sizes !== null && sizes.length > 0)
+		if (sizes !== undefined && sizes !== null && sizes.length > 0) {
 			link.setAttribute("sizes", sizes);
+		}
 
 		this.doc.head.appendChild(link);
 	}

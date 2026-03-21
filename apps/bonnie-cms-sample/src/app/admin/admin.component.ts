@@ -27,7 +27,7 @@ import { AuthService } from "../service";
   `,
 })
 export default class AdminComponent {
-	public isSignedIn: boolean = false;
+	public isSignedIn = false;
 
 	private readonly auth = inject(AuthService);
 	private readonly router = inject(Router);

@@ -35,8 +35,9 @@ export class SkeletonComponent {
 			const viewContainerRef = anchor.viewContainerRef;
 			viewContainerRef.clear();
 
-			if (mapVal === undefined || mapVal === null)
+			if (mapVal === undefined || mapVal === null) {
 				throw new Error('add type map with input: [map]="..."');
+			}
 
 			for (const bone of bones) {
 				let componentType = mapVal.get(bone.type);

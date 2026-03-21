@@ -7,7 +7,7 @@ export class BoneMap extends Map<string, Type<any>> {
 		const value = this.get(key);
 
 		if (value === undefined || value === null) {
-			throw Error(`BoneMap doesn't contain type for key = ${key}`);
+			throw new Error(`BoneMap doesn't contain type for key = ${key}`);
 		}
 
 		return value;

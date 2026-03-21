@@ -45,10 +45,14 @@ export function matchesMediaQuery(mediaQuery?: string): boolean {
 		mediaQuery === null || mediaQuery === undefined || mediaQuery.trim().length === 0;
 
 	// work for SSR and browser
-	if (isEmptyQuery) return true;
+	if (isEmptyQuery) {
+		return true;
+	}
 
 	// other queries disallowed in SSR
-	if (typeof window === "undefined") return false;
+	if (typeof window === "undefined") {
+		return false;
+	}
 
 	const mediaQueryList = window.matchMedia(mediaQuery);
 
@@ -56,11 +60,17 @@ export function matchesMediaQuery(mediaQuery?: string): boolean {
 }
 
 export function isLocalUrlString(url: string): boolean {
-	if (url === undefined || url === null || url.trim().length === 0) return true;
+	if (url === undefined || url === null || url.trim().length === 0) {
+		return true;
+	}
 
-	if (url.startsWith("//")) return false;
+	if (url.startsWith("//")) {
+		return false;
+	}
 
-	if (url.startsWith("./") || url.startsWith("/")) return true;
+	if (url.startsWith("./") || url.startsWith("/")) {
+		return true;
+	}
 
 	return false;
 }

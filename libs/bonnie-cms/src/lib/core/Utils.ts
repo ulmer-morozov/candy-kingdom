@@ -5,11 +5,17 @@ export const regExpIsMobile = new RegExp(
 );
 
 export function isLocalUrlString(url: string): boolean {
-	if (url === undefined || url === null || url.trim().length === 0) return true;
+	if (url === undefined || url === null || url.trim().length === 0) {
+		return true;
+	}
 
-	if (url.startsWith("//")) return false;
+	if (url.startsWith("//")) {
+		return false;
+	}
 
-	if (url.startsWith("./") || url.startsWith("/")) return true;
+	if (url.startsWith("./") || url.startsWith("/")) {
+		return true;
+	}
 
 	return false;
 }

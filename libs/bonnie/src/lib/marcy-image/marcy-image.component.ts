@@ -36,10 +36,11 @@ export class MarcyImageComponent {
 	constructor() {
 		const src = inject(ImageSrcDirective, { optional: true });
 
-		if (src === undefined || src === null)
+		if (src === undefined || src === null) {
 			throw new Error(
 				`${MarcyImageComponent.name} should have [imgsrc] directive as source object`,
 			);
+		}
 
 		this.src = src;
 

@@ -12,8 +12,8 @@ import { AuthService } from "./service";
 })
 export default class SignInComponent implements OnInit {
 	loginForm!: FormGroup;
-	authFailed: boolean = false;
-	signedIn: boolean = false;
+	authFailed = false;
+	signedIn = false;
 
 	private readonly authService = inject(AuthService);
 	private readonly formBuilder = inject(FormBuilder);

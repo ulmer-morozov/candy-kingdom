@@ -109,7 +109,9 @@ export class BoneEditorContainerComponent {
 	}
 
 	public nextPreset = (): void => {
-		if (this.editor === undefined || this.editor === null) return;
+		if (this.editor === undefined || this.editor === null) {
+			return;
+		}
 
 		this.editor.nextPreset();
 	};
@@ -132,8 +134,8 @@ export class BoneEditorContainerComponent {
 	//   this.editor.updateDirty();
 	// }
 
-  // todo: use this feature
-  // its not working now
+	// todo: use this feature
+	// its not working now
 	public get disabled(): boolean {
 		if (this.editor === undefined || this.editor === null) {
 			console.warn("editor should have been set before disabled is called");

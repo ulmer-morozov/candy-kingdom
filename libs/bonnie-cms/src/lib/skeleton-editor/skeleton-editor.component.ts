@@ -27,7 +27,7 @@ export class SkeletonEditorComponent {
 
 	public readonly map = input.required<BoneEditorMap>();
 
-	public readonly templates = input.required<ReadonlyArray<IBoneTemplate>>();
+	public readonly templates = input.required<readonly IBoneTemplate[]>();
 
 	public readonly templatesAreShown: boolean[] = [];
 
@@ -68,14 +68,17 @@ export class SkeletonEditorComponent {
 	}
 
 	public boneEditHandler(isEditing: boolean): void {
-		if (isEditing) this.editable.startEditing();
-		else {
+		if (isEditing) {
+			this.editable.startEditing();
+		} else {
 			const allClosed =
 				this.boneEditorContainerList().filter((x) => x.editor?.isEditing).length === 0;
 
 			this.editable.updateDirty();
 
-			if (!this.editable.isDirty() && allClosed) this.editable.close();
+			if (!this.editable.isDirty() && allClosed) {
+				this.editable.close();
+			}
 		}
 	}
 
@@ -88,25 +91,35 @@ export class SkeletonEditorComponent {
 	}
 
 	public removeBone(boneIndex: number): void {
-		if (this.bones === undefined || this.bones === null) return;
+		if (this.bones === undefined || this.bones === null) {
+			return;
+		}
 
-		if (!confirm("Вы уверены, что хотите удалить компонент?")) return;
+		if (!confirm("Вы уверены, что хотите удалить компонент?")) {
+			return;
+		}
 
 		this.bones.splice(boneIndex, 1);
 
-		if (!this.editable.inEditMode()) this.editable.startEditing();
+		if (!this.editable.inEditMode()) {
+			this.editable.startEditing();
+		}
 
 		this.editable.save();
 	}
 
 	public moveDown(boneIndex: number): void {
-		if (boneIndex >= this.bones.length - 1) return;
+		if (boneIndex >= this.bones.length - 1) {
+			return;
+		}
 
 		this.swapBones(boneIndex, boneIndex + 1);
 	}
 
 	public moveUp(boneIndex: number): void {
-		if (boneIndex <= 0) return;
+		if (boneIndex <= 0) {
+			return;
+		}
 
 		this.swapBones(boneIndex - 1, boneIndex);
 	}
@@ -118,10 +131,11 @@ export class SkeletonEditorComponent {
 	}
 
 	private swapBones(index1: number, index2: number): void {
-		if (index1 < 0 || index2 < 0 || index1 >= this.bones.length || index2 >= this.bones.length)
+		if (index1 < 0 || index2 < 0 || index1 >= this.bones.length || index2 >= this.bones.length) {
 			throw new Error(
 				`ошибка swapBones. неправильные индексы ${index1} и ${index2}. bone count: ${this.bones.length}`,
 			);
+		}
 
 		const tempBone = this.bones[index1];
 		this.bones[index1] = this.bones[index2];

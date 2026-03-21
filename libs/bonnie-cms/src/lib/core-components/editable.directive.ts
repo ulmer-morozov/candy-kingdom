@@ -63,7 +63,9 @@ export class EditableDirective<T = unknown> {
 	}
 
 	public patchSave(propName: keyof T, newDataParts: T[keyof T]): void {
-		if (this._originalValue === undefined || this._originalValue === null) return;
+		if (this._originalValue === undefined || this._originalValue === null) {
+			return;
+		}
 
 		if (typeof this._originalValue !== "object") {
 			console.warn("patch save called on not object type");
@@ -76,14 +78,18 @@ export class EditableDirective<T = unknown> {
 
 		this.updateDirty();
 
-		if (!this.isDirty()) this.close();
+		if (!this.isDirty()) {
+			this.close();
+		}
 	}
 
 	// change model without opening or closing the editor
 
 	public silentPatch(dict: Partial<T>): void {
 		for (const key in dict) {
-			if (!Object.hasOwn(dict, key)) continue;
+			if (!Object.hasOwn(dict, key)) {
+				continue;
+			}
 
 			const propVal = dict[key];
 
@@ -99,7 +105,9 @@ export class EditableDirective<T = unknown> {
 	}
 
 	public cancel(): void {
-		if (!this.inEditMode()) return;
+		if (!this.inEditMode()) {
+			return;
+		}
 
 		this.finishEditing();
 
@@ -114,7 +122,9 @@ export class EditableDirective<T = unknown> {
 	}
 
 	private finishEditing(): void {
-		if (!this.inEditMode()) return;
+		if (!this.inEditMode()) {
+			return;
+		}
 
 		this._inEditMode.set(false);
 		this.editModeChange.emit(false);

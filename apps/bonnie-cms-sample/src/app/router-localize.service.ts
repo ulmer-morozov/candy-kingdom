@@ -24,7 +24,9 @@ export class RouterLocalizeService extends LocalizeServiceBase {
 
 			newLocale = newLocale?.toLowerCase() ?? defaultLocale;
 
-			if (newLocale.length === 0 || this.locale() === newLocale) return;
+			if (newLocale.length === 0 || this.locale() === newLocale) {
+				return;
+			}
 
 			this.locale.set(newLocale);
 		};

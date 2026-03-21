@@ -8,9 +8,13 @@ import type { PageBase, View } from "@candy-kingdom/bonnie";
 import type { SettingData } from "../generated";
 import { API_BASE_URL } from "./API_BASE_URL";
 
-type DataDictionary = { [n: string]: Observable<unknown> };
+interface DataDictionary {
+	[n: string]: Observable<unknown>;
+}
 
-export type SettingDataDict = { [id: string]: SettingData };
+export interface SettingDataDict {
+	[id: string]: SettingData;
+}
 
 @Injectable()
 export class DataService {
@@ -33,7 +37,7 @@ export class DataService {
 
 	public getSettings(ids: string[]): Observable<Readonly<SettingDataDict>> {
 		const pageOb = this.http.get<SettingDataDict>(`${this.baseHref}api/settings`, {
-			params: { ids: ids },
+			params: { ids },
 		});
 
 		return pageOb;
@@ -80,13 +84,15 @@ export class DataService {
 						!("dataRoute" in bone) ||
 						typeof bone.dataRoute !== "string" ||
 						bone.dataRoute.length === 0
-					)
+					) {
 						continue;
+					}
 
 					const data = x.data[bone.dataRoute];
 
-					if (data === undefined || data === null)
+					if (data === undefined || data === null) {
 						throw new Error(`Data ${bone.dataRoute} have not been preloaded`);
+					}
 
 					(bone as any).data = data; // todo: fix
 				}

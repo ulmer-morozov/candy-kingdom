@@ -41,7 +41,7 @@ export abstract class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 
 	private onSrcChange(val: T | undefined): void {
 		if (val !== undefined && val !== null && val.sources.length === 0) {
-			console.warn(`image should have sources!`);
+			console.warn("image should have sources!");
 			this.data.set(undefined);
 			return;
 		}
@@ -78,7 +78,9 @@ export abstract class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 
 	private calcRatio(): void {
 		const data = this.data();
-		if (data === undefined || data === null || data.sources.length === 0) return;
+		if (data === undefined || data === null || data.sources.length === 0) {
+			return;
+		}
 
 		for (let i = 0; i < data.sources.length; i++) {
 			const source = data.sources[i];
@@ -104,7 +106,9 @@ export abstract class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 				return;
 			}
 
-			if (typeof window === "undefined" || typeof window.matchMedia === "undefined") return;
+			if (typeof window === "undefined" || typeof window.matchMedia === "undefined") {
+				return;
+			}
 
 			const mediaQueryList = window.matchMedia(source.mediaQuery);
 
@@ -124,11 +128,12 @@ export abstract class SrcBaseDirective<T extends M_CORE.Image | M_CORE.Video> {
 			src === null ||
 			typeof window === "undefined" ||
 			typeof window.matchMedia === "undefined"
-		)
+		) {
 			return NEVER.pipe(
 				takeUntilDestroyed(this._destroyRef),
 				takeUntil(this._queryChangeClearSubject),
 			);
+		}
 
 		const mediaQueries = src.sources
 			.map((x) => x.mediaQuery)

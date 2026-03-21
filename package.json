@@ -18,7 +18,7 @@
 		"marcy-gen:run": "dotnet run --project apps/marcy-gen",
 		"cms-sample:dev": "nx run-many --parallel --target=serve --projects=\"marcy-cms-sample,bonnie-cms-sample\" --proxyConfig=\"apps/bonnie-cms-sample/proxy.conf.json\"",
 		"dotnet:format": "dotnet format candy-kingdom.sln",
-		"version-bump": "nx run bonnie:version --syncVersions --releaseAs=minor --allowEmptyRelease && git push --follow-tags",
+		"version-bump": "nx run bonnie:version --syncVersions --releaseAs=patch --allowEmptyRelease && git push --follow-tags",
 		"prepare": "husky",
 		"biome-check": "npx @biomejs/biome check --write ."
 	},

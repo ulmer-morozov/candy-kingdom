@@ -93,7 +93,9 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 		this.boneEtalon.set(JSON.parse(this._storedBoneJson));
 		this.updatePresetByData();
 
-		if (this.onReset !== undefined) this.onReset();
+		if (this.onReset !== undefined) {
+			this.onReset();
+		}
 
 		this.editing.emit(false);
 	}
@@ -111,7 +113,9 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 	}
 
 	public save(): void {
-		if (!this.isDirty()) return;
+		if (!this.isDirty()) {
+			return;
+		}
 
 		this._isDirty.set(false);
 
@@ -136,12 +140,15 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 	}
 
 	public finishEditing(): void {
-		if (this._isDirty())
+		if (this._isDirty()) {
 			throw new Error(
 				"Нельзя закрывать редактирование когда есть изменения. Надо сохранить либо зарезетить.",
 			);
+		}
 
-		if (this.onFinishEditing !== undefined) this.onFinishEditing();
+		if (this.onFinishEditing !== undefined) {
+			this.onFinishEditing();
+		}
 
 		this._isEditing.set(false);
 	}
@@ -153,13 +160,15 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 		this.applyPresetAtIndex(newIndex);
 	}
 
-	private applyPresetAtIndex = (newIndex: number): void => {
+	private readonly applyPresetAtIndex = (newIndex: number): void => {
 		newIndex = newIndex < 0 ? 0 : newIndex % this.presets().length;
 
 		const currentPreset = this.currentPreset();
 
 		const currentIndex = currentPreset === undefined ? -1 : this.presets().indexOf(currentPreset);
-		if (currentIndex === newIndex) return;
+		if (currentIndex === newIndex) {
+			return;
+		}
 
 		const newPreset = this.presets()[newIndex];
 
@@ -169,15 +178,16 @@ export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBo
 		this.updateDirty();
 	};
 
-	private updatePresetByData = (): void => {
+	private readonly updatePresetByData = (): void => {
 		const countOfActive = this.presets()
 			.map((p) => p.isActive(this.bone()))
 			.filter((p) => p).length;
 
-		if (countOfActive !== 1)
+		if (countOfActive !== 1) {
 			throw new Error(
 				`active preset count should be equal 1, but it was: ${countOfActive}. ${this.constructor.name}`,
 			);
+		}
 
 		for (let i = 0; i < this.presets().length; i++) {
 			const preset = this.presets()[i];

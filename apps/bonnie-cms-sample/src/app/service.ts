@@ -20,8 +20,8 @@ export class AuthService {
 			.post(
 				"/api/login?useCookies=true",
 				{
-					email: email,
-					password: password,
+					email,
+					password,
 				},
 				{
 					observe: "response",
@@ -42,19 +42,15 @@ export class AuthService {
 			.post(
 				"/api/register",
 				{
-					email: email,
-					password: password,
+					email,
+					password,
 				},
 				{
 					observe: "response",
 					responseType: "text",
 				},
 			)
-			.pipe<boolean>(
-				map((res: HttpResponse<string>) => {
-					return res.ok;
-				}),
-			);
+			.pipe<boolean>(map((res: HttpResponse<string>) => res.ok));
 	}
 
 	// sign out
@@ -85,11 +81,7 @@ export class AuthService {
 			.get<UserInfo>("/api/manage/info", {
 				withCredentials: true,
 			})
-			.pipe(
-				catchError((_: HttpErrorResponse, __: Observable<UserInfo>) => {
-					return of({} as UserInfo);
-				}),
-			);
+			.pipe(catchError((_: HttpErrorResponse, __: Observable<UserInfo>) => of({} as UserInfo)));
 	}
 
 	// is signed in when the call completes without error and the user has an email
@@ -99,9 +91,7 @@ export class AuthService {
 				const valid = !!(userInfo && userInfo.email && userInfo.email.length > 0);
 				return valid;
 			}),
-			catchError((_) => {
-				return of(false);
-			}),
+			catchError((_) => of(false)),
 		);
 	}
 }
