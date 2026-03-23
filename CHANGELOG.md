@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.27.4](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.27.3...v0.27.4) (2026-03-23)
+
+
+### Bug Fixes
+
+* package-lock ([f5b41ac](https://github.com/ulmer-morozov/candy-kingdom/commit/f5b41ac4723bc393c4b802361ac339ee0e637e5d))
+
+
+### Reverts
+
+* Revert "chore: nx migration to latest" ([de2737d](https://github.com/ulmer-morozov/candy-kingdom/commit/de2737d8fc6eb915e2822d3a5b0e3f46727b10b4))
+
+
+
 ## [0.27.3](https://github.com/ulmer-morozov/candy-kingdom/compare/v0.27.2...v0.27.3) (2026-03-23)
 
 
