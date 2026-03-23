@@ -52,6 +52,3 @@ publish-bonnie.sh
 publish-marcy.sh
 apps/marcy-cms-sample/bin-wrapper-downloads
 apps/marcy-cms-sample/files
-
-.claude/worktrees
-.claude/settings.local.json
