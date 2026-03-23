@@ -1,4 +1,7 @@
 {
+	"files": {
+		"includes": ["**", "!.nx", "!.angular", "!dist", "!**/*.component.html"]
+	},
 	"assist": {
 		"actions": {
 			"source": {
