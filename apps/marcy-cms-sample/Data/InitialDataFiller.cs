@@ -75,11 +75,6 @@ of a sample company"""),
                             Data = new(){
                                 AllowedMimeTypes = new ImmutableList2<string>(["application/json"])
                             }
-                        },
-                        new Setting<LottieSettingData>{
-                            Id = CmsSampleSettingIds.Animation,
-                            Title = "Lottie animation",
-                            Data = new()
                         }
                 }.ToImmutableList2()
             }

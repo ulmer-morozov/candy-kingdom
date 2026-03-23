@@ -7,8 +7,6 @@ import {
 import { provideClientHydration, withEventReplay } from "@angular/platform-browser";
 import { provideRouter, withComponentInputBinding } from "@angular/router";
 
-import { provideLottieOptions } from "ngx-lottie";
-
 import { appRoutes } from "./app.routes";
 import { AuthGuard } from "./guard";
 import { AuthInterceptor } from "./interceptor";
@@ -27,10 +25,6 @@ export const appConfig: ApplicationConfig = {
 			useClass: AuthInterceptor,
 			multi: true,
 		},
-
-		provideLottieOptions({
-			player: () => import("lottie-web"),
-		}),
 
 		AuthGuard,
 		AuthService,
