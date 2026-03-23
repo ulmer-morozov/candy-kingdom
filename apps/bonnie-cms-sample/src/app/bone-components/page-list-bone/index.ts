@@ -1,1 +1,1 @@
-export * from './page-list-bone.component';
+export * from "./page-list-bone.component";

@@ -1,11 +1,13 @@
 @if (editor) {
-  <div class="left bar" [class.inactive]="editor.noPresets">
+  <div class="left bar" [class.inactive]="editor.noPresets()">
     <!-- <a *ngFor="let control of editor.controls" (click)="control.activate()">{{control.label}}</a> -->
     <!-- <a (click)="setDisabled(!disabled)" class="disabled">block {{disabled ? 'disabled' : 'enabled'}} ({{editor.bone.visibility}})</a> -->
-    @if (editor.currentPreset && !editor.noPresets) {
-      <a (click)="nextPreset()" class="preset">style:<br />{{editor.currentPreset.title}}</a>
+    @if (editor.currentPreset() && !editor.noPresets()) {
+      <a (click)="nextPreset()" class="preset">style:<br />{{editor.currentPreset()?.title}}</a>
     }
   </div>
+}@else {
+  EDITOR COMPONENTS IS NOT DEFINED
 }
 
 <div class="editor-container"
@@ -20,12 +22,12 @@
 </div>
 
 @if (editor) {
-  <div [class.active]="editor.isEditing || editor.isDirty" class="right bar">
+  <div [class.active]="editor.isEditing() || editor.isDirty()" class="right bar">
     <!-- <a *ngIf="!editor.isEditing" (click)="editor.remove()" class="delete">!!! remove</a> -->
-    @if (editor.isDirty) {
+    @if (editor.isDirty()) {
       <a (click)="editor.resetData()" class="reset">reset</a>
       <a (click)="editor.save()" class="save">apply</a>
-    } @else if (editor.isEditing) {
+    } @else if (editor.isEditing()) {
       <a (click)="editor.finishEditing()" class="close">close</a>
     }
   </div>

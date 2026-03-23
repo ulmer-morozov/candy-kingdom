@@ -1,25 +1,11 @@
-import { Directive, OnInit, effect, input } from '@angular/core';
+import { Directive, model } from "@angular/core";
 
-import * as MCore from '../generated';
-
-import { SrcBaseDirective } from '../core/src.directive';
+import { SrcBaseDirective } from "../core/src.directive";
+import type * as M_CORE from "../generated";
 
 @Directive({
-  standalone: true,
-  selector: '[vidsrc]',
+	selector: "[vidsrc]",
 })
-export class VideoSrcDirective
-  extends SrcBaseDirective<MCore.Video>
-  implements OnInit
-{
-  public readonly vidsrc = input<MCore.Video | undefined>();
-
-  constructor() {
-    super(); // todo: replace this with more appropriate code
-    effect(() => {
-      const value = this.vidsrc();
-      this.data = value;
-      console.log('set vidsrc', value);
-    });
-  }
+export class VideoSrcDirective extends SrcBaseDirective<M_CORE.Video> {
+	public readonly data = model<M_CORE.Video | undefined>(undefined, { alias: "vidsrc" });
 }

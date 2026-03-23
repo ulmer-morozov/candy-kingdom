@@ -1,85 +1,75 @@
-import { Component, input, output, ChangeDetectorRef, inject, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from "@angular/common";
+import { Component, effect, inject, input, output, signal } from "@angular/core";
 
-import * as MCore from '../generated';
-
-import { UnsubscriberService } from '../core/unsubscribe.service';
-import { MediaStatus } from '../core/MediaStatus';
-import { MediaObjectFit } from '../core/MediaObjectFit';
-import { ImageSrcDirective } from './imgsrc.directive';
-import { IHtmlPictureSource } from './IHtmlPictureSource';
-import { toHtmlPictureSources } from './toHtmlSources';
-import { getDefaultSrc } from './getDefaultSrc';
-import { DeviceServiceBase } from '../core/device.service.base';
-import { IntersectionComponent } from '../core/intersection.component';
+import { DeviceServiceBase } from "../core/device.service.base";
+import { IntersectionComponent } from "../core/intersection.component";
+import { MediaObjectFit } from "../core/MediaObjectFit";
+import { MediaStatus } from "../core/MediaStatus";
+import type * as M_CORE from "../generated";
+import { getDefaultSrc } from "./getDefaultSrc";
+import type { IHtmlPictureSource } from "./IHtmlPictureSource";
+import { ImageSrcDirective } from "./imgsrc.directive";
+import { toHtmlPictureSources } from "./toHtmlSources";
 
 @Component({
-  selector: 'bon-image',
-  standalone: true,
-  imports: [CommonModule, IntersectionComponent],
-  templateUrl: './marcy-image.component.html',
-  styleUrls: ['./marcy-image.component.scss'],
-  providers: [UnsubscriberService]
+	selector: "bon-image",
+
+	imports: [NgTemplateOutlet, IntersectionComponent],
+	templateUrl: "./marcy-image.component.html",
+	styleUrl: "./marcy-image.component.scss",
 })
 export class MarcyImageComponent {
-  public readonly MediaStatus = MediaStatus;
-  public readonly MarcyObjectFit = MediaObjectFit;
+	public readonly MediaStatus = MediaStatus;
+	public readonly MarcyObjectFit = MediaObjectFit;
 
-  public readonly isLoaded = output<void>();
-  public readonly sources: IHtmlPictureSource[] = [];
+	public readonly src: ImageSrcDirective;
 
-  public readonly status = signal<MediaStatus>(MediaStatus.NotSet);
+	public readonly isLoaded = output<void>();
+	public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
-  public defaultSrc = '';
+	public readonly sources = signal<IHtmlPictureSource[]>([]);
+	public readonly status = signal<MediaStatus>(MediaStatus.NotSet);
+	public readonly defaultSrc = signal("");
 
-  public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
+	public readonly device = inject(DeviceServiceBase);
 
-  public readonly src: ImageSrcDirective;
+	constructor() {
+		const src = inject(ImageSrcDirective, { optional: true });
 
-  public readonly device = inject(DeviceServiceBase);
-  public readonly cd = inject(ChangeDetectorRef);
-  private readonly _u = inject(UnsubscriberService);
-  private readonly _srcDir = inject(ImageSrcDirective, { optional: true });
+		if (src === undefined || src === null) {
+			throw new Error(
+				`${MarcyImageComponent.name} should have [imgsrc] directive as source object`,
+			);
+		}
 
-  constructor() {
-    if (this._srcDir === undefined || this._srcDir === null)
-      throw new Error(`${MarcyImageComponent.name} should have [imgsrc] directive as source object`);
+		this.src = src;
 
-    this.src = this._srcDir;
+		effect(() => {
+			this.onSrcChange(this.src.data());
+		});
 
-    this.src.srcChange
-      .pipe(this._u.takeUntilDestroy)
-      .subscribe(this.onSrcChange.bind(this));
+		effect(() => {
+			if (this.status() === MediaStatus.Loaded) {
+				this.isLoaded.emit();
+			}
+		});
+	}
 
-    this.cd.detach();
+	private onSrcChange(val: M_CORE.Image | undefined) {
+		this.defaultSrc.set(getDefaultSrc(val)?.url ?? "");
 
-    effect(() => {
-      if (this.status() === MediaStatus.Loaded) {
-        this.isLoaded.emit();
-      }
-    });
+		if (val === undefined || val === null || val.sources.length === 0) {
+			this.sources.set([]);
+			this.status.set(MediaStatus.NotSet);
+			return;
+		}
 
-    this.cd.detectChanges();
-  }
+		const newSources = val.sources.flatMap(toHtmlPictureSources);
+		this.sources.set(newSources);
+		this.status.set(MediaStatus.NotLoaded);
+	}
 
-  private onSrcChange(val: MCore.Image | undefined) {
-    this.defaultSrc = getDefaultSrc(val)?.url ?? '';
-
-    this.sources.splice(0, this.sources.length);
-
-    if (val === undefined || val === null || val.sources.length === 0) {
-      this.status.set(MediaStatus.NotSet);
-      this.cd.detectChanges();
-      return;
-    }
-
-    const newSources = val.sources.flatMap(toHtmlPictureSources);
-    this.sources.push(...newSources);
-    this.status.set(MediaStatus.NotLoaded);
-    this.cd.detectChanges();
-  }
-
-  public onLoad() {
-    this.status.set(MediaStatus.Loaded);
-  }
+	public onLoad() {
+		this.status.set(MediaStatus.Loaded);
+	}
 }

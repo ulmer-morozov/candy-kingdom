@@ -1,6 +1,5 @@
-import { LocalizedString } from "../generated";
-
+import type { LocalizedString } from "../generated";
 
 export function emptyLocalizedString(): LocalizedString {
-  return {};
+	return {};
 }

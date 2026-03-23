@@ -4,15 +4,15 @@
 
 <ng-content></ng-content>
 
-<div (click)="selectFile($event)" class="media-container">
+<div (click)="selectFile($event)" (keydown.enter)="selectFile($event)" role="button" tabindex="0" class="media-container">
   <input #fileInput [accept]="fileTypeMask()" (change)="onFileSelect(fileInput)" name="media" type="file" />
-  @if (isUploading) {
-    <span [style.clip-path]="clipStyle"
-          [style.-webkit-clip-path]="clipStyle"
+  @if (isUploading()) {
+    <span [style.clip-path]="clipStyle()"
+          [style.-webkit-clip-path]="clipStyle()"
           class="loader"></span>
     <span class="loader-text">
-      @if (progress < 1) {
-        <span>{{100 * progress | number: '1.0-0'}}%</span>
+      @if (progress() < 1) {
+        <span>{{100 * progress() | number: '1.0-0'}}%</span>
       } @else {
         <span>converting</span>
       }

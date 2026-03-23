@@ -1,46 +1,46 @@
 {
-  "name": "bonnie",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/bonnie/src",
-  "prefix": "lib",
-  "projectType": "library",
-  "release": {
-    "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
-      "currentVersionResolver": "git-tag",
-      "fallbackCurrentVersionResolver": "disk"
-    }
-  },
-  "tags": [],
-  "targets": {
-    "build": {
-      "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
-      "options": {
-        "project": "libs/bonnie/ng-package.json",
-        "tsConfig": "libs/bonnie/tsconfig.lib.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/bonnie/tsconfig.lib.prod.json"
-        },
-        "development": {}
-      },
-      "defaultConfiguration": "production"
-    },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/{projectRoot}"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular"
-      }
-    }
-  }
+	"name": "bonnie",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/bonnie/src",
+	"prefix": "lib",
+	"projectType": "library",
+	"release": {
+		"version": {
+			"manifestRootsToUpdate": ["dist/{projectRoot}"],
+			"currentVersionResolver": "git-tag",
+			"fallbackCurrentVersionResolver": "disk"
+		}
+	},
+	"tags": [],
+	"targets": {
+		"build": {
+			"executor": "@nx/angular:package",
+			"outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+			"options": {
+				"project": "libs/bonnie/ng-package.json",
+				"tsConfig": "libs/bonnie/tsconfig.lib.json"
+			},
+			"configurations": {
+				"production": {
+					"tsConfig": "libs/bonnie/tsconfig.lib.prod.json"
+				},
+				"development": {}
+			},
+			"defaultConfiguration": "production"
+		},
+		"nx-release-publish": {
+			"options": {
+				"packageRoot": "dist/{projectRoot}"
+			}
+		},
+		"lint": {
+			"executor": "@nx/eslint:lint"
+		},
+		"version": {
+			"executor": "@jscutlery/semver:version",
+			"options": {
+				"preset": "angular"
+			}
+		}
+	}
 }

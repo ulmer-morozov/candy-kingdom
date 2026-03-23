@@ -1,1 +1,1 @@
-export * from './svg-form.component';
+export * from "./svg-form.component";

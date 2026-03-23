@@ -4,7 +4,7 @@
  */
 
 export enum SizesWidthUnit {
-    Px = "Px",
-    Em = "Em",
-    Vw = "Vw",
+	Px = "Px",
+	Em = "Em",
+	Vw = "Vw",
 }

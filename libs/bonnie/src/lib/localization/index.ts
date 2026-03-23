@@ -1,2 +1,2 @@
-export * from './LocalizeServiceBase';
-export * from './localize.pipe';
+export * from "./LocalizeServiceBase";
+export * from "./localize.pipe";

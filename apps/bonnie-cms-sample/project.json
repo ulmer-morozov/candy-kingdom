@@ -1,85 +1,83 @@
 {
-  "name": "bonnie-cms-sample",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "prefix": "app",
-  "sourceRoot": "apps/bonnie-cms-sample/src",
-  "tags": [],
-  "targets": {
-    "build": {
-      "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/apps/bonnie-cms-sample",
-        "browser": "apps/bonnie-cms-sample/src/main.ts",
-        "tsConfig": "apps/bonnie-cms-sample/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "apps/bonnie-cms-sample/public"
-          }
-        ],
-        "styles": ["apps/bonnie-cms-sample/src/styles.scss"],
-        "stylePreprocessorOptions": {
-          "includePaths": [
-            "libs/bonnie-cms/src/lib/styles"
-          ]
-        },
-        "server": "apps/bonnie-cms-sample/src/main.server.ts",
-        "ssr": {
-          "entry": "apps/bonnie-cms-sample/src/server.ts"
-        },
-        "outputMode": "server"
-      },
-      "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
-            }
-          ],
-          "outputHashing": "all"
-        },
-        "development": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve": {
-      "continuous": true,
-      "executor": "@angular/build:dev-server",
-      "configurations": {
-        "production": {
-          "buildTarget": "bonnie-cms-sample:build:production"
-        },
-        "development": {
-          "buildTarget": "bonnie-cms-sample:build:development"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "serve-static": {
-      "continuous": true,
-      "executor": "@nx/web:file-server",
-      "options": {
-        "buildTarget": "bonnie-cms-sample:build",
-        "staticFilePath": "dist/apps/bonnie-cms-sample/browser",
-        "spa": true
-      }
-    }
-  }
+	"name": "bonnie-cms-sample",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"prefix": "app",
+	"sourceRoot": "apps/bonnie-cms-sample/src",
+	"tags": [],
+	"targets": {
+		"build": {
+			"executor": "@angular/build:application",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/apps/bonnie-cms-sample",
+				"browser": "apps/bonnie-cms-sample/src/main.ts",
+				"tsConfig": "apps/bonnie-cms-sample/tsconfig.app.json",
+				"inlineStyleLanguage": "scss",
+				"assets": [
+					{
+						"glob": "**/*",
+						"input": "apps/bonnie-cms-sample/public"
+					}
+				],
+				"styles": ["apps/bonnie-cms-sample/src/styles.scss"],
+				"stylePreprocessorOptions": {
+					"includePaths": ["libs/bonnie-cms/src/lib/styles"]
+				},
+				"server": "apps/bonnie-cms-sample/src/main.server.ts",
+				"ssr": {
+					"entry": "apps/bonnie-cms-sample/src/server.ts"
+				},
+				"outputMode": "server"
+			},
+			"configurations": {
+				"production": {
+					"budgets": [
+						{
+							"type": "initial",
+							"maximumWarning": "500kb",
+							"maximumError": "1mb"
+						},
+						{
+							"type": "anyComponentStyle",
+							"maximumWarning": "4kb",
+							"maximumError": "8kb"
+						}
+					],
+					"outputHashing": "all"
+				},
+				"development": {
+					"optimization": false,
+					"extractLicenses": false,
+					"sourceMap": true
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"serve": {
+			"continuous": true,
+			"executor": "@angular/build:dev-server",
+			"configurations": {
+				"production": {
+					"buildTarget": "bonnie-cms-sample:build:production"
+				},
+				"development": {
+					"buildTarget": "bonnie-cms-sample:build:development"
+				}
+			},
+			"defaultConfiguration": "development"
+		},
+		"lint": {
+			"executor": "@nx/eslint:lint"
+		},
+		"serve-static": {
+			"continuous": true,
+			"executor": "@nx/web:file-server",
+			"options": {
+				"buildTarget": "bonnie-cms-sample:build",
+				"staticFilePath": "dist/apps/bonnie-cms-sample/browser",
+				"spa": true
+			}
+		}
+	}
 }

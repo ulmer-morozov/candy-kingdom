@@ -1,9 +1,8 @@
-import { Directive, ViewContainerRef, inject } from '@angular/core';
+import { Directive, inject, ViewContainerRef } from "@angular/core";
 
 @Directive({
-  selector: '[bonSkeletonAnchor]',
-  standalone: true
+	selector: "[bonSkeletonAnchor]",
 })
 export class SkeletonAnchorDirective {
-  public readonly viewContainerRef = inject(ViewContainerRef);
+	public readonly viewContainerRef = inject(ViewContainerRef);
 }

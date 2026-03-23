@@ -1,50 +1,53 @@
-import { Component, computed, OnInit, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, computed, DestroyRef, inject, input } from "@angular/core";
 
-import { FileMeta, FileSrc, ImageMeta } from '@candy-kingdom/bonnie';
+import type { FileMeta, FileSrc, ImageMeta } from "@candy-kingdom/bonnie";
 
-import { FormBaseComponent } from '../../core-components/form-base.component';
-import { EditableDirective } from '../../core-components/editable.directive';
-import { FormControlsComponent } from '../../form-controls/form-controls.component';
-import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
+import { EditableDirective } from "../../core-components/editable.directive";
+import { FormBaseComponent } from "../../core-components/form-base.component";
+import { FileUploaderComponent } from "../../file-uploader/file-uploader.component";
+import { FormControlsComponent } from "../../form-controls/form-controls.component";
 
-const DefaultImageMimeTypes = ['image/png', 'image/jpeg'];
+const DefaultImageMimeTypes = ["image/png", "image/jpeg"];
 
 @Component({
-  selector: 'bonc-one-image-form',
-  standalone: true,
-  imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
-  templateUrl: './one-image-form.component.html',
-  styleUrls: ['./one-image-form.component.scss'],
-  hostDirectives: [EditableDirective]
+	selector: "bonc-one-image-form",
+
+	imports: [FormControlsComponent, FileUploaderComponent],
+	templateUrl: "./one-image-form.component.html",
+	styleUrl: "./one-image-form.component.scss",
+	hostDirectives: [EditableDirective],
 })
-export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>> implements OnInit {
-  public readonly label = input('');
+export class OneImageFormComponent extends FormBaseComponent<FileSrc<ImageMeta>> {
+	public readonly label = input("");
 
-  public readonly uploadUrl = input('/api/admin/upload/image');
+	public readonly uploadUrl = input("/api/admin/upload/image");
 
-  public readonly mimeTypes = input(DefaultImageMimeTypes);
+	public readonly mimeTypes = input(DefaultImageMimeTypes);
 
-  public readonly uploadMap = computed(() => {
-    const m = new Map<string, string>();
-    m.set('', this.uploadUrl());
-    return m;
-  });
+	public readonly uploadMap = computed(() => {
+		const m = new Map<string, string>();
+		m.set("", this.uploadUrl());
+		return m;
+	});
 
-  public ngOnInit(): void {
-    this.editable.externalSaveCall.subscribe(() => {
-      this.editable.save();
-    });
-  }
+	private readonly destroyRef = inject(DestroyRef);
 
-  public onFileUploaded(fileSrc: FileSrc<FileMeta>): void {
-    this.editable.startEditing();
+	constructor() {
+		super();
 
-    const svgSrc = fileSrc as FileSrc<ImageMeta>;
+		const sub = this.editable.externalSaveCall.subscribe(() => {
+			this.editable.save();
+		});
+		this.destroyRef.onDestroy(() => sub.unsubscribe());
+	}
 
-    this.editable.value = svgSrc;
+	public onFileUploaded(fileSrc: FileSrc<FileMeta>): void {
+		this.editable.startEditing();
 
-    this.editable.updateDirty();
-  }
+		const svgSrc = fileSrc as FileSrc<ImageMeta>;
 
+		this.editable.value = svgSrc;
+
+		this.editable.updateDirty();
+	}
 }

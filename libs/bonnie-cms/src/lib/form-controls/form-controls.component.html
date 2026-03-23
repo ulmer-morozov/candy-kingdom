@@ -1,9 +1,9 @@
-<div [class.edit]="editable().inEditMode" class="content">
+<div [class.edit]="editable().inEditMode()" class="content">
     <ng-content></ng-content>
 </div>
 
-<div [class.hidden]="!editable().inEditMode" class="controls">
-  @if (!editable().isDirty) {
+<div [class.hidden]="!editable().inEditMode()" class="controls">
+  @if (!editable().isDirty()) {
     <a (click)="editable().cancel()" class="close">close</a>
   } @else {
     <a (click)="editable().cancel()">reset</a>

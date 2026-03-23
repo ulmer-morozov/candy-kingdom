@@ -1,158 +1,160 @@
-import { Component, ComponentFactoryResolver, Input, OnChanges, ViewChild, inject, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import {
+	afterNextRender,
+	Component,
+	type ComponentRef,
+	effect,
+	input,
+	output,
+	signal,
+	viewChild,
+} from "@angular/core";
 
-import { Bone } from '@candy-kingdom/bonnie';
+import type { Unsubscribable } from "rxjs";
 
-import { SkeletonEditorAnchorDirective } from '../skeleton-editor-anchor.directive';
-import { DeviceType } from '../../core';
-import { IBoneEditor } from '../IBoneEditor';
-import { BoneEditorMap } from '../BoneEditorMap';
-import { UnknownBoneEditorComponent } from '../../bone-editors/unknown-bone-editor/unknown-bone-editor.component';
+import type { Bone } from "@candy-kingdom/bonnie";
 
-// todo: rename class
+import { UnknownBoneEditorComponent } from "../../bone-editors/unknown-bone-editor/unknown-bone-editor.component";
+import { DeviceType } from "../../core";
+import type { BoneEditorMap } from "../BoneEditorMap";
+import type { IBoneEditor } from "../IBoneEditor";
+import { SkeletonEditorAnchorDirective } from "../skeleton-editor-anchor.directive";
+
 @Component({
-  selector: 'bonc-bone-editor-container',
-  standalone: true,
-  imports: [CommonModule, SkeletonEditorAnchorDirective],
-  templateUrl: './bone-editor-container.component.html',
-  styleUrls: ['./bone-editor-container.component.scss']
+	selector: "bonc-bone-editor-container",
+
+	imports: [SkeletonEditorAnchorDirective],
+	templateUrl: "./bone-editor-container.component.html",
+	styleUrl: "./bone-editor-container.component.scss",
 })
-export class BoneEditorContainerComponent implements OnChanges {
-  @ViewChild(SkeletonEditorAnchorDirective, { static: true })
-  public anchor!: SkeletonEditorAnchorDirective;
+export class BoneEditorContainerComponent {
+	public readonly anchor = viewChild.required(SkeletonEditorAnchorDirective);
 
-  public readonly removed = output<void>();
+	public readonly removed = output<void>();
+	public readonly saved = output<Bone>();
+	public readonly editing = output<boolean>();
 
-  public readonly saved = output<Bone>();
+	public DeviceType = DeviceType;
 
-  public readonly editing = output<boolean>();
+	public editor!: IBoneEditor;
 
-  public DeviceType = DeviceType;
+	public themePopupIsShown = false;
 
-  public editor!: IBoneEditor;
+	public readonly bone = input.required<Bone>();
+	public readonly locale = input.required<string>();
+	public readonly device = input(DeviceType.NotSet);
+	public readonly map = input.required<BoneEditorMap>();
 
-  public themePopupIsShown = false;
+	private boneEditorRef?: ComponentRef<IBoneEditor<Bone>>;
+	private removeSubscription?: Unsubscribable;
+	private saveSubscription?: Unsubscribable;
+	private changedSubscription?: Unsubscribable;
 
-  private _bone!: Bone;
+	private readonly viewReady = signal(false);
 
-  private removeSubscription?: Subscription;
-  private saveSubscription?: Subscription;
-  private changedSubscription?: Subscription;
+	constructor() {
+		afterNextRender(() => this.viewReady.set(true));
 
-  public readonly locale = input.required<string>();
+		effect(() => {
+			if (!this.viewReady()) {
+				return;
+			}
 
-  public readonly device = input(DeviceType.NotSet);
+			const newBone = this.bone();
+			const editorMap = this.map();
 
-  public readonly map = input.required<BoneEditorMap>();
+			if (this.removeSubscription) {
+				this.removeSubscription.unsubscribe();
+				this.removeSubscription = undefined;
+			}
+			if (this.saveSubscription) {
+				this.saveSubscription.unsubscribe();
+				this.saveSubscription = undefined;
+			}
+			if (this.changedSubscription) {
+				this.changedSubscription.unsubscribe();
+				this.changedSubscription = undefined;
+			}
 
-  private readonly componentFactoryResolver = inject(ComponentFactoryResolver);
+			const viewContainerRef = this.anchor().viewContainerRef;
+			viewContainerRef.clear();
 
-  ngOnChanges(): void {
-    if (this.editor === undefined || this.editor === null)
-      return;
+			const componentType = editorMap.get(newBone.type) ?? UnknownBoneEditorComponent;
+			this.boneEditorRef = viewContainerRef.createComponent(componentType);
 
-    this.editor.locale = this.locale();
-    this.editor.device = this.device();
-  }
+			this.editor = this.boneEditorRef.instance;
 
-  public get bone(): Bone {
-    return this._bone;
-  }
+			this.boneEditorRef.setInput("boneEtalon", newBone);
+			this.boneEditorRef.setInput("locale", this.locale());
+			this.boneEditorRef.setInput("device", this.device());
 
-  @Input({ required: true })
-  public set bone(newBone: Bone) {
-    this._bone = newBone;
+			this.removeSubscription = this.editor.removed.subscribe(() => {
+				this.removed.emit();
+			});
+			this.changedSubscription = this.editor.editing.subscribe((isEditing: boolean) =>
+				this.editing.emit(isEditing),
+			);
+			this.saveSubscription = this.editor.saved.subscribe((newBoneValue: Bone) =>
+				this.saved.emit(newBoneValue),
+			);
+		});
 
-    if (this.removeSubscription) {
-      this.removeSubscription.unsubscribe();
-      this.removeSubscription = undefined;
-    }
+		effect(() => {
+			const locale = this.locale();
+			const device = this.device();
+			if (this.boneEditorRef) {
+				this.boneEditorRef.setInput("locale", locale);
+				this.boneEditorRef.setInput("device", device);
+			}
+		});
+	}
 
-    if (this.saveSubscription) {
-      this.saveSubscription.unsubscribe();
-      this.saveSubscription = undefined;
-    }
+	public nextPreset = (): void => {
+		if (this.editor === undefined || this.editor === null) {
+			return;
+		}
 
-    if (this.changedSubscription) {
-      this.changedSubscription.unsubscribe();
-      this.changedSubscription = undefined;
-    }
+		this.editor.nextPreset();
+	};
 
-    const viewContainerRef = this.anchor.viewContainerRef;
+	// todo: add or remove visibility feature
 
-    viewContainerRef.clear();
+	// public setDisabled = (disabled: boolean): void => {
+	//   if (this.editor === undefined || this.editor === null)
+	//     return;
 
-    const componentType = this.map().get(newBone.type) ?? UnknownBoneEditorComponent;
+	//   this.editor.startEditing();
 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
-    const boneEditorRef = viewContainerRef.createComponent(componentFactory);
+	//   if (this.device === DeviceType.Desktop)
+	//     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Desktop, !disabled);
+	//   else if (this.device === DeviceType.Tablet)
+	//     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Tablet, !disabled);
+	//   else if (this.device === DeviceType.Mobile)
+	//     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Mobile, !disabled);
 
-    this.editor = boneEditorRef.instance;
-    this.editor.bone = newBone;
+	//   this.editor.updateDirty();
+	// }
 
-    this.removeSubscription = this.editor.removed.subscribe(() => {
-      this.removed.emit();
-    });
+	// todo: use this feature
+	// its not working now
+	public get disabled(): boolean {
+		if (this.editor === undefined || this.editor === null) {
+			console.warn("editor should have been set before disabled is called");
+			return false;
+		}
 
-    this.changedSubscription = this.editor.editing.subscribe
-      (
-        (isEditing: boolean) => {
-          this.editing.emit(isEditing);
-        }
-      );
+		return false;
+		// todo: add or remove visibility feature
+		// const visibility = this.editor.bone.visibility;
 
-    this.saveSubscription = this.editor.saved.subscribe(
-      (newBoneValue: Bone) => {
-        this.saved.emit(newBoneValue);
-      }
-    );
+		// if (this.device === DeviceType.Desktop && hasFlag(visibility, DeviceVisibility.Desktop))
+		//   return false;
 
-    this.ngOnChanges();
-  }
+		// if (this.device === DeviceType.Tablet && hasFlag(visibility, DeviceVisibility.Tablet))
+		//   return false;
 
-  public nextPreset = (): void => {
-    if (this.editor === undefined || this.editor === null)
-      return;
+		// if (this.device === DeviceType.Mobile && hasFlag(visibility, DeviceVisibility.Mobile))
+		//   return false;
 
-    this.editor.nextPreset();
-  }
-
-  // todo: add or remove visibility feature
-
-  // public setDisabled = (disabled: boolean): void => {
-  //   if (this.editor === undefined || this.editor === null)
-  //     return;
-
-  //   this.editor.startEditing();
-
-  //   if (this.device === DeviceType.Desktop)
-  //     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Desktop, !disabled);
-  //   else if (this.device === DeviceType.Tablet)
-  //     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Tablet, !disabled);
-  //   else if (this.device === DeviceType.Mobile)
-  //     this.editor.bone.visibility = setOrRemoveFlag(this.editor.bone.visibility, DeviceVisibility.Mobile, !disabled);
-
-  //   this.editor.updateDirty();
-  // }
-
-  public get disabled(): boolean {
-    if (this.editor === undefined || this.editor === null)
-      throw new Error('editor should have been set');
-
-    return false;
-    // todo: add or remove visibility feature
-    // const visibility = this.editor.bone.visibility;
-
-    // if (this.device === DeviceType.Desktop && hasFlag(visibility, DeviceVisibility.Desktop))
-    //   return false;
-
-    // if (this.device === DeviceType.Tablet && hasFlag(visibility, DeviceVisibility.Tablet))
-    //   return false;
-
-    // if (this.device === DeviceType.Mobile && hasFlag(visibility, DeviceVisibility.Mobile))
-    //   return false;
-
-    // return true;
-  }
+		// return true;
+	}
 }

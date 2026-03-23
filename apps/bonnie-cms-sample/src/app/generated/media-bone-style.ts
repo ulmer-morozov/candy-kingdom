@@ -4,6 +4,6 @@
  */
 
 export class MediaBoneStyle {
-    static readonly default: string = "";
-    static readonly fullWidth: string = "full-width";
+	static readonly default: string = "";
+	static readonly fullWidth: string = "full-width";
 }

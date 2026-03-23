@@ -1,23 +1,11 @@
-import { Directive, OnInit, effect, input } from '@angular/core';
-import * as MCore from '../generated';
-import { SrcBaseDirective } from '../core/src.directive';
+import { Directive, model } from "@angular/core";
+
+import { SrcBaseDirective } from "../core/src.directive";
+import type * as M_CORE from "../generated";
 
 @Directive({
-  standalone: true,
-  selector: '[imgsrc]',
+	selector: "[imgsrc]",
 })
-export class ImageSrcDirective
-  extends SrcBaseDirective<MCore.Image>
-  implements OnInit
-{ // todo: do not use effect for passing data
-  public readonly imgsrc = input<MCore.Image | undefined>();
-
-  constructor() {
-    super();
-    effect(() => {
-      const value = this.imgsrc();
-      console.log('set imgsrc', value);
-      this.data = value;
-    });
-  }
+export class ImageSrcDirective extends SrcBaseDirective<M_CORE.Image> {
+	public readonly data = model<M_CORE.Image | undefined>(undefined, { alias: "imgsrc" });
 }

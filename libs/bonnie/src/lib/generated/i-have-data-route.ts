@@ -4,5 +4,5 @@
  */
 
 export interface IHaveDataRoute {
-    dataRoute: string;
+	dataRoute: string;
 }

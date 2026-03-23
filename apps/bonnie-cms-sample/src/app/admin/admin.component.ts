@@ -1,45 +1,50 @@
-import { Component, ViewEncapsulation, effect, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../service';
-import { CommonModule } from '@angular/common';
-import { AuthGuard } from '../guard';
-import { RouterLocalizeService } from '../router-localize.service';
-import { LocalizeServiceBase } from '@candy-kingdom/bonnie';
+import { CommonModule } from "@angular/common";
+import { Component, effect, inject, ViewEncapsulation } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+
+import { LocalizeServiceBase } from "@candy-kingdom/bonnie";
+
+import { AuthGuard } from "../guard";
+import { RouterLocalizeService } from "../router-localize.service";
+import { AuthService } from "../service";
 
 @Component({
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  providers: [AuthGuard, AuthService, { provide: LocalizeServiceBase, useClass: RouterLocalizeService }],
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss',
-  encapsulation: ViewEncapsulation.None,
-  styles: `
+	imports: [CommonModule, RouterModule],
+	providers: [
+		AuthGuard,
+		AuthService,
+		{ provide: LocalizeServiceBase, useClass: RouterLocalizeService },
+	],
+	selector: "app-admin",
+	templateUrl: "./admin.component.html",
+	styleUrl: "./admin.component.scss",
+	encapsulation: ViewEncapsulation.None,
+	styles: `
     :host{
       --bg-color: white;
       --text-color: black;
     }
-  `
+  `,
 })
 export default class AdminComponent {
-  public isSignedIn: boolean = false;
+	public isSignedIn = false;
 
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
+	private readonly auth = inject(AuthService);
+	private readonly router = inject(Router);
 
-  constructor() {
-    effect(() => {
-      this.isSignedIn = this.auth.authState();
-    });
-  }
+	constructor() {
+		effect(() => {
+			this.isSignedIn = this.auth.authState();
+		});
+	}
 
-  signOut() {
-    if (this.isSignedIn) {
-      this.auth.signOut().forEach((response) => {
-        if (response) {
-          this.router.navigateByUrl('');
-        }
-      });
-    }
-  }
+	signOut() {
+		if (this.isSignedIn) {
+			this.auth.signOut().forEach((response) => {
+				if (response) {
+					this.router.navigateByUrl("");
+				}
+			});
+		}
+	}
 }

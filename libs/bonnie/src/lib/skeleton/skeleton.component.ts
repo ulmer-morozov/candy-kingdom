@@ -1,70 +1,54 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, Type, ViewChild, inject } from '@angular/core';
-import { SkeletonAnchorDirective } from './skeleton-anchor.directive';
-import { IBoneComponent } from "./IBoneComponent";
-import { Bone } from '../generated';
-import { UnknownBoneComponent } from './unknown-bone.component';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	effect,
+	input,
+	type Type,
+	viewChild,
+} from "@angular/core";
+
+import type { Bone } from "../generated";
+import type { IBoneComponent } from "./IBoneComponent";
+import { SkeletonAnchorDirective } from "./skeleton-anchor.directive";
+import { UnknownBoneComponent } from "./unknown-bone.component";
 
 @Component({
-  selector: 'bon-skeleton',
-  standalone: true,
-  imports: [SkeletonAnchorDirective],
-  templateUrl: './skeleton.component.html',
-  styleUrls: ['./skeleton.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: "bon-skeleton",
+	imports: [SkeletonAnchorDirective],
+	templateUrl: "./skeleton.component.html",
+	styleUrl: "./skeleton.component.scss",
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkeletonComponent implements OnInit {
-  @ViewChild(SkeletonAnchorDirective, { static: true })
-  public skeletonAnchor!: SkeletonAnchorDirective;
+export class SkeletonComponent {
+	public readonly skeletonAnchor = viewChild.required(SkeletonAnchorDirective);
 
-  public readonly map = input.required<Map<string, Type<IBoneComponent>>>();
+	public readonly map = input.required<Map<string, Type<IBoneComponent>>>();
 
-  public readonly bones = input.required<Bone[]>();
+	public readonly bones = input.required<Bone[]>();
 
-  private readonly _bones: Bone[] = [];
+	constructor() {
+		effect(() => {
+			const anchor = this.skeletonAnchor();
+			const bones = this.bones();
+			const mapVal = this.map();
 
-  private iniailized = false;
+			const viewContainerRef = anchor.viewContainerRef;
+			viewContainerRef.clear();
 
-  private readonly cd = inject(ChangeDetectorRef);
+			if (mapVal === undefined || mapVal === null) {
+				throw new Error('add type map with input: [map]="..."');
+			}
 
-  constructor() {
-    effect(() => {
-      const newBones = this.bones();
-      this._bones.splice(0, this._bones.length);
-      this._bones.push(...newBones);
-      if (this.iniailized) {
-        this.fillComponentFromBones();
-      }
-    });
-  }
+			for (const bone of bones) {
+				let componentType = mapVal.get(bone.type);
 
-  ngOnInit(): void {
-    this.iniailized = true;
-    this.fillComponentFromBones();
-  }
+				if (componentType === undefined || componentType === null) {
+					console.warn(`Mapping type for ${bone.type} not found`);
+					componentType = UnknownBoneComponent;
+				}
 
-  private fillComponentFromBones(): void {
-    if (this.iniailized === false)
-      return;
-
-    const viewContainerRef = this.skeletonAnchor.viewContainerRef;
-    viewContainerRef.clear();
-
-    const mapVal = this.map();
-    if (mapVal === undefined || mapVal === null)
-      throw new Error('add type map with input: [map]="..."');
-
-    for (const bone of this._bones) {
-      let componentType = mapVal.get(bone.type);
-
-      if (componentType === undefined || componentType === null) {
-        console.warn(`Mapping type for ${bone.type} not found`);
-        componentType = UnknownBoneComponent;
-      }
-
-      const boneComponentRef = viewContainerRef.createComponent(componentType);
-
-      boneComponentRef.instance.bd.bone = bone;
-    }
-  }
-
+				viewContainerRef.createComponent(componentType).setInput("bone", bone);
+			}
+		});
+	}
 }

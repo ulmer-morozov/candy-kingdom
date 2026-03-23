@@ -1,42 +1,42 @@
-import { Component, OnInit, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input } from "@angular/core";
 
-import { FormBaseComponent } from '../../core-components/form-base.component';
-import { EditableDirective } from '../../core-components';
+import type { FileMeta, FileSrc, SvgMeta } from "@candy-kingdom/bonnie";
 
-import { FileMeta, FileSrc, SvgMeta } from '@candy-kingdom/bonnie';
-import { FormControlsComponent } from '../../form-controls/form-controls.component';
-import { FileUploaderComponent } from '../../file-uploader/file-uploader.component';
+import { EditableDirective } from "../../core-components";
+import { FormBaseComponent } from "../../core-components/form-base.component";
+import { FileUploaderComponent } from "../../file-uploader/file-uploader.component";
+import { FormControlsComponent } from "../../form-controls/form-controls.component";
 
 @Component({
-  selector: 'bonc-file-form',
-  standalone: true,
-  imports: [CommonModule, FormControlsComponent, FileUploaderComponent],
-  templateUrl: './file-form.component.html',
-  styleUrls: ['./file-form.component.scss'],
-  hostDirectives: [EditableDirective]
+	selector: "bonc-file-form",
+
+	imports: [FormControlsComponent, FileUploaderComponent],
+	templateUrl: "./file-form.component.html",
+	styleUrl: "./file-form.component.scss",
+	hostDirectives: [EditableDirective],
 })
-export class FileFormComponent extends FormBaseComponent<FileSrc<FileMeta>> implements OnInit {
-  public readonly label = input('');
+export class FileFormComponent extends FormBaseComponent<FileSrc<FileMeta>> {
+	public readonly label = input("");
 
-  public readonly uploadTypes = input.required<string[]>();
+	public readonly uploadTypes = input.required<string[]>();
 
-  public readonly uploadMap = input.required<Map<string, string>>();
+	public readonly uploadMap = input.required<Map<string, string>>();
 
-  public ngOnInit(): void {
-    this.editable.externalSaveCall.subscribe(() => {
-      this.editable.save();
-    });
-  }
+	constructor() {
+		super();
 
-  public onFileUploaded(fileSrc: FileSrc<FileMeta>): void {
-    this.editable.startEditing();
+		this.editable.externalSaveCall.subscribe(() => {
+			this.editable.save();
+		});
+	}
 
-    const svgSrc = fileSrc as FileSrc<SvgMeta>;
+	public onFileUploaded(fileSrc: FileSrc<FileMeta>): void {
+		this.editable.startEditing();
 
-    this.editable.value = svgSrc;
+		const svgSrc = fileSrc as FileSrc<SvgMeta>;
 
-    this.editable.updateDirty();
-  }
+		this.editable.value = svgSrc;
 
+		this.editable.updateDirty();
+	}
 }

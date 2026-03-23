@@ -1,11 +1,11 @@
 {
-  "name": "marcy-cms-sample",
-  "targets": {
-    "serve": {
-      "command": "dotnet watch run",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
-    }
-  }
+	"name": "marcy-cms-sample",
+	"targets": {
+		"serve": {
+			"command": "dotnet watch run",
+			"options": {
+				"cwd": "{projectRoot}"
+			}
+		}
+	}
 }

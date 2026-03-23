@@ -20,7 +20,7 @@ public sealed class SmartJsonProducer : ISmartJsonProducer
       IVideoManager videoManager,
       IImageMin imageMin,
       IFileStorage fileStorage,
-      DirectoryInfo? cacheDir
+      DirectoryInfo? cacheDir = null
     )
     {
         _imageManager = imageManager;

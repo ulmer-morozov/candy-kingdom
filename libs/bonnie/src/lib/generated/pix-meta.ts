@@ -3,11 +3,10 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { FileMeta } from "./file-meta";
-import { IEquatable } from "./i-equatable";
+import type { FileMeta } from "./file-meta";
 
 export interface PixMeta extends FileMeta {
-    width: number;
-    height: number;
-    ratio: number;
+	width: number;
+	height: number;
+	ratio: number;
 }

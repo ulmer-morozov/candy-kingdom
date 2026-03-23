@@ -3,10 +3,6 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { PixMeta } from "./pix-meta";
-import { IEquatable } from "./i-equatable";
-import { FileMeta } from "./file-meta";
+import type { PixMeta } from "./pix-meta";
 
-export interface ImageMeta extends PixMeta {
-
-}
+export interface ImageMeta extends PixMeta {}

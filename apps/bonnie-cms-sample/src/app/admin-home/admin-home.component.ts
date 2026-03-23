@@ -1,21 +1,21 @@
-import { Component, effect, inject } from '@angular/core';
-import { AuthService } from '../service';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
+import { Component, effect, inject } from "@angular/core";
+
+import { AuthService } from "../service";
 
 @Component({
-  standalone: true,
-  imports: [CommonModule],
-  selector: 'app-admin-home',
-  templateUrl: './admin-home.component.html',
+	imports: [CommonModule],
+	selector: "app-admin-home",
+	templateUrl: "./admin-home.component.html",
 })
 export default class AdminHomeComponent {
-  public isSignedIn: boolean = false;
+	public isSignedIn = false;
 
-  private readonly authService = inject(AuthService);
+	private readonly authService = inject(AuthService);
 
-  constructor() {
-    effect(() => {
-      this.isSignedIn = this.authService.authState();
-    });
-  }
+	constructor() {
+		effect(() => {
+			this.isSignedIn = this.authService.authState();
+		});
+	}
 }

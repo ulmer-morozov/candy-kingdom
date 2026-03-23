@@ -1,184 +1,201 @@
-﻿import { EventEmitter, HostBinding, Component, Input } from '@angular/core';
+import {
+	Component,
+	computed,
+	effect,
+	HostBinding,
+	input,
+	model,
+	output,
+	signal,
+} from "@angular/core";
 
-import { Bone } from '@candy-kingdom/bonnie';
+import type { Bone } from "@candy-kingdom/bonnie";
 
-import { ContentPreset } from '../skeleton-editor/ContentPreset';
-import { IBoneEditor } from '../skeleton-editor/IBoneEditor';
-import { DeviceType } from '../core';
+import { DeviceType } from "../core";
+import type { ContentPreset } from "../skeleton-editor/ContentPreset";
+import type { IBoneEditor } from "../skeleton-editor/IBoneEditor";
 
-@Component({ template: '' })
+@Component({ template: "" })
 export abstract class BoneEditorBaseComponent<TBone extends Bone> implements IBoneEditor<TBone> {
-  // todo: remove event emitter
-  public readonly editing: EventEmitter<boolean> = new EventEmitter<boolean>();
-  public readonly saved: EventEmitter<Bone> = new EventEmitter<Bone>();
-  public readonly removed: EventEmitter<void> = new EventEmitter<void>();
+	public readonly editing = output<boolean>();
+	public readonly saved = output<Bone>();
+	public readonly removed = output<void>();
 
-  public readonly noPresets: boolean;
+	public readonly boneEtalon = model.required<TBone>();
 
-  @Input({ required: true })
-  public locale!: string;
-  public device = DeviceType.NotSet;
+	public readonly locale = input.required<string>();
+	public readonly device = input<DeviceType>(DeviceType.NotSet);
 
-  private _bone!: TBone;
-  private _storedData: string = '';
+	private readonly _presets = signal<ContentPreset<TBone>[]>([]);
+	public readonly presets = this._presets.asReadonly();
 
-  private _currentPreset: ContentPreset<TBone> | undefined;
+	private readonly _currentPreset = signal<ContentPreset<TBone> | undefined>(undefined);
+	public readonly currentPreset = this._currentPreset.asReadonly();
 
-  protected readonly presets: ReadonlyArray<ContentPreset<TBone>>;
-  private _isDirty = false;
-  private _isEditing = false;
+	private readonly _isDirty = signal(false);
+	public readonly isDirty = this._isDirty.asReadonly();
 
-  public abstract onReset(): void;
-  public abstract onFinishEditing(): void;
+	private readonly _isEditing = signal(false);
+	public readonly isEditing = this._isEditing.asReadonly();
 
-  protected abstract getPresets(): ContentPreset<TBone>[];
+	public readonly noPresets = computed(() => this.presets().length === 0);
 
-  constructor() {
-    this.presets = this.getPresets();
+	// effect gonna fix this undefined value
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	protected readonly bone = signal<TBone>(undefined!);
 
-    if (this.presets === undefined || this.presets === null)
-      throw new Error('presets cannot be undefined in ContentPreset constructor');
+	private _storedBoneJson = "";
 
-    if (this.presets.length === 0) {
-      this.presets = [
+	public abstract onReset(): void;
+	public abstract onFinishEditing(): void;
 
-        {
-          title: 'default',
-          isActive: () => true,
-          transformer: bone => bone,
-          clean: bone => bone,
-        }
-      ];
-    }
+	protected abstract getPresets(): ContentPreset<TBone>[];
 
-    this.noPresets = this.presets.length === 1;
-  }
+	constructor() {
+		effect(() => {
+			const newData = this.boneEtalon();
+			this._isDirty.set(false);
+			this._storedBoneJson = JSON.stringify(newData);
+			this.bone.set(JSON.parse(this._storedBoneJson));
+			this.updatePresetByData();
+		});
 
-  @HostBinding('class.mobile') get isMobile(): boolean {
-    return this.device !== undefined && this.device === DeviceType.Mobile;
-  }
+		const presets = this.getPresets();
 
-  @HostBinding('class.tablet') get isTablet(): boolean {
-    return this.device !== undefined && this.device === DeviceType.Tablet;
-  }
+		if (presets.length === 0) {
+			presets.push({
+				title: "default",
+				isActive: () => true,
+				transformer: (bone) => bone,
+				clean: (bone) => bone,
+			});
+		}
 
-  @HostBinding('class.desktop') get isDesktop(): boolean {
-    return this.device !== undefined && this.device === DeviceType.Desktop;
-  }
+		// todo: remove this, use just regular presets
+		this._presets.set(presets);
+	}
 
-  public get currentPreset(): ContentPreset<TBone> | undefined {
-    return this._currentPreset;
-  }
+	@HostBinding("class.mobile") get isMobile(): boolean {
+		return this.device() === DeviceType.Mobile;
+	}
 
-  public get bone(): TBone {
-    return this._bone;
-  }
+	@HostBinding("class.tablet") get isTablet(): boolean {
+		return this.device() === DeviceType.Tablet;
+	}
 
-  @Input({ required: true })
-  public set bone(newData: TBone) {
-    this._isDirty = false;
-    this._storedData = JSON.stringify(newData);
-    this._bone = JSON.parse(this._storedData);
-    this.updatePresetByData();
-  }
+	@HostBinding("class.desktop") get isDesktop(): boolean {
+		return this.device() === DeviceType.Desktop;
+	}
 
-  public get isDirty(): boolean {
-    return this._isDirty;
-  }
+	public resetData(): void {
+		this._isEditing.set(false);
 
-  public get isEditing(): boolean {
-    return this._isEditing;
-  }
+		this.boneEtalon.set(JSON.parse(this._storedBoneJson));
+		this.updatePresetByData();
 
-  public resetData(): void {
-    this._isEditing = false;
-    this.bone = JSON.parse(this._storedData);
+		if (this.onReset !== undefined) {
+			this.onReset();
+		}
 
-    if (this.onReset !== undefined)
-      this.onReset();
+		this.editing.emit(false);
+	}
 
-    this.editing.emit(false);
-  }
+	public updateDirty(): void {
+		this._isDirty.set(JSON.stringify(this.bone()) !== this._storedBoneJson);
+	}
 
-  public updateDirty(): void {
-    this._isDirty = JSON.stringify(this._bone) !== this._storedData;
-  }
+	public markAsDirty(): void {
+		this._isDirty.set(true);
+	}
 
-  public markAsDirty(): void {
-    this._isDirty = true;
-  }
+	public remove(): void {
+		this.removed.emit();
+	}
 
-  public remove(): void {
-    this.removed.next();
-  }
+	public save(): void {
+		if (!this.isDirty()) {
+			return;
+		}
 
-  public save(): void {
-    if (!this.isDirty)
-      return;
+		this._isDirty.set(false);
 
-    this._isDirty = false;
+		this.finishEditing();
 
-    this.finishEditing();
+		this._storedBoneJson = JSON.stringify(this.bone());
 
-    this._storedData = JSON.stringify(this._bone);
+		const clonedData: TBone = JSON.parse(this._storedBoneJson);
+		this.saved.emit(clonedData);
+	}
 
-    const clonedData: TBone = JSON.parse(this._storedData);
-    this.saved.emit(clonedData);
-  }
+	public startEditing(): void {
+		if (this.isEditing()) {
+			this.updateDirty();
+			return;
+		}
 
-  public startEditing(): void {
-    if (this._isEditing) {
-      this.updateDirty();
-      return;
-    }
+		this._isEditing.set(true);
+		this.updateDirty();
 
-    this._isEditing = true;
-    this.updateDirty();
+		this.editing.emit(true);
+	}
 
-    this.editing.emit(true);
-  }
+	public finishEditing(): void {
+		if (this._isDirty()) {
+			throw new Error(
+				"Нельзя закрывать редактирование когда есть изменения. Надо сохранить либо зарезетить.",
+			);
+		}
 
-  public finishEditing(): void {
-    if (this._isDirty)
-      throw new Error('Нельзя закрывать редактирование когда есть изменения. Надо сохранить либо зарезетить.');
+		if (this.onFinishEditing !== undefined) {
+			this.onFinishEditing();
+		}
 
-    if (this.onFinishEditing !== undefined)
-      this.onFinishEditing();
+		this._isEditing.set(false);
+	}
 
-    this._isEditing = false;
-  }
+	public nextPreset(): void {
+		const currentPreset = this.currentPreset();
+		const newIndex = currentPreset === undefined ? 0 : this.presets().indexOf(currentPreset) + 1;
 
-  public nextPreset(): void {
-    const newIndex = this._currentPreset === undefined ? 0 : this.presets.indexOf(this._currentPreset) + 1;
-    this.applyPresetAtIndex(newIndex);
-  }
+		this.applyPresetAtIndex(newIndex);
+	}
 
-  private applyPresetAtIndex = (newIndex: number): void => {
-    newIndex = newIndex < 0 ? 0 : newIndex % this.presets.length;
+	private readonly applyPresetAtIndex = (newIndex: number): void => {
+		newIndex = newIndex < 0 ? 0 : newIndex % this.presets().length;
 
-    const currentIndex = this._currentPreset === undefined ? -1 : this.presets.indexOf(this._currentPreset);
-    if (currentIndex === newIndex)
-      return;
+		const currentPreset = this.currentPreset();
 
-    this._currentPreset = this.presets[newIndex];
-    this._currentPreset.transformer(this._bone);
+		const currentIndex = currentPreset === undefined ? -1 : this.presets().indexOf(currentPreset);
+		if (currentIndex === newIndex) {
+			return;
+		}
 
-    this.updateDirty();
-  }
+		const newPreset = this.presets()[newIndex];
 
-  private updatePresetByData = (): void => {
-    const countOfActive = this.presets.map(p => p.isActive(this._bone)).filter(p => p).length;
+		this._currentPreset.set(newPreset);
+		newPreset.transformer(this.bone());
 
-    if (countOfActive !== 1)
-      throw new Error(`active preset count should be equal 1, but it was: ${countOfActive}. ${this.constructor.name}`);
+		this.updateDirty();
+	};
 
-    for (let i = 0; this.presets.length; i++) {
-      const preset = this.presets[i];
+	private readonly updatePresetByData = (): void => {
+		const countOfActive = this.presets()
+			.map((p) => p.isActive(this.bone()))
+			.filter((p) => p).length;
 
-      if (preset.isActive(this._bone)) {
-        this.applyPresetAtIndex(i);
-        break;
-      }
-    }
-  }
+		if (countOfActive !== 1) {
+			throw new Error(
+				`active preset count should be equal 1, but it was: ${countOfActive}. ${this.constructor.name}`,
+			);
+		}
+
+		for (let i = 0; i < this.presets().length; i++) {
+			const preset = this.presets()[i];
+
+			if (preset.isActive(this.bone())) {
+				this.applyPresetAtIndex(i);
+				break;
+			}
+		}
+	};
 }

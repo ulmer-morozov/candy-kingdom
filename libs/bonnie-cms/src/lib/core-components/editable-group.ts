@@ -1,106 +1,91 @@
-import { QueryList, ContentChildren, AfterContentInit, OnDestroy, Component, output } from '@angular/core';
-import { Subscription, Subject, debounceTime } from 'rxjs';
+import {
+	Component,
+	contentChildren,
+	DestroyRef,
+	effect,
+	inject,
+	output,
+	signal,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
-import { EditableDirective } from './editable.directive';
+import { debounceTime, Subject, type Unsubscribable } from "rxjs";
+
+import { EditableDirective } from "./editable.directive";
 
 @Component({
-  selector: 'bonc-editable-group',
-  standalone: true,
-  template: '<ng-content></ng-content>'
+	selector: "bonc-editable-group",
+	template: "<ng-content></ng-content>",
 })
-export class EditableGroupComponent implements AfterContentInit, OnDestroy {
-  public readonly editModeChange = output<boolean>();
+export class EditableGroupComponent {
+	public readonly editModeChange = output<boolean>();
+	public readonly saved = output<void>();
+	public readonly requestEditorClose = output<boolean>();
 
-  public readonly saved = output<void>();
+	public readonly editables = contentChildren(EditableDirective, { descendants: true });
 
-  public readonly requestEditorClose = output<boolean>();
+	private readonly _subscriptions: Unsubscribable[] = [];
+	public readonly inEditMode = signal(false);
 
-  @ContentChildren(EditableDirective, { descendants: true })
-  public editables!: QueryList<EditableDirective>;
+	private readonly _saveSubject = new Subject<void>(); // todo: use signal
 
-  private readonly subscriptions: Subscription[] = [];
-  private _inEditMode = false;
+	constructor() {
+		const saveSubscription = this._saveSubject
+			.asObservable()
+			.pipe(debounceTime(100), takeUntilDestroyed())
+			.subscribe(() => this.saved.emit(undefined));
 
-  private readonly saveSubject = new Subject<void>();
+		effect(() => {
+			this.clearSubscriptions();
+			this.updateSubscriptions();
+		});
 
-  public ngAfterContentInit(): void {
-    this.saveSubject
-      .asObservable()
-      .pipe(debounceTime(100))
-      .subscribe(() => this.saved.emit(undefined));
+		inject(DestroyRef).onDestroy(() => {
+			saveSubscription.unsubscribe();
+			this.clearSubscriptions();
+		});
+	}
 
-    this.updateSubscriptions();
+	public saveAll(): void {
+		this.editables().forEach((x) => x.requestSave());
+	}
 
-    this.editables.changes.subscribe
-      (
-        () => {
-          this.clearSubscribtions();
-          this.updateSubscriptions();
-        }
-      );
-  }
+	public cancelAll(): void {
+		this.editables().forEach((x) => x.cancel());
+	}
 
-  public get inEditMode(): boolean {
-    return this._inEditMode;
-  }
+	public closeAll(): void {
+		this.requestEditorClose.emit(true);
+		this.editables().forEach((x) => x.close());
+	}
 
-  public saveAll(): void {
-    this.editables.forEach(x => x.requestSave());
-  }
+	private clearSubscriptions(): void {
+		this._subscriptions.forEach((x) => x.unsubscribe());
+		this._subscriptions.splice(0, this._subscriptions.length);
+	}
 
-  public cancelAll(): void {
-    this.editables.forEach(x => x.cancel());
-  }
+	private updateSubscriptions(): void {
+		this.editables().forEach((editable) => {
+			this._subscriptions.push(
+				editable.saved.subscribe(this.onSave.bind(this)),
+				editable.editModeChange.subscribe(this.updateEditMode.bind(this)),
+			);
+		});
+	}
 
-  public closeAll(): void {
-    this.requestEditorClose.emit(true);
-    this.editables.forEach(x => x.close());
-  }
+	private onSave(): void {
+		this._saveSubject.next();
+	}
 
-  private clearSubscribtions(): void {
-    this.subscriptions.forEach(x => x.unsubscribe());
-    this.subscriptions.splice(0, this.subscriptions.length);
-  }
+	private updateEditMode(): void {
+		const newEditMode = this.editables().filter((x) => x.inEditMode()).length > 0;
 
-  private updateSubscriptions(): void {
+		if (newEditMode === this.inEditMode()) {
+			return;
+		}
 
-    this.editables.forEach
-      (
-        editable => {
+		this.inEditMode.set(newEditMode);
 
-          this.subscriptions.push(
-            editable.saved.subscribe(
-              () => this.onSave()
-            )
-          );
-
-          this.subscriptions.push(
-            ...editable.subscribe({
-              onEditModeChange: this.updateEditMode.bind(this)
-            })
-          );
-        }
-      );
-  }
-
-  private onSave(): void {
-    this.saveSubject.next();
-  }
-
-  private updateEditMode(): void {
-    const newEditMode = this.editables
-      .filter(x => x.inEditMode)
-      .length > 0;
-
-    if (newEditMode === this._inEditMode)
-      return;
-
-    this._inEditMode = newEditMode;
-
-    this.editModeChange.emit(newEditMode);
-  }
-
-  public ngOnDestroy(): void {
-    this.clearSubscribtions();
-  }
+		this.editModeChange.emit(newEditMode);
+	}
 }

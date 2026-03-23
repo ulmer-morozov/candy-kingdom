@@ -1,1 +1,1 @@
-export * from './unknown-bone-editor.component';
+export * from "./unknown-bone-editor.component";

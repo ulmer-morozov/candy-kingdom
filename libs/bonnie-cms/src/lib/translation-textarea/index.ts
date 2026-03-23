@@ -1,1 +1,1 @@
-export * from './translation-textarea.component';
+export * from "./translation-textarea.component";

@@ -1,12 +1,14 @@
-@if (bd.bone.title | localizationIsNotEmpty) {
-  <div class="title" [innerHTML]="bd.bone.title | localize"></div>
-}
-@if (bd.bone.text | localizationIsNotEmpty) {
-  <div class="text" [innerHTML]="bd.bone.text | localize"></div>
-}
-<!-- todo: add link -->
+@if (bd.bone(); as bone) {
+  @if (bone.title | localizationIsNotEmpty) {
+    <div class="title" [innerHTML]="bone.title | localize"></div>
+  }
+  @if (bone.text | localizationIsNotEmpty) {
+    <div class="text" [innerHTML]="bone.text | localize"></div>
+  }
+  <!-- todo: add link -->
 
-<!-- todo: pass img.alt -->
-<div class="media">
-  <bon-media [src]="bd.bone.media"></bon-media>
-</div>
+  <!-- todo: pass img.alt -->
+  <div class="media">
+    <bon-media [src]="bone.media"></bon-media>
+  </div>
+}

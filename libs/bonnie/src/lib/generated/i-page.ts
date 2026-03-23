@@ -3,8 +3,8 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { PageData } from "./page-data";
+import type { PageData } from "./page-data";
 
 export interface IPage<TData extends PageData> {
-    data: TData;
+	data: TData;
 }

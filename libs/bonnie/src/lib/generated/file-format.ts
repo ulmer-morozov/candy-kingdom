@@ -3,9 +3,7 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { IEquatable } from "./i-equatable";
-
 export interface FileFormat {
-    extension: string;
-    mimeType: string;
+	extension: string;
+	mimeType: string;
 }

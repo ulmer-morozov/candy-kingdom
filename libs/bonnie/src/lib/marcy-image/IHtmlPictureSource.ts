@@ -1,6 +1,6 @@
 export interface IHtmlPictureSource {
-  mime: string;
-  srcSet: string;
-  sizes: string;
-  media: string;
+	mime: string;
+	srcSet: string;
+	sizes: string;
+	media: string;
 }

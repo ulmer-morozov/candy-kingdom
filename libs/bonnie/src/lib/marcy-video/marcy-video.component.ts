@@ -1,202 +1,178 @@
-import { Component, input, output, ChangeDetectorRef, OnInit, ElementRef, ViewChild, AfterViewInit, inject, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from "@angular/common";
+import {
+	Component,
+	type ElementRef,
+	effect,
+	inject,
+	input,
+	output,
+	signal,
+	viewChild,
+} from "@angular/core";
 
-import * as MCore from '../generated';
+import { DeviceServiceBase } from "../core/device.service.base";
+import { IntersectionComponent } from "../core/intersection.component";
+import { MediaObjectFit } from "../core/MediaObjectFit";
+import { MediaStatus } from "../core/MediaStatus";
+import { descendingT, matchesMediaQuery } from "../core/utils";
+import type * as M_CORE from "../generated";
+import { VideoSrcDirective } from "./vidsrc.directive";
 
-import { UnsubscriberService } from '../core/unsubscribe.service';
-import { MediaStatus } from '../core/MediaStatus';
-import { MediaObjectFit } from '../core/MediaObjectFit';
-import { DeviceServiceBase } from '../core/device.service.base';
-import { VideoSrcDirective } from './vidsrc.directive';
-import { matchesMediaQuery, descendingT } from '../core/utils';
-import { IntersectionComponent } from '../core/intersection.component';
-
-function isWebM(src: MCore.FileSrc<MCore.ImageMeta>): boolean {
-  return src.mimeType === 'video/webm';
+function isWebM(src: M_CORE.FileSrc<M_CORE.ImageMeta>): boolean {
+	return src.mimeType === "video/webm";
 }
 
 @Component({
-  selector: 'bon-video',
-  standalone: true,
-  imports: [CommonModule, IntersectionComponent],
-  templateUrl: './marcy-video.component.html',
-  styleUrls: ['./marcy-video.component.scss'],
-  providers: [UnsubscriberService]
+	selector: "bon-video",
+
+	imports: [NgTemplateOutlet, IntersectionComponent],
+	templateUrl: "./marcy-video.component.html",
+	styleUrl: "./marcy-video.component.scss",
 })
-export class MarcyVideoComponent implements OnInit, AfterViewInit {
-  public readonly MediaStatus = MediaStatus;
-  public readonly MarcyObjectFit = MediaObjectFit;
+export class MarcyVideoComponent {
+	public readonly MediaStatus = MediaStatus;
+	public readonly MarcyObjectFit = MediaObjectFit;
 
-  @ViewChild('video')
-  public readonly videoRef!: ElementRef<HTMLVideoElement>;
+	public readonly src: VideoSrcDirective;
 
-  public readonly isLoaded = output<void>();
+	public readonly isLoaded = output<void>();
 
-  public readonly $status = signal<MediaStatus>(MediaStatus.NotSet);
-  public readonly src: VideoSrcDirective;
+	public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
 
-  public source?: MCore.FileSrc<MCore.VideoMeta>;
+	public readonly videoRef = viewChild<ElementRef<HTMLVideoElement>>("video");
 
-  public readonly objectFit = input<MediaObjectFit>(MediaObjectFit.Original);
+	public readonly status = signal<MediaStatus>(MediaStatus.NotSet);
+	public readonly source = signal<M_CORE.FileSrc<M_CORE.VideoMeta> | undefined>(undefined);
 
-  public readonly device = inject(DeviceServiceBase);
-  public readonly cd = inject(ChangeDetectorRef);
-  private readonly _u = inject(UnsubscriberService);
-  private readonly _srcDir = inject(VideoSrcDirective, { optional: true });
+	public readonly device = inject(DeviceServiceBase);
 
-  constructor() {
-    console.log('MarcyVideoComponent ctor');
+	private readonly _srcDir = inject(VideoSrcDirective, { optional: true });
 
-    if (this._srcDir === undefined || this._srcDir === null)
-      throw new Error(`${MarcyVideoComponent.name} should have [vidsrc] directive as source object`);
+	constructor() {
+		if (this._srcDir === undefined || this._srcDir === null) {
+			throw new Error(
+				`${MarcyVideoComponent.name} should have [vidsrc] directive as source object`,
+			);
+		}
 
-    this.src = this._srcDir;
+		this.src = this._srcDir;
 
-    this.cd.detach();
+		effect(() => {
+			this.src.data();
+			this.videoRef();
+			this.updateSources();
+			this.subscribeToMediaQueryChange();
+		});
 
-    effect(() => {
-      if (this.$status() === MediaStatus.Loaded) {
-        this.isLoaded.emit();
-      }
-    });
-  }
+		effect(() => {
+			if (this.status() === MediaStatus.Loaded) {
+				this.isLoaded.emit();
+			}
+		});
+	}
 
-  public ngOnInit(): void {
-    console.log('MarcyVideoComponent ngOnInit');
-    this.cd.detectChanges();
-  }
+	private subscribeToMediaQueryChange(): void {
+		this.src.watchMediaQueries().subscribe(() => {
+			console.log("MarcyVideoComponent watchMediaQueries");
+			this.updateSources();
+		});
+	}
 
-  public ngAfterViewInit() {
-    console.log('MarcyVideoComponent ngAfterViewInit');
+	private updateSources() {
+		console.log("MarcyVideoComponent updateSources");
 
-    // bind src changes
-    this.src.srcChange
-      .pipe(this._u.takeUntilDestroy)
-      .subscribe((val) => {
-        console.log('MarcyVideoComponent onSrcChange', val);
+		this.source.set(this.findMoreSuitableSource());
 
-        this.updateSources();
+		console.log("MarcyVideoComponent new source", this.source());
 
-        // resubscribe because its updated with src
-        this.subscribeToMediaQueryChange();
-      })
+		const src = this.source();
 
-    this.updateSources();
+		if (this.status() === MediaStatus.NotSet && src === undefined) {
+			return;
+		}
 
-    // initial, for src added before init
-    this.subscribeToMediaQueryChange();
-  }
+		if (src === undefined) {
+			this.status.set(MediaStatus.NotSet);
+			return;
+		}
 
-  private subscribeToMediaQueryChange(): void {
-    this.src
-      .watchMediaQueries()
-      .subscribe(() => {
-        console.log('MarcyVideoComponent watchMediaQueries');
-        this.updateSources();
-      });
-  }
+		this.status.set(MediaStatus.NotLoaded);
+	}
 
-  private updateSources() {
-    console.log('MarcyVideoComponent updateSources');
+	public onLoad() {
+		this.status.set(MediaStatus.Loaded);
+	}
 
-    this.source = this.findMoreSuitableSource();
+	private findMoreSuitableSource(): M_CORE.FileSrc<M_CORE.VideoMeta> | undefined {
+		const ref = this.videoRef();
+		if (ref === undefined) {
+			console.log("skipping findMoreSuitableSource. videoRef is empty still");
+			return;
+		}
 
-    console.log('MarcyVideoComponent new source', this.source);
+		const videoSources = this.src.data()?.sources ?? [];
 
-    if (this.$status() === MediaStatus.NotSet && this.source === undefined) {
-      return;
-    }
+		const currentVideoWidth = ref.nativeElement.clientWidth;
+		const realPixelsVideoWidth = this.device.devicePixelRatio * currentVideoWidth;
 
-    if (this.source === undefined) {
-      this.$status.set(MediaStatus.NotSet);
+		console.log(`MarcyVideoComponent currentVideoWidth ${currentVideoWidth}`);
+		console.log(`MarcyVideoComponent realPixelsVideoWidth ${realPixelsVideoWidth}`);
 
-      this.cd.detectChanges();
-      return;
-    }
+		for (let i = 0; i < videoSources.length; i++) {
+			const videoSource = videoSources[i];
 
-    this.$status.set(MediaStatus.NotLoaded);
+			if (!matchesMediaQuery(videoSource.mediaQuery)) {
+				continue;
+			}
 
-    this.cd.detectChanges();
-  }
+			// SSR
+			if (typeof ref.nativeElement.canPlayType !== "function") {
+				const mp4Srcs = videoSource.srcSet
+					.filter((x) => x.mimeType === "video/mp4")
+					.sort(descendingT((x) => x.meta.width));
 
-  public onLoad() {
-    this.$status.set(MediaStatus.Loaded);
-  }
+				return mp4Srcs[0];
+			}
 
-  private findMoreSuitableSource(): MCore.FileSrc<MCore.VideoMeta> | undefined {
-    if (this.videoRef === undefined) {
-      console.log('skipping findMoreSuitableSource. videoRef is empty still');
-      return;
-    }
+			const fileSrcs = videoSource.srcSet
+				.filter((x) => ref.nativeElement.canPlayType(x.mimeType))
+				.sort((a, b) => {
+					if (a.meta.width === b.meta.width) {
+						return isWebM(a) ? -1 : 1; // if same width prefer webM
+					}
 
-    const videoSources = this.src.data?.sources ?? [];
+					// else prefer smallest
+					return a.meta.width <= b.meta.width ? -1 : 1;
+				}); // smallest video
 
-    const currentVideoWidth = this.videoRef.nativeElement.clientWidth;
-    const realPixelsVideoWidth = this.device.devicePixelRatio * currentVideoWidth;
+			if (fileSrcs.length === 0) {
+				continue;
+			}
 
-    console.log(`MarcyVideoComponent currentVideoWidth ${currentVideoWidth}`);
-    console.log(`MarcyVideoComponent realPixelsVideoWidth ${realPixelsVideoWidth}`);
+			// console.log('sources ', fileSrcs);
 
-    for (let i = 0; i < videoSources.length; i++) {
-      const videoSource = videoSources[i];
+			let bestSrc = fileSrcs[0];
 
-      if (!matchesMediaQuery(videoSource.mediaQuery))
-        continue;
+			for (let i = 1; i < fileSrcs.length; i++) {
+				const fileSrc = fileSrcs[i];
 
-      // SSR
-      if (typeof this.videoRef.nativeElement?.canPlayType !== 'function') {
-        // return first mp4, because all players can play them
-        const mp4Srcs = videoSource
-          .srcSet
-          .filter(x => x.mimeType === 'video/mp4')
-          .sort(descendingT(x => x.meta.width)); // bigest video
+				const currentDiff = fileSrc.meta.width - realPixelsVideoWidth;
 
-        // console.log(`ssr found video ${mp4Srcs[0].url}`)
+				// console.log(`browser video currentDiff ${currentDiff}`)
 
-        // element or undefined
-        return mp4Srcs[0];
-      }
+				// too big video source width
+				if (currentDiff > 0) {
+					break;
+				}
 
+				bestSrc = fileSrc;
+			}
 
-      const fileSrcs = videoSource
-        .srcSet
-        .filter(x => this.videoRef.nativeElement.canPlayType(x.mimeType))
-        .sort((a, b) => {
-          if (a.meta.width === b.meta.width) {
-            return isWebM(a) ? -1 : 1; // if same width prefer webM
-          }
+			console.log(`browser found suitable video ${bestSrc.url}`);
 
-          // else prefer smallest
-          return a.meta.width <= b.meta.width ? -1 : 1;
-        }); // smallest video
+			return bestSrc;
+		}
 
-      if (fileSrcs.length === 0)
-        continue;
-
-      // console.log('sources ', fileSrcs);
-
-      let bestSrc = fileSrcs[0];
-
-      for (let i = 1; i < fileSrcs.length; i++) {
-        const fileSrc = fileSrcs[i];
-
-        const currentDiff = fileSrc.meta.width - realPixelsVideoWidth;
-
-        // console.log(`browser video currentDiff ${currentDiff}`)
-
-        // too big video source width
-        if (currentDiff > 0)
-          break;
-
-        bestSrc = fileSrc;
-      }
-
-      console.log(`browser found suitable video ${bestSrc.url}`)
-
-      return bestSrc;
-    }
-
-    return undefined;
-  }
-
+		return undefined;
+	}
 }

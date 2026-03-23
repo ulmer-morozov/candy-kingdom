@@ -1,239 +1,189 @@
-import { Directive, Output, EventEmitter, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Directive, forwardRef, output, signal } from "@angular/core";
+import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Directive({
-  standalone: true,
-  selector: '[boncEditable]',
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => EditableDirective), multi: true }]
+	selector: "[boncEditable]",
+	providers: [
+		{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => EditableDirective), multi: true },
+	],
 })
 export class EditableDirective<T = unknown> {
-  @Output()
-  public readonly saved = new EventEmitter<T>();
+	public readonly saved = output<T>();
+	public readonly editModeChange = output<boolean>();
+	public readonly externalSaveCall = output<void>();
+	public readonly canceled = output<void>();
+	public readonly valueChange = output<T | undefined>();
 
-  @Output()
-  public readonly editModeChange = new EventEmitter<boolean>();
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	private propagateChange: (newValue: T) => void = () => {};
 
-  @Output()
-  public readonly externalSaveCall = new EventEmitter<void>();
+	private readonly _inEditMode = signal(false);
+	public readonly inEditMode = this._inEditMode.asReadonly();
 
-  @Output()
-  public readonly canceled = new EventEmitter<void>();
+	private readonly _isDirty = signal(false);
+	public readonly isDirty = this._isDirty.asReadonly();
 
-  @Output()
-  public readonly valueChange = new EventEmitter<T>();
+	private _value?: T;
+	private _originalValue?: T;
+	private _storedData?: string;
 
-  private propagateChange: (newValue: T) => void = () => { };
+	public requestSave() {
+		this.externalSaveCall.emit();
+	}
 
-  private _inEditMode = false;
-  private _isDirty = false;
+	public startEditing = (): void => {
+		if (this.inEditMode()) {
+			this.updateDirty();
+			return;
+		}
 
-  private _value?: T;
-  private _originalValue?: T;
-  private _storedData?: string;
+		this._inEditMode.set(true);
+		this.updateDirty();
+		this.editModeChange.emit(true);
+	};
 
-  public get inEditMode(): boolean {
-    return this._inEditMode;
-  }
+	public save(newData?: T): void {
+		if (!this.inEditMode()) {
+			console.warn("save before edit mode"); //todo: fix that
+		}
 
-  public subscribe
-    (
-      params: {
-        readonly onValueChange?: (x: T) => void,
-        readonly onEditModeChange?: (x: boolean) => void,
-        readonly onSaveRequest?: () => void
-      }
-    ): Subscription[] {
+		this.finishEditing();
 
-    const subscriptions: Subscription[] = [];
+		const newUnqieNotEmptyData =
+			this.value === newData || newData === undefined
+				? JSON.parse(JSON.stringify(this.value))
+				: newData;
 
-    if (params.onValueChange !== undefined && params.onValueChange !== null) {
-      subscriptions.push
-        (
-          this.valueChange.subscribe((x: T) => {
-            if (params.onValueChange)
-              params.onValueChange(x);
-          })
-        );
-    }
+		this.setOriginal(newUnqieNotEmptyData);
+		this.updateDirty();
 
-    if (params.onEditModeChange !== undefined) {
-      subscriptions.push
-        (
-          this.editModeChange.subscribe((x: boolean) => {
-            if (params.onEditModeChange)
-              params.onEditModeChange(x);
-          })
-        );
-    }
+		this.saved.emit(newUnqieNotEmptyData);
 
-    if (params.onSaveRequest !== undefined) {
-      subscriptions.push
-        (
-          this.externalSaveCall.subscribe(() => {
-            if (params.onSaveRequest)
-              params.onSaveRequest();
-          })
-        );
-    }
+		this.propagateChange(newUnqieNotEmptyData);
+	}
 
-    return subscriptions;
-  }
+	public patchSave(propName: keyof T, newDataParts: T[keyof T]): void {
+		if (this._originalValue === undefined || this._originalValue === null) {
+			return;
+		}
 
-  public requestSave() {
-    this.externalSaveCall.emit();
-  }
+		if (typeof this._originalValue !== "object") {
+			console.warn("patch save called on not object type");
+			return;
+		}
 
-  public startEditing = (): void => {
-    if (this._inEditMode) {
-      this.updateDirty();
-      return;
-    }
+		(this._originalValue as any)[propName] = newDataParts;
 
-    this._inEditMode = true;
-    this.updateDirty();
-    this.editModeChange.emit(true);
-  }
+		this.setOriginal(this._originalValue);
 
-  public save(newData?: T): void {
-    if (!this._inEditMode) {
-      console.warn('save before edit mode'); //todo: fix that
-    }
+		this.updateDirty();
 
-    this.finishEditing();
+		if (!this.isDirty()) {
+			this.close();
+		}
+	}
 
-    const newUnqieNotEmptyData = this.value === newData || newData === undefined
-      ? JSON.parse(JSON.stringify(this.value))
-      : newData;
+	// change model without opening or closing the editor
 
-    this.setOriginal(newUnqieNotEmptyData);
-    this.updateDirty();
+	public silentPatch(dict: Partial<T>): void {
+		for (const key in dict) {
+			if (!Object.hasOwn(dict, key)) {
+				continue;
+			}
 
-    this.saved.emit(newUnqieNotEmptyData);
+			const propVal = dict[key];
 
-    this.propagateChange(newUnqieNotEmptyData);
-  }
+			if (this._value !== undefined && this._value !== null) {
+				this._value[key] = propVal as any;
+			}
 
-  public patchSave(propName: keyof T, newDataParts: T[keyof T]): void {
-    if (this._originalValue === undefined || this._originalValue === null)
-      return;
+			if (this._originalValue !== undefined && this._originalValue !== null) {
+				this._originalValue[key] = propVal as any;
+			}
+		}
+		this._storedData = JSON.stringify(this._originalValue);
+	}
 
-    if (typeof this._originalValue !== "object") {
-      console.warn('patch save called on not object type');
-      return;
-    }
+	public cancel(): void {
+		if (!this.inEditMode()) {
+			return;
+		}
 
-    (this._originalValue as any)[propName] = newDataParts;
+		this.finishEditing();
 
-    this.setOriginal(this._originalValue);
+		// reset value
+		this.setValue(this._originalValue);
 
-    this.updateDirty();
+		this.canceled.emit();
+	}
 
-    if (!this.isDirty)
-      this.close();
-  }
+	public close(): void {
+		this.finishEditing();
+	}
 
-  // change model without opening or closing the editor
+	private finishEditing(): void {
+		if (!this.inEditMode()) {
+			return;
+		}
 
-  public silentPatch(dict: Partial<T>): void {
-    for (const key in dict) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (!dict.hasOwnProperty(key))
-        continue;
+		this._inEditMode.set(false);
+		this.editModeChange.emit(false);
+	}
 
-      const propVal = dict[key];
+	private setValue(newValue?: T): void {
+		this._value =
+			newValue === null || newValue === undefined
+				? undefined
+				: JSON.parse(JSON.stringify(newValue));
 
+		this.valueChange.emit(this._value);
+	}
 
-      if (this._value !== undefined && this._value !== null) {
-        this._value[key] = propVal as any;
-      }
+	public set value(newValue: T | undefined) {
+		this.setValue(newValue);
+	}
 
-      if (this._originalValue !== undefined && this._originalValue !== null) {
-        this._originalValue[key] = propVal as any;
-      }
-    }
-    this._storedData = JSON.stringify(this._originalValue);
-  }
+	public get value(): T | undefined {
+		return this._value;
+	}
 
-  public cancel(): void {
-    if (!this._inEditMode)
-      return;
+	public updateDirty(): void {
+		this._isDirty.set(JSON.stringify(this._value) !== this._storedData);
+	}
 
-    this.finishEditing();
+	public markAsDirty(): void {
+		this._isDirty.set(true);
+	}
 
-    // reset value
-    this.setValue(this._originalValue);
+	private setOriginal(newOriginalValue: T) {
+		this._originalValue = newOriginalValue;
+		this._storedData = JSON.stringify(newOriginalValue);
+	}
 
-    this.canceled.emit();
-  }
+	// #region ngModel
 
-  public close(): void {
-    this.finishEditing();
-  }
+	writeValue(newValue: T): void {
+		this.finishEditing();
 
-  private finishEditing(): void {
-    if (!this._inEditMode)
-      return;
+		this.setOriginal(newValue);
+		this._isDirty.set(false);
 
-    this._inEditMode = false;
-    this.editModeChange.emit(false);
-  }
+		this.setValue(newValue);
+	}
 
-  private setValue(newValue?: T): void {
-    this._value = (newValue === null || newValue === undefined)
-      ? undefined
-      : JSON.parse(JSON.stringify(newValue));
+	setDisabledState?(): void {
+		// required by ControlValueAccessor
+	}
 
-    this.valueChange.emit(this._value);
-  }
+	registerOnChange(tellAngularThatSomethingIsChanged: (newValue: T) => void): void {
+		this.propagateChange = (newValue: T): void => {
+			tellAngularThatSomethingIsChanged(newValue);
+		};
+	}
 
-  public set value(newValue: T | undefined) {
-    this.setValue(newValue);
-  }
+	registerOnTouched(): void {
+		// required by ControlValueAccessor
+	}
 
-  public get value(): T | undefined {
-    return this._value;
-  }
-
-  public updateDirty(): void {
-    this._isDirty = JSON.stringify(this._value) !== this._storedData;
-  }
-
-  public markAsDirty(): void {
-    this._isDirty = true;
-  }
-
-  public get isDirty(): boolean {
-    return this._isDirty;
-  }
-
-  private setOriginal(newOriginalValue: T) {
-    this._originalValue = newOriginalValue;
-    this._storedData = JSON.stringify(newOriginalValue);
-  }
-
-  // #region ngModel
-
-  writeValue(newValue: T): void {
-    this.finishEditing();
-
-    this.setOriginal(newValue);
-    this._isDirty = false;
-
-    this.setValue(newValue);
-  }
-
-  setDisabledState?(): void {
-  }
-
-  registerOnChange(tellAngularThatSomethingIsChanged: (newValue: T) => void): void {
-    this.propagateChange = (newValue: T): void => {
-      tellAngularThatSomethingIsChanged(newValue);
-    };
-  }
-
-  registerOnTouched(): void {
-  }
-
-  // #endregion
+	// #endregion
 }

@@ -1,1 +1,1 @@
-export * from './one-image-form.component';
+export * from "./one-image-form.component";

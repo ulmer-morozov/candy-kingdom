@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
 @Component({
-  imports: [RouterModule],
-  selector: 'app-root',
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+	imports: [RouterModule],
+	selector: "app-root",
+	templateUrl: "./app.html",
+	styleUrl: "./app.scss",
 })
 export class App {
-  protected title = 'bonnie-cms-sample';
+	protected title = "bonnie-cms-sample";
 }

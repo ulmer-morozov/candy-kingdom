@@ -1,83 +1,89 @@
-import { ElementRef, OnDestroy, Component, ChangeDetectorRef, inject, signal, effect, input, output } from '@angular/core';
-import { UnsubscriberService } from './unsubscribe.service';
+import {
+	Component,
+	DestroyRef,
+	ElementRef,
+	effect,
+	inject,
+	input,
+	output,
+	signal,
+} from "@angular/core";
 
 @Component({
-    selector: 'bon-intersection',
-    standalone: true,
-    template: '<ng-content></ng-content>',
-    styles: [':host{display:block}'],
-    providers: [UnsubscriberService]
+	selector: "bon-intersection",
+	template: "<ng-content></ng-content>",
+	styles: [":host{display:block}"],
 })
-export class IntersectionComponent implements OnDestroy {
-    public readonly intersected = output<void>();
+export class IntersectionComponent {
+	public readonly intersected = output<void>();
 
-    public readonly session = input<any>();
+	public readonly session = input<unknown>();
 
-    private readonly _hostRef = inject(ElementRef);
-    private readonly _u = inject(UnsubscriberService);
-    private readonly _cd = inject(ChangeDetectorRef);
+	private readonly _hostRef = inject(ElementRef);
 
-    private readonly intersectionObserver?: IntersectionObserver;
-    private readonly _intersected = signal<boolean>(false);
+	private readonly _intersectionObserver?: IntersectionObserver;
+	private readonly _isIntersected = signal<boolean>(false);
 
-    public readonly intersectedOnce = this._intersected.asReadonly();
+	public readonly isIntersected = this._isIntersected.asReadonly();
 
-    private _session: any; // todo: add type
+	private _session: unknown; // todo: remove
 
-    constructor() {
-        this._cd.detach();
+	constructor() {
+		if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") {
+			return;
+		}
 
-        if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
-            return;
-        }
+		this._intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this));
 
-        this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this));
+		effect(() => {
+			if (this._isIntersected()) {
+				this.intersected.emit();
+			}
+		});
 
-        effect(() => {
-            if (this._intersected()) {
-                this.intersected.emit();
-            }
-        });
+		effect(() => {
+			const newSession = this.session();
 
-        effect(() => {
-            const newSession = this.session();
-            if (this._session === newSession)
-                return;
+			if (this._session === newSession) {
+				return;
+			}
 
-            console.log('reset intersection Observer');
-            this._session = newSession;
-            this.reset();
-        });
-    }
+			console.log("reset intersection Observer");
+			this._session = newSession;
+			this.reset();
+		});
 
-    private reset(): void {
-        if (this.intersectionObserver === undefined || this.intersectionObserver === null)
-            return;
+		inject(DestroyRef).onDestroy(() => this._intersectionObserver?.disconnect());
+	}
 
-        this.intersectionObserver.unobserve(this._hostRef.nativeElement);
+	private reset(): void {
+		if (this._intersectionObserver === undefined || this._intersectionObserver === null) {
+			return;
+		}
 
-        this._intersected.set(false);
+		this._intersectionObserver.unobserve(this._hostRef.nativeElement);
 
-        this.intersectionObserver.observe(this._hostRef.nativeElement);
-    }
+		this._isIntersected.set(false);
 
-    private onIntersection(entries: IntersectionObserverEntry[], observer: IntersectionObserver): void {
-        if (entries.length > 1) {
-            console.warn('multi entries!');
-        }
+		this._intersectionObserver.observe(this._hostRef.nativeElement);
+	}
 
-        const isIntersecting = entries[0].isIntersecting
-        this._intersected.set(isIntersecting);
+	private onIntersection(
+		entries: IntersectionObserverEntry[],
+		observer: IntersectionObserver,
+	): void {
+		if (entries.length > 1) {
+			console.warn("multi entries!");
+		}
 
-        console.log(`intersected ${isIntersecting}`, this._hostRef.nativeElement);
+		const isIntersecting = entries[0].isIntersecting;
+		this._isIntersected.set(isIntersecting);
 
-        // only once will recieve intersection
-        if (isIntersecting) {
-            observer.unobserve(this._hostRef.nativeElement);
-        }
-    }
+		console.log(`intersected ${isIntersecting}`, this._hostRef.nativeElement);
 
-    public ngOnDestroy(): void {
-        this.intersectionObserver?.disconnect();
-    }
+		// only once will recieve intersection
+		if (isIntersecting) {
+			observer.unobserve(this._hostRef.nativeElement);
+		}
+	}
 }

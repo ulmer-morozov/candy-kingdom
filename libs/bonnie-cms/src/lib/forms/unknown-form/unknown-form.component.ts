@@ -1,22 +1,22 @@
-import { Component, OnInit, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBaseComponent } from '../../core-components/form-base.component';
-import { EditableDirective } from '../../core-components/editable.directive';
+import { Component, input } from "@angular/core";
+
+import { EditableDirective } from "../../core-components/editable.directive";
+import { FormBaseComponent } from "../../core-components/form-base.component";
 
 @Component({
-  selector: 'bonc-unknown-form',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './unknown-form.component.html',
-  styleUrls: ['./unknown-form.component.scss'],
-  hostDirectives: [EditableDirective]
-})
-export class UnknownFormComponent extends FormBaseComponent<string> implements OnInit {
-  public readonly label = input('');
+	selector: "bonc-unknown-form",
 
-  ngOnInit(): void {
-    this.editable.externalSaveCall.subscribe(() => {
-      this.editable.save();
-    });
-  }
+	templateUrl: "./unknown-form.component.html",
+	styleUrl: "./unknown-form.component.scss",
+	hostDirectives: [EditableDirective],
+})
+export class UnknownFormComponent extends FormBaseComponent<string> {
+	public readonly label = input("");
+
+	constructor() {
+		super();
+		this.editable.externalSaveCall.subscribe(() => {
+			this.editable.save();
+		});
+	}
 }

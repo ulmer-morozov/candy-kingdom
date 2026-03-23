@@ -3,9 +3,6 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { LocalizedObject } from "./localized-object";
-import { IEquatable } from "./i-equatable";
+import type { LocalizedObject } from "./localized-object";
 
-export interface LocalizedString extends LocalizedObject<string> {
-
-}
+export interface LocalizedString extends LocalizedObject<string> {}

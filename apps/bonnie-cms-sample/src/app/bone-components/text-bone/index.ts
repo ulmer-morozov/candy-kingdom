@@ -1,1 +1,1 @@
-export * from './text-bone.component';
+export * from "./text-bone.component";

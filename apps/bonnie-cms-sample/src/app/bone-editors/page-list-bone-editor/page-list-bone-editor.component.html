@@ -1,7 +1,7 @@
 <label>Title</label>
-<bonc-translation-input [text]="bone.title"
-                        [device]="device"
-                        [locale]="locale"
+<bonc-translation-input [text]="bone().title"
+                        [device]="device()"
+                        [locale]="locale()"
                         (startEditing)="startEditing()"
                         (changed)="markAsDirty()"
                         (blurred)="updateDirty()"
@@ -11,7 +11,7 @@
 <!-- todo: create selector for pages -->
 <label>Data Route (Page address)</label>
 <div class="input-container">
-  <input [(ngModel)]="bone.dataRoute"
+  <input [(ngModel)]="bone().dataRoute"
          (click)="startEditing()"
          (keyup)="markAsDirty()"
          (blur)="updateDirty()" />

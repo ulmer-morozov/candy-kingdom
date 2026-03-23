@@ -1,1 +1,1 @@
-export * from './marcy-media.component';
+export * from "./marcy-media.component";

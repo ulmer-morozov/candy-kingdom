@@ -1,34 +1,26 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { BoneDirective, LocalizePipe } from '@candy-kingdom/bonnie';
-import { PageListBone, PageListBoneStyle } from '../../generated';
+import { CommonModule } from "@angular/common";
+import { Component, HostBinding, inject } from "@angular/core";
+import { RouterLink } from "@angular/router";
+
+import { BoneDirective, LocalizePipe } from "@candy-kingdom/bonnie";
+
+import { type PageListBone, PageListBoneStyle } from "../../generated";
 
 @Component({
-  selector: 'app-page-list',
-  standalone: true,
-  imports: [CommonModule, RouterLink, LocalizePipe],
-  templateUrl: './page-list-bone.component.html',
-  styleUrls: ['./page-list-bone.component.scss'],
-  hostDirectives: [BoneDirective]
+	selector: "app-page-list",
+
+	imports: [CommonModule, RouterLink, LocalizePipe],
+	templateUrl: "./page-list-bone.component.html",
+	styleUrls: ["./page-list-bone.component.scss"],
+	hostDirectives: [{ directive: BoneDirective, inputs: ["bone"], outputs: ["boneChange"] }],
 })
-export class PageListBoneComponent implements OnInit {
-  public readonly PageListBoneStyle = PageListBoneStyle;
+export class PageListBoneComponent {
+	public readonly PageListBoneStyle = PageListBoneStyle;
 
-  private readonly cd = inject(ChangeDetectorRef);
-  public readonly bd = inject(BoneDirective<PageListBone>, { host: true });
+	public readonly bd = inject(BoneDirective<PageListBone>, { host: true });
 
-  constructor() {
-    this.cd.detach();
-  }
-
-  @HostBinding('class')
-  public get hostStyle(): string {
-    return this.bd.bone.style;
-  }
-
-
-  public ngOnInit(): void {
-    this.cd.detectChanges();
-  }
+	@HostBinding("class")
+	public get hostStyle(): string {
+		return this.bd.bone().style;
+	}
 }

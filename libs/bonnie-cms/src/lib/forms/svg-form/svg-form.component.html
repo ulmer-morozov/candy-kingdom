@@ -6,13 +6,15 @@
                       [uploadTypes]="[SvgMime]"
                       [uploadUrlMap]="uploadMap()"
                       (srcChange)="onFileUploaded($event)">
-    @if (editable.value?.url?.length ?? 0 > 0) {
-      <img [src]="editable.value?.url" />
+    @let url = editable.value?.url;
+    @if (url) {
+      <img [src]="url" alt="" />
     }
   </bonc-file-uploader>
 
-  @if (editable.value?.url?.length ?? 0 > 0) {
-    <a [href]="editable.value!.url" download target="_blank">Download</a>
+  @let downloadUrl = editable.value?.url;
+  @if (downloadUrl) {
+    <a [href]="downloadUrl" download target="_blank">Download</a>
   }
 
 </bonc-form-controls>
